@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSaleApi", "CarSaleApi\CarSaleApi.csproj", "{587AE1A8-D4D2-4BCB-9705-33566AED5F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BusinessLogic", "BusinessLogic\BusinessLogic.csproj", "{696E21D9-4B3B-4D1F-9830-7B046927C2E9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{587AE1A8-D4D2-4BCB-9705-33566AED5F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{587AE1A8-D4D2-4BCB-9705-33566AED5F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{587AE1A8-D4D2-4BCB-9705-33566AED5F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{587AE1A8-D4D2-4BCB-9705-33566AED5F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{696E21D9-4B3B-4D1F-9830-7B046927C2E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{696E21D9-4B3B-4D1F-9830-7B046927C2E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{696E21D9-4B3B-4D1F-9830-7B046927C2E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{696E21D9-4B3B-4D1F-9830-7B046927C2E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
