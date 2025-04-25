@@ -2,5 +2,6 @@
 
 public interface ICarService
 {
-    
+    public Task CreateAsync();
+    public Task UpdateAsync();
 }
