@@ -14,9 +14,7 @@ namespace CarSaleApi.Controllers
         {
             _userService = userService;
         }
-
-
-        []
+        
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EmailLoginRequest request)
         {
