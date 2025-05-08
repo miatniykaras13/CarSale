@@ -8,12 +8,14 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
 {
     public void Configure(EntityTypeBuilder<Car> builder)
     {
-        builder.Property(c => c.Brand).HasMaxLength(20);
+        builder.Property(c => c.Brand).IsRequired().HasMaxLength(20);
         builder.HasKey(c => c.Id);
 
         builder.
-            HasOne(c => c.Owner).
-            WithMany(u => u.Cars);
+            HasOne<User>().
+            WithMany().
+            HasForeignKey(c => c.OwnerId).
+            OnDelete(DeleteBehavior.Cascade);
 
     }
 }

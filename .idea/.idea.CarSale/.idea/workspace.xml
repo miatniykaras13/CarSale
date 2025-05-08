@@ -9,24 +9,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a7acdc01-d1f4-466a-a6e4-092ff3717951" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/CarSaleApi/Controllers/CarController.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/Repositories/CarRepository.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Data/Repositories/Contracts/IRepository.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BusinessLogic/DTO/CreateCarDto.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/BusinessLogic/DTO/CreateUserDto.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.local.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/7334d943-3a58-40da-a357-03a3d3e678c1.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/7334d943-3a58-40da-a357-03a3d3e678c1/storage_v2/_src_/database/master.YiqNvw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/7334d943-3a58-40da-a357-03a3d3e678c1/storage_v2/_src_/database/master.YiqNvw/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/7334d943-3a58-40da-a357-03a3d3e678c1/storage_v2/_src_/database/master.YiqNvw/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/projectSettingsUpdater.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/projectSettingsUpdater.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw/schema/dbo.sYMBAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw/schema/sys.zb4BAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BusinessLogic/BusinessLogic.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BusinessLogic/BusinessLogic.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BusinessLogic/Contracts/ICarService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/BusinessLogic/Contracts/ICarService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CarSaleApi/CarController.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BusinessLogic/CarService.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BusinessLogic/Contracts/ICarService.cs" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/CarSaleApi/CarSaleApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/CarSaleApi.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CarSaleApi/Controllers/CarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/Controllers/CarController.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CarSaleApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CarSaleApi/Properties/launchSettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/Properties/launchSettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CarSaleApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/appsettings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Configurations/CarConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Configurations/CarConfiguration.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Configurations/UserConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Configurations/UserConfiguration.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Data/Data.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Data.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Migrations/20250422082605_Init.Designer.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Migrations/20250422082605_Init.cs" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Migrations/AppDbContextModelSnapshot.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Models/Car.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Models/Car.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Models/User.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Repositories/CarRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Repositories/CarRepository.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Data/Repositories/Contracts/IRepository.cs" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +57,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/miatniykaras13/CarSale&quot;,
-    &quot;accountId&quot;: &quot;be12702a-37d9-4df0-b8cd-58155804350d&quot;
+    &quot;accountId&quot;: &quot;6e97866d-4f86-4928-8687-9435ca38e890&quot;
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
@@ -57,6 +66,7 @@
     <setting file="file://$PROJECT_DIR$/Data/Configurations/UserConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Data/Models/Car.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Data/Models/User.cs" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$APPLICATION_CONFIG_DIR$/resharper-host/SourcesCache/81cc2099363ff84f1614136d278beb5bed411454404ec1ec16856d72b0d434e9/LoggerExtensions.cs" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MetaFilesCheckinStateConfiguration" checkMetaFiles="true" />
   <component name="ProblemsViewState">
@@ -144,6 +154,13 @@
       <workItem from="1745306737641" duration="3797000" />
       <workItem from="1745316854533" duration="2120000" />
       <workItem from="1745420885935" duration="1398000" />
+      <workItem from="1746117929716" duration="257000" />
+      <workItem from="1746176524134" duration="1381000" />
+      <workItem from="1746379100656" duration="3000" />
+      <workItem from="1746379578183" duration="1017000" />
+      <workItem from="1746424829233" duration="4235000" />
+      <workItem from="1746432218217" duration="2079000" />
+      <workItem from="1746515413623" duration="107000" />
     </task>
     <task id="LOCAL-00001" summary="some changes">
       <option name="closed" value="true" />
@@ -161,27 +178,15 @@
   </component>
   <component name="UnityCheckinConfiguration" checkUnsavedScenes="true" />
   <component name="UnityProjectConfiguration" hasMinimizedUI="false" />
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.Identity.Client" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Abstractions" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Relational" />
+    <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore" />
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="some changes" />
     <option name="LAST_COMMIT_MESSAGE" value="some changes" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.OperationCanceledException" breakIfHandledByOtherCode="false" displayValue="System.OperationCanceledException" />
-          <option name="timeStamp" value="1" />
-        </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.Threading.Tasks.TaskCanceledException" breakIfHandledByOtherCode="false" displayValue="System.Threading.Tasks.TaskCanceledException" />
-          <option name="timeStamp" value="2" />
-        </breakpoint>
-        <breakpoint enabled="true" type="DotNet_Exception_Breakpoints">
-          <properties exception="System.Threading.ThreadAbortException" breakIfHandledByOtherCode="false" displayValue="System.Threading.ThreadAbortException" />
-          <option name="timeStamp" value="3" />
-        </breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>

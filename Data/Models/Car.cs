@@ -1,10 +1,21 @@
-﻿namespace Data.Models;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Data.Models;
 
 public class Car
 {
-    public int Id { get; set; }
-    public string? Brand { get; set; }
+    [Key]
+    public Guid Id { get; set; } = Guid.NewGuid();
+
+    [Required]
+    public string Brand { get; set; } = String.Empty;
     public int Year { get; set; }
-    public User Owner { get; set; }
+
+    
+    public Guid OwnerId { get; set; }
+    
+    public DateTime Created { get; set; } = DateTime.UtcNow;
     
 }
