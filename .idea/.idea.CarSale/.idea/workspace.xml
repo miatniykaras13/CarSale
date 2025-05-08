@@ -8,35 +8,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a7acdc01-d1f4-466a-a6e4-092ff3717951" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/BusinessLogic/DTO/CreateCarDto.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/BusinessLogic/DTO/CreateUserDto.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw/schema/INFORMATION_SCHEMA.NBgcMw.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw/schema/dbo.sYMBAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/dataSources/b7ef7917-ad06-4d41-a630-02d1154d1bc4/storage_v2/_src_/database/CarSaleDb.-S_tSw/schema/sys.zb4BAA.meta" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.CarSale/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BusinessLogic/BusinessLogic.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/BusinessLogic/BusinessLogic.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/BusinessLogic/CarService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/BusinessLogic/Contracts/ICarService.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CarSaleApi/CarSaleApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/CarSaleApi.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CarSaleApi/Controllers/CarController.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/Controllers/CarController.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CarSaleApi/Program.cs" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/Program.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CarSaleApi/appsettings.json" beforeDir="false" afterPath="$PROJECT_DIR$/CarSaleApi/appsettings.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Configurations/CarConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Configurations/CarConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Configurations/UserConfiguration.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Configurations/UserConfiguration.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Data.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Data.csproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Migrations/20250422082605_Init.Designer.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Migrations/20250422082605_Init.cs" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Migrations/AppDbContextModelSnapshot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Migrations/AppDbContextModelSnapshot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Models/Car.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Models/Car.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Models/User.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Models/User.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Repositories/CarRepository.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Data/Repositories/CarRepository.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data/Repositories/Contracts/IRepository.cs" beforeDir="false" />
-    </list>
+    <list default="true" id="a7acdc01-d1f4-466a-a6e4-092ff3717951" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -61,6 +33,7 @@
   }
 }</component>
   <component name="HighlightingSettingsPerFile">
+    <setting file="mock://C:/Pet/CarSale/CarSaleApi/Controllers/AuthController.cs" root0="SKIP_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Data/AppDbContext.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Data/Configurations/CarConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/Data/Configurations/UserConfiguration.cs" root0="FORCE_HIGHLIGHTING" />
@@ -161,6 +134,7 @@
       <workItem from="1746424829233" duration="4235000" />
       <workItem from="1746432218217" duration="2079000" />
       <workItem from="1746515413623" duration="107000" />
+      <workItem from="1746724909797" duration="354000" />
     </task>
     <task id="LOCAL-00001" summary="some changes">
       <option name="closed" value="true" />
@@ -170,7 +144,23 @@
       <option name="project" value="LOCAL" />
       <updated>1745310582185</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="k">
+      <option name="closed" value="true" />
+      <created>1746725016099</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1746725016099</updated>
+    </task>
+    <task id="LOCAL-00003" summary="i">
+      <option name="closed" value="true" />
+      <created>1746725130574</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1746725130574</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -184,9 +174,28 @@
     <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore.Relational" />
     <option featureType="dependencySupport" implementationName="dotnet:Microsoft.EntityFrameworkCore" />
   </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="CUSTOM_BOOLEAN_PROPERTIES">
+                <map>
+                  <entry key="Show.Git.Branches" value="true" />
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="VcsManagerConfiguration">
     <option name="CLEAR_INITIAL_COMMIT_MESSAGE" value="true" />
     <MESSAGE value="some changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="some changes" />
+    <MESSAGE value="k" />
+    <MESSAGE value="i" />
+    <option name="LAST_COMMIT_MESSAGE" value="i" />
   </component>
 </project>
