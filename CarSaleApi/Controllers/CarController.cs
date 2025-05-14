@@ -38,7 +38,8 @@ public class CarController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateAsync([FromBody] CreateCarDto createCarDto)
     {
-        var car = await _carService.AddAsync(createCarDto);
+        var userId = Guid.Parse(HttpContext.User.Claims.FirstOrDefault(c => c.Type == "userId").Value);
+        var car = await _carService.AddAsync(createCarDto, userId);
         return CreatedAtAction(nameof(GetByIdAsync), new { id = car.Id }, car);
     }
 

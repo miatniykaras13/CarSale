@@ -27,11 +27,10 @@ public class CarService : ICarService
     }
 
 
-    public async Task<Car> AddAsync(CreateCarDto createCarDto)
+    public async Task<Car> AddAsync(CreateCarDto createCarDto, Guid userId)
     {
-        var owner = await _userService.GetByEmailAsync(createCarDto.OwnerEmail);
         var car = _mapper.Map<Car>(createCarDto);
-        car.OwnerId = owner.Id;
+        car.UserId = userId;
 
         await _repository.AddAsync(car);
         return car;

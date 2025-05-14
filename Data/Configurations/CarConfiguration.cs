@@ -14,7 +14,7 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
         builder.
             HasOne<User>().
             WithMany().
-            HasForeignKey(c => c.OwnerId).
+            HasForeignKey(c => c.UserId).
             OnDelete(DeleteBehavior.Cascade);
 
     }

@@ -1,5 +1,8 @@
-﻿using BusinessLogic.JWT;
+﻿using AutoMapper;
+using BusinessLogic.DTO;
+using BusinessLogic.JWT;
 using BusinessLogic.Services.Contracts;
+using Data.Filters;
 using Data.Hashers.Contracts;
 using Data.Models;
 using Data.Repositories.Interfaces;
@@ -17,13 +20,16 @@ namespace BusinessLogic.Services
         private readonly IPasswordHasher _passwordHasher;
         private readonly IUserRepository _userRepository;
         private readonly IJwtProvider _jwtProvider;
+        private readonly IMapper _mapper;
 
+ 
 
-        public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider)
+        public UserService(IUserRepository userRepository, IPasswordHasher passwordHasher, IJwtProvider jwtProvider, IMapper mapper)
         {
             _passwordHasher = passwordHasher;
             _userRepository = userRepository;
             _jwtProvider = jwtProvider;
+            _mapper = mapper;
         }
 
         public async Task<User> GetByEmailAsync(string email)
@@ -34,6 +40,11 @@ namespace BusinessLogic.Services
         public async Task<User> GetByIdAsync(Guid id)
         {
             return await _userRepository.GetByIdAsync(id);
+        }
+        public async Task<List<UserDto>> GetAllAsync(UserFilter userFilter)
+        {
+            var list = await _userRepository.GetAllAsync(userFilter);
+            return _mapper.Map<List<UserDto>>(list);
         }
 
         public async Task Register(string firstName, string lastName, string email, string password)
@@ -59,6 +70,9 @@ namespace BusinessLogic.Services
             return token;
         }
 
-       
+        public async Task DeleteAsync(Guid id)
+        {
+            await _userRepository.DeleteAsync(id);
+        }
     }
 }

@@ -14,14 +14,9 @@ namespace BusinessLogic.DTO
         public Guid Id { get; set; }
         public string FirstName { get; set; } = String.Empty;
         public string LastName { get; set; } = String.Empty;
-        public string Login { get; set; } = String.Empty;
 
-        [Required]
         [EmailAddress]
         public string Email { get; set; } = String.Empty;
-        public string Password { get; set; } = String.Empty;
-
-        public List<CarDto> Cars { get; set; } = new();
 
 
     }

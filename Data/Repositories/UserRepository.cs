@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
+using Data.Filters;
+using Data.Extensions;
 
 namespace Data.Repositories
 {
@@ -73,10 +75,11 @@ namespace Data.Repositories
             return user;
         }
 
-        public async Task<List<User>> GetAllAsync()
+        public async Task<List<User>> GetAllAsync(UserFilter userFilter)
         {
             _logger.LogInformation($"Getting all users...");
-            return await _context.Users.AsNoTracking().ToListAsync();
+
+            return await _context.Users.AsNoTracking().Filter(userFilter).ToListAsync();
         }
         
     }

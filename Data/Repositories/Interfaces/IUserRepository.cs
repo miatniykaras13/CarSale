@@ -1,4 +1,5 @@
-﻿using Data.Models;
+﻿using Data.Filters;
+using Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +15,6 @@ namespace Data.Repositories.Interfaces
         public Task UpdateAsync(User c);
         public Task<User> GetByIdAsync(Guid id);
         public Task<User> GetByEmailAsync(string email);
-        public Task<List<User>> GetAllAsync();
+        public Task<List<User>> GetAllAsync(UserFilter userFilter);
     }
 }
