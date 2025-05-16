@@ -1,4 +1,6 @@
-﻿using Data.Models;
+﻿using Data.Extensions;
+using Data.Filters;
+using Data.Models;
 using Data.Repositories.Interfaces;
 using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.EntityFrameworkCore;
@@ -59,10 +61,10 @@ public class CarRepository : ICarRepository
         throw new KeyNotFoundException($"Car with id {id} was not found");
     }
 
-    public async Task<List<Car>> GetAllAsync()
+    public async Task<List<Car>> GetAllAsync(CarFilter carFilter)
     {
         _logger.LogInformation($"Getting all cars...");
-        return await _context.Cars.ToListAsync();
+        return await _context.Cars.Filter(carFilter).AsNoTracking().ToListAsync();
     }
 
     

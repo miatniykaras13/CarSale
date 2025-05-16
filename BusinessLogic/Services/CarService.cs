@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using BusinessLogic.Services.Contracts;
 using AutoMapper;
 using BusinessLogic.DTO;
+using Data.Filters;
 
 namespace BusinessLogic.Services;
 
@@ -41,9 +42,9 @@ public class CarService : ICarService
         await _repository.DeleteAsync(id);
     }
 
-    public async Task<List<CarDto>> GetAllAsync()
+    public async Task<List<CarDto>> GetAllAsync(CarFilter carFilter)
     {
-        var list = await _repository.GetAllAsync();
+        var list = await _repository.GetAllAsync(carFilter);
         var listDto = _mapper.Map<List<CarDto>>(list);
         return listDto;
     }

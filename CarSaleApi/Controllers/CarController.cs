@@ -5,6 +5,7 @@ using System.Diagnostics.Contracts;
 using BusinessLogic.Services.Contracts;
 using BusinessLogic.DTO;
 using Microsoft.AspNetCore.Authorization;
+using Data.Filters;
 
 namespace CarSaleApi.Controllers;
 
@@ -29,9 +30,9 @@ public class CarController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<CarDto>>> GetAllAsync()
+    public async Task<ActionResult<List<CarDto>>> GetAllAsync([FromQuery]CarFilter carFilter)
     {
-        var listDto = await _carService.GetAllAsync();
+        var listDto = await _carService.GetAllAsync(carFilter);
         return Ok(listDto);
     }
 

@@ -2738,3 +2738,106 @@ WHERE [u].[Email] = @__email_0
 2025-05-13 12:08:49.487 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/.well-known/appspecific/com.chrome.devtools.json - null null
 2025-05-13 12:08:49.529 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 42.0853ms
 2025-05-13 12:08:49.530 +03:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7140/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2025-05-14 21:24:38.521 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-14 21:24:38.790 +03:00 [INF] Now listening on: https://localhost:7140
+2025-05-14 21:24:38.790 +03:00 [INF] Now listening on: http://localhost:5075
+2025-05-14 21:24:38.858 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-14 21:24:38.858 +03:00 [INF] Hosting environment: Development
+2025-05-14 21:24:38.858 +03:00 [INF] Content root path: E:\Pet\CarSale\CarSaleApi
+2025-05-14 21:24:41.525 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_vs/browserLink - null null
+2025-05-14 21:24:41.525 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-14 21:24:41.560 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - 200 16505 application/javascript; charset=utf-8 41.3143ms
+2025-05-14 21:24:41.655 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_vs/browserLink - 200 null text/javascript; charset=UTF-8 138.8748ms
+2025-05-14 21:24:41.777 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - null null
+2025-05-14 21:24:41.965 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 188.3726ms
+2025-05-14 21:27:47.845 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-14 21:27:48.126 +03:00 [INF] Now listening on: https://localhost:7140
+2025-05-14 21:27:48.127 +03:00 [INF] Now listening on: http://localhost:5075
+2025-05-14 21:27:48.199 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-14 21:27:48.199 +03:00 [INF] Hosting environment: Development
+2025-05-14 21:27:48.199 +03:00 [INF] Content root path: E:\Pet\CarSale\CarSaleApi
+2025-05-14 21:27:49.137 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_vs/browserLink - null null
+2025-05-14 21:27:49.137 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-14 21:27:49.191 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - 200 16505 application/javascript; charset=utf-8 59.5788ms
+2025-05-14 21:27:49.231 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_vs/browserLink - 200 null text/javascript; charset=UTF-8 100.7428ms
+2025-05-14 21:27:49.349 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - null null
+2025-05-14 21:27:49.485 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 135.6351ms
+2025-05-14 21:28:01.639 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7140/api/auth/login - application/json 54
+2025-05-14 21:28:01.767 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.AuthController.Login (CarSaleApi)'
+2025-05-14 21:28:01.794 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CarSaleApi.Requests.EmailLoginRequest) on controller CarSaleApi.Controllers.AuthController (CarSaleApi).
+2025-05-14 21:28:02.148 +03:00 [INF] Searching for user with email admin@gmail.com...
+2025-05-14 21:28:03.326 +03:00 [INF] Executed DbCommand (138ms) [Parameters=[@__email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__email_0
+2025-05-14 21:28:03.355 +03:00 [INF] User with email admin@gmail.com was found
+2025-05-14 21:28:03.722 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-05-14 21:28:03.726 +03:00 [INF] Executed action CarSaleApi.Controllers.AuthController.Login (CarSaleApi) in 1928.919ms
+2025-05-14 21:28:03.726 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.AuthController.Login (CarSaleApi)'
+2025-05-14 21:28:03.732 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7140/api/auth/login - 200 0 null 2092.6352ms
+2025-05-14 21:28:13.599 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/Car?Brand=f - null null
+2025-05-14 21:28:13.642 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.CarController.GetAllAsync (CarSaleApi)'
+2025-05-14 21:28:13.646 +03:00 [INF] Route matched with {action = "GetAllAsync", controller = "Car"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[BusinessLogic.DTO.CarDto]]] GetAllAsync(Data.Filters.CarFilter) on controller CarSaleApi.Controllers.CarController (CarSaleApi).
+2025-05-14 21:28:13.658 +03:00 [INF] Getting all cars...
+2025-05-14 21:28:13.673 +03:00 [INF] Executed DbCommand (5ms) [Parameters=[@__carFilter_Brand_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[Brand], [c].[Created], [c].[UserId], [c].[Year]
+FROM [Cars] AS [c]
+WHERE [c].[Brand] = @__carFilter_Brand_0
+2025-05-14 21:28:13.688 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.CarDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-14 21:28:13.693 +03:00 [INF] Executed action CarSaleApi.Controllers.CarController.GetAllAsync (CarSaleApi) in 46.4947ms
+2025-05-14 21:28:13.693 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.CarController.GetAllAsync (CarSaleApi)'
+2025-05-14 21:28:13.693 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/Car?Brand=f - 200 null application/json; charset=utf-8 94.3108ms
+2025-05-14 21:29:06.812 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/User - null null
+2025-05-14 21:29:06.818 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-14 21:29:06.820 +03:00 [INF] Route matched with {action = "GetAllByAsync", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetAllByAsync(Data.Filters.UserFilter) on controller CarSaleApi.Controllers.UserController (CarSaleApi).
+2025-05-14 21:29:06.824 +03:00 [INF] Getting all users...
+2025-05-14 21:29:06.872 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+2025-05-14 21:29:06.875 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.UserDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-14 21:29:06.878 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 57.0705ms
+2025-05-14 21:29:06.878 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-14 21:29:06.878 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User - 200 null application/json; charset=utf-8 65.5589ms
+2025-05-15 17:24:58.850 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-15 17:24:59.190 +03:00 [INF] Now listening on: https://localhost:7140
+2025-05-15 17:24:59.190 +03:00 [INF] Now listening on: http://localhost:5075
+2025-05-15 17:24:59.241 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-15 17:24:59.241 +03:00 [INF] Hosting environment: Development
+2025-05-15 17:24:59.241 +03:00 [INF] Content root path: E:\Pet\CarSale\CarSaleApi
+2025-05-15 17:25:00.938 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_vs/browserLink - null null
+2025-05-15 17:25:00.938 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-15 17:25:00.976 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - 200 16505 application/javascript; charset=utf-8 44.6904ms
+2025-05-15 17:25:01.054 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_vs/browserLink - 200 null text/javascript; charset=UTF-8 124.0706ms
+2025-05-15 17:25:01.168 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - null null
+2025-05-15 17:25:01.343 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 175.265ms
+2025-05-15 17:25:17.170 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7140/api/auth/login - application/json 54
+2025-05-15 17:25:17.307 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.AuthController.Login (CarSaleApi)'
+2025-05-15 17:25:17.330 +03:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(CarSaleApi.Requests.EmailLoginRequest) on controller CarSaleApi.Controllers.AuthController (CarSaleApi).
+2025-05-15 17:25:17.667 +03:00 [INF] Searching for user with email admin@gmail.com...
+2025-05-15 17:25:20.185 +03:00 [INF] Executed DbCommand (90ms) [Parameters=[@__email_0='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+WHERE [u].[Email] = @__email_0
+2025-05-15 17:25:20.206 +03:00 [INF] User with email admin@gmail.com was found
+2025-05-15 17:25:20.465 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-05-15 17:25:20.468 +03:00 [INF] Executed action CarSaleApi.Controllers.AuthController.Login (CarSaleApi) in 3135.3782ms
+2025-05-15 17:25:20.468 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.AuthController.Login (CarSaleApi)'
+2025-05-15 17:25:20.474 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7140/api/auth/login - 200 0 null 3304.3083ms
+2025-05-15 17:30:30.955 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/User - null null
+2025-05-15 17:30:31.036 +03:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '15.05.2025 14:25:20', Current time (UTC): '15.05.2025 14:30:31'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-05-15 17:30:31.041 +03:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '15.05.2025 14:25:20', Current time (UTC): '15.05.2025 14:30:31'.
+2025-05-15 17:30:31.041 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-15 17:30:31.050 +03:00 [INF] Route matched with {action = "GetAllByAsync", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetAllByAsync(Data.Filters.UserFilter) on controller CarSaleApi.Controllers.UserController (CarSaleApi).
+2025-05-15 17:30:31.061 +03:00 [INF] Getting all users...
+2025-05-15 17:30:31.110 +03:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+2025-05-15 17:30:31.126 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.UserDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-15 17:30:31.133 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 82.4374ms
+2025-05-15 17:30:31.133 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-15 17:30:31.133 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User - 200 null application/json; charset=utf-8 177.7042ms
