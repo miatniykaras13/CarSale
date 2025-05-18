@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Data.Filters;
 using Data.Extensions;
+using Data.Sorting;
 
 namespace Data.Repositories
 {
@@ -75,11 +76,11 @@ namespace Data.Repositories
             return user;
         }
 
-        public async Task<List<User>> GetAllAsync(UserFilter userFilter)
+        public async Task<List<User>> GetAllAsync(UserFilter userFilter, SortParameters sortParameters)
         {
             _logger.LogInformation($"Getting all users...");
 
-            return await _context.Users.AsNoTracking().Filter(userFilter).ToListAsync();
+            return await _context.Users.AsNoTracking().Filter(userFilter).Sort(sortParameters).ToListAsync();
         }
         
     }

@@ -3,96 +3,16 @@
   "WorkspaceRootPath": "E:\\Pet\\CarSale\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\extensions\\carextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\extensions\\carextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\sorting\\sortdirection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\sorting\\sortdirection.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\extensions\\userextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\extensions\\userextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\repositories\\carrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\repositories\\carrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\repositories\\interfaces\\icarrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\repositories\\interfaces\\icarrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|e:\\pet\\carsale\\carsaleapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|solutionrelative:carsaleapi\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|e:\\pet\\carsale\\carsaleapi\\controllers\\carcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|solutionrelative:carsaleapi\\controllers\\carcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\services\\carservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\carservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\services\\contracts\\icarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\contracts\\icarservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\services\\contracts\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\contracts\\iuserservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\services\\userservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\filters\\carfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\filters\\carfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|e:\\pet\\carsale\\carsaleapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|solutionrelative:carsaleapi\\controllers\\usercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\filters\\userfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\filters\\userfilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\repositories\\userrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\repositories\\interfaces\\iuserrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\models\\user.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\dto\\userdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\dto\\createcardto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\dto\\createcardto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\configurations\\carconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\configurations\\carconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\configurations\\userconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\configurations\\userconfiguration.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|e:\\pet\\carsale\\data\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{2528E8BE-D7A2-40D2-BBA0-BB38E9DF15E0}|Data\\Data.csproj|solutionrelative:data\\models\\car.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|e:\\pet\\carsale\\businesslogic\\jwt\\jwtprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{696E21D9-4B3B-4D1F-9830-7B046927C2E9}|BusinessLogic\\BusinessLogic.csproj|solutionrelative:businesslogic\\jwt\\jwtprovider.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|e:\\pet\\carsale\\carsaleapi\\extensions\\apiextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{587AE1A8-D4D2-4BCB-9705-33566AED5F95}|CarSaleApi\\CarSaleApi.csproj|solutionrelative:carsaleapi\\extensions\\apiextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -102,8 +22,21 @@
       "DocumentGroups": [
         {
           "DockedWidth": 360,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "SortDirection.cs",
+              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Sorting\\SortDirection.cs",
+              "RelativeDocumentMoniker": "Data\\Sorting\\SortDirection.cs",
+              "ToolTip": "E:\\Pet\\CarSale\\Data\\Sorting\\SortDirection.cs",
+              "RelativeToolTip": "Data\\Sorting\\SortDirection.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T17:34:39.126Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -126,284 +59,29 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\CarSaleApi\\appsettings.json",
-              "RelativeDocumentMoniker": "CarSaleApi\\appsettings.json",
-              "ToolTip": "E:\\Pet\\CarSale\\CarSaleApi\\appsettings.json",
-              "RelativeToolTip": "CarSaleApi\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-05-14T18:25:02.487Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "ICarRepository.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Repositories\\Interfaces\\ICarRepository.cs",
-              "RelativeDocumentMoniker": "Data\\Repositories\\Interfaces\\ICarRepository.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Repositories\\Interfaces\\ICarRepository.cs",
-              "RelativeToolTip": "Data\\Repositories\\Interfaces\\ICarRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAA8AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T18:21:25.527Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "CarRepository.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Repositories\\CarRepository.cs",
-              "RelativeDocumentMoniker": "Data\\Repositories\\CarRepository.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Repositories\\CarRepository.cs",
-              "RelativeToolTip": "Data\\Repositories\\CarRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAArAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T18:19:57.221Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CarExtension.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Extensions\\CarExtension.cs",
-              "RelativeDocumentMoniker": "Data\\Extensions\\CarExtension.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Extensions\\CarExtension.cs",
-              "RelativeToolTip": "Data\\Extensions\\CarExtension.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABkAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-14T18:12:58.212Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
               "Title": "UserExtension.cs",
               "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Extensions\\UserExtension.cs",
               "RelativeDocumentMoniker": "Data\\Extensions\\UserExtension.cs",
               "ToolTip": "E:\\Pet\\CarSale\\Data\\Extensions\\UserExtension.cs",
               "RelativeToolTip": "Data\\Extensions\\UserExtension.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAADwvw4AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAABEAAAAAAAAAAAAiwCIAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T14:33:29.152Z",
+              "WhenOpened": "2025-05-18T17:34:25.655Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "UserService.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\UserService.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\UserService.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\UserService.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\UserService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAASAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-08T06:45:38.61Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "IUserService.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\Contracts\\IUserService.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\Contracts\\IUserService.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\Contracts\\IUserService.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\Contracts\\IUserService.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAIAxwBYAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T10:48:53.341Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "CarController.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\CarSaleApi\\Controllers\\CarController.cs",
-              "RelativeDocumentMoniker": "CarSaleApi\\Controllers\\CarController.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\CarSaleApi\\Controllers\\CarController.cs",
-              "RelativeToolTip": "CarSaleApi\\Controllers\\CarController.cs",
-              "ViewState": "AgIAABoAAAAAAAAAAAA/wCIAAAA/AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T08:00:58.632Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ICarService.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\Contracts\\ICarService.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\Contracts\\ICarService.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\Contracts\\ICarService.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\Contracts\\ICarService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T08:00:00.822Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 2,
               "Title": "UserController.cs",
               "DocumentMoniker": "E:\\Pet\\CarSale\\CarSaleApi\\Controllers\\UserController.cs",
               "RelativeDocumentMoniker": "CarSaleApi\\Controllers\\UserController.cs",
               "ToolTip": "E:\\Pet\\CarSale\\CarSaleApi\\Controllers\\UserController.cs",
               "RelativeToolTip": "CarSaleApi\\Controllers\\UserController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAABkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-07T07:55:28.095Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "CarFilter.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Filters\\CarFilter.cs",
-              "RelativeDocumentMoniker": "Data\\Filters\\CarFilter.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Filters\\CarFilter.cs",
-              "RelativeToolTip": "Data\\Filters\\CarFilter.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T09:02:10.424Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
-              "Title": "CreateCarDto.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\DTO\\CreateCarDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\DTO\\CreateCarDto.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\DTO\\CreateCarDto.cs",
-              "RelativeToolTip": "BusinessLogic\\DTO\\CreateCarDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA4AAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T07:26:40.447Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "CarService.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\CarService.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\Services\\CarService.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\Services\\CarService.cs",
-              "RelativeToolTip": "BusinessLogic\\Services\\CarService.cs",
-              "ViewState": "AgIAACAAAAAAAAAAAAA/wC4AAAA2AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-06T07:18:22.916Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ApiExtensions.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\CarSaleApi\\Extensions\\ApiExtensions.cs",
-              "RelativeDocumentMoniker": "CarSaleApi\\Extensions\\ApiExtensions.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\CarSaleApi\\Extensions\\ApiExtensions.cs",
-              "RelativeToolTip": "CarSaleApi\\Extensions\\ApiExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T18:15:53.597Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "JwtProvider.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\JWT\\JwtProvider.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\JWT\\JwtProvider.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\JWT\\JwtProvider.cs",
-              "RelativeToolTip": "BusinessLogic\\JWT\\JwtProvider.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAA8wB4AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T18:05:17.817Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "IUserRepository.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Repositories\\Interfaces\\IUserRepository.cs",
-              "RelativeDocumentMoniker": "Data\\Repositories\\Interfaces\\IUserRepository.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Repositories\\Interfaces\\IUserRepository.cs",
-              "RelativeToolTip": "Data\\Repositories\\Interfaces\\IUserRepository.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-30T11:20:34.212Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "Car.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Models\\Car.cs",
-              "RelativeDocumentMoniker": "Data\\Models\\Car.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Models\\Car.cs",
-              "RelativeToolTip": "Data\\Models\\Car.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAawBQAAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T17:27:46.503Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 18,
-              "Title": "CarConfiguration.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Configurations\\CarConfiguration.cs",
-              "RelativeDocumentMoniker": "Data\\Configurations\\CarConfiguration.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Configurations\\CarConfiguration.cs",
-              "RelativeToolTip": "Data\\Configurations\\CarConfiguration.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAABUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T17:10:20.158Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "UserDto.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\BusinessLogic\\DTO\\UserDto.cs",
-              "RelativeDocumentMoniker": "BusinessLogic\\DTO\\UserDto.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\BusinessLogic\\DTO\\UserDto.cs",
-              "RelativeToolTip": "BusinessLogic\\DTO\\UserDto.cs",
-              "ViewState": "AgIAABEAAAAAAAAAAAAUwBIAAAAgAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-27T16:44:45.246Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "UserConfiguration.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Configurations\\UserConfiguration.cs",
-              "RelativeDocumentMoniker": "Data\\Configurations\\UserConfiguration.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Configurations\\UserConfiguration.cs",
-              "RelativeToolTip": "Data\\Configurations\\UserConfiguration.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-26T09:01:22.756Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "User.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Models\\User.cs",
-              "RelativeDocumentMoniker": "Data\\Models\\User.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Models\\User.cs",
-              "RelativeToolTip": "Data\\Models\\User.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAAewBwAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T18:24:09.254Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "UserRepository.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Repositories\\UserRepository.cs",
-              "RelativeDocumentMoniker": "Data\\Repositories\\UserRepository.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Repositories\\UserRepository.cs",
-              "RelativeToolTip": "Data\\Repositories\\UserRepository.cs",
-              "ViewState": "AgIAAAwAAAAAAAAAAAAAAA0AAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T10:37:07.243Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "UserFilter.cs",
-              "DocumentMoniker": "E:\\Pet\\CarSale\\Data\\Filters\\UserFilter.cs",
-              "RelativeDocumentMoniker": "Data\\Filters\\UserFilter.cs",
-              "ToolTip": "E:\\Pet\\CarSale\\Data\\Filters\\UserFilter.cs",
-              "RelativeToolTip": "Data\\Filters\\UserFilter.cs",
-              "ViewState": "AgIAABkAAAAAAAAAAIBAwCQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-04-25T09:23:01.892Z"
+              "WhenOpened": "2025-05-18T17:27:57.097Z",
+              "EditorCaption": ""
             }
           ]
         }

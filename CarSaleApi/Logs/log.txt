@@ -2841,3 +2841,152 @@ FROM [Users] AS [u]
 2025-05-15 17:30:31.133 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 82.4374ms
 2025-05-15 17:30:31.133 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
 2025-05-15 17:30:31.133 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User - 200 null application/json; charset=utf-8 177.7042ms
+2025-05-18 20:26:54.808 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 20:28:08.764 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 20:29:08.660 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 20:29:08.989 +03:00 [INF] Now listening on: https://localhost:7140
+2025-05-18 20:29:08.989 +03:00 [INF] Now listening on: http://localhost:5075
+2025-05-18 20:29:09.061 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-18 20:29:09.061 +03:00 [INF] Hosting environment: Development
+2025-05-18 20:29:09.061 +03:00 [INF] Content root path: E:\Pet\CarSale\CarSaleApi
+2025-05-18 20:29:10.331 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/index.html - null null
+2025-05-18 20:29:10.576 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/index.html - 200 null text/html;charset=utf-8 249.6317ms
+2025-05-18 20:29:10.588 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/swagger-ui.css - null null
+2025-05-18 20:29:10.592 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/swagger-ui-standalone-preset.js - null null
+2025-05-18 20:29:10.592 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/index.css - null null
+2025-05-18 20:29:10.592 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-18 20:29:10.613 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/swagger-ui-bundle.js - null null
+2025-05-18 20:29:10.668 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/index.js - null null
+2025-05-18 20:29:10.741 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_vs/browserLink - null null
+2025-05-18 20:29:10.741 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/index.js - 200 null application/javascript;charset=utf-8 98.0575ms
+2025-05-18 20:29:10.795 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - 200 16505 application/javascript; charset=utf-8 202.1005ms
+2025-05-18 20:29:10.801 +03:00 [INF] Sending file. Request path: '/index.css'. Physical path: 'N/A'
+2025-05-18 20:29:10.801 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/index.css - 200 202 text/css 209.0532ms
+2025-05-18 20:29:10.806 +03:00 [INF] Sending file. Request path: '/swagger-ui.css'. Physical path: 'N/A'
+2025-05-18 20:29:10.808 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/swagger-ui.css - 200 154949 text/css 220.2487ms
+2025-05-18 20:29:10.812 +03:00 [INF] Sending file. Request path: '/swagger-ui-standalone-preset.js'. Physical path: 'N/A'
+2025-05-18 20:29:10.812 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/swagger-ui-standalone-preset.js - 200 229223 text/javascript 220.2771ms
+2025-05-18 20:29:10.833 +03:00 [INF] Sending file. Request path: '/swagger-ui-bundle.js'. Physical path: 'N/A'
+2025-05-18 20:29:10.833 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/swagger-ui-bundle.js - 200 1466908 text/javascript 239.7147ms
+2025-05-18 20:29:10.837 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_vs/browserLink - 200 null text/javascript; charset=UTF-8 96.1649ms
+2025-05-18 20:29:11.030 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - null null
+2025-05-18 20:29:11.045 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/favicon-32x32.png - null null
+2025-05-18 20:29:11.045 +03:00 [INF] Sending file. Request path: '/favicon-32x32.png'. Physical path: 'N/A'
+2025-05-18 20:29:11.045 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/favicon-32x32.png - 200 628 image/png 0.4205ms
+2025-05-18 20:29:11.134 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 104.7466ms
+2025-05-18 20:29:28.654 +03:00 [INF] User profile is available. Using 'C:\Users\-\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-05-18 20:29:28.911 +03:00 [INF] Now listening on: https://localhost:7140
+2025-05-18 20:29:28.912 +03:00 [INF] Now listening on: http://localhost:5075
+2025-05-18 20:29:28.983 +03:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-05-18 20:29:28.983 +03:00 [INF] Hosting environment: Development
+2025-05-18 20:29:28.983 +03:00 [INF] Content root path: E:\Pet\CarSale\CarSaleApi
+2025-05-18 20:29:29.386 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_vs/browserLink - null null
+2025-05-18 20:29:29.386 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - null null
+2025-05-18 20:29:29.409 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_framework/aspnetcore-browser-refresh.js - 200 16505 application/javascript; charset=utf-8 27.8246ms
+2025-05-18 20:29:29.439 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/_vs/browserLink - 200 null text/javascript; charset=UTF-8 58.8191ms
+2025-05-18 20:29:29.599 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - null null
+2025-05-18 20:29:29.734 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 135.4922ms
+2025-05-18 20:30:00.820 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName - null null
+2025-05-18 20:30:00.947 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:30:00.969 +03:00 [INF] Route matched with {action = "GetAllByAsync", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetAllByAsync(Data.Filters.UserFilter, Data.Sorting.SortParameters) on controller CarSaleApi.Controllers.UserController (CarSaleApi).
+2025-05-18 20:30:01.272 +03:00 [INF] Getting all users...
+2025-05-18 20:30:03.697 +03:00 [INF] Executed DbCommand (84ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+ORDER BY [u].[FirstName]
+2025-05-18 20:30:03.734 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.UserDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 20:30:03.754 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 2782.9547ms
+2025-05-18 20:30:03.755 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:30:03.760 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName - 200 null application/json; charset=utf-8 2940.7301ms
+2025-05-18 20:30:23.567 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7140/api/auth/register - application/json 104
+2025-05-18 20:30:23.570 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:30:23.575 +03:00 [INF] Route matched with {action = "Register", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(CarSaleApi.Requests.RegisterRequest) on controller CarSaleApi.Controllers.AuthController (CarSaleApi).
+2025-05-18 20:30:23.889 +03:00 [INF] Adding new user...
+2025-05-18 20:30:23.978 +03:00 [INF] New user with id d9fd016b-fdb5-4062-8de1-03657424b9cb was added...
+2025-05-18 20:30:24.063 +03:00 [INF] Executed DbCommand (19ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([Id], [Created], [Email], [FirstName], [LastName], [Password])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+2025-05-18 20:30:24.073 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-05-18 20:30:24.073 +03:00 [INF] Executed action CarSaleApi.Controllers.AuthController.Register (CarSaleApi) in 497.2382ms
+2025-05-18 20:30:24.073 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:30:24.073 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7140/api/auth/register - 200 0 null 506.3311ms
+2025-05-18 20:30:34.263 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7140/api/auth/register - application/json 105
+2025-05-18 20:30:34.266 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:30:34.266 +03:00 [INF] Route matched with {action = "Register", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(CarSaleApi.Requests.RegisterRequest) on controller CarSaleApi.Controllers.AuthController (CarSaleApi).
+2025-05-18 20:30:34.404 +03:00 [INF] Adding new user...
+2025-05-18 20:30:34.449 +03:00 [INF] New user with id a562c223-f425-4bf4-bffc-a6d87f1721e0 was added...
+2025-05-18 20:30:34.452 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([Id], [Created], [Email], [FirstName], [LastName], [Password])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+2025-05-18 20:30:34.452 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-05-18 20:30:34.452 +03:00 [INF] Executed action CarSaleApi.Controllers.AuthController.Register (CarSaleApi) in 186.1317ms
+2025-05-18 20:30:34.452 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:30:34.452 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7140/api/auth/register - 200 0 null 189.1844ms
+2025-05-18 20:30:51.974 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7140/api/auth/register - application/json 99
+2025-05-18 20:30:51.975 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:30:51.975 +03:00 [INF] Route matched with {action = "Register", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(CarSaleApi.Requests.RegisterRequest) on controller CarSaleApi.Controllers.AuthController (CarSaleApi).
+2025-05-18 20:30:52.104 +03:00 [INF] Adding new user...
+2025-05-18 20:30:52.105 +03:00 [INF] New user with id f28dc40c-08aa-4547-8c60-c94caa160f53 was added...
+2025-05-18 20:30:52.106 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([Id], [Created], [Email], [FirstName], [LastName], [Password])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+2025-05-18 20:30:52.106 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-05-18 20:30:52.106 +03:00 [INF] Executed action CarSaleApi.Controllers.AuthController.Register (CarSaleApi) in 131.0627ms
+2025-05-18 20:30:52.106 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:30:52.106 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7140/api/auth/register - 200 0 null 131.8315ms
+2025-05-18 20:31:01.764 +03:00 [INF] Request starting HTTP/2 POST https://localhost:7140/api/auth/register - application/json 99
+2025-05-18 20:31:01.764 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:31:01.764 +03:00 [INF] Route matched with {action = "Register", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Register(CarSaleApi.Requests.RegisterRequest) on controller CarSaleApi.Controllers.AuthController (CarSaleApi).
+2025-05-18 20:31:01.896 +03:00 [INF] Adding new user...
+2025-05-18 20:31:01.897 +03:00 [INF] New user with id 30c7f10c-8916-47e5-a2d1-88f7758680b1 was added...
+2025-05-18 20:31:01.898 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?' (DbType = Guid), @p1='?' (DbType = DateTime2), @p2='?' (Size = 4000), @p3='?' (Size = 4000), @p4='?' (Size = 4000), @p5='?' (Size = 4000)], CommandType='"Text"', CommandTimeout='30']
+SET IMPLICIT_TRANSACTIONS OFF;
+SET NOCOUNT ON;
+INSERT INTO [Users] ([Id], [Created], [Email], [FirstName], [LastName], [Password])
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5);
+2025-05-18 20:31:01.898 +03:00 [INF] Executing StatusCodeResult, setting HTTP status code 200
+2025-05-18 20:31:01.898 +03:00 [INF] Executed action CarSaleApi.Controllers.AuthController.Register (CarSaleApi) in 133.9042ms
+2025-05-18 20:31:01.898 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.AuthController.Register (CarSaleApi)'
+2025-05-18 20:31:01.899 +03:00 [INF] Request finished HTTP/2 POST https://localhost:7140/api/auth/register - 200 0 null 134.5137ms
+2025-05-18 20:31:06.389 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName - null null
+2025-05-18 20:31:06.389 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:31:06.390 +03:00 [INF] Route matched with {action = "GetAllByAsync", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetAllByAsync(Data.Filters.UserFilter, Data.Sorting.SortParameters) on controller CarSaleApi.Controllers.UserController (CarSaleApi).
+2025-05-18 20:31:06.390 +03:00 [INF] Getting all users...
+2025-05-18 20:31:06.393 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+ORDER BY [u].[FirstName]
+2025-05-18 20:31:06.394 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.UserDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 20:31:06.395 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 5.1752ms
+2025-05-18 20:31:06.395 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:31:06.395 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName - 200 null application/json; charset=utf-8 5.7101ms
+2025-05-18 20:31:19.728 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName&SortDirection=0 - null null
+2025-05-18 20:31:19.729 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:31:19.729 +03:00 [INF] Route matched with {action = "GetAllByAsync", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetAllByAsync(Data.Filters.UserFilter, Data.Sorting.SortParameters) on controller CarSaleApi.Controllers.UserController (CarSaleApi).
+2025-05-18 20:31:19.730 +03:00 [INF] Getting all users...
+2025-05-18 20:31:19.731 +03:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+ORDER BY [u].[FirstName]
+2025-05-18 20:31:19.731 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.UserDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 20:31:19.731 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 2.3316ms
+2025-05-18 20:31:19.731 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:31:19.731 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName&SortDirection=0 - 200 null application/json; charset=utf-8 2.9833ms
+2025-05-18 20:31:24.850 +03:00 [INF] Request starting HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName&SortDirection=1 - null null
+2025-05-18 20:31:24.850 +03:00 [INF] Executing endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:31:24.850 +03:00 [INF] Route matched with {action = "GetAllByAsync", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetAllByAsync(Data.Filters.UserFilter, Data.Sorting.SortParameters) on controller CarSaleApi.Controllers.UserController (CarSaleApi).
+2025-05-18 20:31:24.851 +03:00 [INF] Getting all users...
+2025-05-18 20:31:24.856 +03:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [u].[Id], [u].[Created], [u].[Email], [u].[FirstName], [u].[LastName], [u].[Password]
+FROM [Users] AS [u]
+ORDER BY [u].[FirstName] DESC
+2025-05-18 20:31:24.857 +03:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[BusinessLogic.DTO.UserDto, BusinessLogic, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-05-18 20:31:24.857 +03:00 [INF] Executed action CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi) in 6.7405ms
+2025-05-18 20:31:24.857 +03:00 [INF] Executed endpoint 'CarSaleApi.Controllers.UserController.GetAllByAsync (CarSaleApi)'
+2025-05-18 20:31:24.857 +03:00 [INF] Request finished HTTP/2 GET https://localhost:7140/api/User?OrderBy=FirstName&SortDirection=1 - 200 null application/json; charset=utf-8 7.2157ms

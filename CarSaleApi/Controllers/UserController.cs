@@ -1,6 +1,7 @@
 ﻿using Data.Filters;
 using BusinessLogic.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Data.Sorting;
 
 namespace CarSaleApi.Controllers
 {
@@ -16,9 +17,9 @@ namespace CarSaleApi.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult> GetAllByAsync([FromQuery]UserFilter userFilter)
+        public async Task<ActionResult> GetAllByAsync([FromQuery]UserFilter userFilter, [FromQuery] SortParameters sortParameters)
         {
-            var list = await _userService.GetAllAsync(userFilter);
+            var list = await _userService.GetAllAsync(userFilter, sortParameters);
             return Ok(list);
         }
     }

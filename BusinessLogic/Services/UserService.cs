@@ -6,6 +6,7 @@ using Data.Filters;
 using Data.Hashers.Contracts;
 using Data.Models;
 using Data.Repositories.Interfaces;
+using Data.Sorting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,9 +42,9 @@ namespace BusinessLogic.Services
         {
             return await _userRepository.GetByIdAsync(id);
         }
-        public async Task<List<UserDto>> GetAllAsync(UserFilter userFilter)
+        public async Task<List<UserDto>> GetAllAsync(UserFilter userFilter, SortParameters sortParameters)
         {
-            var list = await _userRepository.GetAllAsync(userFilter);
+            var list = await _userRepository.GetAllAsync(userFilter, sortParameters);
             return _mapper.Map<List<UserDto>>(list);
         }
 
