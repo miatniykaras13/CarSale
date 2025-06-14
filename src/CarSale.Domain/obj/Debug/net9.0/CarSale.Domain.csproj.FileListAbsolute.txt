@@ -1,0 +1,12 @@
+E:\CSProjects\CarSale\src\CarSale.Domain\bin\Debug\net9.0\CarSale.Domain.deps.json
+E:\CSProjects\CarSale\src\CarSale.Domain\bin\Debug\net9.0\CarSale.Domain.dll
+E:\CSProjects\CarSale\src\CarSale.Domain\bin\Debug\net9.0\CarSale.Domain.pdb
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.GeneratedMSBuildEditorConfig.editorconfig
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.AssemblyInfoInputs.cache
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.AssemblyInfo.cs
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.csproj.CoreCompileInputs.cache
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.sourcelink.json
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.dll
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\refint\CarSale.Domain.dll
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.pdb
+E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\ref\CarSale.Domain.dll
