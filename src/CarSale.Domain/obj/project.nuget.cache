@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "oqRn/kacudg=",
+  "dgSpecHash": "qyybYPmHfKk=",
   "success": true,
   "projectFilePath": "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\-\\.nuget\\packages\\stylecop.analyzers\\1.1.118\\stylecop.analyzers.1.1.118.nupkg.sha512"
+  ],
   "logs": []
 }

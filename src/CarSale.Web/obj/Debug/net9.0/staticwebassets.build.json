@@ -1,0 +1,12 @@
+{
+  "Version": 1,
+  "Hash": "J/CZVpwxYRoiwypW71y1ujko8l/v6FW4vVq+nV9qXvc=",
+  "Source": "CarSale.Web",
+  "BasePath": "_content/CarSale.Web",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": [],
+  "Endpoints": []
+}
