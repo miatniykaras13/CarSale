@@ -14,7 +14,7 @@ public class Report
     
     public required string Reason { get; set; }
 
-    public Status Status { get; set; } = Status.Opened;
+    public Status Status { get; set; } = Status.OPENED;
     
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     

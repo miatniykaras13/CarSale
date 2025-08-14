@@ -2,8 +2,8 @@
 
 public enum Status
 {
-    Opened,
-    Resolved,
-    Pending,
-    Dismissed
+    OPENED,
+    RESOLVED,
+    PENDING,
+    DISMISSED
 }

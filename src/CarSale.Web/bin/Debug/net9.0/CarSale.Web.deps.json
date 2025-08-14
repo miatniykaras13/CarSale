@@ -609,6 +609,17 @@
           "System.Xml.ReaderWriter": "4.0.11"
         }
       },
+      "CarSale.Application/1.0.0": {
+        "dependencies": {
+          "CarSale.Domain": "1.0.0"
+        },
+        "runtime": {
+          "CarSale.Application.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "CarSale.Contracts/1.0.0": {
         "runtime": {
           "CarSale.Contracts.dll": {
@@ -627,6 +638,7 @@
       },
       "CarSale.Presenters/1.0.0": {
         "dependencies": {
+          "CarSale.Application": "1.0.0",
           "CarSale.Contracts": "1.0.0",
           "CarSale.Domain": "1.0.0",
           "Microsoft.AspNetCore.Mvc.Core": "2.3.0"
@@ -1170,6 +1182,11 @@
       "sha512": "sha512-Mk2mKmPi0nWaoiYeotq1dgeNK1fqWh61+EK+w4Wu8SWuTYLzpUnschb59bJtGywaPq7SmTuPf44wrXRwbIrukg==",
       "path": "system.xml.xdocument/4.0.11",
       "hashPath": "system.xml.xdocument.4.0.11.nupkg.sha512"
+    },
+    "CarSale.Application/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     },
     "CarSale.Contracts/1.0.0": {
       "type": "project",

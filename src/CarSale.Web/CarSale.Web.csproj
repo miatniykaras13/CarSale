@@ -14,6 +14,7 @@
     <ItemGroup>
       <ProjectReference Include="..\CarSale.Domain\CarSale.Domain.csproj" />
       <ProjectReference Include="..\CarSale.Presenters\CarSale.Presenters.csproj" />
+      <ProjectReference Include="..\CarSale.Infrastructure\CarSale.Infrastructure.csproj" />
     </ItemGroup>
 
 </Project>
