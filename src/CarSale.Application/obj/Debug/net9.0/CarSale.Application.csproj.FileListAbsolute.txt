@@ -1,0 +1,16 @@
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Application.deps.json
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Application.dll
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Application.pdb
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Domain.dll
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Domain.pdb
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.csproj.AssemblyReference.cache
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.GeneratedMSBuildEditorConfig.editorconfig
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.AssemblyInfoInputs.cache
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.AssemblyInfo.cs
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.csproj.CoreCompileInputs.cache
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.sourcelink.json
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale..61F9A82B.Up2Date
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.dll
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\refint\CarSale.Application.dll
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.pdb
+C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\ref\CarSale.Application.dll
