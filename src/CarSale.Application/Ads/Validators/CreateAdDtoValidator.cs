@@ -1,12 +1,10 @@
-﻿using CarSale.Application.Shared;
-using CarSale.Application.Shared.Validators;
+﻿using CarSale.Application.Shared.Validators;
 using CarSale.Contracts.Ads;
-using CarSale.Contracts.Shared;
 using CarSale.Domain.Ads.Aggregates;
 using FluentValidation;
-using FluentValidation.Validators;
 
-namespace CarSale.Application.Ads;
+
+namespace CarSale.Application.Ads.Validators;
 
 public class CreateAdDtoValidator : AbstractValidator<CreateAdDto>
 {

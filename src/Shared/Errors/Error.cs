@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Shared.Errors
 {
-    public record Error(string Code, )
+    /*public record Error(string Code, )
     {
         
-    }
+    }*/
 }

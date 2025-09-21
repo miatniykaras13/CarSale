@@ -1,8 +1,9 @@
 ﻿using CarSale.Application.Ads.Interfaces;
+using CarSale.Application.Ads.Validators;
 using CarSale.Contracts;
 using CarSale.Contracts.Ads;
 using CarSale.Domain.Ads;
-using CarSale.Domain.Ads.Entities;
+using CarSale.Domain.Ads.Aggregates;
 using CarSale.Domain.Ads.Enums;
 using CarSale.Domain.Ads.ValueObjects;
 using CarSale.Domain.Shared.ValueObjects;
@@ -13,8 +14,6 @@ namespace CarSale.Application.Ads;
 
 public class AdsService(IAdsRepository adsRepository, ILogger<AdsService> logger)
 {
-    private readonly IAdsRepository _adsRepository = adsRepository;
-    private readonly ILogger<AdsService> _logger = logger;
 
 
     public async Task<Result<Guid>> Create(
@@ -77,7 +76,7 @@ public class AdsService(IAdsRepository adsRepository, ILogger<AdsService> logger
         if (adResult.IsFailure)
             return Result.Failure<Guid>(adResult.Error);
         
-        await _adsRepository.AddAsync(adResult.Value, cancellationToken);
+        await adsRepository.AddAsync(adResult.Value, cancellationToken);
         
         return Result.Success(adResult.Value.Id);
     }
@@ -87,7 +86,7 @@ public class AdsService(IAdsRepository adsRepository, ILogger<AdsService> logger
         Guid id,
         CancellationToken cancellationToken)
     {
-        await _adsRepository.DeleteAsync(id, cancellationToken);
+        await adsRepository.DeleteAsync(id, cancellationToken);
     }
 
     public async Task Get(

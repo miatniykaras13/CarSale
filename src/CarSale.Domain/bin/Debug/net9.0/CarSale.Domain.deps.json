@@ -8,10 +8,19 @@
     ".NETCoreApp,Version=v9.0": {
       "CarSale.Domain/1.0.0": {
         "dependencies": {
+          "CSharpFunctionalExtensions": "3.6.0",
           "StyleCop.Analyzers": "1.1.118"
         },
         "runtime": {
           "CarSale.Domain.dll": {}
+        }
+      },
+      "CSharpFunctionalExtensions/3.6.0": {
+        "runtime": {
+          "lib/net8.0/CSharpFunctionalExtensions.dll": {
+            "assemblyVersion": "3.6.0.0",
+            "fileVersion": "3.6.0.0"
+          }
         }
       },
       "StyleCop.Analyzers/1.1.118": {}
@@ -22,6 +31,13 @@
       "type": "project",
       "serviceable": false,
       "sha512": ""
+    },
+    "CSharpFunctionalExtensions/3.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-c+oWbfDKKjpOLPMxn/iPn1GL24YTJMtOiGfj0AsDKZ2v6/Mr6V7BfzfWLg6KqNRx3KRy3KcQE680SwvDTI/jcg==",
+      "path": "csharpfunctionalextensions/3.6.0",
+      "hashPath": "csharpfunctionalextensions.3.6.0.nupkg.sha512"
     },
     "StyleCop.Analyzers/1.1.118": {
       "type": "package",

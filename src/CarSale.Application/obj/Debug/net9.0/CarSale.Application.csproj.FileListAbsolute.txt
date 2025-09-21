@@ -14,3 +14,12 @@ C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.dll
 C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\refint\CarSale.Application.dll
 C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.pdb
 C:\CarSale\src\CarSale.Application\obj\Debug\net9.0\ref\CarSale.Application.dll
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.csproj.AssemblyReference.cache
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.GeneratedMSBuildEditorConfig.editorconfig
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.AssemblyInfoInputs.cache
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.AssemblyInfo.cs
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.csproj.CoreCompileInputs.cache
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.sourcelink.json
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.dll
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\refint\CarSale.Application.dll
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.pdb
