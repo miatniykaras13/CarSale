@@ -4274,23 +4274,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\-\\.nuget\\packages\\": {},
-    "F:\\Visual Studio Packets\\NuGetPackages": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj",
+      "projectUniqueName": "C:\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj",
       "projectName": "CarSale.Presenters",
-      "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj",
-      "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
-      "outputPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\obj\\",
+      "projectPath": "C:\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\CarSale\\src\\CarSale.Presenters\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "F:\\Visual Studio Packets\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4305,14 +4305,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj"
+            "C:\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj"
             },
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj"
+            "C:\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj"
             },
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
+            "C:\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
             }
           }
         }
