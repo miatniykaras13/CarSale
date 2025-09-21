@@ -1,6 +1,4 @@
 using CarSale.Application.Ads.Interfaces;
-using CarSale.Infrastructure;
-using CarSale.Infrastructure.ImageStorage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,7 +6,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 
-builder.Services.AddScoped<IImageStorage, LocalImageStorage>();
 
 var app = builder.Build();
 

@@ -4387,32 +4387,32 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
-      "C:\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj",
       "CarSale.Domain >= 1.0.0",
       "CarSale.Presenters >= 1.0.0",
+      "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj",
       "Microsoft.AspNetCore.OpenApi >= 9.0.4",
       "StyleCop.Analyzers >= 1.1.118",
       "Swashbuckle.AspNetCore.SwaggerUI >= 8.1.4"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Admin\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\-\\.nuget\\packages\\": {},
+    "F:\\Visual Studio Packets\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
+      "projectUniqueName": "E:\\CSProjects\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
       "projectName": "CarSale.Web",
-      "projectPath": "C:\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
-      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
-      "outputPath": "C:\\CarSale\\src\\CarSale.Web\\obj\\",
+      "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
+      "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
+      "outputPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "F:\\Visual Studio Packets\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4427,14 +4427,14 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "C:\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
-              "projectPath": "C:\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
+            "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
+              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
             },
-            "C:\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj": {
-              "projectPath": "C:\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj"
+            "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj": {
+              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj"
             },
-            "C:\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj": {
-              "projectPath": "C:\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj"
+            "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj": {
+              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj"
             }
           }
         }
@@ -4497,8 +4497,8 @@
     {
       "code": "NU1105",
       "level": "Error",
-      "message": "Unable to find project information for 'C:\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
-      "libraryId": "C:\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj",
+      "message": "Unable to find project information for 'E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj'. If you are using Visual Studio, this may be because the project is unloaded or not part of the current solution so run a restore from the command-line. Otherwise, the project file may be invalid or missing targets required for restore.",
+      "libraryId": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj",
       "targetGraphs": [
         "net9.0"
       ]
