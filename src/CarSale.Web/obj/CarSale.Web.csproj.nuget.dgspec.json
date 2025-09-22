@@ -65,6 +65,10 @@
               "target": "Package",
               "version": "[12.0.0, )"
             },
+            "FluentValidation.DependencyInjectionExtensions": {
+              "target": "Package",
+              "version": "[12.0.0, )"
+            },
             "Microsoft.Extensions.Logging.Abstractions": {
               "target": "Package",
               "version": "[9.0.8, )"
@@ -246,6 +250,87 @@
         }
       }
     },
+    "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj",
+        "projectName": "CarSale.Infrastructure.MsSql",
+        "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj",
+        "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
+        "outputPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "F:\\Visual Studio Packets\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {
+              "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj": {
+                "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.9, )"
+            },
+            "StyleCop.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.118, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
     "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj": {
       "version": "1.0.0",
       "restore": {
@@ -365,14 +450,20 @@
           "net9.0": {
             "targetAlias": "net9.0",
             "projectReferences": {
+              "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj": {
+                "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj"
+              },
               "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
                 "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
               },
-              "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj": {
-                "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure\\CarSale.Infrastructure.csproj"
+              "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj": {
+                "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj"
               },
               "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj": {
                 "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj"
+              },
+              "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj": {
+                "projectPath": "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj"
               }
             }
           }
@@ -423,6 +514,79 @@
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
             },
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj",
+        "projectName": "Shared",
+        "projectPath": "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj",
+        "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
+        "outputPath": "E:\\CSProjects\\CarSale\\src\\Shared\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "F:\\Visual Studio Packets\\NuGetPackages"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0": {
+            "targetAlias": "net9.0",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "9.0.200"
+      },
+      "frameworks": {
+        "net9.0": {
+          "targetAlias": "net9.0",
+          "dependencies": {
+            "StyleCop.Analyzers": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[1.1.118, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }

@@ -1,10 +1,10 @@
+using CarSale.Application;
 using CarSale.Application.Ads.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+builder.Services.AddProgramDependencies();
 
 
 var app = builder.Build();

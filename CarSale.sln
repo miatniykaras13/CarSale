@@ -15,6 +15,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 		Directory.Build.props = Directory.Build.props
+		compose.yaml = compose.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSale.Contracts", "src\CarSale.Contracts\CarSale.Contracts.csproj", "{3433BA3D-D0C9-46DF-933E-7E21F99695DC}"
@@ -24,6 +25,16 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CarSale.Infrastructure.MsSql", "src\CarSale.Infrastructure.MsSql\CarSale.Infrastructure.MsSql.csproj", "{94B2E813-925B-4AD9-8AE9-5167A93C0AAF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "src\Shared\Shared.csproj", "{6CB2DE2B-6D3E-49F3-985F-87C2986E87EB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{7CBE294C-9684-47C4-B0C8-700251B44558}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "BuildingBlocks", "BuildingBlocks", "{7602CD85-CFCF-42B4-9159-F9ADA20A09C9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildingBlocks", "src\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj", "{1BE19597-1B8D-42EE-8781-27030655B227}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AutoCatalog", "AutoCatalog", "{9E432FB8-6483-40B0-B6A1-5073939A8429}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoCatalog.Web", "src\Services\AutoCatalog\AutoCatalog.Web\AutoCatalog.Web.csproj", "{1BAFDAC8-1986-4CF8-AC8D-58DA1F30F555}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -59,6 +70,14 @@ Global
 		{6CB2DE2B-6D3E-49F3-985F-87C2986E87EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CB2DE2B-6D3E-49F3-985F-87C2986E87EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB2DE2B-6D3E-49F3-985F-87C2986E87EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BE19597-1B8D-42EE-8781-27030655B227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BE19597-1B8D-42EE-8781-27030655B227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BE19597-1B8D-42EE-8781-27030655B227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BE19597-1B8D-42EE-8781-27030655B227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1BAFDAC8-1986-4CF8-AC8D-58DA1F30F555}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1BAFDAC8-1986-4CF8-AC8D-58DA1F30F555}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1BAFDAC8-1986-4CF8-AC8D-58DA1F30F555}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1BAFDAC8-1986-4CF8-AC8D-58DA1F30F555}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -71,6 +90,11 @@ Global
 		{F15D9C88-40AB-46A4-A36D-FFB7553D4293} = {610AEA3B-AE8B-4A6B-949E-93E663FD4F85}
 		{94B2E813-925B-4AD9-8AE9-5167A93C0AAF} = {610AEA3B-AE8B-4A6B-949E-93E663FD4F85}
 		{6CB2DE2B-6D3E-49F3-985F-87C2986E87EB} = {610AEA3B-AE8B-4A6B-949E-93E663FD4F85}
+		{7CBE294C-9684-47C4-B0C8-700251B44558} = {610AEA3B-AE8B-4A6B-949E-93E663FD4F85}
+		{7602CD85-CFCF-42B4-9159-F9ADA20A09C9} = {610AEA3B-AE8B-4A6B-949E-93E663FD4F85}
+		{1BE19597-1B8D-42EE-8781-27030655B227} = {7602CD85-CFCF-42B4-9159-F9ADA20A09C9}
+		{9E432FB8-6483-40B0-B6A1-5073939A8429} = {7CBE294C-9684-47C4-B0C8-700251B44558}
+		{1BAFDAC8-1986-4CF8-AC8D-58DA1F30F555} = {9E432FB8-6483-40B0-B6A1-5073939A8429}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8872AD1A-914B-4D1D-BA6F-22C02F4D87F8}

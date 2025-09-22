@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace CarSale.Presenters.ErrorHandling
 {
-    public class ErrorMapper : IErrorMapper
+    /*public class ErrorMapper : IErrorMapper
     {
-        public IActionResult ToActionResult(Result result) => switch result.Error
+        /*public IActionResult ToActionResult(Result result) => switch result.Error
         {
 
-        };
-    }
+        };#1#
+    }*/
 }

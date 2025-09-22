@@ -13,8 +13,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CarSale.Domain\CarSale.Domain.csproj" />
+      <ProjectReference Include="..\CarSale.Infrastructure.MsSql\CarSale.Infrastructure.MsSql.csproj" />
       <ProjectReference Include="..\CarSale.Presenters\CarSale.Presenters.csproj" />
-      <ProjectReference Include="..\CarSale.Infrastructure\CarSale.Infrastructure.csproj" />
+      <ProjectReference Include="..\CarSale.Application\CarSale.Presenters.csproj" />
+      <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
 
 </Project>
