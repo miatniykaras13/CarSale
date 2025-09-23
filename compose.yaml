@@ -1,10 +1,4 @@
 ﻿services:
-  carcatalog.web:
-    image: carcatalog.web
-    build:
-      context: .
-      dockerfile: src/Services/CarCatalog/CarCatalog.Web/Dockerfile
-
   autocatalog.web:
     image: autocatalog.web
     build:

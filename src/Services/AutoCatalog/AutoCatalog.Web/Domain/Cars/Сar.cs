@@ -1,20 +1,35 @@
-﻿using AutoCatalog.Web.Domain.Specs;
+﻿using AutoCatalog.Web.Domain.Enums;
+using AutoCatalog.Web.Domain.Specs;
 
 namespace AutoCatalog.Web.Domain.Cars;
 
-public class Сar
+public class Car
 {
-    public required int Id { get; set; }
+    public required Guid Id { get; set; }
 
-    public required Brand Brand { get; set; }
 
-    public required Model Model { get; set; }
+    public required int BrandId { get; set; }
 
-    public required Generation Generation { get; set; }
+    public Brand Brand { get; set; } = null!;
 
-    public required int Engine { get; set; }
 
-    public required Transmission Transmission { get; set; }
+    public required int ModelId { get; set; }
+
+    public Model Model { get; set; } = null!;
+
+
+    public required int GenerationId { get; set; }
+
+    public Generation Generation { get; set; } = null!;
+
+    public required int EngineId { get; set; }
+
+    public Engine Engine { get; set; } = null!;
+
+
+    public required TransmissionType TransmissionType { get; set; }
+
+    public required AutoDriveType AutoDriveType { get; set; }
 
     public required int YearFrom { get; set; }
 

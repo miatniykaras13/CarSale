@@ -1,4 +1,7 @@
-﻿namespace AutoCatalog.Web.Domain.Specs;
+﻿using AutoCatalog.Web.Domain.Cars;
+using AutoCatalog.Web.Domain.Enums;
+
+namespace AutoCatalog.Web.Domain.Specs;
 
 public class Engine
 {
@@ -6,7 +9,11 @@ public class Engine
 
     public required FuelType FuelType { get; set; }
 
-    public required Model Model { get; set; }
+
+    public required int GenerationId { get; set; }
+
+    public Generation Generation { get; set; } = null!;
+
 
     public required string Name { get; set; }
 
@@ -15,4 +22,6 @@ public class Engine
     public required int HorsePower { get; set; }
 
     public required int TorqueNm { get; set; }
+
+    public List<Car> Cars { get; set; } = [];
 }
