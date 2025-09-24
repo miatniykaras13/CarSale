@@ -1,14 +1,15 @@
-﻿using CarSale.Application.Ads;
+﻿using CarSale.Application;
 using CarSale.Infrastructure.MsSql;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace CarSale.Application;
+namespace CarSale.Web;
 
 public static class DependencyInjection
 {
     public static IServiceCollection AddProgramDependencies(this IServiceCollection services)
     {
         services.AddApplication();
+        
+        services.AddWeb();
         
         services.AddMsSqlInfrastructure();
 

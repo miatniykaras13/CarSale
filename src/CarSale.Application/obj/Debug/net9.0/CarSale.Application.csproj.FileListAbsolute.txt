@@ -23,3 +23,5 @@ E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Applicati
 E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.dll
 E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\refint\CarSale.Application.dll
 E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.pdb
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Contracts.dll
+C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Contracts.pdb

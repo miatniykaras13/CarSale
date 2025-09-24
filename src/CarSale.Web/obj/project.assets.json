@@ -803,6 +803,22 @@
           "lib/netstandard1.0/_._": {}
         }
       },
+      "Scalar.AspNetCore/2.8.5": {
+        "type": "package",
+        "compile": {
+          "lib/net9.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net9.0/Scalar.AspNetCore.dll": {
+            "related": ".xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      },
       "StyleCop.Analyzers/1.1.118": {
         "type": "package"
       },
@@ -2445,6 +2461,25 @@
         "lib/netstandard1.0/_._",
         "runtime.native.system.4.0.0.nupkg.sha512",
         "runtime.native.system.nuspec"
+      ]
+    },
+    "Scalar.AspNetCore/2.8.5": {
+      "sha512": "fL9s7vtFxnYN5rEGfeemlwK2yAXoLLTYR28f8FYNEipEpPqx67i+6cbzWa0xxlnnwn5bhRi9jIQmBXk9VGwVOg==",
+      "type": "package",
+      "path": "scalar.aspnetcore/2.8.5",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "icon.png",
+        "lib/net10.0/Scalar.AspNetCore.dll",
+        "lib/net10.0/Scalar.AspNetCore.xml",
+        "lib/net8.0/Scalar.AspNetCore.dll",
+        "lib/net8.0/Scalar.AspNetCore.xml",
+        "lib/net9.0/Scalar.AspNetCore.dll",
+        "lib/net9.0/Scalar.AspNetCore.xml",
+        "scalar.aspnetcore.2.8.5.nupkg.sha512",
+        "scalar.aspnetcore.nuspec"
       ]
     },
     "StyleCop.Analyzers/1.1.118": {
@@ -4680,34 +4715,35 @@
   },
   "projectFileDependencyGroups": {
     "net9.0": [
+      "CarSale.Application >= 1.0.0",
       "CarSale.Domain >= 1.0.0",
       "CarSale.Infrastructure.MsSql >= 1.0.0",
       "CarSale.Presenters >= 1.0.0",
-      "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj",
       "Microsoft.AspNetCore.OpenApi >= 9.0.4",
+      "Scalar.AspNetCore >= 2.8.5",
       "Shared >= 1.0.0",
       "StyleCop.Analyzers >= 1.1.118",
       "Swashbuckle.AspNetCore.SwaggerUI >= 8.1.4"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\-\\.nuget\\packages\\": {},
-    "F:\\Visual Studio Packets\\NuGetPackages": {}
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\CSProjects\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
+      "projectUniqueName": "C:\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
       "projectName": "CarSale.Web",
-      "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
-      "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
-      "outputPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Web\\obj\\",
+      "projectPath": "C:\\CarSale\\src\\CarSale.Web\\CarSale.Web.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\CarSale\\src\\CarSale.Web\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "F:\\Visual Studio Packets\\NuGetPackages"
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4722,20 +4758,20 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "projectReferences": {
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj"
+            "C:\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Application\\CarSale.Application.csproj"
             },
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
+            "C:\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Domain\\CarSale.Domain.csproj"
             },
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj"
+            "C:\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Infrastructure.MsSql\\CarSale.Infrastructure.MsSql.csproj"
             },
-            "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj"
+            "C:\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj": {
+              "projectPath": "C:\\CarSale\\src\\CarSale.Presenters\\CarSale.Presenters.csproj"
             },
-            "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj": {
-              "projectPath": "E:\\CSProjects\\CarSale\\src\\Shared\\Shared.csproj"
+            "C:\\CarSale\\src\\Shared\\Shared.csproj": {
+              "projectPath": "C:\\CarSale\\src\\Shared\\Shared.csproj"
             }
           }
         }
@@ -4759,6 +4795,10 @@
           "Microsoft.AspNetCore.OpenApi": {
             "target": "Package",
             "version": "[9.0.4, )"
+          },
+          "Scalar.AspNetCore": {
+            "target": "Package",
+            "version": "[2.8.5, )"
           },
           "StyleCop.Analyzers": {
             "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
@@ -4793,16 +4833,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1104",
-      "level": "Error",
-      "message": "Unable to find project 'E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj'. Check that the project reference is valid and that the project file exists.",
-      "libraryId": "E:\\CSProjects\\CarSale\\src\\CarSale.Application\\CarSale.Presenters.csproj",
-      "targetGraphs": [
-        "net9.0"
-      ]
-    }
-  ]
+  }
 }

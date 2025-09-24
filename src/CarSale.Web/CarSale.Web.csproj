@@ -8,6 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
+        <PackageReference Include="Scalar.AspNetCore" Version="2.8.5" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="8.1.4" />
     </ItemGroup>
 
@@ -15,7 +16,7 @@
       <ProjectReference Include="..\CarSale.Domain\CarSale.Domain.csproj" />
       <ProjectReference Include="..\CarSale.Infrastructure.MsSql\CarSale.Infrastructure.MsSql.csproj" />
       <ProjectReference Include="..\CarSale.Presenters\CarSale.Presenters.csproj" />
-      <ProjectReference Include="..\CarSale.Application\CarSale.Presenters.csproj" />
+      <ProjectReference Include="..\CarSale.Application\CarSale.Application.csproj" />
       <ProjectReference Include="..\Shared\Shared.csproj" />
     </ItemGroup>
 
