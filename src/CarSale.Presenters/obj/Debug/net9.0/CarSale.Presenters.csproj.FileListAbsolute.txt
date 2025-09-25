@@ -36,3 +36,5 @@ C:\CarSale\src\CarSale.Presenters\obj\Debug\net9.0\CarSale.Presenters.dll
 C:\CarSale\src\CarSale.Presenters\obj\Debug\net9.0\refint\CarSale.Presenters.dll
 C:\CarSale\src\CarSale.Presenters\obj\Debug\net9.0\CarSale.Presenters.pdb
 C:\CarSale\src\CarSale.Presenters\obj\Debug\net9.0\ref\CarSale.Presenters.dll
+E:\CSProjects\CarSale\src\CarSale.Presenters\bin\Debug\net9.0\CarSale.Application.dll
+E:\CSProjects\CarSale\src\CarSale.Presenters\bin\Debug\net9.0\CarSale.Application.pdb

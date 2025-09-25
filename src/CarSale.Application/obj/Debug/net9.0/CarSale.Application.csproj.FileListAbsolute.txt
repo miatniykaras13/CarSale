@@ -25,3 +25,12 @@ E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\refint\CarSale.Ap
 E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale.Application.pdb
 C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Contracts.dll
 C:\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Contracts.pdb
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Application.deps.json
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Application.dll
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Application.pdb
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Contracts.dll
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Domain.dll
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Contracts.pdb
+E:\CSProjects\CarSale\src\CarSale.Application\bin\Debug\net9.0\CarSale.Domain.pdb
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\CarSale..61F9A82B.Up2Date
+E:\CSProjects\CarSale\src\CarSale.Application\obj\Debug\net9.0\ref\CarSale.Application.dll
