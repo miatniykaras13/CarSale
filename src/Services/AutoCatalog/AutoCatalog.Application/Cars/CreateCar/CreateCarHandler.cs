@@ -1,7 +1,11 @@
-﻿using AutoCatalog.Domain.Cars;
+﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Domain.Cars;
 using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.CQRS;
+using BuildingBlocks.Errors;
+using BuildingBlocks.Extensions;
+using CSharpFunctionalExtensions;
 
 namespace AutoCatalog.Application.Cars.CreateCar;
 
@@ -18,21 +22,53 @@ public record CreateCarCommand(
     int Consumption,
     float Acceleration,
     int FuelTankCapacity,
-    DimensionsDto DimensionsDto) : ICommand<CreateCarResult>;
+    DimensionsDto DimensionsDto) : ICommand<Result<Guid, List<Error>>>;
 
-public record CreateCarResult(Guid Id);
-
-internal class CreateCarCommandHandler : ICommandHandler<CreateCarCommand, CreateCarResult>
+internal class CreateCarCommandHandler(
+    ICarsRepository carsRepository,
+    IModelsRepository modelsRepository,
+    IBrandsRepository brandsRepository,
+    IEnginesRepository enginesRepository,
+    IGenerationsRepository generationsRepository) : ICommandHandler<CreateCarCommand, Result<Guid, List<Error>>>
 {
-    public async Task<CreateCarResult> Handle(CreateCarCommand command, CancellationToken cancellationToken)
+    public async Task<Result<Guid, List<Error>>> Handle(CreateCarCommand command, CancellationToken cancellationToken)
     {
-        var car = new Car
+        var brandResult = await brandsRepository.GetByIdAsync(command.BrandId, cancellationToken);
+        if (brandResult.IsFailure)
+        {
+            return Result.Failure<Guid, List<Error>>([brandResult.Error]);
+        }
+
+        var modelResult = await modelsRepository.GetByIdAsync(command.ModelId, cancellationToken);
+        if (modelResult.IsFailure)
+        {
+            return Result.Failure<Guid, List<Error>>([modelResult.Error]);
+        }
+
+        var generationResult = await generationsRepository.GetByIdAsync(command.GenerationId, cancellationToken);
+        if (generationResult.IsFailure)
+        {
+            return Result.Failure<Guid, List<Error>>([generationResult.Error]);
+        }
+
+        var engineResult = await enginesRepository.GetByIdAsync(command.EngineId, cancellationToken);
+        if (engineResult.IsFailure)
+        {
+            return Result.Failure<Guid, List<Error>>([engineResult.Error]);
+        }
+
+
+        Car car = new()
         {
             Id = Guid.CreateVersion7(),
             BrandId = command.BrandId,
+            Brand = brandResult.Value,
             ModelId = command.ModelId,
+            Model = modelResult.Value,
             GenerationId = command.GenerationId,
+            Generation = generationResult.Value,
             EngineId = command.EngineId,
+            Engine = engineResult.Value,
             TransmissionType = command.TransmissionType,
             AutoDriveType = command.AutoDriveType,
             YearFrom = command.YearFrom,
@@ -48,6 +84,6 @@ internal class CreateCarCommandHandler : ICommandHandler<CreateCarCommand, Creat
         };
 
 
-        return new CreateCarResult(car.Id);
+        return Result.Success<Guid, List<Error>>(car.Id);
     }
 }

@@ -1,5 +1,5 @@
-﻿using AutoCatalog.Infrastructure;
-using Microsoft.AspNetCore.OpenApi;
+﻿using AutoCatalog.Application;
+using AutoCatalog.Infrastructure;
 
 namespace AutoCatalog.Web;
 
@@ -19,7 +19,7 @@ public static class DependencyInjection
         services.AddCarter();
         services.AddMediatR(c =>
         {
-            c.RegisterServicesFromAssembly(typeof(Program).Assembly);
+            c.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
         });
         services.AddOpenApi();
         return services;

@@ -7,16 +7,13 @@ public class Car
 {
     public required Guid Id { get; set; }
 
-
     public required int BrandId { get; set; }
 
     public Brand Brand { get; set; } = null!;
 
-
     public required int ModelId { get; set; }
 
     public Model Model { get; set; } = null!;
-
 
     public required int GenerationId { get; set; }
 
@@ -25,7 +22,6 @@ public class Car
     public required int EngineId { get; set; }
 
     public Engine Engine { get; set; } = null!;
-
 
     public required TransmissionType TransmissionType { get; set; }
 

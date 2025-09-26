@@ -1,18 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-    <PropertyGroup>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-    <ItemGroup>
-      <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
-      <ProjectReference Include="..\AutoCatalog.Domain\AutoCatalog.Domain.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj"/>
+    <ProjectReference Include="..\AutoCatalog.Domain\AutoCatalog.Domain.csproj"/>
+  </ItemGroup>
 
-    <ItemGroup>
-      <PackageReference Include="Carter" Version="9.0.0" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Carter" Version="9.0.0"/>
+  </ItemGroup>
 
 </Project>

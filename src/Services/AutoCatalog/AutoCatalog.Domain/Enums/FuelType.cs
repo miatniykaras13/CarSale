@@ -3,22 +3,22 @@
 public enum FuelType
 {
     /// <summary>
-    /// Дизель
+    ///     Дизель
     /// </summary>
     DIESEL,
 
     /// <summary>
-    /// Бензин
+    ///     Бензин
     /// </summary>
     PETROL,
 
     /// <summary>
-    /// Гибрид
+    ///     Гибрид
     /// </summary>
     HYBRID,
 
     /// <summary>
-    /// Электро
+    ///     Электро
     /// </summary>
-    ELECTRO,
+    ELECTRO
 }

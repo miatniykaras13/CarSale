@@ -3,17 +3,17 @@
 public enum AutoDriveType
 {
     /// <summary>
-    /// Задний привод
+    ///     Задний привод
     /// </summary>
     RWD,
 
     /// <summary>
-    /// Передний привод
+    ///     Передний привод
     /// </summary>
     FWD,
 
     /// <summary>
-    /// Полный привод
+    ///     Полный привод
     /// </summary>
-    AWD,
+    AWD
 }

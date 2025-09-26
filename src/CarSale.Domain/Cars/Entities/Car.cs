@@ -1,5 +1,4 @@
-﻿using CarSale.Domain.Ads.ValueObjects;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 
 namespace CarSale.Domain.Cars.Entities;
 

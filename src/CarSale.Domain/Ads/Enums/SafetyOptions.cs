@@ -11,5 +11,5 @@ public enum SafetyOptions
     BlindSpotMonitor = 1 << 4,
     Immobilizer = 1 << 5,
     Isofix = 1 << 6,
-    EmergencyStop = 1 << 7,
+    EmergencyStop = 1 << 7
 }

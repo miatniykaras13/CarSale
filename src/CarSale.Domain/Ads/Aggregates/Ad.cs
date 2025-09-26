@@ -1,8 +1,8 @@
-﻿using CarSale.Domain.Ads.Enums;
+﻿using System.Text.Json.Serialization;
+using CarSale.Domain.Ads.Enums;
 using CarSale.Domain.Ads.ValueObjects;
 using CarSale.Domain.Shared.ValueObjects;
 using CSharpFunctionalExtensions;
-using System.Text.Json.Serialization;
 
 namespace CarSale.Domain.Ads.Aggregates;
 

@@ -3,17 +3,17 @@
 public enum TransmissionType
 {
     /// <summary>
-    /// Механика
+    ///     Механика
     /// </summary>
     MANUAL,
 
     /// <summary>
-    /// Автомат
+    ///     Автомат
     /// </summary>
     AUTOMATIC,
 
     /// <summary>
-    /// Вариатор
+    ///     Вариатор
     /// </summary>
-    CVT,
+    CVT
 }

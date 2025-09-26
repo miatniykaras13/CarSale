@@ -1,15 +1,13 @@
-using CarSale.Application;
-using CarSale.Application.Ads.Interfaces;
 using CarSale.Web;
 using Scalar.AspNetCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 
 builder.Services.AddProgramDependencies();
 
 
-var app = builder.Build();
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {

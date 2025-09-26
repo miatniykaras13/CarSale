@@ -1,12 +1,13 @@
 using AutoCatalog.Web;
-using Microsoft.AspNetCore.Builder;
-using Scalar.AspNetCore;
 
-var builder = WebApplication.CreateBuilder(args);
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddProgramDependencies(builder.Configuration);
+ConfigurationManager configuration = builder.Configuration;
+IServiceCollection services = builder.Services;
 
-var app = builder.Build();
+services.AddProgramDependencies(configuration);
+
+WebApplication app = builder.Build();
 
 app.MapCarter();
 

@@ -22,5 +22,5 @@ public enum ComfortOptions
     KeylessEntry = 1 << 16, // Бесключевой доступ
     Socket12V = 1 << 17, // Розетка 12V
     Socket220V = 1 << 18, // Розетка 220V
-    Socket110V = 1 << 19, // Розетка 110V
+    Socket110V = 1 << 19 // Розетка 110V
 }

@@ -1,15 +1,10 @@
 ﻿using CarSale.Application.Ads.Factories;
 using CarSale.Application.Ads.Interfaces;
-using CarSale.Application.Ads.Validators;
-using CarSale.Contracts;
 using CarSale.Contracts.Ads;
-using CarSale.Domain.Ads;
 using CarSale.Domain.Ads.Aggregates;
-using CarSale.Domain.Ads.Enums;
-using CarSale.Domain.Ads.ValueObjects;
-using CarSale.Domain.Shared.ValueObjects;
 using CSharpFunctionalExtensions;
 using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.Extensions.Logging;
 
 namespace CarSale.Application.Ads;
@@ -23,7 +18,7 @@ public class AdsService(
         CreateAdDto adDto,
         CancellationToken cancellationToken)
     {
-        var validationResult = await createAdDtoValidator.ValidateAsync(adDto, cancellationToken);
+        ValidationResult? validationResult = await createAdDtoValidator.ValidateAsync(adDto, cancellationToken);
 
         if (!validationResult.IsValid)
         {
@@ -32,9 +27,11 @@ public class AdsService(
         }
 
 
-        var adResult = AdFactory.FromDto(adDto);
+        Result<Ad> adResult = AdFactory.FromDto(adDto);
         if (adResult.IsFailure)
+        {
             return Result.Failure<Guid>(adResult.Error);
+        }
 
         await adsRepository.AddAsync(adResult.Value, cancellationToken);
 
@@ -44,10 +41,8 @@ public class AdsService(
 
     public async Task Delete(
         Guid id,
-        CancellationToken cancellationToken)
-    {
+        CancellationToken cancellationToken) =>
         await adsRepository.DeleteAsync(id, cancellationToken);
-    }
 
     public async Task Get(
         Guid id,

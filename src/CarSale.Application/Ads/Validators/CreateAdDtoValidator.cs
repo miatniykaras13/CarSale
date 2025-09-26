@@ -3,7 +3,6 @@ using CarSale.Contracts.Ads;
 using CarSale.Domain.Ads.Aggregates;
 using FluentValidation;
 
-
 namespace CarSale.Application.Ads.Validators;
 
 public class CreateAdDtoValidator : AbstractValidator<CreateAdDto>

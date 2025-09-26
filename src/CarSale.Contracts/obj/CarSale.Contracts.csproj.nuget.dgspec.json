@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj": {}
+    "C:\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj": {}
   },
   "projects": {
-    "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj": {
+    "C:\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj",
+        "projectUniqueName": "C:\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj",
         "projectName": "CarSale.Contracts",
-        "projectPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj",
-        "packagesPath": "C:\\Users\\-\\.nuget\\packages\\",
-        "outputPath": "E:\\CSProjects\\CarSale\\src\\CarSale.Contracts\\obj\\",
+        "projectPath": "C:\\CarSale\\src\\CarSale.Contracts\\CarSale.Contracts.csproj",
+        "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+        "outputPath": "C:\\CarSale\\src\\CarSale.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "F:\\Visual Studio Packets\\NuGetPackages"
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\-\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

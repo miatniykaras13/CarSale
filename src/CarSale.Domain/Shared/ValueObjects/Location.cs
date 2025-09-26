@@ -16,7 +16,7 @@ public record Location(string Region, string City)
             return Result.Failure<Location>("City is empty.");
         }
 
-        var location = new Location(region, city);
+        Location location = new(region, city);
         return Result.Success(location);
     }
 }

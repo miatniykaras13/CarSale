@@ -11,7 +11,7 @@ public record Money(Currency Currency, decimal Amount)
             return Result.Failure<Money>("Amount must be greater than zero");
         }
 
-        var money = new Money(currency, amount);
+        Money money = new(currency, amount);
         return Result.Success(money);
     }
 }

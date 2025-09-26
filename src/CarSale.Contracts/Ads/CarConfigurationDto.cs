@@ -6,4 +6,4 @@ public record CarConfigurationDto(
     List<string> SafetyOptions,
     string OpticsType,
     string InteriorType
-    );
+);
