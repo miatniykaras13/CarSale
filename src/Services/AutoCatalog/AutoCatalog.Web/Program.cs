@@ -1,13 +1,14 @@
+using AutoCatalog.Infrastructure;
 using AutoCatalog.Web;
 
-WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(args);
 
-ConfigurationManager configuration = builder.Configuration;
-IServiceCollection services = builder.Services;
+var configuration = builder.Configuration;
+var services = builder.Services;
 
 services.AddProgramDependencies(configuration);
 
-WebApplication app = builder.Build();
+var app = builder.Build();
 
 app.MapCarter();
 
@@ -16,6 +17,5 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalar();
 }
-
 
 app.Run();

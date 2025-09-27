@@ -10,5 +10,5 @@ public interface IModelsRepository
 
     Task<Result<int, Error>> UpdateAsync(Model model, CancellationToken cancellationToken);
 
-    Task<Result<int, Error>> DeleteAsync(Model model, CancellationToken cancellationToken);
+    Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken);
 }

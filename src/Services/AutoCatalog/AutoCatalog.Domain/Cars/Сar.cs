@@ -1,4 +1,5 @@
-﻿using AutoCatalog.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
 
 namespace AutoCatalog.Domain.Cars;
@@ -23,8 +24,10 @@ public class Car
 
     public Engine Engine { get; set; } = null!;
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public required TransmissionType TransmissionType { get; set; }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public required AutoDriveType AutoDriveType { get; set; }
 
     public required int YearFrom { get; set; }

@@ -83,6 +83,7 @@ internal class CreateCarCommandHandler(
                 command.DimensionsDto.Length),
         };
 
+        await carsRepository.AddAsync(car, cancellationToken);
 
         return Result.Success<Guid, List<Error>>(car.Id);
     }

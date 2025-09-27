@@ -1,4 +1,5 @@
-﻿using Scalar.AspNetCore;
+﻿using AutoCatalog.Infrastructure;
+using Scalar.AspNetCore;
 
 namespace AutoCatalog.Web;
 

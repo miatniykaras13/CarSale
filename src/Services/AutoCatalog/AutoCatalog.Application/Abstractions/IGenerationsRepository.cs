@@ -12,5 +12,5 @@ public interface IGenerationsRepository
 
     Task<Result<int, Error>> UpdateAsync(Generation generation, CancellationToken cancellationToken);
 
-    Task<Result<int, Error>> DeleteAsync(Generation generation, CancellationToken cancellationToken);
+    Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken);
 }

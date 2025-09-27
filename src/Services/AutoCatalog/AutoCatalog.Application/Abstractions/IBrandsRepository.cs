@@ -11,5 +11,5 @@ public interface IBrandsRepository
 
     Task<Result<int, Error>> UpdateAsync(Brand brand, CancellationToken cancellationToken);
 
-    Task<Result<int, Error>> DeleteAsync(Brand brand, CancellationToken cancellationToken);
+    Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken);
 }

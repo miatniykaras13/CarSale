@@ -14,10 +14,10 @@ public static class ResultExtensions
         return result.Error[0].Type switch
         {
             ErrorType.VALIDATION => Results.BadRequest(string.Join(',', result.Error.Select(e => e.Message))),
-            ErrorType.CONFLICT => Results.Conflict(result.Error[0].Code),
-            ErrorType.INTERNAL => Results.InternalServerError(result.Error[0].Code),
-            ErrorType.NOT_FOUND => Results.NotFound(result.Error[0].Code),
-            _ => Results.BadRequest(result.Error[0].Code)
+            ErrorType.CONFLICT => Results.Conflict(result.Error[0]),
+            ErrorType.INTERNAL => Results.InternalServerError(result.Error[0]),
+            ErrorType.NOT_FOUND => Results.NotFound(result.Error[0]),
+            _ => Results.BadRequest(result.Error[0])
         };
     }
 }

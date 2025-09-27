@@ -20,5 +20,5 @@ public enum FuelType
     /// <summary>
     ///     Электро
     /// </summary>
-    ELECTRO
+    ELECTRO,
 }

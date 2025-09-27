@@ -10,5 +10,5 @@ public interface IEnginesRepository
 
     Task<Result<int, Error>> UpdateAsync(Engine engine, CancellationToken cancellationToken);
 
-    Task<Result<int, Error>> DeleteAsync(Engine engine, CancellationToken cancellationToken);
+    Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken);
 }

@@ -15,5 +15,5 @@ public enum TransmissionType
     /// <summary>
     ///     Вариатор
     /// </summary>
-    CVT
+    CVT,
 }

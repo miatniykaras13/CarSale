@@ -2,7 +2,7 @@
 
 public class Model
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
 
 
     public required int BrandId { get; set; }

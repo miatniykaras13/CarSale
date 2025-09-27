@@ -1,12 +1,14 @@
-﻿using AutoCatalog.Domain.Cars;
+﻿using System.Text.Json.Serialization;
+using AutoCatalog.Domain.Cars;
 using AutoCatalog.Domain.Enums;
 
 namespace AutoCatalog.Domain.Specs;
 
 public class Engine
 {
-    public required int Id { get; set; }
+    public int Id { get; set; }
 
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     public required FuelType FuelType { get; set; }
 
 

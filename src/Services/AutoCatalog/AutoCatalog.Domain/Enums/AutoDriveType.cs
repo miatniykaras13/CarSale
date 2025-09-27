@@ -15,5 +15,5 @@ public enum AutoDriveType
     /// <summary>
     ///     Полный привод
     /// </summary>
-    AWD
+    AWD,
 }

@@ -3,13 +3,46 @@ using AutoCatalog.Domain.Specs;
 
 namespace AutoCatalog.Infrastructure.Repositories;
 
-public class GenerationsRepository : IGenerationsRepository
+public class GenerationsRepository(AppDbContext context) : IGenerationsRepository
 {
-    public Task<Result<Generation, Error>> GetByIdAsync(int id, CancellationToken cancellationToken) => throw new NotImplementedException();
+    public async Task<Result<Generation, Error>> GetByIdAsync(int id, CancellationToken cancellationToken)
+    {
+        var generation = await context.Generations.FindAsync(id, cancellationToken);
+        if (generation == null)
+        {
+            return Result.Failure<Generation, Error>(Error.NotFound(
+                nameof(Generation).ToLower(),
+                $"Generation with id {id} not found."));
+        }
 
-    public Task<Result<int, Error>> AddAsync(Generation generation, CancellationToken cancellationToken) => throw new NotImplementedException();
+        return Result.Success<Generation, Error>(generation);
+    }
 
-    public Task<Result<int, Error>> UpdateAsync(Generation generation, CancellationToken cancellationToken) => throw new NotImplementedException();
+    public async Task<Result<int, Error>> AddAsync(Generation generation, CancellationToken cancellationToken)
+    {
+        await context.Generations.AddAsync(generation, cancellationToken);
+        await context.SaveChangesAsync(cancellationToken);
+        return Result.Success<int, Error>(generation.Id);
+    }
 
-    public Task<Result<int, Error>> DeleteAsync(Generation generation, CancellationToken cancellationToken) => throw new NotImplementedException();
+    public async Task<Result<int, Error>> UpdateAsync(Generation generation, CancellationToken cancellationToken)
+    {
+        context.Generations.Update(generation);
+        await context.SaveChangesAsync(cancellationToken);
+        return Result.Success<int, Error>(generation.Id);
+    }
+
+    public async Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken)
+    {
+        var generationResult = await GetByIdAsync(id, cancellationToken);
+        if (generationResult.IsFailure)
+        {
+            return Result.Failure<int, Error>(generationResult.Error);
+        }
+
+        var generation = generationResult.Value;
+        context.Generations.Remove(generation);
+        await context.SaveChangesAsync(cancellationToken);
+        return Result.Success<int, Error>(id);
+    }
 }
