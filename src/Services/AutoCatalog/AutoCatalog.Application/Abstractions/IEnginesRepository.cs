@@ -2,13 +2,6 @@
 
 namespace AutoCatalog.Application.Abstractions;
 
-public interface IEnginesRepository
+public interface IEnginesRepository : IRepository<int, Engine>
 {
-    Task<Result<Engine, Error>> GetByIdAsync(int id, CancellationToken cancellationToken);
-
-    Task<Result<int, Error>> AddAsync(Engine engine, CancellationToken cancellationToken);
-
-    Task<Result<int, Error>> UpdateAsync(Engine engine, CancellationToken cancellationToken);
-
-    Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken);
 }

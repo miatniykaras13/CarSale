@@ -19,6 +19,14 @@ public class BrandsRepository(AppDbContext context) : IBrandsRepository
         return Result.Success<Brand, Error>(brand);
     }
 
+    public async Task<Result<List<Brand>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var brands = await context.Brands
+            .Include(b => b.Models)
+            .ToListAsync(cancellationToken);
+        return Result.Success<List<Brand>, Error>(brands);
+    }
+
     public async Task<Result<int, Error>> AddAsync(Brand brand, CancellationToken cancellationToken)
     {
         await context.Brands.AddAsync(brand, cancellationToken);

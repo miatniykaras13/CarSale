@@ -1,6 +1,7 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
 using CSharpFunctionalExtensions;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoCatalog.Infrastructure.Repositories;
 
@@ -17,6 +18,12 @@ public class ModelsRepository(AppDbContext context) : IModelsRepository
         }
 
         return Result.Success<Model, Error>(model);
+    }
+
+    public async Task<Result<List<Model>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var models = await context.Models.ToListAsync(cancellationToken);
+        return Result.Success<List<Model>, Error>(models);
     }
 
     public async Task<Result<int, Error>> AddAsync(Model model, CancellationToken cancellationToken)

@@ -18,6 +18,12 @@ public class CarsRepository(AppDbContext context) : ICarsRepository
         return Result.Success<Car, Error>(car);
     }
 
+    public async Task<Result<List<Car>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var cars = await context.Cars.ToListAsync(cancellationToken);
+        return Result.Success<List<Car>, Error>(cars);
+    }
+
     public async Task<Result<Guid, Error>> AddAsync(Car car, CancellationToken cancellationToken)
     {
         await context.Cars.AddAsync(car, cancellationToken);

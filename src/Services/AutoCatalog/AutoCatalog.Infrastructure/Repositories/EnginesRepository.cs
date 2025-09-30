@@ -18,6 +18,12 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
         return Result.Success<Engine, Error>(engine);
     }
 
+    public async Task<Result<List<Engine>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var engines = await context.Engines.ToListAsync(cancellationToken);
+        return Result.Success<List<Engine>, Error>(engines);
+    }
+
     public async Task<Result<int, Error>> AddAsync(Engine engine, CancellationToken cancellationToken)
     {
         await context.Engines.AddAsync(engine, cancellationToken);

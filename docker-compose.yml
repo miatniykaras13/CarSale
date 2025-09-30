@@ -1,0 +1,6 @@
+services:
+  autocatalogdb:
+    image: postgres
+    
+volumes:
+  postgres_catalog:

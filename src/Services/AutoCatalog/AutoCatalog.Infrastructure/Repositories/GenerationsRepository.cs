@@ -1,5 +1,6 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
+using Microsoft.EntityFrameworkCore;
 
 namespace AutoCatalog.Infrastructure.Repositories;
 
@@ -16,6 +17,12 @@ public class GenerationsRepository(AppDbContext context) : IGenerationsRepositor
         }
 
         return Result.Success<Generation, Error>(generation);
+    }
+
+    public async Task<Result<List<Generation>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    {
+        var generations = await context.Generations.ToListAsync(cancellationToken);
+        return Result.Success<List<Generation>, Error>(generations);
     }
 
     public async Task<Result<int, Error>> AddAsync(Generation generation, CancellationToken cancellationToken)

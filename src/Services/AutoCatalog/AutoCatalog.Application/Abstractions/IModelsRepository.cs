@@ -2,13 +2,6 @@
 
 namespace AutoCatalog.Application.Abstractions;
 
-public interface IModelsRepository
+public interface IModelsRepository : IRepository<int, Model>
 {
-    Task<Result<Model, Error>> GetByIdAsync(int id, CancellationToken cancellationToken);
-
-    Task<Result<int, Error>> AddAsync(Model model, CancellationToken cancellationToken);
-
-    Task<Result<int, Error>> UpdateAsync(Model model, CancellationToken cancellationToken);
-
-    Task<Result<int, Error>> DeleteAsync(int id, CancellationToken cancellationToken);
 }

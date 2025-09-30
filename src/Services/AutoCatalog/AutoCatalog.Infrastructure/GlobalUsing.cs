@@ -3,3 +3,4 @@ global using Carter;
 global using CSharpFunctionalExtensions;
 global using Mapster;
 global using MediatR;
+global using Microsoft.EntityFrameworkCore;

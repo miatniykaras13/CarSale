@@ -1,7 +1,0 @@
-﻿services:
-  autocatalog.web:
-    image: autocatalog.web
-    build:
-      context: .
-      dockerfile: src/Services/AutoCatalog/AutoCatalog.Web/Dockerfile
-

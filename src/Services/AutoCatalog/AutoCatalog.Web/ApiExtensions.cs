@@ -11,7 +11,7 @@ public static class ApiExtensions
         {
             options
                 .WithTitle("CarSale API")
-                .WithTheme(ScalarTheme.Solarized)
+                .WithTheme(ScalarTheme.DeepSpace)
                 .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Fetch)
                 .WithOpenApiRoutePattern("/openapi/{documentName}.json");
         });

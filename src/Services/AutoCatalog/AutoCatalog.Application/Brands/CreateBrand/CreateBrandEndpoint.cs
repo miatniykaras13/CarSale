@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Cars.CreateCar;
+using AutoCatalog.Application.Extensions;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -29,7 +30,7 @@ public class CreateBrandEndpoint : ICarterModule
             })
             .WithName("CreateBrand")
             .Produces<CreateBrandResponse>(StatusCodes.Status201Created)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesPostProblems()
             .WithTags("Brands")
             .WithOpenApi(op => new OpenApiOperation(op) { Summary = "Create brand", Description = "Returns brand id" });
     }
