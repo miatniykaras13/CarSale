@@ -1,19 +1,22 @@
-﻿namespace AutoCatalog.Domain.Enums;
+﻿using System.Text.Json.Serialization;
 
+namespace AutoCatalog.Domain.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum TransmissionType
 {
     /// <summary>
     ///     Механика
     /// </summary>
-    MANUAL,
+    MANUAL = 1,
 
     /// <summary>
     ///     Автомат
     /// </summary>
-    AUTOMATIC,
+    AUTOMATIC = 2,
 
     /// <summary>
     ///     Вариатор
     /// </summary>
-    CVT,
+    CVT = 3,
 }

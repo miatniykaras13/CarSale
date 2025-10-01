@@ -1,19 +1,22 @@
-﻿namespace AutoCatalog.Domain.Enums;
+﻿using System.Text.Json.Serialization;
 
+namespace AutoCatalog.Domain.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum AutoDriveType
 {
     /// <summary>
     ///     Задний привод
     /// </summary>
-    RWD,
+    RWD = 1,
 
     /// <summary>
     ///     Передний привод
     /// </summary>
-    FWD,
+    FWD = 2,
 
     /// <summary>
     ///     Полный привод
     /// </summary>
-    AWD,
+    AWD = 3,
 }

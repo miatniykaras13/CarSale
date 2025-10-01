@@ -22,11 +22,11 @@ public class CreateEngineEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/engines", async (CreateEngineRequest request, ISender sender) =>
+        app.MapPost("/engines", async (CreateEngineRequest request, ISender sender, CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateEngineCommand>();
 
-                var result = await sender.Send(command);
+                var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.ToResponse();

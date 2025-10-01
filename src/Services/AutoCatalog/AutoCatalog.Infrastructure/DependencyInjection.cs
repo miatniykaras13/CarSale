@@ -1,5 +1,7 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Infrastructure.Repositories;
+using AutoCatalog.Infrastructure.Repositories.Specs;
+using AutoCatalog.Infrastructure.Repositories.Transport;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

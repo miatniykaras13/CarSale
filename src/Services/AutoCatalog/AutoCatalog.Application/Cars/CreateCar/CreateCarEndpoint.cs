@@ -21,7 +21,7 @@ public record CreateCarRequest(
     int YearFrom,
     int YearTo,
     Guid PhotoId,
-    int Consumption,
+    float Consumption,
     float Acceleration,
     int FuelTankCapacity,
     DimensionsDto DimensionsDto);
@@ -31,11 +31,11 @@ public record CreateCarResponse(Guid Id);
 public class CreateCarEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/cars", async (CreateCarRequest request, ISender sender) =>
+        app.MapPost("/cars", async (CreateCarRequest request, ISender sender, CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateCarCommand>();
 
-                var result = await sender.Send(command);
+                var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.ToResponse();

@@ -1,6 +1,5 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Application.Cars.CreateCar;
-using AutoCatalog.Domain.Cars;
 using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.CQRS;

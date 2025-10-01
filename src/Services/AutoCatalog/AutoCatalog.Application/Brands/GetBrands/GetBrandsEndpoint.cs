@@ -9,25 +9,24 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Brands.GetBrands;
 
-public record BrandDto(int Id, string Name, string Country, int YearFrom, int YearTo);
-public record GetBrandsResponse(List<BrandDto> Brands);
+public record GetBrandResponse(int Id, string Name, string Country, int YearFrom, int YearTo);
 
 public class GetBrandsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/brands", async (ISender sender) =>
+        app.MapGet("/brands", async (ISender sender, CancellationToken ct = default) =>
         {
-            var result = await sender.Send(new GetBrandsQuery());
+            var result = await sender.Send(new GetBrandsQuery(), ct);
 
             if (result.IsFailure)
                 return result.ToResponse();
 
-            var brandDtos = result.Value.Adapt<List<BrandDto>>();
-            return Results.Ok(new GetBrandsResponse(brandDtos));
+            var response = result.Value.Adapt<List<GetBrandResponse>>();
+            return Results.Ok(response);
         })
         .WithName("GetBrands")
-        .Produces<GetBrandsResponse>(StatusCodes.Status200OK)
+        .Produces<List<GetBrandResponse>>(StatusCodes.Status200OK)
         .ProducesGetProblems()
         .WithTags("Brands")
         .WithOpenApi(op => new OpenApiOperation(op) { Summary = "Get brands", Description = "Returns the list of brands" });

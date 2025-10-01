@@ -1,5 +1,7 @@
-﻿using AutoCatalog.Application;
+﻿using System.Text.Json.Serialization;
+using AutoCatalog.Application;
 using AutoCatalog.Infrastructure;
+using Microsoft.AspNetCore.Http.Json;
 
 namespace AutoCatalog.Web;
 
@@ -22,6 +24,11 @@ public static class DependencyInjection
             c.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
         });
         services.AddOpenApi();
+        services.Configure<JsonOptions>(options =>
+        {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
         return services;
     }
 }

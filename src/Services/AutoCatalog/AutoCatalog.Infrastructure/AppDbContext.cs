@@ -1,5 +1,5 @@
-﻿using AutoCatalog.Domain.Cars;
-using AutoCatalog.Domain.Specs;
+﻿using AutoCatalog.Domain.Specs;
+using AutoCatalog.Domain.Transport.Cars;
 using AutoCatalog.Infrastructure.Configurations;
 using Microsoft.EntityFrameworkCore;
 

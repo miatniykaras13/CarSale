@@ -1,7 +1,7 @@
 ﻿using AutoCatalog.Application.Abstractions;
-using AutoCatalog.Domain.Cars;
 using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
+using AutoCatalog.Domain.Transport.Cars;
 using BuildingBlocks.CQRS;
 using BuildingBlocks.Errors;
 using BuildingBlocks.Extensions;
@@ -19,7 +19,7 @@ public record CreateCarCommand(
     int YearFrom,
     int YearTo,
     Guid PhotoId,
-    int Consumption,
+    float Consumption,
     float Acceleration,
     int FuelTankCapacity,
     DimensionsDto DimensionsDto) : ICommand<Result<Guid, List<Error>>>;

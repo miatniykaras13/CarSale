@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
-using AutoCatalog.Domain.Cars;
 using AutoCatalog.Domain.Enums;
+using AutoCatalog.Domain.Transport.Cars;
 
 namespace AutoCatalog.Domain.Specs;
 

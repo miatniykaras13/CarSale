@@ -1,24 +1,27 @@
-﻿namespace AutoCatalog.Domain.Enums;
+﻿using System.Text.Json.Serialization;
 
+namespace AutoCatalog.Domain.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum FuelType
 {
     /// <summary>
     ///     Дизель
     /// </summary>
-    DIESEL,
+    DIESEL = 1,
 
     /// <summary>
     ///     Бензин
     /// </summary>
-    PETROL,
+    PETROL = 2,
 
     /// <summary>
     ///     Гибрид
     /// </summary>
-    HYBRID,
+    HYBRID = 3,
 
     /// <summary>
     ///     Электро
     /// </summary>
-    ELECTRO,
+    ELECTRO = 4,
 }

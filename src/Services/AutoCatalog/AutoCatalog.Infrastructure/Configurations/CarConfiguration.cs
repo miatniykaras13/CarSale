@@ -1,4 +1,4 @@
-﻿using AutoCatalog.Domain.Cars;
+﻿using AutoCatalog.Domain.Transport.Cars;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

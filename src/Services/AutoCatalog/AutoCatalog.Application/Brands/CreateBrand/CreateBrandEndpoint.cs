@@ -16,11 +16,11 @@ public class CreateBrandEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/brands", async (CreateBrandRequest request, ISender sender) =>
+        app.MapPost("/brands", async (CreateBrandRequest request, ISender sender, CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateBrandCommand>();
 
-                var result = await sender.Send(command);
+                var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.ToResponse();

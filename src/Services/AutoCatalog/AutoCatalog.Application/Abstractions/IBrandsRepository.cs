@@ -1,5 +1,4 @@
-﻿using AutoCatalog.Domain.Cars;
-using AutoCatalog.Domain.Specs;
+﻿using AutoCatalog.Domain.Specs;
 
 namespace AutoCatalog.Application.Abstractions;
 
