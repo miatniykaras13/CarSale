@@ -10,14 +10,22 @@ using Microsoft.OpenApi.Models;
 namespace AutoCatalog.Application.Cars.GetCarsByBrandId;
 
 public record GetCarsByBrandIdResponse(
-    int Id,
-    string Name,
-    FuelType FuelType,
-    float Volume,
-    int HorsePower,
-    int TorqueNm);
+    Guid Id,
+    int BrandId,
+    int ModelId,
+    int GenerationId,
+    int EngineId,
+    TransmissionType TransmissionType,
+    AutoDriveType AutoDriveType,
+    int YearFrom,
+    int YearTo,
+    Guid PhotoId,
+    float Consumption,
+    float Acceleration,
+    int FuelTankCapacity,
+    DimensionsDto Dimensions);
 
-public class GetCarsByEngineIdEndpoint : ICarterModule
+public class GetCarsByBrandIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {

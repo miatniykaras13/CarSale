@@ -19,7 +19,7 @@ public class DeleteBrandsEndpoint : ICarterModule
                 if (result.IsFailure)
                     return result.ToResponse();
 
-                return Results.Ok();
+                return Results.NoContent();
             })
             .WithName("DeleteBrands")
             .Produces(StatusCodes.Status200OK)

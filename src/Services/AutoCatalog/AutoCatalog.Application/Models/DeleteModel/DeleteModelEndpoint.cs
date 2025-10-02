@@ -19,7 +19,7 @@ public class DeleteModelsEndpoint : ICarterModule
                 if (result.IsFailure)
                     return result.ToResponse();
 
-                return Results.Ok();
+                return Results.NoContent();
             })
             .WithName("DeleteModels")
             .Produces(StatusCodes.Status200OK)

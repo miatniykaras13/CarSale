@@ -19,7 +19,7 @@ public class DeleteEnginesEndpoint : ICarterModule
                 if (result.IsFailure)
                     return result.ToResponse();
 
-                return Results.Ok();
+                return Results.NoContent();
             })
             .WithName("DeleteEngines")
             .Produces(StatusCodes.Status200OK)
