@@ -1,21 +1,23 @@
-using CarSale.Application.Ads.Interfaces;
+using CarSale.Web;
+using Scalar.AspNetCore;
 
-var builder = WebApplication.CreateBuilder(args);
-
-
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
 
-var app = builder.Build();
+builder.Services.AddProgramDependencies();
+
+
+WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
-    app.UseSwaggerUI(options =>
+    app.MapScalarApiReference(string.Empty, options =>
     {
-        options.SwaggerEndpoint("/openapi/v1.json", "CarSale");
-        options.RoutePrefix = string.Empty;
+        options
+            .WithTitle("CarSale API")
+            .WithTheme(ScalarTheme.Mars)
+            .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Fetch);
     });
 }
 

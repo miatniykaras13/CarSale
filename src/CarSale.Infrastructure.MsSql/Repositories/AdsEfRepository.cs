@@ -22,10 +22,13 @@ public class AdsEfRepository(AppDbContext context) : IAdsRepository
 
     public async Task<Result<Guid>> DeleteAsync(Guid id, CancellationToken cancellationToken)
     {
-        var adResult = await GetByIdAsync(id, cancellationToken);
+        Result<Ad> adResult = await GetByIdAsync(id, cancellationToken);
         if (adResult.IsFailure)
+        {
             return Result.Failure<Guid>(adResult.Error);
-        var ad = adResult.Value;
+        }
+
+        Ad? ad = adResult.Value;
         context.Ads.Remove(ad);
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success(ad.Id);
@@ -33,7 +36,7 @@ public class AdsEfRepository(AppDbContext context) : IAdsRepository
 
     public async Task<Result<Ad>> GetByIdAsync(Guid id, CancellationToken cancellationToken)
     {
-        var ad = await context.Ads.FindAsync(id, cancellationToken);
+        Ad? ad = await context.Ads.FindAsync(id, cancellationToken);
         if (ad == null)
         {
             return Result.Failure<Ad>($"Ad with id {id} not found");

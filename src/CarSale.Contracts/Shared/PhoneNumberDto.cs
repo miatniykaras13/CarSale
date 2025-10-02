@@ -1,10 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿namespace CarSale.Contracts.Shared;
 
-namespace CarSale.Contracts.Shared
-{
-    public record PhoneNumberDto(CountryCodeDto CountryCode, string Number);
-}
+public record PhoneNumberDto(CountryCodeDto CountryCode, string Number);

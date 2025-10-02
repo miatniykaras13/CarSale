@@ -23,3 +23,4 @@ C:\CarSale\src\CarSale.Domain\obj\Debug\net9.0\refint\CarSale.Domain.dll
 C:\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.pdb
 C:\CarSale\src\CarSale.Domain\obj\Debug\net9.0\ref\CarSale.Domain.dll
 E:\CSProjects\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.csproj.AssemblyReference.cache
+C:\CarSale\src\CarSale.Domain\obj\Debug\net9.0\CarSale.Domain.csproj.AssemblyReference.cache

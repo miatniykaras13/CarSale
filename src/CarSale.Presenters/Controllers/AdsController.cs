@@ -1,5 +1,4 @@
-﻿using CarSale.Contracts;
-using CarSale.Contracts.Ads;
+﻿using CarSale.Contracts.Ads;
 using CarSale.Contracts.Cars;
 using Microsoft.AspNetCore.Mvc;
 
@@ -31,64 +30,49 @@ public class AdsController : ControllerBase
     public async Task<IActionResult> AddTransport(
         [FromRoute] Guid adId,
         [FromBody] CreateCarDto carDto,
-        CancellationToken cancellationToken)
-    {
-        return Ok("Transport");
-    }
+        CancellationToken cancellationToken) =>
+        Ok("Transport");
 
     [HttpGet]
     [Route("{adId:guid}")]
     public async Task<IActionResult> Get(
         [FromRoute] Guid adId,
-        CancellationToken cancellationToken)
-    {
-        return Ok("Ad with id");
-    }
+        CancellationToken cancellationToken) =>
+        Ok("Ad with id");
 
     [HttpGet]
     [Route("{adId:guid}/transport")]
     public async Task<IActionResult> GetTransport(
         [FromRoute] Guid adId,
-        CancellationToken cancellationToken)
-    {
-        return Ok("Transport");
-    }
+        CancellationToken cancellationToken) =>
+        Ok("Transport");
 
     [HttpGet]
     [Route("{adId:guid}/similar-ads")]
     public async Task<IActionResult> GetSimilarAds(
         [FromRoute] Guid adId,
-        CancellationToken cancellationToken)
-    {
-        return Ok("similar-ads");
-    }
+        CancellationToken cancellationToken) =>
+        Ok("similar-ads");
 
     [HttpGet]
     [Route("{adId:guid}/seller")]
     public async Task<IActionResult> GetSeller(
         [FromRoute] Guid adId,
-        CancellationToken cancellationToken)
-    {
-        return Ok("Ad with id");
-    }
+        CancellationToken cancellationToken) =>
+        Ok("Ad with id");
 
     [HttpDelete]
     [Route("{adId:guid}")]
     public async Task<IActionResult> Delete(
         [FromRoute] Guid adId,
-        CancellationToken cancellationToken)
-    {
-        return Ok("Ad deleted");
-    }
+        CancellationToken cancellationToken) =>
+        Ok("Ad deleted");
 
     [HttpPatch]
     [Route("{adId:guid}")]
     public async Task<IActionResult> Update(
         [FromRoute] Guid adId,
         [FromBody] UpdateAdDto updateAdDto,
-        CancellationToken cancellationToken)
-    {
-        return Ok("Ad with id");
-    }
-
+        CancellationToken cancellationToken) =>
+        Ok("Ad with id");
 }

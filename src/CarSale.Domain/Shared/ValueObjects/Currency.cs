@@ -5,7 +5,9 @@ namespace CarSale.Domain.Shared.ValueObjects;
 public record Currency(string CurrencyCode)
 {
     private static readonly ISet<string> _all = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
-        { "USD", "BYN", "RUB", "EUR" };
+    {
+        "USD", "BYN", "RUB", "EUR"
+    };
 
     public static List<string> GetSupportedCurrencies() => _all.ToList();
 

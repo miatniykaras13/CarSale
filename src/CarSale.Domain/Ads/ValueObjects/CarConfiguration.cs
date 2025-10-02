@@ -7,7 +7,7 @@ public record CarConfiguration(
     InteriorType Interior,
     SafetyOptions Safety,
     ComfortOptions Comfort,
-    AssistanceSystems Assistance,
+    AssistanceOptions Assistance,
     OpticsType Optics
 )
 {
@@ -15,15 +15,13 @@ public record CarConfiguration(
         InteriorType interiorType,
         SafetyOptions safetyOptions,
         ComfortOptions comfortOptions,
-        AssistanceSystems assistanceSystems,
-        OpticsType opticsType)
-    {
-        return Result.Success(
+        AssistanceOptions assistanceSystems,
+        OpticsType opticsType) =>
+        Result.Success(
             new CarConfiguration(
                 interiorType,
                 safetyOptions,
                 comfortOptions,
                 assistanceSystems,
                 opticsType));
-    }
 }

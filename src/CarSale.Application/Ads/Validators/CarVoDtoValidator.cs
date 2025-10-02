@@ -1,5 +1,4 @@
-﻿using CarSale.Application.Ads.Interfaces;
-using CarSale.Contracts.Ads;
+﻿using CarSale.Contracts.Ads;
 using CarSale.Domain.Ads.ValueObjects;
 using FluentValidation;
 
@@ -29,6 +28,5 @@ public class CarVoDtoValidator : AbstractValidator<CarVoDto>
         RuleFor(x => x.Year).NotEmpty().WithMessage("Year should not be empty").LessThan(DateTime.Now.Year)
             .WithMessage("Year should be less than the current year").GreaterThan(1900)
             .WithMessage("Year should be greater than the 1900");
-        
     }
 }

@@ -1,31 +1,27 @@
 ﻿using CarSale.Contracts.Ads;
 using CarSale.Domain.Ads.ValueObjects;
 using CSharpFunctionalExtensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CarSale.Application.Shared.Factories
+namespace CarSale.Application.Shared.Factories;
+
+public class CarVoFactory
 {
-    public class CarVoFactory
+    public static Result<CarVo> FromDto(CarVoDto carDto)
     {
-        public static Result<CarVo> FromDto(CarVoDto carDto)
+        Result<CarVo> carResult = CarVo.Of(
+            carDto.Brand,
+            carDto.Model,
+            carDto.Year,
+            carDto.Generation,
+            carDto.Vin,
+            carDto.Mileage,
+            carDto.Color);
+
+        if (carResult.IsFailure)
         {
-            var carResult = CarVo.Of(
-                carDto.Brand,
-                carDto.Model,
-                carDto.Year,
-                carDto.Generation,
-                carDto.Vin,
-                carDto.Mileage,
-                carDto.Color);
-
-            if (carResult.IsFailure)
-                return Result.Failure<CarVo>(carResult.Error);
-
-            return Result.Success(carResult.Value);
+            return Result.Failure<CarVo>(carResult.Error);
         }
+
+        return Result.Success(carResult.Value);
     }
 }

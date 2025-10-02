@@ -1,5 +1,4 @@
-﻿using CarSale.Application;
-using CarSale.Application.Ads.Interfaces;
+﻿using CarSale.Application.Ads.Interfaces;
 using CarSale.Infrastructure.MsSql.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 

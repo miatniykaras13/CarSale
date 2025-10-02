@@ -1,5 +1,4 @@
-﻿using CarSale.Domain.Shared.ValueObjects;
-using CSharpFunctionalExtensions;
+﻿using CSharpFunctionalExtensions;
 
 namespace CarSale.Domain.Ads.ValueObjects;
 
@@ -13,9 +12,9 @@ public record CarVo(
     string Color) // car value object
 {
     private const int REQUIRED_VIN_LENGTH = 17;
-    
+
     public static int RequiredVinLength => REQUIRED_VIN_LENGTH;
-    
+
     public static Result<CarVo> Of(
         string brand,
         string model,
@@ -55,7 +54,7 @@ public record CarVo(
             return Result.Failure<CarVo>("Color's length must be greater than zero.");
         }
 
-        var carVo = new CarVo(brand, model, year, generation, vin, mileage, color);
+        CarVo carVo = new(brand, model, year, generation, vin, mileage, color);
         return Result.Success(carVo);
     }
 }

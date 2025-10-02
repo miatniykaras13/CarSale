@@ -1,4 +1,3 @@
-﻿namespace CarSale.Contracts.Shared
-{
-    public record CountryCodeDto(string Code);
-}
+﻿namespace CarSale.Contracts.Shared;
+
+public record CountryCodeDto(string Code);

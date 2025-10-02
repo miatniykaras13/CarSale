@@ -8,10 +8,9 @@ public class CurrencyDtoValidator : AbstractValidator<CurrencyDto>
 {
     public CurrencyDtoValidator()
     {
-        var currencyList = Currency.GetSupportedCurrencies();
+        List<string> currencyList = Currency.GetSupportedCurrencies();
 
-        RuleFor(x => x.CurrencyCode).
-            NotEmpty().WithMessage("Currency code is required.").
-            Must(c => currencyList.Contains(c)).WithMessage("Not supported currency.");
+        RuleFor(x => x.CurrencyCode).NotEmpty().WithMessage("Currency code is required.")
+            .Must(c => currencyList.Contains(c)).WithMessage("Not supported currency.");
     }
 }
