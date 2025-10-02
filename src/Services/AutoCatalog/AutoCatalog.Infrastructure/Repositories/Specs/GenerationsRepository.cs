@@ -51,4 +51,14 @@ public class GenerationsRepository(AppDbContext context) : IGenerationsRepositor
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<Unit, Error>(Unit.Value);
     }
+
+
+    public async Task<Result<List<Generation>, Error>> GetByModelIdAsync(int modelId,
+        CancellationToken cancellationToken)
+    {
+        var generations = await context.Generations
+            .Where(g => g.ModelId == modelId)
+            .ToListAsync(cancellationToken);
+        return Result.Success<List<Generation>, Error>(generations);
+    }
 }

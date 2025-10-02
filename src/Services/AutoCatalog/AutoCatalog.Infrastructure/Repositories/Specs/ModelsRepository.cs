@@ -51,4 +51,13 @@ public class ModelsRepository(AppDbContext context) : IModelsRepository
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<Unit, Error>(Unit.Value);
     }
+
+    public async Task<Result<List<Model>, Error>> GetByBrandIdAsync(int brandId, CancellationToken ct)
+    {
+        var models = await context.Models
+            .Where(m => m.BrandId == brandId)
+            .ToListAsync(ct);
+
+        return Result.Success<List<Model>, Error>(models);
+    }
 }

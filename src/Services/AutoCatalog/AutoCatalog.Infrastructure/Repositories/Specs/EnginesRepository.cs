@@ -51,4 +51,13 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<Unit, Error>(Unit.Value);
     }
+
+    public async Task<Result<List<Engine>, Error>> GetByGenerationIdAsync(
+        int generationId,
+        CancellationToken cancellationToken)
+    {
+        var engines = await context.Engines.Where(e => e.GenerationId == generationId).ToListAsync(cancellationToken);
+
+        return Result.Success<List<Engine>, Error>(engines);
+    }
 }

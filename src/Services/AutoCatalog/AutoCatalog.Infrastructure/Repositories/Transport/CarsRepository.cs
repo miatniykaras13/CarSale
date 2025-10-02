@@ -51,4 +51,40 @@ public class CarsRepository(AppDbContext context) : ICarsRepository
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<Unit, Error>(Unit.Value);
     }
+
+    public async Task<Result<List<Car>, Error>> GetByBrandIdAsync(int brandId, CancellationToken ct)
+    {
+        var cars = await context.Cars
+            .Include(c => c.Dimensions)
+            .Where(c => c.BrandId == brandId)
+            .ToListAsync(ct);
+        return Result.Success<List<Car>, Error>(cars);
+    }
+
+    public async Task<Result<List<Car>, Error>> GetByModelIdAsync(int modelId, CancellationToken ct)
+    {
+        var cars = await context.Cars
+            .Include(c => c.Dimensions)
+            .Where(c => c.ModelId == modelId)
+            .ToListAsync(ct);
+        return Result.Success<List<Car>, Error>(cars);
+    }
+
+    public async Task<Result<List<Car>, Error>> GetByGenerationIdAsync(int generationId, CancellationToken ct)
+    {
+        var cars = await context.Cars
+            .Include(c => c.Dimensions)
+            .Where(c => c.GenerationId == generationId)
+            .ToListAsync(ct);
+        return Result.Success<List<Car>, Error>(cars);
+    }
+
+    public async Task<Result<List<Car>, Error>> GetByEngineIdAsync(int engineId, CancellationToken ct)
+    {
+        var cars = await context.Cars
+            .Include(c => c.Dimensions)
+            .Where(c => c.EngineId == engineId)
+            .ToListAsync(ct);
+        return Result.Success<List<Car>, Error>(cars);
+    }
 }

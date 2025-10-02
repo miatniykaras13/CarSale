@@ -2,21 +2,19 @@
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Brands.DeleteBrand;
 
-public record DeleteBrandRequest(int Id);
-
 public class DeleteBrandsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/brands", async (DeleteBrandRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapDelete("/brands/{id:int}", async ([FromRoute] int id, ISender sender, CancellationToken ct = default) =>
             {
-                var command = request.Adapt<DeleteBrandCommand>();
-                var result = await sender.Send(command, ct);
+                var result = await sender.Send(new DeleteBrandCommand(id), ct);
 
                 if (result.IsFailure)
                     return result.ToResponse();

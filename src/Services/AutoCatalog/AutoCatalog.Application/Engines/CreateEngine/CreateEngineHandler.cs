@@ -14,11 +14,17 @@ public record CreateEngineCommand(
     int TorqueNm)
     : ICommand<Result<int, List<Error>>>;
 
-internal class CreateEngineCommandHandler(IEnginesRepository enginesRepository)
+internal class CreateEngineCommandHandler(
+    IEnginesRepository enginesRepository,
+    IGenerationsRepository generationsRepository)
     : ICommandHandler<CreateEngineCommand, Result<int, List<Error>>>
 {
     public async Task<Result<int, List<Error>>> Handle(CreateEngineCommand command, CancellationToken cancellationToken)
     {
+        var generationResult = await generationsRepository.GetByIdAsync(command.GenerationId, cancellationToken);
+        if (generationResult.IsFailure)
+            return Result.Failure<int, List<Error>>([generationResult.Error]);
+
         Engine engine = new()
         {
             FuelType = command.FuelType,

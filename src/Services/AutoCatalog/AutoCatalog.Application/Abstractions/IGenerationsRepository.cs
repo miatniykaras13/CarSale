@@ -6,4 +6,5 @@ namespace AutoCatalog.Application.Abstractions;
 
 public interface IGenerationsRepository : IRepository<int, Generation>
 {
+    Task<Result<List<Generation>, Error>> GetByModelIdAsync(int modelId, CancellationToken cancellationToken);
 }
