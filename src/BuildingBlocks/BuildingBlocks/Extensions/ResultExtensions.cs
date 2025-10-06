@@ -13,7 +13,7 @@ public static class ResultExtensions
     {
         return result.Error[0].Type switch
         {
-            ErrorType.VALIDATION => Results.BadRequest(result.Error),
+            ErrorType.VALIDATION => Results.BadRequest(new ProblemDetails()),
             ErrorType.CONFLICT => Results.Conflict(result.Error[0]),
             ErrorType.INTERNAL => Results.InternalServerError(result.Error[0]),
             ErrorType.NOT_FOUND => Results.NotFound(result.Error[0]),

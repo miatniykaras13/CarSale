@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Extensions;
+﻿using AutoCatalog.Application.Extensions;
+using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ public class PatchGenerationEndpoint : ICarterModule
             })
             .WithName("PatchGeneration")
             .Produces(StatusCodes.Status204NoContent)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesPatchProblems()
             .WithTags("Generations")
             .WithOpenApi(op =>
                 new OpenApiOperation(op) { Summary = "Patch Generation", Description = "Returns generation id" });

@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Engines.PatchEngine;
+using AutoCatalog.Application.Extensions;
 using AutoCatalog.Domain.Enums;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +37,7 @@ public class PatchEngineEndpoint : ICarterModule
             })
             .WithName("PatchEngine")
             .Produces(StatusCodes.Status204NoContent)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesPatchProblems()
             .WithTags("Engines")
             .WithOpenApi(op =>
                 new OpenApiOperation(op) { Summary = "Patch Engine", Description = "Returns engine id" });

@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Extensions;
+﻿using AutoCatalog.Application.Extensions;
+using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ public class PatchBrandEndpoint : ICarterModule
             })
             .WithName("PatchBrand")
             .Produces(StatusCodes.Status204NoContent)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesPatchProblems()
             .WithTags("Brands")
             .WithOpenApi(op =>
                 new OpenApiOperation(op) { Summary = "Patch Brand", Description = "Returns brand id" });

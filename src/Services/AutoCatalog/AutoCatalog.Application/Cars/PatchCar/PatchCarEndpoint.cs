@@ -1,4 +1,5 @@
-﻿using AutoCatalog.Domain.Enums;
+﻿using AutoCatalog.Application.Extensions;
+using AutoCatalog.Domain.Enums;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -48,7 +49,7 @@ public class PatchCarEndpoint : ICarterModule
             })
             .WithName("PatchCar")
             .Produces<PatchCarResponse>(StatusCodes.Status200OK)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesPatchProblems()
             .WithTags("Cars")
             .WithOpenApi(op => new OpenApiOperation(op) { Summary = "Patch car", Description = "Returns car id" });
 }
