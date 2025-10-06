@@ -21,11 +21,11 @@ public class DeleteEnginesEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
-            .WithName("DeleteEngines")
+            .WithName("DeleteEngine")
             .Produces(StatusCodes.Status200OK)
-            .ProducesGetProblems()
+            .ProducesDeleteProblems()
             .WithTags("Engines")
             .WithOpenApi(op =>
-                new OpenApiOperation(op) { Summary = "Delete engines", Description = "Deletes engine by id" });
+                new OpenApiOperation(op) { Summary = "Delete engine", Description = "Deletes engine by id" });
     }
 }

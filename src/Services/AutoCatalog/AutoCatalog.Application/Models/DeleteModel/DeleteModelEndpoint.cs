@@ -21,11 +21,11 @@ public class DeleteModelsEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
-            .WithName("DeleteModels")
+            .WithName("DeleteModel")
             .Produces(StatusCodes.Status200OK)
-            .ProducesGetProblems()
+            .ProducesDeleteProblems()
             .WithTags("Models")
             .WithOpenApi(op =>
-                new OpenApiOperation(op) { Summary = "Delete models", Description = "Deletes model by id" });
+                new OpenApiOperation(op) { Summary = "Delete model", Description = "Deletes model by id" });
     }
 }

@@ -23,4 +23,11 @@ public static class CarterModuleExtensions
             .ProducesProblem(StatusCodes.Status500InternalServerError);
         return builder;
     }
+    
+    public static RouteHandlerBuilder ProducesDeleteProblems(this RouteHandlerBuilder builder)
+    {
+        builder
+            .ProducesGetProblems();
+        return builder;
+    }
 }

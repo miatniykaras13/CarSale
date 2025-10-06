@@ -22,11 +22,11 @@ public class DeleteGenerationsEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
-            .WithName("DeleteGenerations")
+            .WithName("DeleteGeneration")
             .Produces(StatusCodes.Status200OK)
-            .ProducesGetProblems()
+            .ProducesDeleteProblems()
             .WithTags("Generations")
             .WithOpenApi(op =>
-                new OpenApiOperation(op) { Summary = "Delete generations", Description = "Deletes generation by id" });
+                new OpenApiOperation(op) { Summary = "Delete generation", Description = "Deletes generation by id" });
     }
 }

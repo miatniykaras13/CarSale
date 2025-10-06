@@ -23,7 +23,7 @@ public class DeleteCarEndpoint : ICarterModule
             })
             .WithName("DeleteCar")
             .Produces(StatusCodes.Status200OK)
-            .ProducesGetProblems()
+            .ProducesDeleteProblems()
             .WithTags("Cars")
             .WithOpenApi(op =>
                 new OpenApiOperation(op) { Summary = "Delete car", Description = "Deletes car by id" });

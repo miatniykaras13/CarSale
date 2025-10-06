@@ -13,16 +13,13 @@ public static class DependencyInjection
     {
         services.AddInfrastructure(configuration);
         services.AddWeb();
+        services.AddApplication();
         return services;
     }
 
     private static IServiceCollection AddWeb(this IServiceCollection services)
     {
         services.AddCarter();
-        services.AddMediatR(c =>
-        {
-            c.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
-        });
         services.AddOpenApi();
         services.Configure<JsonOptions>(options =>
         {

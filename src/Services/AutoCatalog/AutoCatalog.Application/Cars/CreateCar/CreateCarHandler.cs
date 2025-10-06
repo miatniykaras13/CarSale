@@ -39,6 +39,9 @@ internal class CreateCarCommandHandler(
             return Result.Failure<Guid, List<Error>>([brandResult.Error]);
         }
 
+        if (command.YearFrom < brandResult.Value.YearFrom || command.YearTo > brandResult.Value.YearTo)
+            return Result.Failure<Guid, List<Error>>([Error.Validation("car", "Car year is invalid")]);
+
         var modelResult = await modelsRepository.GetByIdAsync(command.ModelId, cancellationToken);
         if (modelResult.IsFailure)
         {
@@ -56,6 +59,8 @@ internal class CreateCarCommandHandler(
         {
             return Result.Failure<Guid, List<Error>>([engineResult.Error]);
         }
+        
+        
 
 
         Car car = new()
