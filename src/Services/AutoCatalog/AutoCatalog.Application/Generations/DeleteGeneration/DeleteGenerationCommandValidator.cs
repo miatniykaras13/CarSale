@@ -7,6 +7,7 @@ public class DeleteGenerationCommandValidator : AbstractValidator<DeleteGenerati
     public DeleteGenerationCommandValidator()
     {
         RuleFor(x => x.Id)
-            .NotEmpty().WithMessage("Id is required");
+            .NotEmpty().WithMessage("Id is required")
+            .GreaterThan(0).WithMessage("Id must be greater than 0");
     }
 }

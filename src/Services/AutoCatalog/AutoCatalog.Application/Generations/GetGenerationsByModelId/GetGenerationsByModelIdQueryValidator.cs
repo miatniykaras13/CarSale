@@ -7,6 +7,7 @@ public class GetGenerationsByModelIdQueryValidator : AbstractValidator<GetGenera
     public GetGenerationsByModelIdQueryValidator()
     {
         RuleFor(x => x.ModelId)
-            .NotEmpty().WithMessage("Model Id is required");
+            .NotEmpty().WithMessage("Model Id is required")
+            .GreaterThan(0).WithMessage("Model Id must be greater than 0");
     }
 }

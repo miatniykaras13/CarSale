@@ -6,6 +6,8 @@ public class PatchGenerationCommandValidator : AbstractValidator<PatchGeneration
 {
     public PatchGenerationCommandValidator()
     {
-        RuleFor(x => x.Id).NotEmpty().WithMessage("Id is required");
+        RuleFor(x => x.Id)
+            .NotEmpty().WithMessage("Id is required")
+            .GreaterThan(0).WithMessage("Id must be greater than 0");
     }
 }

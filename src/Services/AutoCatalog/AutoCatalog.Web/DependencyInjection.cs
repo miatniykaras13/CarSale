@@ -1,6 +1,7 @@
 ﻿using System.Text.Json.Serialization;
 using AutoCatalog.Application;
 using AutoCatalog.Infrastructure;
+using BuildingBlocks.Exceptions.Handlers;
 using Microsoft.AspNetCore.Http.Json;
 
 namespace AutoCatalog.Web;
@@ -25,6 +26,7 @@ public static class DependencyInjection
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
+        services.AddExceptionHandler<CustomExceptionHandler>();
 
         return services;
     }

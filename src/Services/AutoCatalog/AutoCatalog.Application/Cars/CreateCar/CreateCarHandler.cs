@@ -59,8 +59,6 @@ internal class CreateCarCommandHandler(
         {
             return Result.Failure<Guid, List<Error>>([engineResult.Error]);
         }
-        
-        
 
 
         Car car = new()

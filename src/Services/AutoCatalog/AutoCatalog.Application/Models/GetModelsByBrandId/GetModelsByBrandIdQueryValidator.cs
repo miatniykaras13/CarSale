@@ -5,6 +5,7 @@ public class GetModelsByBrandIdQueryValidator : AbstractValidator<GetModelsByBra
     public GetModelsByBrandIdQueryValidator()
     {
         RuleFor(x => x.BrandId)
-            .NotEmpty().WithMessage("Brand Id is required");
+            .NotEmpty().WithMessage("Brand Id is required")
+            .GreaterThan(0).WithMessage("Brand Id must be greater than 0");
     }
 }

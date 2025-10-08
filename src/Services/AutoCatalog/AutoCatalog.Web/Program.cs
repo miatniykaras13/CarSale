@@ -18,6 +18,6 @@ if (app.Environment.IsDevelopment())
     app.MapScalar();
 }
 
-app.UseExceptionHandler();
+app.UseExceptionHandler(options => { });
 
 app.Run();

@@ -16,19 +16,20 @@ public class GetBrandsEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/brands", async (ISender sender, CancellationToken ct = default) =>
-        {
-            var result = await sender.Send(new GetBrandsQuery(), ct);
+            {
+                var result = await sender.Send(new GetBrandsQuery(), ct);
 
-            if (result.IsFailure)
-                return result.ToResponse();
+                if (result.IsFailure)
+                    return result.ToResponse();
 
-            var response = result.Value.Adapt<List<GetBrandResponse>>();
-            return Results.Ok(response);
-        })
-        .WithName("GetBrands")
-        .Produces<List<GetBrandResponse>>(StatusCodes.Status200OK)
-        .ProducesGetProblems()
-        .WithTags("Brands")
-        .WithOpenApi(op => new OpenApiOperation(op) { Summary = "Get brands", Description = "Returns the list of brands" });
+                var response = result.Value.Adapt<List<GetBrandResponse>>();
+                return Results.Ok(response);
+            })
+            .WithName("GetBrands")
+            .Produces<List<GetBrandResponse>>(StatusCodes.Status200OK)
+            .ProducesGetProblems()
+            .WithTags("Brands")
+            .WithOpenApi(op =>
+                new OpenApiOperation(op) { Summary = "Get brands", Description = "Returns the list of brands" });
     }
 }

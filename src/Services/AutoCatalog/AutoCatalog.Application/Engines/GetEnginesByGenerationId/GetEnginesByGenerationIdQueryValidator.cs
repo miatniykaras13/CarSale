@@ -7,6 +7,7 @@ public class GetEnginesByGenerationIdQueryValidator : AbstractValidator<GetEngin
     public GetEnginesByGenerationIdQueryValidator()
     {
         RuleFor(x => x.GenerationId)
-            .NotEmpty().WithMessage("Generation Id is required");
+            .NotEmpty().WithMessage("Generation Id is required")
+            .GreaterThan(0).WithMessage("Generation Id must be greater than 0");
     }
 }

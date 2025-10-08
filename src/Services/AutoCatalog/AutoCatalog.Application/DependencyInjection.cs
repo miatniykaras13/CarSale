@@ -12,6 +12,7 @@ public static class DependencyInjection
             c.RegisterServicesFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
         });
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+        services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddValidatorsFromAssembly(typeof(ApplicationAssemblyMarker).Assembly);
         return services;
     }
