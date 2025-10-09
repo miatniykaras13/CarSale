@@ -9,16 +9,13 @@ public record GetCarsByBrandIdQuery(int BrandId) : IQuery<Result<List<Car>, List
 
 public class GetCarsByBrandIdQueryHandler(
     ICarsRepository carsRepository,
-    IBrandsRepository brandsRepository,
-    ILogger<GetCarsByBrandIdQueryHandler> logger)
+    IBrandsRepository brandsRepository)
     : IQueryHandler<GetCarsByBrandIdQuery, Result<List<Car>, List<Error>>>
 {
     public async Task<Result<List<Car>, List<Error>>> Handle(
         GetCarsByBrandIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetCarsByBrandIdQueryHandler.Handle called with {@Query}", query);
-
         var brandResult = await brandsRepository.GetByIdAsync(query.BrandId, cancellationToken);
 
         if (brandResult.IsFailure)

@@ -6,12 +6,10 @@ namespace AutoCatalog.Application.Generations.DeleteGeneration;
 public record DeleteGenerationCommand(int Id) : ICommand<Result<Unit, List<Error>>>;
 
 public class DeleteGenerationQueryHandler(
-    IGenerationsRepository generationsRepository,
-    ILogger<DeleteGenerationQueryHandler> logger) : ICommandHandler<DeleteGenerationCommand, Result<Unit, List<Error>>>
+    IGenerationsRepository generationsRepository) : ICommandHandler<DeleteGenerationCommand, Result<Unit, List<Error>>>
 {
     public async Task<Result<Unit, List<Error>>> Handle(DeleteGenerationCommand command, CancellationToken cancellationToken)
     {
-        logger.LogInformation("DeleteGenerationQueryHandler.Handle called with {@Command}", command);
 
         var generationResult = await generationsRepository.DeleteAsync(command.Id, cancellationToken);
         if (generationResult.IsFailure)

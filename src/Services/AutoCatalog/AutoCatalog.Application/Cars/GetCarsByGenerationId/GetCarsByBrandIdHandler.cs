@@ -8,16 +8,13 @@ public record GetCarsByGenerationIdQuery(int GenerationId) : IQuery<Result<List<
 
 public class GetCarsByGenerationIdQueryHandler(
     ICarsRepository carsRepository,
-    IGenerationsRepository generationsRepository,
-    ILogger<GetCarsByGenerationIdQueryHandler> logger)
+    IGenerationsRepository generationsRepository)
     : IQueryHandler<GetCarsByGenerationIdQuery, Result<List<Car>, List<Error>>>
 {
     public async Task<Result<List<Car>, List<Error>>> Handle(
         GetCarsByGenerationIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetCarsByGenerationIdQueryHandler.Handle called with {@Query}", query);
-
         var generationResult = await generationsRepository.GetByIdAsync(query.GenerationId, cancellationToken);
 
         if (generationResult.IsFailure)

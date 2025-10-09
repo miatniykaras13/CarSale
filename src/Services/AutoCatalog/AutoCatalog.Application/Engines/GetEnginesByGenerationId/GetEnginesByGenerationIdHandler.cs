@@ -8,16 +8,13 @@ public record GetEnginesByGenerationIdQuery(int GenerationId) : IQuery<Result<Li
 
 public class GetEnginesByGenerationIdQueryHandler(
     IEnginesRepository enginesRepository,
-    IGenerationsRepository generationsRepository,
-    ILogger<GetEnginesByGenerationIdQueryHandler> logger)
+    IGenerationsRepository generationsRepository)
     : IQueryHandler<GetEnginesByGenerationIdQuery, Result<List<Engine>, List<Error>>>
 {
     public async Task<Result<List<Engine>, List<Error>>> Handle(
         GetEnginesByGenerationIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetEnginesByGenerationIdQueryHandler.Handle called with {@Query}", query);
-
         var generationResult = await generationsRepository.GetByIdAsync(query.GenerationId, cancellationToken);
 
         if (generationResult.IsFailure)
