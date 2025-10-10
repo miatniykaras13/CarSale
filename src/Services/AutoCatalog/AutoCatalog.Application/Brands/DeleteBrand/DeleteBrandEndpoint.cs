@@ -21,11 +21,11 @@ public class DeleteBrandsEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
-            .WithName("DeleteBrands")
+            .WithName("DeleteBrand")
             .Produces(StatusCodes.Status200OK)
-            .ProducesGetProblems()
+            .ProducesDeleteProblems()
             .WithTags("Brands")
             .WithOpenApi(op =>
-                new OpenApiOperation(op) { Summary = "Delete brands", Description = "Deletes brand by id" });
+                new OpenApiOperation(op) { Summary = "Delete brand", Description = "Deletes brand by id" });
     }
 }

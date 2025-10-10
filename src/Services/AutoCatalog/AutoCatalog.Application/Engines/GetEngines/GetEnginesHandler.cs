@@ -1,10 +1,12 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Engines.GetEngines;
 
-public record GetEnginesQuery() : IQuery<Result<List<Engine>, List<Error>>>;
+public record GetEnginesQuery(EngineFilter Filter, SortParameters SortParameters, PageParameters PageParameters) : IQuery<Result<List<Engine>, List<Error>>>;
 
 public class GetEnginesQueryHandler(
     IEnginesRepository enginesRepository,
@@ -14,7 +16,7 @@ public class GetEnginesQueryHandler(
     {
         logger.LogInformation("GetEnginesQueryHandler.Handle called with {@Query}", query);
 
-        var engineResult = await enginesRepository.GetAllAsync(cancellationToken);
+        var engineResult = await enginesRepository.GetAllAsync(query.Filter, query.SortParameters, query.PageParameters, cancellationToken);
         if (engineResult.IsFailure)
             return Result.Failure<List<Engine>, List<Error>>([engineResult.Error]);
 

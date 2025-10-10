@@ -9,8 +9,7 @@ public static class CarterModuleExtensions
     {
         builder
             .ProducesProblem(StatusCodes.Status400BadRequest)
-            .ProducesProblem(StatusCodes.Status500InternalServerError)
-            .ProducesProblem(StatusCodes.Status400BadRequest);
+            .ProducesProblem(StatusCodes.Status500InternalServerError);
         return builder;
     }
 
@@ -21,6 +20,20 @@ public static class CarterModuleExtensions
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status409Conflict)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
+        return builder;
+    }
+
+    public static RouteHandlerBuilder ProducesDeleteProblems(this RouteHandlerBuilder builder)
+    {
+        builder
+            .ProducesGetProblems();
+        return builder;
+    }
+
+    public static RouteHandlerBuilder ProducesPatchProblems(this RouteHandlerBuilder builder)
+    {
+        builder
+            .ProducesGetProblems();
         return builder;
     }
 }

@@ -1,6 +1,8 @@
 ﻿using AutoCatalog.Application.Extensions;
 using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -30,9 +32,14 @@ public class GetCarsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/cars", async (ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/cars", async (
+                [AsParameters] CarFilter filter,
+                [AsParameters] SortParameters sortParameters,
+                [AsParameters] PageParameters pageParameters,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
-                var result = await sender.Send(new GetCarsQuery(), ct);
+                var result = await sender.Send(new GetCarsQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
                     return result.ToResponse();

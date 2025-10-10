@@ -19,8 +19,8 @@ public record CreateCarCommand(
     int YearFrom,
     int YearTo,
     Guid PhotoId,
-    float Consumption,
-    float Acceleration,
+    decimal Consumption,
+    decimal Acceleration,
     int FuelTankCapacity,
     DimensionsDto DimensionsDto) : ICommand<Result<Guid, List<Error>>>;
 
@@ -38,6 +38,9 @@ internal class CreateCarCommandHandler(
         {
             return Result.Failure<Guid, List<Error>>([brandResult.Error]);
         }
+
+        if (command.YearFrom < brandResult.Value.YearFrom || command.YearTo > brandResult.Value.YearTo)
+            return Result.Failure<Guid, List<Error>>([Error.Validation("car", "Car year is invalid")]);
 
         var modelResult = await modelsRepository.GetByIdAsync(command.ModelId, cancellationToken);
         if (modelResult.IsFailure)

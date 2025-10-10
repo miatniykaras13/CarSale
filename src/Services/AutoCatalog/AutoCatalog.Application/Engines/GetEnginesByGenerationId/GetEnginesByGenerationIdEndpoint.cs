@@ -1,5 +1,7 @@
 ﻿using AutoCatalog.Application.Extensions;
 using AutoCatalog.Domain.Enums;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -21,9 +23,15 @@ public class GetEnginesByGenerationIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/generations/{generationId:int}/engines", async ([FromRoute] int generationId, ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/generations/{generationId:int}/engines", async (
+                [AsParameters] EngineFilter filter,
+                [AsParameters] SortParameters sortParameters,
+                [AsParameters] PageParameters pageParameters,
+                [FromRoute] int generationId,
+                ISender sender,
+                CancellationToken ct = default) =>
         {
-            var result = await sender.Send(new GetEnginesByGenerationIdQuery(generationId), ct);
+            var result = await sender.Send(new GetEnginesByGenerationIdQuery(filter, sortParameters, pageParameters, generationId), ct);
 
             if (result.IsFailure)
                 return result.ToResponse();

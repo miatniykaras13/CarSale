@@ -1,4 +1,6 @@
 ﻿using AutoCatalog.Infrastructure;
+using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc;
 using Scalar.AspNetCore;
 
 namespace AutoCatalog.Web;
@@ -17,4 +19,6 @@ public static class ApiExtensions
         });
         return app;
     }
+
+    
 }

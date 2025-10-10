@@ -1,5 +1,9 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Brands;
+using AutoCatalog.Application.Brands.Extensions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 
 namespace AutoCatalog.Infrastructure.Repositories.Specs;
 
@@ -18,10 +22,12 @@ public class BrandsRepository(AppDbContext context) : IBrandsRepository
         return Result.Success<Brand, Error>(brand);
     }
 
-    public async Task<Result<List<Brand>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<Brand>, Error>> GetAllAsync(BrandFilter brandFilter, SortParameters sortParameters, PageParameters pageParameters, CancellationToken cancellationToken)
     {
         var brands = await context.Brands
-            .Include(b => b.Models)
+            .Filter(brandFilter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
             .ToListAsync(cancellationToken);
         return Result.Success<List<Brand>, Error>(brands);
     }

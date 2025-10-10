@@ -1,4 +1,5 @@
-﻿using AutoCatalog.Application.Models.PatchModel;
+﻿using AutoCatalog.Application.Extensions;
+using AutoCatalog.Application.Models.PatchModel;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -32,7 +33,7 @@ public class PatchModelEndpoint : ICarterModule
             })
             .WithName("PatchModel")
             .Produces(StatusCodes.Status204NoContent)
-            .ProducesProblem(StatusCodes.Status400BadRequest)
+            .ProducesPatchProblems()
             .WithTags("Models")
             .WithOpenApi(op =>
                 new OpenApiOperation(op) { Summary = "Patch Model", Description = "Returns model id" });

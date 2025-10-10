@@ -22,61 +22,6 @@ namespace AutoCatalog.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("AutoCatalog.Domain.Cars.Car", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<float>("Acceleration")
-                        .HasColumnType("real");
-
-                    b.Property<int>("AutoDriveType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("BrandId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Consumption")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("EngineId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("FuelTankCapacity")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("GenerationId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ModelId")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("PhotoId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("TransmissionType")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("YearFrom")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("YearTo")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("BrandId");
-
-                    b.HasIndex("EngineId");
-
-                    b.HasIndex("GenerationId");
-
-                    b.HasIndex("ModelId");
-
-                    b.ToTable("Cars");
-                });
-
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -182,7 +127,95 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.ToTable("Models");
                 });
 
-            modelBuilder.Entity("AutoCatalog.Domain.Cars.Car", b =>
+            modelBuilder.Entity("AutoCatalog.Domain.Transport.Cars.Car", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<decimal>("Acceleration")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("AutoDriveType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("BrandId")
+                        .HasColumnType("integer");
+
+                    b.Property<decimal>("Consumption")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("EngineId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FuelTankCapacity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("GenerationId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ModelId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("PhotoId")
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("TransmissionType")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("YearFrom")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("YearTo")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BrandId");
+
+                    b.HasIndex("EngineId");
+
+                    b.HasIndex("GenerationId");
+
+                    b.HasIndex("ModelId");
+
+                    b.ToTable("Cars");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.Engine", b =>
+                {
+                    b.HasOne("AutoCatalog.Domain.Specs.Generation", "Generation")
+                        .WithMany("Engines")
+                        .HasForeignKey("GenerationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Generation");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.Generation", b =>
+                {
+                    b.HasOne("AutoCatalog.Domain.Specs.Model", "Model")
+                        .WithMany("Generations")
+                        .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Model");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.Model", b =>
+                {
+                    b.HasOne("AutoCatalog.Domain.Specs.Brand", "Brand")
+                        .WithMany("Models")
+                        .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Brand");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Transport.Cars.Car", b =>
                 {
                     b.HasOne("AutoCatalog.Domain.Specs.Brand", "Brand")
                         .WithMany()
@@ -240,39 +273,6 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.Navigation("Generation");
 
                     b.Navigation("Model");
-                });
-
-            modelBuilder.Entity("AutoCatalog.Domain.Specs.Engine", b =>
-                {
-                    b.HasOne("AutoCatalog.Domain.Specs.Generation", "Generation")
-                        .WithMany("Engines")
-                        .HasForeignKey("GenerationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Generation");
-                });
-
-            modelBuilder.Entity("AutoCatalog.Domain.Specs.Generation", b =>
-                {
-                    b.HasOne("AutoCatalog.Domain.Specs.Model", "Model")
-                        .WithMany("Generations")
-                        .HasForeignKey("ModelId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Model");
-                });
-
-            modelBuilder.Entity("AutoCatalog.Domain.Specs.Model", b =>
-                {
-                    b.HasOne("AutoCatalog.Domain.Specs.Brand", "Brand")
-                        .WithMany("Models")
-                        .HasForeignKey("BrandId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Brand");
                 });
 
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Brand", b =>

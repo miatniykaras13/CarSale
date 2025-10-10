@@ -1,5 +1,9 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Generations;
+using AutoCatalog.Application.Generations.Extensions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 
 namespace AutoCatalog.Infrastructure.Repositories.Specs;
 
@@ -18,9 +22,13 @@ public class GenerationsRepository(AppDbContext context) : IGenerationsRepositor
         return Result.Success<Generation, Error>(generation);
     }
 
-    public async Task<Result<List<Generation>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<Generation>, Error>> GetAllAsync(GenerationFilter filter, SortParameters sortParameters, PageParameters pageParameters, CancellationToken cancellationToken)
     {
-        var generations = await context.Generations.ToListAsync(cancellationToken);
+        var generations = await context.Generations
+            .Filter(filter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<Generation>, Error>(generations);
     }
 
@@ -53,11 +61,18 @@ public class GenerationsRepository(AppDbContext context) : IGenerationsRepositor
     }
 
 
-    public async Task<Result<List<Generation>, Error>> GetByModelIdAsync(int modelId,
+    public async Task<Result<List<Generation>, Error>> GetByModelIdAsync(
+        GenerationFilter filter,
+        SortParameters sortParameters,
+        PageParameters pageParameters,
+        int modelId,
         CancellationToken cancellationToken)
     {
         var generations = await context.Generations
             .Where(g => g.ModelId == modelId)
+            .Filter(filter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
             .ToListAsync(cancellationToken);
         return Result.Success<List<Generation>, Error>(generations);
     }

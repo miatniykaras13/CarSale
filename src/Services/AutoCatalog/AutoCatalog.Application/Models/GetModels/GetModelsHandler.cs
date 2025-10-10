@@ -1,20 +1,19 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Models.GetModels;
 
-public record GetModelsQuery() : IQuery<Result<List<Model>, List<Error>>>;
+public record GetModelsQuery(ModelFilter Filter, SortParameters SortParameters, PageParameters PageParameters) : IQuery<Result<List<Model>, List<Error>>>;
 
 public class GetModelsQueryHandler(
-    IModelsRepository modelsRepository,
-    ILogger<GetModelsQueryHandler> logger) : IQueryHandler<GetModelsQuery, Result<List<Model>, List<Error>>>
+    IModelsRepository modelsRepository) : IQueryHandler<GetModelsQuery, Result<List<Model>, List<Error>>>
 {
     public async Task<Result<List<Model>, List<Error>>> Handle(GetModelsQuery query, CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetModelsQueryHandler.Handle called with {@Query}", query);
-
-        var modelResult = await modelsRepository.GetAllAsync(cancellationToken);
+        var modelResult = await modelsRepository.GetAllAsync(query.Filter, query.SortParameters, query.PageParameters, cancellationToken);
         if (modelResult.IsFailure)
             return Result.Failure<List<Model>, List<Error>>([modelResult.Error]);
 

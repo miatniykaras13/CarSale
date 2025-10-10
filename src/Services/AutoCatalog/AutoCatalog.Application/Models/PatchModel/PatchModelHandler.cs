@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Domain.Specs;
 
 namespace AutoCatalog.Application.Models.PatchModel;
 
@@ -10,13 +11,17 @@ internal class PatchModelCommandHandler(IModelsRepository modelsRepository)
 {
     public async Task<Result<int, List<Error>>> Handle(PatchModelCommand command, CancellationToken cancellationToken)
     {
+        TypeAdapterConfig<PatchModelCommand, Model>
+            .NewConfig()
+            .IgnoreNullValues(true);
+
         var modelResult = await modelsRepository.GetByIdAsync(command.Id, cancellationToken);
         if (modelResult.IsFailure)
             return Result.Failure<int, List<Error>>([modelResult.Error]);
 
         var model = modelResult.Value;
 
-        command.Adapt(modelResult.Value);
+        command.Adapt(model);
 
         await modelsRepository.AddAsync(model, cancellationToken);
 

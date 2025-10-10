@@ -1,6 +1,7 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.CQRS;
+using BuildingBlocks.Extensions;
 
 namespace AutoCatalog.Application.Brands.CreateBrand;
 
@@ -22,3 +23,4 @@ internal class CreateBrandCommandHandler(IBrandsRepository brandsRepository)
         return Result.Success<int, List<Error>>(brand.Id);
     }
 }
+

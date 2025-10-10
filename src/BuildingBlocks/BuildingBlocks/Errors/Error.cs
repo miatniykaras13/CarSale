@@ -1,4 +1,6 @@
 ﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
+using FluentValidation.Results;
 
 namespace BuildingBlocks.Errors;
 
@@ -19,18 +21,56 @@ public class Error
         Message = message;
     }
 
+    /// <summary>
+    /// Represents validation error
+    /// </summary>
+    /// <param name="obj">invalid object.</param>
+    /// <param name="message">additional info.</param>
+    /// <returns>Error.</returns>
     public static Error Validation(string obj, string? message = null) =>
         new Error($"{obj}.is.invalid", ErrorType.VALIDATION, message);
 
+
+    /// <summary>
+    /// Represents not found error
+    /// </summary>
+    /// <param name="obj">not found obj.</param>
+    /// <param name="message">additional info.</param>
+    /// <returns>Error.</returns>
     public static Error NotFound(string obj, string? message = null) =>
         new Error($"{obj}.not.found", ErrorType.NOT_FOUND, message);
 
-    public static Error Internal(string obj, string? message = null) =>
+    /// <summary>
+    /// Represents internal server error
+    /// </summary>
+    /// <param name="message">additional info.</param>
+    /// <returns>Error.</returns>
+    public static Error Internal(string? message = null) =>
         new Error($"internal.error", ErrorType.INTERNAL, message);
 
+    /// <summary>
+    /// Represents conflict error
+    /// </summary>
+    /// <param name="obj">conflicting obj.</param>
+    /// <param name="message">additional info.</param>
+    /// <returns>Error.</returns>
     public static Error Conflict(string obj, string? message = null) =>
         new Error($"{obj}.is.conflict", ErrorType.CONFLICT, message);
 
+    /// <summary>
+    /// Represents unknown error
+    /// </summary>
+    /// <param name="message">additional info.</param>
+    /// <returns>Error.</returns>
     public static Error Unknown(string? message = null) =>
         new Error($"unknown.error", ErrorType.UNKNOWN, message);
+
+  
+    public static Error AlreadyExists(string obj, string? message = null) =>
+        new Error($"{obj}.already.exists", ErrorType.CONFLICT, message);
+
+
+    // несовместимость параметров
+    public static Error Mismatch(string obj1, string obj2, string? message = null) =>
+        new Error($"{obj1}.{obj2}.mismatch", ErrorType.CONFLICT, message);
 }
