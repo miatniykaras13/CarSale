@@ -10,16 +10,13 @@ public record GetCarsByModelIdQuery(CarFilter Filter, SortParameters SortParamet
 
 public class GetCarsByModelIdQueryHandler(
     ICarsRepository carsRepository,
-    IModelsRepository modelsRepository,
-    ILogger<GetCarsByModelIdQueryHandler> logger)
+    IModelsRepository modelsRepository)
     : IQueryHandler<GetCarsByModelIdQuery, Result<List<Car>, List<Error>>>
 {
     public async Task<Result<List<Car>, List<Error>>> Handle(
         GetCarsByModelIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetCarsByModelIdQueryHandler.Handle called with {@Query}", query);
-
         var modelResult = await modelsRepository.GetByIdAsync(query.ModelId, cancellationToken);
 
         if (modelResult.IsFailure)

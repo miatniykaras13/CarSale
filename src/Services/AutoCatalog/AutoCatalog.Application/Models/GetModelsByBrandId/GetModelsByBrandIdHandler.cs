@@ -10,16 +10,13 @@ public record GetModelsByBrandIdQuery(ModelFilter Filter, SortParameters SortPar
 
 public class GetModelsByBrandIdQueryHandler(
     IModelsRepository modelsRepository,
-    IBrandsRepository brandsRepository,
-    ILogger<GetModelsByBrandIdQueryHandler> logger)
+    IBrandsRepository brandsRepository)
     : IQueryHandler<GetModelsByBrandIdQuery, Result<List<Model>, List<Error>>>
 {
     public async Task<Result<List<Model>, List<Error>>> Handle(
         GetModelsByBrandIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetModelsByBrandIdQueryHandler.Handle called with {@Query}", query);
-
         var brandResult = await brandsRepository.GetByIdAsync(query.BrandId, cancellationToken);
 
         if (brandResult.IsFailure)

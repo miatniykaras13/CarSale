@@ -10,16 +10,13 @@ public record GetGenerationsByModelIdQuery(GenerationFilter Filter, SortParamete
 
 public class GetGenerationsByModelIdQueryHandler(
     IGenerationsRepository generationsRepository,
-    IModelsRepository modelsRepository,
-    ILogger<GetGenerationsByModelIdQueryHandler> logger)
+    IModelsRepository modelsRepository)
     : IQueryHandler<GetGenerationsByModelIdQuery, Result<List<Generation>, List<Error>>>
 {
     public async Task<Result<List<Generation>, List<Error>>> Handle(
         GetGenerationsByModelIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetGenerationsByModelIdQueryHandler.Handle called with {@Query}", query);
-
         var modelResult = await modelsRepository.GetByIdAsync(query.ModelId, cancellationToken);
 
         if (modelResult.IsFailure)

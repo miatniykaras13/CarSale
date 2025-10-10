@@ -13,7 +13,7 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
         CancellationToken cancellationToken)
     {
         logger.LogError(
-            "Error occured: {ExceptionMessage}. At the time {Time}", exception.Message, DateTime.UtcNow);
+            "[ERROR] Unexpected error occured: {ExceptionMessage}. At the time {Time}", exception.Message, DateTime.UtcNow);
 
         (string Details, string Title, int StatusCode) details = exception switch
         {

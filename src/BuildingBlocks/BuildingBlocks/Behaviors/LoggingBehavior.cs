@@ -21,7 +21,7 @@ public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TReque
         logger.LogInformation(
             "[START] Handle request = {Request}, Response = {Response}, Request data = {ResponseData}",
             typeof(TRequest).Name,
-            typeof(TResponse).GenericTypeArguments.First().Name,
+            ToFriendlyTypeName(typeof(TResponse)),
             request);
 
         var timer = new Stopwatch();
@@ -35,7 +35,7 @@ public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TReque
 
         if (timeTaken.Seconds > 3)
         {
-            logger.LogInformation(
+            logger.LogWarning(
                 "[PERFORMANCE] Handling request = {Request} took {Seconds}.{Milliseconds}",
                 typeof(TRequest).Name,
                 timeTaken.Seconds,
@@ -45,8 +45,25 @@ public class LoggingBehavior<TRequest, TResponse>(ILogger<LoggingBehavior<TReque
         logger.LogInformation(
             "[END] Handled {Request} with {Response}",
             typeof(TRequest).Name,
-            typeof(TResponse).GetGenericArguments().First().Name);
+            ToFriendlyTypeName(typeof(TResponse)));
         return response;
     }
-}
 
+
+    private string ToFriendlyTypeName(Type t)
+    {
+        if (t.IsGenericType)
+        {
+            string typeName = t.Name.Substring(0, t.Name.IndexOf('`'));
+
+            var genericArguments = t.GetGenericArguments().Select(ToFriendlyTypeName).ToList();
+
+            return $"{typeName}<{string.Join(", ", genericArguments)}>";
+        }
+
+        if (t.IsArray)
+            return $"{ToFriendlyTypeName(t.GetElementType()!)}[]";
+
+        return t.Name;
+    }
+}

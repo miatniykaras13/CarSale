@@ -10,16 +10,13 @@ public record GetCarsByEngineIdQuery(CarFilter Filter, SortParameters SortParame
 
 public class GetCarsByEngineIdQueryHandler(
     ICarsRepository carsRepository,
-    IEnginesRepository enginesRepository,
-    ILogger<GetCarsByEngineIdQueryHandler> logger)
+    IEnginesRepository enginesRepository)
     : IQueryHandler<GetCarsByEngineIdQuery, Result<List<Car>, List<Error>>>
 {
     public async Task<Result<List<Car>, List<Error>>> Handle(
         GetCarsByEngineIdQuery query,
         CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetCarsByEngineIdQueryHandler.Handle called with {@Query}", query);
-
         var engineResult = await enginesRepository.GetByIdAsync(query.EngineId, cancellationToken);
 
         if (engineResult.IsFailure)
