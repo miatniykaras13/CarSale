@@ -1,5 +1,10 @@
-﻿using AutoCatalog.Application.Abstractions;
+﻿using System.Collections.Immutable;
+using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Models;
+using AutoCatalog.Application.Models.Extensions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 
 namespace AutoCatalog.Infrastructure.Repositories.Specs;
 
@@ -18,9 +23,13 @@ public class ModelsRepository(AppDbContext context) : IModelsRepository
         return Result.Success<Model, Error>(model);
     }
 
-    public async Task<Result<List<Model>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<Model>, Error>> GetAllAsync(ModelFilter filter, SortParameters sortParameters, PageParameters pageParameters, CancellationToken cancellationToken)
     {
-        var models = await context.Models.ToListAsync(cancellationToken);
+        var models = await context.Models
+            .Filter(filter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<Model>, Error>(models);
     }
 
@@ -52,10 +61,18 @@ public class ModelsRepository(AppDbContext context) : IModelsRepository
         return Result.Success<Unit, Error>(Unit.Value);
     }
 
-    public async Task<Result<List<Model>, Error>> GetByBrandIdAsync(int brandId, CancellationToken ct)
+    public async Task<Result<List<Model>, Error>> GetByBrandIdAsync(
+        ModelFilter filter,
+        SortParameters sortParameters,
+        PageParameters pageParameters,
+        int brandId,
+        CancellationToken ct)
     {
         var models = await context.Models
             .Where(m => m.BrandId == brandId)
+            .Filter(filter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
             .ToListAsync(ct);
 
         return Result.Success<List<Model>, Error>(models);

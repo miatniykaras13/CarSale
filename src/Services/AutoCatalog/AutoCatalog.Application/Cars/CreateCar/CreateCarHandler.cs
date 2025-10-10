@@ -19,8 +19,8 @@ public record CreateCarCommand(
     int YearFrom,
     int YearTo,
     Guid PhotoId,
-    float Consumption,
-    float Acceleration,
+    decimal Consumption,
+    decimal Acceleration,
     int FuelTankCapacity,
     DimensionsDto DimensionsDto) : ICommand<Result<Guid, List<Error>>>;
 

@@ -36,9 +36,9 @@ public class Car
 
     public required Guid PhotoId { get; set; }
 
-    public required float Consumption { get; set; }
+    public required decimal Consumption { get; set; }
 
-    public required float Acceleration { get; set; }
+    public required decimal Acceleration { get; set; }
 
     public required int FuelTankCapacity { get; set; }
 

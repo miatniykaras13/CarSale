@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Domain.Specs;
 
 namespace AutoCatalog.Application.Generations.PatchGeneration;
 
@@ -8,15 +9,21 @@ public record PatchGenerationCommand(int Id, string? Name)
 internal class PatchGenerationCommandHandler(IGenerationsRepository generationsRepository)
     : ICommandHandler<PatchGenerationCommand, Result<int, List<Error>>>
 {
-    public async Task<Result<int, List<Error>>> Handle(PatchGenerationCommand command, CancellationToken cancellationToken)
+    public async Task<Result<int, List<Error>>> Handle(
+        PatchGenerationCommand command,
+        CancellationToken cancellationToken)
     {
+        TypeAdapterConfig<PatchGenerationCommand, Generation>
+            .NewConfig()
+            .IgnoreNullValues(true);
+
         var generationResult = await generationsRepository.GetByIdAsync(command.Id, cancellationToken);
         if (generationResult.IsFailure)
             return Result.Failure<int, List<Error>>([generationResult.Error]);
 
         var generation = generationResult.Value;
 
-        command.Adapt(generationResult.Value);
+        command.Adapt(generation);
 
         await generationsRepository.AddAsync(generation, cancellationToken);
 

@@ -1,9 +1,12 @@
 ﻿using AutoCatalog.Application.Extensions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.OpenApi.Models;
 
@@ -15,9 +18,14 @@ public class GetBrandsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/brands", async (ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/brands", async (
+                [AsParameters] BrandFilter filter,
+                [AsParameters] SortParameters sortParameters,
+                [AsParameters] PageParameters pageParameters,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
-                var result = await sender.Send(new GetBrandsQuery(), ct);
+                var result = await sender.Send(new GetBrandsQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
                     return result.ToResponse();

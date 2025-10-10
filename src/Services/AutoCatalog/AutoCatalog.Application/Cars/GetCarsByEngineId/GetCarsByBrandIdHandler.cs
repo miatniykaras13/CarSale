@@ -1,10 +1,12 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Transport.Cars;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Cars.GetCarsByEngineId;
 
-public record GetCarsByEngineIdQuery(int EngineId) : IQuery<Result<List<Car>, List<Error>>>;
+public record GetCarsByEngineIdQuery(CarFilter Filter, SortParameters SortParameters, PageParameters PageParameters, int EngineId) : IQuery<Result<List<Car>, List<Error>>>;
 
 public class GetCarsByEngineIdQueryHandler(
     ICarsRepository carsRepository,
@@ -23,7 +25,7 @@ public class GetCarsByEngineIdQueryHandler(
         if (engineResult.IsFailure)
             return Result.Failure<List<Car>, List<Error>>([engineResult.Error]);
 
-        var carResult = await carsRepository.GetByEngineIdAsync(query.EngineId, cancellationToken);
+        var carResult = await carsRepository.GetByEngineIdAsync(query.Filter, query.SortParameters, query.PageParameters, query.EngineId, cancellationToken);
         if (carResult.IsFailure)
             return Result.Failure<List<Car>, List<Error>>([carResult.Error]);
 

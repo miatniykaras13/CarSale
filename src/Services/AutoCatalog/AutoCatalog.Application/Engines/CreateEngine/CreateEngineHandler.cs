@@ -29,6 +29,7 @@ internal class CreateEngineCommandHandler(
         {
             FuelType = command.FuelType,
             GenerationId = command.GenerationId,
+            Generation = generationResult.Value,
             Name = command.Name,
             Volume = command.Volume,
             HorsePower = command.HorsePower,

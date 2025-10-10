@@ -44,5 +44,13 @@ public class CreateCarCommandValidator : AbstractValidator<CreateCarCommand>
         RuleFor(x => x.FuelTankCapacity)
             .NotEmpty().WithMessage("Fuel tank capacity is required")
             .GreaterThan(0).WithMessage("Fuel tank capacity must be greater than 0");
+
+        RuleFor(x => x.AutoDriveType)
+            .NotEmpty().WithMessage("Auto drive type is required")
+            .IsInEnum().WithMessage("Auto drive type is invalid");
+
+        RuleFor(x => x.TransmissionType)
+            .NotEmpty().WithMessage("Transmission type is required")
+            .IsInEnum().WithMessage("Transmission type is invalid");
     }
 }

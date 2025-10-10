@@ -1,4 +1,6 @@
 ﻿using AutoCatalog.Application.Extensions;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -14,9 +16,15 @@ public class GetModelsByBrandIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/brands/{brandId:int}/models", async ([FromRoute] int brandId, ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/brands/{brandId:int}/models", async (
+                [AsParameters] ModelFilter filter,
+                [AsParameters] SortParameters sortParameters,
+                [AsParameters] PageParameters pageParameters,
+                [FromRoute] int brandId,
+                ISender sender,
+                CancellationToken ct = default) =>
         {
-            var result = await sender.Send(new GetModelsByBrandIdQuery(brandId), ct);
+            var result = await sender.Send(new GetModelsByBrandIdQuery(filter, sortParameters, pageParameters, brandId), ct);
 
             if (result.IsFailure)
                 return result.ToResponse();

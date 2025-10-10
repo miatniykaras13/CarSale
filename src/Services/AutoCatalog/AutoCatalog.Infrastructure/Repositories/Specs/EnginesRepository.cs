@@ -1,5 +1,9 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Engines;
+using AutoCatalog.Application.Engines.Extensions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 
 namespace AutoCatalog.Infrastructure.Repositories.Specs;
 
@@ -18,9 +22,13 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
         return Result.Success<Engine, Error>(engine);
     }
 
-    public async Task<Result<List<Engine>, Error>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<Result<List<Engine>, Error>> GetAllAsync(EngineFilter filter, SortParameters sortParameters, PageParameters pageParameters, CancellationToken cancellationToken)
     {
-        var engines = await context.Engines.ToListAsync(cancellationToken);
+        var engines = await context.Engines
+            .Filter(filter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<Engine>, Error>(engines);
     }
 
@@ -53,10 +61,18 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
     }
 
     public async Task<Result<List<Engine>, Error>> GetByGenerationIdAsync(
+        EngineFilter filter,
+        SortParameters sortParameters,
+        PageParameters pageParameters,
         int generationId,
         CancellationToken cancellationToken)
     {
-        var engines = await context.Engines.Where(e => e.GenerationId == generationId).ToListAsync(cancellationToken);
+        var engines = await context.Engines
+            .Where(e => e.GenerationId == generationId)
+            .Filter(filter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
 
         return Result.Success<List<Engine>, Error>(engines);
     }

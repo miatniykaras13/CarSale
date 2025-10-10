@@ -1,5 +1,7 @@
 ﻿using AutoCatalog.Application.Extensions;
 using AutoCatalog.Domain.Enums;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -20,8 +22,8 @@ public record GetCarsByEngineIdResponse(
     int YearFrom,
     int YearTo,
     Guid PhotoId,
-    float Consumption,
-    float Acceleration,
+    decimal Consumption,
+    decimal Acceleration,
     int FuelTankCapacity,
     DimensionsDto Dimensions);
 
@@ -29,9 +31,15 @@ public class GetCarsByEngineIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/engines/{engineId:int}/cars", async ([FromRoute] int engineId, ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/engines/{engineId:int}/cars", async (
+                [AsParameters] CarFilter filter,
+                [AsParameters] SortParameters sortParameters,
+                [AsParameters] PageParameters pageParameters,
+                [FromRoute] int engineId,
+                ISender sender,
+                CancellationToken ct = default) =>
         {
-            var result = await sender.Send(new GetCarsByEngineIdQuery(engineId), ct);
+            var result = await sender.Send(new GetCarsByEngineIdQuery(filter, sortParameters, pageParameters, engineId), ct);
 
             if (result.IsFailure)
                 return result.ToResponse();

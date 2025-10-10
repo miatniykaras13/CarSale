@@ -1,10 +1,12 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Models.GetModelsByBrandId;
 
-public record GetModelsByBrandIdQuery(int BrandId) : IQuery<Result<List<Model>, List<Error>>>;
+public record GetModelsByBrandIdQuery(ModelFilter Filter, SortParameters SortParameters, PageParameters PageParameters, int BrandId) : IQuery<Result<List<Model>, List<Error>>>;
 
 public class GetModelsByBrandIdQueryHandler(
     IModelsRepository modelsRepository,
@@ -23,7 +25,7 @@ public class GetModelsByBrandIdQueryHandler(
         if (brandResult.IsFailure)
             return Result.Failure<List<Model>, List<Error>>([brandResult.Error]);
 
-        var modelResult = await modelsRepository.GetByBrandIdAsync(query.BrandId, cancellationToken);
+        var modelResult = await modelsRepository.GetByBrandIdAsync(query.Filter, query.SortParameters, query.PageParameters, query.BrandId, cancellationToken);
         if (modelResult.IsFailure)
             return Result.Failure<List<Model>, List<Error>>([modelResult.Error]);
 

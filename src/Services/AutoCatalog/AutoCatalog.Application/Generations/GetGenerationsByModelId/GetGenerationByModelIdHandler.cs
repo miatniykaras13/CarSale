@@ -1,10 +1,12 @@
 ﻿using AutoCatalog.Application.Abstractions;
 using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Generations.GetGenerationsByModelId;
 
-public record GetGenerationsByModelIdQuery(int ModelId) : IQuery<Result<List<Generation>, List<Error>>>;
+public record GetGenerationsByModelIdQuery(GenerationFilter Filter, SortParameters SortParameters, PageParameters PageParameters, int ModelId) : IQuery<Result<List<Generation>, List<Error>>>;
 
 public class GetGenerationsByModelIdQueryHandler(
     IGenerationsRepository generationsRepository,
@@ -23,7 +25,7 @@ public class GetGenerationsByModelIdQueryHandler(
         if (modelResult.IsFailure)
             return Result.Failure<List<Generation>, List<Error>>([modelResult.Error]);
 
-        var generationResult = await generationsRepository.GetByModelIdAsync(query.ModelId, cancellationToken);
+        var generationResult = await generationsRepository.GetByModelIdAsync(query.Filter, query.SortParameters, query.PageParameters, query.ModelId, cancellationToken);
         if (generationResult.IsFailure)
             return Result.Failure<List<Generation>, List<Error>>([generationResult.Error]);
 

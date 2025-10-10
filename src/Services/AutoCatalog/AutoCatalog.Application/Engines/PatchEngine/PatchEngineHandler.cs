@@ -12,13 +12,17 @@ internal class PatchEngineCommandHandler(IEnginesRepository enginesRepository)
 {
     public async Task<Result<int, List<Error>>> Handle(PatchEngineCommand command, CancellationToken cancellationToken)
     {
+        TypeAdapterConfig<PatchEngineCommand, Engine>
+            .NewConfig()
+            .IgnoreNullValues(true);
+
         var engineResult = await enginesRepository.GetByIdAsync(command.Id, cancellationToken);
         if (engineResult.IsFailure)
             return Result.Failure<int, List<Error>>([engineResult.Error]);
 
         var engine = engineResult.Value;
 
-        command.Adapt(engineResult.Value);
+        command.Adapt(engine);
 
         await enginesRepository.AddAsync(engine, cancellationToken);
 

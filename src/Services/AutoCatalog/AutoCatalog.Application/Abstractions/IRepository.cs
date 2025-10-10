@@ -1,10 +1,13 @@
-﻿namespace AutoCatalog.Application.Abstractions;
+﻿using BuildingBlocks.Application.Paging;
+using BuildingBlocks.Application.Sorting;
 
-public interface IRepository<TId, TEntity>
+namespace AutoCatalog.Application.Abstractions;
+
+public interface IRepository<TId, TEntity, in TFilter>
 {
     Task<Result<TEntity, Error>> GetByIdAsync(TId id, CancellationToken cancellationToken);
 
-    Task<Result<List<TEntity>, Error>> GetAllAsync(CancellationToken cancellationToken);
+    Task<Result<List<TEntity>, Error>> GetAllAsync(TFilter filter, SortParameters sortParameters, PageParameters pageParameters, CancellationToken cancellationToken);
 
     Task<Result<TId, Error>> AddAsync(TEntity entity, CancellationToken cancellationToken);
 
