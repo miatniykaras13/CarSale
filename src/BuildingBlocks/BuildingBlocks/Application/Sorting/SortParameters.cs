@@ -1,8 +1,11 @@
-﻿namespace BuildingBlocks.Application.Sorting;
+﻿using System.ComponentModel;
+
+namespace BuildingBlocks.Application.Sorting;
 
 public class SortParameters
 {
     public string? OrderBy { get; set; }
 
-    public SortDirection Direction { get; set; } = SortDirection.DESCENDING;
+    [DefaultValue(SortDirection.ASCENDING)]
+    public SortDirection Direction { get; set; }
 }

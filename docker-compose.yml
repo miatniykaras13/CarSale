@@ -2,5 +2,11 @@ services:
   autocatalogdb:
     image: postgres
     
+  autocatalog.web:
+    image: autocatalog.web
+    build:
+      context: .
+      dockerfile: src/Services/AutoCatalog/AutoCatalog.Web/Dockerfile
+
 volumes:
   postgres_catalog:

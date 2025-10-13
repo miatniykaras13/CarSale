@@ -9,13 +9,10 @@ namespace AutoCatalog.Application.Generations.GetGenerations;
 public record GetGenerationsQuery(GenerationFilter Filter, SortParameters SortParameters, PageParameters PageParameters) : IQuery<Result<List<Generation>, List<Error>>>;
 
 public class GetGenerationsQueryHandler(
-    IGenerationsRepository generationsRepository,
-    ILogger<GetGenerationsQueryHandler> logger) : IQueryHandler<GetGenerationsQuery, Result<List<Generation>, List<Error>>>
+    IGenerationsRepository generationsRepository) : IQueryHandler<GetGenerationsQuery, Result<List<Generation>, List<Error>>>
 {
     public async Task<Result<List<Generation>, List<Error>>> Handle(GetGenerationsQuery query, CancellationToken cancellationToken)
     {
-        logger.LogInformation("GetGenerationsQueryHandler.Handle called with {@Query}", query);
-
         var generationResult = await generationsRepository.GetAllAsync(query.Filter, query.SortParameters, query.PageParameters, cancellationToken);
         if (generationResult.IsFailure)
             return Result.Failure<List<Generation>, List<Error>>([generationResult.Error]);

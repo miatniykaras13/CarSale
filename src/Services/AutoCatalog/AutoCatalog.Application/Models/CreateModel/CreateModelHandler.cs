@@ -18,7 +18,7 @@ internal class CreateModelCommandHandler(
         var brandResult = await brandsRepository.GetByIdAsync(command.BrandId, cancellationToken);
         if (brandResult.IsFailure)
             return Result.Failure<int, List<Error>>([brandResult.Error]);
-        var model = new Model() { BrandId = command.BrandId, Name = command.Name, };
+        var model = new Model { BrandId = command.BrandId, Name = command.Name, };
 
         await modelsRepository.AddAsync(model, cancellationToken);
 

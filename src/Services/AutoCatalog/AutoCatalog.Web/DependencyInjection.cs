@@ -15,6 +15,8 @@ public static class DependencyInjection
         services.AddInfrastructure(configuration);
         services.AddWeb();
         services.AddApplication();
+        services.AddHealthChecks()
+            .AddNpgSql(configuration.GetConnectionString(nameof(AppDbContext))!);
         return services;
     }
 
