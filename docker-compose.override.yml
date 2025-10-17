@@ -30,14 +30,14 @@ services:
       - ./certs:/certs:ro
     
   keycloakdb:
-    image: postgres:15
+    image: postgres
     container_name: keycloakdb
     environment:
       POSTGRES_DB: KeycloakDb
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: 1111
     ports:
-      - "5433:5433"
+      - "5433:5432"
     volumes:
       - "keycloak_data:/var/lib/postgresql/data/"
 
@@ -48,10 +48,9 @@ services:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloakdb:5433/keycloak
+      KC_DB_URL: jdbc:postgresql://keycloakdb:5432/KeycloakDb
       KC_DB_USERNAME: postgres
       KC_DB_PASSWORD: 1111
-      KC_HOSTNAME: localhost
     ports:
       - "8080:8080"
     depends_on:

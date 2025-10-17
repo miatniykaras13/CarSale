@@ -9,7 +9,7 @@ services:
       dockerfile: src/Services/AutoCatalog/AutoCatalog.Web/Dockerfile
       
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0.0
+    image: quay.io/keycloak/keycloak
     
   keycloakdb:
     image: postgres
