@@ -1,3 +1,10 @@
 ﻿namespace AutoCatalog.Domain.Specs;
 
-public record Dimensions(int Width, int Height, int Length);
+public class Dimensions()
+{
+    public required int Length { get; init; }
+
+    public required int Width { get; init; }
+
+    public required int Height { get; init; }
+}

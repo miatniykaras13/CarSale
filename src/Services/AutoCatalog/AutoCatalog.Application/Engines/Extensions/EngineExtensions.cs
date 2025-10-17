@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using AutoCatalog.Application.Engines;
+using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -10,8 +11,8 @@ public static class EngineExtensions
 {
     public static IQueryable<Engine> Filter(this IQueryable<Engine> query, EngineFilter filter)
     {
-        if(filter.FuelType != null)
-            query = query.Where(e => e.FuelType == filter.FuelType);
+        if(filter.FuelType != null && filter.FuelType.Length != 0)
+            query = query.Where(e => filter.FuelType.Contains(e.FuelType));
         if(filter.TorqueNm != null)
             query = query.Where(e => e.TorqueNm == filter.TorqueNm);
         return query;

@@ -22,6 +22,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseExceptionHandler(options => { });
 
+await app.UseAsyncSeeding();
+
 app.UseHealthChecks(
     "/health",
     new HealthCheckOptions

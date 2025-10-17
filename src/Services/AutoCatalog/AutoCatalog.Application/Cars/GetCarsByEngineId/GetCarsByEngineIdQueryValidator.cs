@@ -5,5 +5,7 @@ public class GetCarsByEngineIdQueryValidator : AbstractValidator<GetCarsByEngine
     public GetCarsByEngineIdQueryValidator()
     {
         RuleFor(x => x.EngineId).NotEmpty().WithMessage("Engine Id is required");
+
+        RuleFor(x => x.Filter).SetValidator(new CarFilterValidator());
     }
 }

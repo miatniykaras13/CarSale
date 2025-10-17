@@ -25,11 +25,11 @@ public static class CarExtensions
         if (!string.IsNullOrEmpty(filter.EngineName))
             query = query.Where(c => c.Engine.Name == filter.EngineName);
 
-        if (filter.TransmissionType != null)
-            query = query.Where(c => c.TransmissionType == filter.TransmissionType);
+        if (filter.TransmissionType != null && filter.TransmissionType.Length != 0)
+            query = query.Where(c => filter.TransmissionType.Contains(c.TransmissionType));
 
-        if (filter.AutoDriveType != null)
-            query = query.Where(c => c.AutoDriveType == filter.AutoDriveType);
+        if (filter.AutoDriveType != null && filter.AutoDriveType.Length != 0)
+            query = query.Where(c => filter.AutoDriveType.Contains(c.AutoDriveType));
 
         if (filter.Year != null)
             query = query.Where(c => c.YearFrom < filter.Year && c.YearTo > filter.Year);

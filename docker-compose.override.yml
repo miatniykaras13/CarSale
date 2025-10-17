@@ -10,6 +10,7 @@ services:
       - "5432:5432"
     volumes:
       - "postgres_catalog:/var/lib/postgresql/data/"
+  
   autocatalog.web:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -27,5 +28,33 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ./certs:/certs:ro
+    
+  keycloakdb:
+    image: postgres:15
+    container_name: keycloakdb
+    environment:
+      POSTGRES_DB: KeycloakDb
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
+    ports:
+      - "5433:5433"
+    volumes:
+      - "keycloak_data:/var/lib/postgresql/data/"
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    command: start-dev
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://keycloakdb:5433/keycloak
+      KC_DB_USERNAME: postgres
+      KC_DB_PASSWORD: 1111
+      KC_HOSTNAME: localhost
+    ports:
+      - "8080:8080"
+    depends_on:
+      - keycloakdb
      
       

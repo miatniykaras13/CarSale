@@ -5,5 +5,7 @@ public class GetCarsByModelIdQueryValidator : AbstractValidator<GetCarsByModelId
     public GetCarsByModelIdQueryValidator()
     {
         RuleFor(x => x.ModelId).NotEmpty().WithMessage("Model Id is required");
+
+        RuleFor(x => x.Filter).SetValidator(new CarFilterValidator());
     }
 }

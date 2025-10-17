@@ -1,7 +1,12 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Cars.GetCarsByBrandId;
+using AutoCatalog.Domain.Specs;
+using AutoCatalog.Domain.Transport.Cars;
+using AutoCatalog.Infrastructure.Fakers;
 using AutoCatalog.Infrastructure.Repositories;
 using AutoCatalog.Infrastructure.Repositories.Specs;
 using AutoCatalog.Infrastructure.Repositories.Transport;
+using Bogus;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

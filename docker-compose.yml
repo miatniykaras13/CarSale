@@ -7,6 +7,16 @@ services:
     build:
       context: .
       dockerfile: src/Services/AutoCatalog/AutoCatalog.Web/Dockerfile
+      
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0.0
+    
+  keycloakdb:
+    image: postgres
+    
 
 volumes:
   postgres_catalog:
+  keycloak_data:
+  
+  

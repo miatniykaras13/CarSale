@@ -9,7 +9,7 @@ public class EngineFilterValidator : AbstractValidator<EngineFilter>
         RuleFor(x => x.HorsePower)
             .GreaterThan(0).WithMessage("Horse power must be greater than zero");
 
-        RuleFor(x => x.FuelType)
+        RuleForEach(x => x.FuelType)
             .IsInEnum().WithMessage("Fuel type is invalid");
 
         RuleFor(x => x.TorqueNm)

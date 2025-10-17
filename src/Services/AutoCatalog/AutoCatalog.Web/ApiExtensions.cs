@@ -12,7 +12,7 @@ public static class ApiExtensions
         app.MapScalarApiReference("/docs", options =>
         {
             options
-                .WithTitle("CarSale API")
+                .WithTitle("Auto catalog API")
                 .WithTheme(ScalarTheme.DeepSpace)
                 .WithDefaultHttpClient(ScalarTarget.JavaScript, ScalarClient.Fetch)
                 .WithOpenApiRoutePattern("/openapi/{documentName}.json");
@@ -20,5 +20,10 @@ public static class ApiExtensions
         return app;
     }
 
-    
+    public static async Task UseAsyncSeeding(this WebApplication app)
+    {
+        await using var serviceScope = app.Services.CreateAsyncScope();
+        await using var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
+        await context.Database.EnsureCreatedAsync();
+    }
 }

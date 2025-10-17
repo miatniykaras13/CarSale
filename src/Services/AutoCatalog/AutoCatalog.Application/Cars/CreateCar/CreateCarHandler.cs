@@ -80,14 +80,15 @@ internal class CreateCarCommandHandler(
             Consumption = command.Consumption,
             Acceleration = command.Acceleration,
             FuelTankCapacity = command.FuelTankCapacity,
-            Dimensions = new Dimensions(
-                command.DimensionsDto.Width,
-                command.DimensionsDto.Height,
-                command.DimensionsDto.Length),
+            Dimensions = new Dimensions()
+            {
+                Width = command.DimensionsDto.Width,
+                Height = command.DimensionsDto.Height,
+                Length = command.DimensionsDto.Length,
+            },
         };
 
         await carsRepository.AddAsync(car, cancellationToken);
-
         return Result.Success<Guid, List<Error>>(car.Id);
     }
 }

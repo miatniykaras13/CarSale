@@ -5,5 +5,7 @@ public class GetCarsByBrandIdQueryValidator : AbstractValidator<GetCarsByBrandId
     public GetCarsByBrandIdQueryValidator()
     {
         RuleFor(x => x.BrandId).NotEmpty().WithMessage("Brand Id is required");
+
+        RuleFor(x => x.Filter).SetValidator(new CarFilterValidator());
     }
 }
