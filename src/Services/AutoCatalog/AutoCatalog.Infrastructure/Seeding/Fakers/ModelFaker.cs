@@ -1,7 +1,7 @@
 ﻿using AutoCatalog.Domain.Specs;
 using Bogus;
 
-namespace AutoCatalog.Infrastructure.Fakers;
+namespace AutoCatalog.Seeding.Fakers;
 
 public class ModelFaker
 {

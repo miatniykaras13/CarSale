@@ -1,5 +1,4 @@
 ﻿using AutoCatalog.Domain.Specs;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AutoCatalog.Infrastructure.Configurations;

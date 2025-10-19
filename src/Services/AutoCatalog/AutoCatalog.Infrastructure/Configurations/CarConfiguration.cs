@@ -1,5 +1,4 @@
 ﻿using AutoCatalog.Domain.Transport.Cars;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace AutoCatalog.Infrastructure.Configurations;

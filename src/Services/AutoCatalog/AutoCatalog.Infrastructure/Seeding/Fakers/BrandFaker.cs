@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using AutoCatalog.Domain.Specs;
+﻿using AutoCatalog.Domain.Specs;
 using Bogus;
 
-namespace AutoCatalog.Infrastructure.Fakers;
+namespace AutoCatalog.Seeding.Fakers;
 
 public static class BrandFaker
 {
