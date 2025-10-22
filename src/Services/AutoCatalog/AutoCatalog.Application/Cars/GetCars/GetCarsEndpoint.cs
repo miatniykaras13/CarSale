@@ -46,6 +46,7 @@ public class GetCarsEndpoint : ICarterModule
                 var response = result.Value.Adapt<List<GetCarResponse>>();
                 return Results.Ok(response);
             })
+            .RequireAuthorization()
             .WithName("GetCars")
             .Produces<List<GetCarResponse>>(StatusCodes.Status200OK)
             .ProducesGetProblems()

@@ -12,15 +12,41 @@ var services = builder.Services;
 
 services.AddProgramDependencies(configuration);
 
+services.AddSwaggerGenWithAuth(configuration);
+
+services.AddAuthorization();
+services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(o =>
+    {
+        o.RequireHttpsMetadata = false;
+        o.Audience = configuration["Authentication:Audience"];
+        o.MetadataAddress = configuration["Authentication:MetadataAddress"]!;
+        o.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidIssuer = configuration["Authentication:ValidIssuer"],
+        };
+    });
+
+
 var app = builder.Build();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapCarter();
 
 if (app.Environment.IsDevelopment())
 {
-    app.MapOpenApi();
-    app.MapScalar();
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.OAuthClientId("autocatalog");
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "Auto catalog");
+        options.RoutePrefix = string.Empty;
+    });
 }
+
+
 
 app.UseExceptionHandler(options => { });
 
