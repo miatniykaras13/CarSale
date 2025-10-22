@@ -10,7 +10,7 @@ public static class BrandExtensions
     public static IQueryable<Brand> Filter(this IQueryable<Brand> query, BrandFilter filter)
     {
         if (!string.IsNullOrEmpty(filter.Country))
-            query = query.Where(x => x.Country == filter.Country);
+            query = query.Where(x => x.Country.ToLower().Equals(filter.Country.ToLower()));
 
         if (filter.YearFrom.HasValue)
             query = query.Where(x => x.YearFrom >= filter.YearFrom);

@@ -14,16 +14,16 @@ public static class CarExtensions
     public static IQueryable<Car> Filter(this IQueryable<Car> query, CarFilter filter)
     {
         if (!string.IsNullOrEmpty(filter.BrandName))
-            query = query.Where(c => c.Brand.Name == filter.BrandName);
+            query = query.Where(c => c.Brand.Name.ToLower().Equals(filter.BrandName.ToLower()));
 
         if (!string.IsNullOrEmpty(filter.ModelName))
-            query = query.Where(c => c.Model.Name == filter.ModelName);
+            query = query.Where(c => c.Model.Name.ToLower().Equals(filter.ModelName.ToLower()));
 
         if (!string.IsNullOrEmpty(filter.GenerationName))
-            query = query.Where(c => c.Generation.Name == filter.GenerationName);
+            query = query.Where(c => c.Generation.Name.ToLower().Equals(filter.GenerationName.ToLower()));
 
         if (!string.IsNullOrEmpty(filter.EngineName))
-            query = query.Where(c => c.Engine.Name == filter.EngineName);
+            query = query.Where(c => c.Engine.Name.ToLower().Equals(filter.EngineName.ToLower()));
 
         if (filter.TransmissionType != null && filter.TransmissionType.Length != 0)
             query = query.Where(c => filter.TransmissionType.Contains(c.TransmissionType));
@@ -32,7 +32,7 @@ public static class CarExtensions
             query = query.Where(c => filter.AutoDriveType.Contains(c.AutoDriveType));
 
         if (filter.Year != null)
-            query = query.Where(c => c.YearFrom < filter.Year && c.YearTo > filter.Year);
+            query = query.Where(c => c.YearFrom <= filter.Year && c.YearTo >= filter.Year);
 
         if (filter.Acceleration != null)
             query = query.Where(c => c.Acceleration == filter.Acceleration);

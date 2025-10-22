@@ -6,41 +6,41 @@ namespace AutoCatalog.Domain.Transport.Cars;
 
 public class Car
 {
-    public required Guid Id { get; set; }
+    public required Guid Id { get; init; }
 
-    public required int BrandId { get; set; }
+    public required int BrandId { get; init; }
 
-    public Brand Brand { get; set; } = null!;
+    public Brand Brand { get; init; } = null!;
 
-    public required int ModelId { get; set; }
+    public required int ModelId { get; init; }
 
-    public Model Model { get; set; } = null!;
+    public Model Model { get; init; } = null!;
 
-    public required int GenerationId { get; set; }
+    public required int GenerationId { get; init; }
 
-    public Generation Generation { get; set; } = null!;
+    public Generation Generation { get; init; } = null!;
 
-    public required int EngineId { get; set; }
+    public required int EngineId { get; init; }
 
-    public Engine Engine { get; set; } = null!;
-
-    [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required TransmissionType TransmissionType { get; set; }
+    public Engine Engine { get; init; } = null!;
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required AutoDriveType AutoDriveType { get; set; }
+    public required TransmissionType TransmissionType { get; init; }
 
-    public required int YearFrom { get; set; }
+    [JsonConverter(typeof(JsonStringEnumConverter))]
+    public required AutoDriveType AutoDriveType { get; init; }
 
-    public required int YearTo { get; set; }
+    public required int YearFrom { get; init; }
 
-    public required Guid PhotoId { get; set; }
+    public required int YearTo { get; init; }
 
-    public required decimal Consumption { get; set; }
+    public required Guid PhotoId { get; init; }
 
-    public required decimal Acceleration { get; set; }
+    public required decimal Consumption { get; init; }
 
-    public required int FuelTankCapacity { get; set; }
+    public required decimal Acceleration { get; init; }
 
-    public required Dimensions Dimensions { get; set; }
+    public required int FuelTankCapacity { get; init; }
+
+    public required Dimensions Dimensions { get; init; }
 }

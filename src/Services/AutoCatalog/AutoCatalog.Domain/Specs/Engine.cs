@@ -6,24 +6,24 @@ namespace AutoCatalog.Domain.Specs;
 
 public class Engine
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 
     [JsonConverter(typeof(JsonStringEnumConverter))]
-    public required FuelType FuelType { get; set; }
+    public required FuelType FuelType { get; init; }
 
 
-    public required int GenerationId { get; set; }
+    public required int GenerationId { get; init; }
 
-    public Generation Generation { get; set; } = null!;
+    public Generation Generation { get; init; } = null!;
 
 
-    public required string Name { get; set; }
+    public required string Name { get; init; }
 
-    public required float Volume { get; set; }
+    public required float Volume { get; init; }
 
-    public required int HorsePower { get; set; }
+    public required int HorsePower { get; init; }
 
-    public required int TorqueNm { get; set; }
+    public required int TorqueNm { get; init; }
 
-    public List<Car> Cars { get; set; } = [];
+    public List<Car> Cars { get; init; } = [];
 }

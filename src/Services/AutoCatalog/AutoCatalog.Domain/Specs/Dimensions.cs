@@ -1,6 +1,6 @@
 ﻿namespace AutoCatalog.Domain.Specs;
 
-public class Dimensions()
+public class Dimensions
 {
     public required int Length { get; init; }
 

@@ -2,15 +2,13 @@
 
 public class Model
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 
+    public required int BrandId { get; init; }
 
-    public required int BrandId { get; set; }
+    public Brand Brand { get; init; } = null!;
 
-    public Brand Brand { get; set; } = null!;
+    public required string Name { get; init; }
 
-
-    public required string Name { get; set; }
-
-    public List<Generation> Generations { get; set; } = [];
+    public List<Generation> Generations { get; init; } = [];
 }

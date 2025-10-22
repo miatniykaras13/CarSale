@@ -27,7 +27,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
         base.OnModelCreating(modelBuilder);
     }
-    
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder
@@ -64,6 +64,9 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
             })
             .UseAsyncSeeding(async (context, _, ct) =>
             {
+                if (await context.Set<Brand>().AnyAsync(ct))
+                    return;
+
                 var brandsToSeed = BrandFaker.Generate(20);
 
                 await context.Set<Brand>()

@@ -22,7 +22,7 @@ public class GetBrandByIdEndpoint : ICarterModule
             if (result.IsFailure)
                 return result.ToResponse();
 
-            var response = result.Value.Adapt<GetBrandResponse>();
+            var response = result.Value.Adapt<GetBrandsResponse>();
             return Results.Ok(response);
         })
         .WithName("GetBrandById")

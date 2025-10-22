@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Brands.GetBrands;
 
-public record GetBrandResponse(int Id, string Name, string Country, int YearFrom, int YearTo);
+public record GetBrandsResponse(int Id, string Name, string Country, int YearFrom, int YearTo);
 
 public class GetBrandsEndpoint : ICarterModule
 {
@@ -30,11 +30,11 @@ public class GetBrandsEndpoint : ICarterModule
                 if (result.IsFailure)
                     return result.ToResponse();
 
-                var response = result.Value.Adapt<List<GetBrandResponse>>();
+                var response = result.Value.Adapt<List<GetBrandsResponse>>();
                 return Results.Ok(response);
             })
             .WithName("GetBrands")
-            .Produces<List<GetBrandResponse>>(StatusCodes.Status200OK)
+            .Produces<List<GetBrandsResponse>>(StatusCodes.Status200OK)
             .ProducesGetProblems()
             .WithTags("Brands")
             .WithOpenApi(op =>

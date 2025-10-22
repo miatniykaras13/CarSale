@@ -2,15 +2,13 @@
 
 public class Generation
 {
-    public int Id { get; set; }
+    public int Id { get; init; }
 
+    public required int ModelId { get; init; }
 
-    public required int ModelId { get; set; }
+    public Model Model { get; init; } = null!;
 
-    public Model Model { get; set; } = null!;
+    public required string Name { get; init; }
 
-
-    public required string Name { get; set; }
-
-    public List<Engine> Engines { get; set; } = [];
+    public List<Engine> Engines { get; init; } = [];
 }

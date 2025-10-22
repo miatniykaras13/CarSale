@@ -2,6 +2,7 @@
 using AutoCatalog.Application;
 using AutoCatalog.Infrastructure;
 using BuildingBlocks.Exceptions.Handlers;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http.Json;
 
 namespace AutoCatalog.Web;
