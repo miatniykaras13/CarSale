@@ -65,12 +65,12 @@ public class Error
     public static Error Unknown(string? message = null) =>
         new Error($"unknown.error", ErrorType.UNKNOWN, message);
 
-  
-    public static Error AlreadyExists(string obj, string? message = null) =>
-        new Error($"{obj}.already.exists", ErrorType.CONFLICT, message);
-
-
-    // несовместимость параметров
-    public static Error Mismatch(string obj1, string obj2, string? message = null) =>
-        new Error($"{obj1}.{obj2}.mismatch", ErrorType.CONFLICT, message);
+    /// <summary>
+    /// Represents domain error. Error code should be fully entered
+    /// </summary>
+    /// <param name="code">error code.</param>
+    /// <param name="message">additional info.</param>
+    /// <returns>Error.</returns>
+    public static Error Domain(string code, string? message = null) =>
+        new Error(code, ErrorType.CONFLICT, message);
 }

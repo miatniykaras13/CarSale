@@ -26,4 +26,9 @@ public enum ErrorType
     /// Ошибка валидации
     /// </summary>
     VALIDATION,
+
+    /// <summary>
+    /// Ошибка домена
+    /// </summary>
+    DOMAIN,
 }

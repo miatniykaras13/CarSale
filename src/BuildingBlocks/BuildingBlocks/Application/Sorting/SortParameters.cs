@@ -7,5 +7,5 @@ public class SortParameters
     public string? OrderBy { get; set; }
 
     [DefaultValue(SortDirection.ASCENDING)]
-    public SortDirection Direction { get; set; }
+    public SortDirection? Direction { get; set; }
 }
