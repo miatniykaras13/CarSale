@@ -1,5 +1,6 @@
 ﻿using AdService.Application.Interfaces;
 using AdService.Domain.Ads.Aggregates;
+using AdService.Infrastructure.Data;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Infrastructure.Repositories;

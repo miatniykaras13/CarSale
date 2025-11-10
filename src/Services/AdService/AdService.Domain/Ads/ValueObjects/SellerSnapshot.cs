@@ -4,7 +4,7 @@ namespace AdService.Domain.Ads.ValueObjects;
 
 public record SellerSnapshot
 {
-    private const int MAX_NAME_LENGTH = 50;
+    public const int MAX_NAME_LENGTH = 50;
 
     public string DisplayName { get; private set; } = null!;
 

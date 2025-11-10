@@ -18,27 +18,7 @@ public enum AdStatus
     PUBLISHED,
 
     /// <summary>
-    /// Отказано в публикации
+    /// Объявление неактивно
     /// </summary>
-    DENIED,
-
-    /// <summary>
-    /// Удалено администратором или модератором
-    /// </summary>
-    REMOVED,
-
-    /// <summary>
-    /// Заархивировано(продано или убрано)
-    /// </summary>
-    ARCHIVED,
-
-    /// <summary>
-    /// Удалено пользователем
-    /// </summary>
-    DELETED,
-
-    /// <summary>
-    /// Временно приостановлено пользователем или админом
-    /// </summary>
-    PAUSED,
+    INACTIVE,
 }

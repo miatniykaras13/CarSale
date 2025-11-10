@@ -4,9 +4,11 @@ namespace AdService.Domain.Ads.ValueObjects;
 
 public record CarSnapshot
 {
-    private const int REQUIRED_VIN_LENGTH = 17;
+    public const int REQUIRED_VIN_LENGTH = 17;
 
     public static int RequiredVinLength => REQUIRED_VIN_LENGTH;
+
+    public Guid AdId { get; init; }
 
     public string Brand { get; private set; } = null!;
 
@@ -27,8 +29,9 @@ public record CarSnapshot
     {
     }
 
-    private CarSnapshot(string brand, string model, int year, string generation, string vin, int mileage, string color)
+    private CarSnapshot(Guid adId, string brand, string model, int year, string generation, string vin, int mileage, string color)
     {
+        AdId = adId;
         Brand = brand;
         Model = model;
         Year = year;
@@ -39,6 +42,7 @@ public record CarSnapshot
     }
 
     public static Result<CarSnapshot, Error> Of(
+        Guid adId,
         string brand,
         string model,
         int year,
@@ -49,7 +53,8 @@ public record CarSnapshot
     {
         if (year <= 1900)
         {
-            return Result.Failure<CarSnapshot, Error>(Error.Domain("car_snapshot.year.less_than_1900",
+            return Result.Failure<CarSnapshot, Error>(Error.Domain(
+                "car_snapshot.year.less_than_1900",
                 "Year must be greater than 1900."));
         }
 
@@ -59,7 +64,7 @@ public record CarSnapshot
                 Error.Domain("car_snapshot.vin.is.conflict", "Invalid vin length"));
         }
 
-        CarSnapshot carSnapshot = new(brand, model, year, generation, vin, mileage, color);
+        CarSnapshot carSnapshot = new(adId, brand, model, year, generation, vin, mileage, color);
         return Result.Success<CarSnapshot, Error>(carSnapshot);
     }
 }
