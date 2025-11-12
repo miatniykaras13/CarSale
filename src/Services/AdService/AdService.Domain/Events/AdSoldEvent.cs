@@ -3,4 +3,4 @@ using BuildingBlocks.DDD.Abstractions;
 
 namespace AdService.Domain.Events;
 
-public record AdDeniedEvent(Ad Ad) : IDomainEvent;
+public record AdSoldEvent(Ad Ad) : IDomainEvent;

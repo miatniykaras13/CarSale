@@ -5,7 +5,7 @@ namespace AdService.Domain.Ads.ValueObjects;
 public record ModerationResult
 {
     public const int MAX_MESSAGE_LENGTH = 200;
-    
+
     public Guid ModeratorId { get; private set; }
 
     public DateTime DecidedAt { get; private set; }
@@ -15,7 +15,6 @@ public record ModerationResult
     public string? Message { get; private set; }
 
     public bool IsAccepted => DenyReason is null;
-
 
     protected ModerationResult()
     {
@@ -29,8 +28,11 @@ public record ModerationResult
         Message = message;
     }
 
-
-    public static Result<ModerationResult, Error> Of(Guid moderatorId, DateTime decidedAt, DenyReason? denyReason = null, string? message = null)
+    public static Result<ModerationResult, Error> Of(
+        Guid moderatorId,
+        DateTime decidedAt,
+        DenyReason? denyReason = null,
+        string? message = null)
     {
         if (message is not null && message.Length > MAX_MESSAGE_LENGTH)
         {
@@ -42,8 +44,4 @@ public record ModerationResult
         ModerationResult result = new(moderatorId, decidedAt, denyReason, message);
         return Result.Success<ModerationResult, Error>(result);
     }
-}
-
-public enum DenyReason
-{
 }

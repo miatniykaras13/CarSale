@@ -1,2 +1,1 @@
-﻿global using AdService.Domain.Abstractions;
-global using BuildingBlocks.Errors;
+﻿global using BuildingBlocks.Errors;

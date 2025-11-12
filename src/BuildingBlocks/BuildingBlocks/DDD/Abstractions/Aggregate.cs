@@ -1,4 +1,4 @@
-﻿namespace AdService.Domain.Abstractions;
+﻿namespace BuildingBlocks.DDD.Abstractions;
 
 public abstract class Aggregate<TId> : Entity<TId>, IAggregate
     where TId : IComparable<TId>

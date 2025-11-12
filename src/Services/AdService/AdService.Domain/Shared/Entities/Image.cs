@@ -1,4 +1,6 @@
-﻿namespace AdService.Domain.Shared.Entities;
+﻿using BuildingBlocks.DDD.Abstractions;
+
+namespace AdService.Domain.Shared.Entities;
 
 public class Image : Entity<Guid>
 {

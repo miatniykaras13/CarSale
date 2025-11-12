@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace AdService.Domain.Abstractions;
+namespace BuildingBlocks.DDD.Abstractions;
 
 public interface IDomainEvent : INotification
 {

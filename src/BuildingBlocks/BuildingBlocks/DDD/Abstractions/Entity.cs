@@ -1,4 +1,4 @@
-﻿namespace AdService.Domain.Abstractions;
+﻿namespace BuildingBlocks.DDD.Abstractions;
 
 public abstract class Entity<TId> : CSharpFunctionalExtensions.Entity<TId>
     where TId : IComparable<TId>
