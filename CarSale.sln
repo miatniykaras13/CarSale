@@ -35,13 +35,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Web", "src\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Domain", "src\Services\AdService\AdService.Domain\AdService.Domain.csproj", "{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Application", "src\Services\AdService\AdService.Application\AdService.Application.csproj", "{252CB6F4-DF7B-4855-B71E-FBEAB21C4A98}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Infrastructure", "src\Services\AdService\AdService.Infrastructure\AdService.Infrastructure.csproj", "{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Presenters", "src\Services\AdService\AdService.Presenters\AdService.Presenters.csproj", "{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Contracts", "src\Services\AdService\AdService.Contracts\AdService.Contracts.csproj", "{5519CBA1-F1F4-4B70-B99D-5D83ADAF31D5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Application", "src\Services\AdService\AdService.Application\AdService.Application.csproj", "{7983ECE4-832B-4208-931A-4A1D4779C849}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,10 +79,6 @@ Global
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{252CB6F4-DF7B-4855-B71E-FBEAB21C4A98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{252CB6F4-DF7B-4855-B71E-FBEAB21C4A98}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{252CB6F4-DF7B-4855-B71E-FBEAB21C4A98}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{252CB6F4-DF7B-4855-B71E-FBEAB21C4A98}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -93,10 +87,10 @@ Global
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5519CBA1-F1F4-4B70-B99D-5D83ADAF31D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5519CBA1-F1F4-4B70-B99D-5D83ADAF31D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5519CBA1-F1F4-4B70-B99D-5D83ADAF31D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5519CBA1-F1F4-4B70-B99D-5D83ADAF31D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7983ECE4-832B-4208-931A-4A1D4779C849}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7983ECE4-832B-4208-931A-4A1D4779C849}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7983ECE4-832B-4208-931A-4A1D4779C849}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7983ECE4-832B-4208-931A-4A1D4779C849}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,10 +107,9 @@ Global
 		{533F55D5-A22F-434A-92BD-D4C7A45EE923} = {7CBE294C-9684-47C4-B0C8-700251B44558}
 		{38581EE0-7250-438E-966D-4E5339F20806} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
-		{252CB6F4-DF7B-4855-B71E-FBEAB21C4A98} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
-		{5519CBA1-F1F4-4B70-B99D-5D83ADAF31D5} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
+		{7983ECE4-832B-4208-931A-4A1D4779C849} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8872AD1A-914B-4D1D-BA6F-22C02F4D87F8}

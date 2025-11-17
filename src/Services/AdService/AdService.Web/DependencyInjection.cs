@@ -1,6 +1,12 @@
-﻿namespace AdService.Web;
+﻿using AdService.Infrastructure;
 
-public class DependencyInjection
+namespace AdService.Web;
+
+public static class DependencyInjection
 {
-    
+    public static IServiceCollection AddProgramDependencies(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddInfrastructure(configuration);
+        return services;
+    }
 }

@@ -1,11 +1,10 @@
-﻿using AdService.Application.Interfaces;
-using AdService.Domain.Ads.Aggregates;
+﻿using AdService.Domain.Aggregates;
 using AdService.Infrastructure.Data;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Infrastructure.Repositories;
 
-public class AdsEfRepository(AppDbContext context) : IAdsRepository
+public class AdsEfRepository(AppDbContext context)
 {
     public async Task<Result<Guid>> AddAsync(Ad ad, CancellationToken cancellationToken)
     {

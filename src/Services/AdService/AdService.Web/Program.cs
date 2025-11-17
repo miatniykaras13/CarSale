@@ -1,10 +1,11 @@
+using AdService.Web;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
 
-builder.Services.AddControllers();
-builder.Services.AddOpenApi();
+services.AddProgramDependencies(configuration);
 
 var app = builder.Build();
 

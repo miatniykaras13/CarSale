@@ -1,8 +1,16 @@
-﻿namespace BuildingBlocks.DDD.Abstractions;
+﻿using System.Runtime.InteropServices.JavaScript;
+using BuildingBlocks.Errors;
+using CSharpFunctionalExtensions;
+
+namespace BuildingBlocks.DDD.Abstractions;
 
 public abstract class Entity<TId> : CSharpFunctionalExtensions.Entity<TId>
     where TId : IComparable<TId>
 {
+    protected Entity()
+    {
+    }
+
     protected Entity(TId id)
         : base(id)
     {

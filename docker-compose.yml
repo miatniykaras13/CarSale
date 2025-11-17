@@ -2,6 +2,9 @@ services:
   autocatalogdb:
     image: postgres
     
+  adservicedb:
+    image: postgres
+    
   autocatalog.web:
     image: autocatalog.web
     build:
@@ -15,10 +18,9 @@ services:
     image: postgres
     
     
-    
-
 volumes:
-  postgres_catalog:
-  keycloak_data:
+  auto-catalog-data:
+  ad-service-data:
+  keycloak-data:
   
   

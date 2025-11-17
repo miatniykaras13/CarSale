@@ -3,6 +3,10 @@
 public abstract class Aggregate<TId> : Entity<TId>, IAggregate
     where TId : IComparable<TId>
 {
+    protected Aggregate()
+    {
+    }
+
     protected Aggregate(TId id)
         : base(id)
     {
