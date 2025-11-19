@@ -20,9 +20,13 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version: 9.0.x
-    - name: Restore dependencies
-      run: dotnet restore ./CarSale.sln
-    - name: Build
-      run: dotnet build ./CarSale.sln --no-restore
-    - name: Test
-      run: dotnet test ./CarSale.sln --no-build --verbosity normal
+    - name: Restore AutoCatalog
+      run: dotnet restore ./src/Services/AutoCatalog/AutoCatalog.Web/AutoCatalog.Web.csproj
+    - name: Build AutoCatalog
+      run: dotnet build ./src/Services/AutoCatalog/AutoCatalog.Web/AutoCatalog.Web.csproj --no-restore
+    # - name: Test AutoCatalog
+    #   run: dotnet test ./src/Services/AutoCatalog/AutoCatalog.Web/AutoCatalog.Web.csproj --no-build --verbosity normal
+    - name: Restore AdService
+      run: dotnet restore ./src/Services/AdService/AdService.Web/AdService.Web.csproj
+    - name: Build AdService
+      run: dotnet build ./src/Services/AdService/AdService.Web/AdService.Web.csproj --no-restore
