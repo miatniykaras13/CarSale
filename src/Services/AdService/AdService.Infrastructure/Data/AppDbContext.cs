@@ -1,0 +1,19 @@
+﻿using System.Reflection;
+using AdService.Domain.Aggregates;
+using AdService.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
+
+namespace AdService.Infrastructure.Data;
+
+public class AppDbContext(DbContextOptions options) : DbContext(options)
+{
+    public DbSet<Ad> Ads { get; set; }
+
+    public DbSet<CarOption> CarOptions { get; set; }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        base.OnModelCreating(modelBuilder);
+    }
+}

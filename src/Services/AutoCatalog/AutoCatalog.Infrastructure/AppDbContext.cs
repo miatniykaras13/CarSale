@@ -1,7 +1,7 @@
 ﻿using AutoCatalog.Domain.Specs;
 using AutoCatalog.Domain.Transport.Cars;
 using AutoCatalog.Infrastructure.Configurations;
-using AutoCatalog.Seeding.Fakers;
+using AutoCatalog.Infrastructure.Seeding.Fakers;
 
 namespace AutoCatalog.Infrastructure;
 

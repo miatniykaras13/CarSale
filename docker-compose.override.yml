@@ -9,7 +9,19 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "postgres_catalog:/var/lib/postgresql/data/"
+      - "auto-catalog-data:/var/lib/postgresql/data/"
+        
+  adservicedb:
+    container_name: adservicedb
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1111
+      - POSTGRES_DB=AdServiceDb
+    restart: always
+    ports:
+      - "5434:5432"
+    volumes:
+      - "ad-service-data:/var/lib/postgresql/data/"
     
   
   autocatalog.web:
@@ -40,7 +52,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - "keycloak_data:/var/lib/postgresql/data/"
+      - "keycloak-data:/var/lib/postgresql/data/"
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0

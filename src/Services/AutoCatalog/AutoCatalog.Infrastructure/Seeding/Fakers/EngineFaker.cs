@@ -2,7 +2,7 @@
 using AutoCatalog.Domain.Specs;
 using Bogus;
 
-namespace AutoCatalog.Seeding.Fakers;
+namespace AutoCatalog.Infrastructure.Seeding.Fakers;
 
 public static class EngineFaker
 {

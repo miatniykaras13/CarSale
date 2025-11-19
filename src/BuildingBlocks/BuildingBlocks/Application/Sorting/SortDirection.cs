@@ -6,12 +6,12 @@ namespace BuildingBlocks.Application.Sorting;
 public enum SortDirection
 {
     /// <summary>
-    /// По убыванию
-    /// </summary>
-    DESCENDING,
-
-    /// <summary>
     /// По возрастанию
     /// </summary>
-    ASCENDING,
+    ASCENDING = 0,
+
+    /// <summary>
+    /// По убыванию
+    /// </summary>
+    DESCENDING = 1,
 }
