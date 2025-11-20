@@ -19,8 +19,8 @@ services:
     
     
 volumes:
-  auto-catalog-data:
-  ad-service-data:
+  auto-catalog-postgres:
+  ad-service-postgres:
   keycloak-data:
   
   

@@ -233,7 +233,7 @@ public sealed class Ad : Aggregate<Guid>
         return UnitResult.Success<Error>();
     }
 
-    // can cancel submitting only with status pending
+    // can cancel submission only with status pending
     public UnitResult<Error> CancelSubmission()
     {
         if (Status != AdStatus.PENDING)
@@ -250,7 +250,7 @@ public sealed class Ad : Aggregate<Guid>
     }
 
     // Publishing only if moderated and not published yet
-    public UnitResult<Error> Publish(TimeSpan lifespan)
+    public UnitResult<Error> Publish(TimeSpan lifespan, ModerationResult moderationResult)
     {
         if (Status is not (AdStatus.PENDING or AdStatus.PAUSED))
         {
@@ -259,15 +259,16 @@ public sealed class Ad : Aggregate<Guid>
                 $"Ad's status must be pending or paused to publish."));
         }
 
-        if (ModerationResult is null || !ModerationResult.IsAccepted)
+        if (!moderationResult.IsAccepted)
         {
             return UnitResult.Failure<Error>(Error.Domain(
                 "moderation_result.is_conflict",
-                "Ad is not moderated or denied"));
+                "Ad is not accepted to be published"));
         }
 
         Status = AdStatus.PUBLISHED;
         ExpiresAt = DateTime.UtcNow.Add(lifespan);
+        ModerationResult = moderationResult;
 
         AddDomainEvent(new AdPublishedEvent(this));
         return UnitResult.Success<Error>();
@@ -383,7 +384,7 @@ public sealed class Ad : Aggregate<Guid>
                 $"Ad's status must be published or paused to sell."));
         }
 
-        Status = AdStatus.PAUSED;
+        Status = AdStatus.SOLD;
 
         AddDomainEvent(new AdSoldEvent(this));
         return UnitResult.Success<Error>();

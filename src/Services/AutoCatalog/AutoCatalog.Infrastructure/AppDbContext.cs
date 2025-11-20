@@ -1,4 +1,5 @@
-﻿using AutoCatalog.Domain.Specs;
+﻿using System.Reflection;
+using AutoCatalog.Domain.Specs;
 using AutoCatalog.Domain.Transport.Cars;
 using AutoCatalog.Infrastructure.Configurations;
 using AutoCatalog.Infrastructure.Seeding.Fakers;
@@ -19,12 +20,7 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.ApplyConfiguration(new BrandConfiguration());
-        modelBuilder.ApplyConfiguration(new ModelConfiguration());
-        modelBuilder.ApplyConfiguration(new GenerationConfiguration());
-        modelBuilder.ApplyConfiguration(new EngineConfiguration());
-        modelBuilder.ApplyConfiguration(new CarConfiguration());
-
+        modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
     }
 
@@ -98,5 +94,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
                     .AddRangeAsync(carsToSeed, ct);
                 await context.SaveChangesAsync(ct);
             });
+        base.OnConfiguring(optionsBuilder);
     }
 }
