@@ -18,5 +18,9 @@ public class EngineConfiguration : IEntityTypeConfiguration<Engine>
             .HasMany(e => e.Cars)
             .WithOne(c => c.Engine)
             .HasForeignKey(c => c.EngineId);
+
+        builder
+            .Property(c => c.FuelType)
+            .HasConversion<string>();
     }
 }

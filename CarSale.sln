@@ -41,6 +41,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Presenters", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Application", "src\Services\AdService\AdService.Application\AdService.Application.csproj", "{7983ECE4-832B-4208-931A-4A1D4779C849}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Tests", "src\Services\AdService\AdService.Tests\AdService.Tests.csproj", "{B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +93,10 @@ Global
 		{7983ECE4-832B-4208-931A-4A1D4779C849}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7983ECE4-832B-4208-931A-4A1D4779C849}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7983ECE4-832B-4208-931A-4A1D4779C849}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +116,7 @@ Global
 		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{7983ECE4-832B-4208-931A-4A1D4779C849} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
+		{B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8872AD1A-914B-4D1D-BA6F-22C02F4D87F8}

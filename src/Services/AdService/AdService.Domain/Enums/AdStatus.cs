@@ -45,5 +45,5 @@ public enum AdStatus
     /// <summary>
     /// Завершено продажей — товар продан, объявление закрыто.
     /// </summary>
-    SOLD
+    SOLD,
 }

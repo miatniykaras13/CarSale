@@ -11,6 +11,8 @@ public class AppDbContext(DbContextOptions options) : DbContext(options)
 
     public DbSet<CarOption> CarOptions { get; set; }
 
+    public DbSet<Comment> Comments { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());

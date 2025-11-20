@@ -33,6 +33,15 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasForeignKey(c => c.BrandId)
             .OnDelete(DeleteBehavior.Cascade);
 
+        builder
+            .Property(c => c.AutoDriveType)
+            .HasConversion<string>();
+
+        builder
+            .Property(c => c.TransmissionType)
+            .HasConversion<string>();
+
+
         builder.OwnsOne(c => c.Dimensions);
     }
 }
