@@ -32,4 +32,4 @@ jobs:
     - name: Build AdService
       run: dotnet build ./src/Services/AdService/AdService.Web/AdService.Web.csproj --no-restore
     - name: Test AdService
-        run: dotnet test ./src/Services/AdService/AdService.Tests/AdService.Tests.csproj --verbosity normal
+      run: dotnet test ./src/Services/AdService/AdService.Tests/AdService.Tests.csproj --verbosity normal
