@@ -31,5 +31,5 @@ jobs:
       run: dotnet restore ./src/Services/AdService/AdService.Web/AdService.Web.csproj
     - name: Build AdService
       run: dotnet build ./src/Services/AdService/AdService.Web/AdService.Web.csproj --no-restore
-    # - name: Test AdService
-      #   run: dotnet test ./src/Services/AdService/AdService.Web/AdService.Web.csproj --no-build --verbosity normal
+    - name: Test AdService
+        run: dotnet test ./src/Services/AdService/AdService.Tests/AdService.Tests.csproj --verbosity normal
