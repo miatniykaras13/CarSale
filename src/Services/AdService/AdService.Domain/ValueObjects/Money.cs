@@ -8,7 +8,7 @@ public record Money
 
     public int Amount { get; private set; }
 
-    private const int MIN_AMOUNT = 100;
+    public const int MIN_AMOUNT = 100;
 
     protected Money()
     {

@@ -16,6 +16,7 @@ public record CarSnapshot
 
     public const int MAX_HORSE_POWER = 1500;
 
+
     public string Brand { get; private set; } = null!;
 
     public string Model { get; private set; } = null!;
@@ -61,7 +62,6 @@ public record CarSnapshot
     }
 
     public static Result<CarSnapshot, Error> Of(
-        Guid adId,
         string brand,
         string model,
         int year,
@@ -90,10 +90,12 @@ public record CarSnapshot
         if (horsePower is > MAX_HORSE_POWER or < 0)
         {
             return Result.Failure<CarSnapshot, Error>(
-                Error.Domain("car_snapshot.horse_power_is_conflict", $"Horse power must be between 0 and {MAX_HORSE_POWER}"));
+                Error.Domain("car_snapshot.horse_power_is_conflict",
+                    $"Horse power must be between 0 and {MAX_HORSE_POWER}"));
         }
 
-        CarSnapshot carSnapshot = new(brand, model, year, generation, vin, mileage, color, horsePower, driveType, transmissionType, fuelType);
+        CarSnapshot carSnapshot = new(brand, model, year, generation, vin, mileage, color, horsePower, driveType,
+            transmissionType, fuelType);
         return Result.Success<CarSnapshot, Error>(carSnapshot);
     }
 }

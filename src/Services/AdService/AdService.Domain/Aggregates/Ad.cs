@@ -13,9 +13,9 @@ public sealed class Ad : Aggregate<Guid>
     public const int MIN_TITLE_LENGTH = 10;
     public const int MAX_DESCRIPTION_LENGTH = 400;
 
-    private readonly HashSet<Guid> _images = [];
+    private readonly List<Guid> _images = [];
     private readonly List<Comment> _comments = [];
-    private readonly HashSet<CarOption> _carOptions = [];
+    private readonly List<CarOption> _carOptions = [];
 
     private Ad()
     {
@@ -73,11 +73,11 @@ public sealed class Ad : Aggregate<Guid>
 
     public bool IsExpired => ExpiresAt.HasValue && ExpiresAt <= DateTime.UtcNow;
 
-    public IReadOnlyCollection<Guid> Images => _images;
+    public IReadOnlyList<Guid> Images => _images.AsReadOnly();
 
     public IReadOnlyList<Comment> Comments => _comments.AsReadOnly();
 
-    public IReadOnlyCollection<CarOption> CarOptions => _carOptions;
+    public IReadOnlyList<CarOption> CarOptions => _carOptions.AsReadOnly();
 
     // First state - draft
     public static Result<Ad, Error> Create(Guid sellerId)
@@ -97,7 +97,6 @@ public sealed class Ad : Aggregate<Guid>
         string? description = null,
         Money? price = null,
         Location? location = null,
-        ISet<Guid>? images = null,
         CarSnapshot? car = null,
         Guid? carId = null,
         SellerSnapshot? seller = null)
@@ -137,14 +136,6 @@ public sealed class Ad : Aggregate<Guid>
         CarId = carId ?? CarId;
         Car = car ?? Car;
         Seller = seller ?? Seller;
-
-        if (images is not null && images.Any())
-        {
-            var imagesResult = AddImages(images);
-            if (imagesResult.IsFailure)
-                return imagesResult.Error;
-        }
-
 
         AddDomainEvent(new AdUpdatedEvent(this));
         return Result.Success<Ad, Error>(this);
@@ -406,7 +397,7 @@ public sealed class Ad : Aggregate<Guid>
     }
 
     // cannot add existing images
-    public UnitResult<Error> AddImages(ISet<Guid> images)
+    public UnitResult<Error> AddImages(IList<Guid> images)
     {
         if (images.Any(i => _images.Contains(i)))
         {
@@ -415,7 +406,7 @@ public sealed class Ad : Aggregate<Guid>
                 "Such images already exist"));
         }
 
-        _images.UnionWith(images);
+        _images.AddRange(images);
         return UnitResult.Success<Error>();
     }
 
@@ -445,7 +436,7 @@ public sealed class Ad : Aggregate<Guid>
         return UnitResult.Success<Error>();
     }
 
-    public UnitResult<Error> AddCarOptions(ISet<CarOption> carOptions)
+    public UnitResult<Error> AddCarOptions(IList<CarOption> carOptions)
     {
         if (carOptions.Any(o => _carOptions.Contains(o)))
         {
@@ -454,7 +445,7 @@ public sealed class Ad : Aggregate<Guid>
                 "Such car options already exist"));
         }
 
-        _carOptions.UnionWith(carOptions);
+        _carOptions.AddRange(carOptions);
         return UnitResult.Success<Error>();
     }
 

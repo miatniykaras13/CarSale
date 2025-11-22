@@ -53,10 +53,11 @@
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValidationResult_002Ecs_002Fl_003AC_0021_003FUsers_003F_002D_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F1ea0722f8c9bbaab3e5d465d364dd217a3f22b5bc092643f8263eedcc1f68_003FValidationResult_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AValueObject_00601_002Ecs_002Fl_003AC_0021_003FUsers_003F_002D_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FDecompilerCache_003Fdecompiler_003F589c63571ddc4376b95d68fe1bd60b20122a00_003Fb6_003Ff56d71ae_003FValueObject_00601_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7020124F_002D9FFC_002D4AC3_002D8F3D_002DAAB8E0240759_002Ff_003AVehicle_002Ecs_002Fl_003A_002E_002E_003FUsers_003FAdmin_003FAppData_003FRoaming_003FJetBrains_003FRider2025_002E1_003Fresharper_002Dhost_003FSourcesCache_003F7f9a4ef49a7652c8fa95a431749ffc534b5c2635ec33261a2bc6b338eb29_003FVehicle_002Ecs/@EntryIndexedValue">ForceIncluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=91e48652_002Ddfee_002D4a04_002Dac37_002D6e3de0b07969/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AdTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=a5caf758_002Dcce1_002D42bd_002Dad71_002Dc10ba21b3fc5/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="AdTests" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::B4A4D3B5-65B9-458B-8A7E-9C789D4E1D8D::net10.0::AdService.Tests.Unit.AdTests&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::1F677F8B-A272-4050-B626-0EB5905CB202::net9.0::AdService.Tests.Unit.AdTests&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String>
+	
 	
 	</wpf:ResourceDictionary>

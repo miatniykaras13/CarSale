@@ -23,6 +23,10 @@ public class CarOption : BuildingBlocks.DDD.Abstractions.Entity<int>
         TechnicalName = technicalName;
     }
 
+    protected CarOption()
+    {
+    }
+
 
     public static Result<CarOption, Error> Create(OptionType optionType, string name, string technicalName)
     {

@@ -76,9 +76,9 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             m.Property(x => x.ModeratorId)
                 .HasColumnName("ModeratorId");
         });
-
+        
         builder
-            .Property<HashSet<Guid>>("_images")
+            .Property<List<Guid>>("_images")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Images");
     }

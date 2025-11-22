@@ -15,6 +15,6 @@ public class CreateBrandCommandValidator : AbstractValidator<CreateBrandCommand>
 
         RuleFor(x => x.YearTo)
             .GreaterThan(x => x.YearFrom).WithMessage("YearTo must be greater than YearFrom")
-            .LessThanOrEqualTo(DateTime.Now.Year).WithMessage("YearTo must be less than or equal to current year");
+            .LessThanOrEqualTo(DateTime.UtcNow.Year).WithMessage("YearTo must be less than or equal to current year");
     }
 }

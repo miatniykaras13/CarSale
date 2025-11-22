@@ -16,6 +16,10 @@ public class Comment : BuildingBlocks.DDD.Abstractions.Entity<int>
         AdId = adId;
     }
 
+    protected Comment()
+    {
+    }
+
 
     public static Result<Comment, Error> Create(string message, Guid adId)
     {

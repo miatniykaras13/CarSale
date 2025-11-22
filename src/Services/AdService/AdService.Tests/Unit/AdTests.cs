@@ -82,34 +82,14 @@ public class AdTests
     {
         var ad = Ad.Create(Guid.NewGuid()).Value;
 
-        var carSnapshot =
-            CarSnapshot.Of(
-                ad.Id,
-                "fsdf",
-                "fadf",
-                1995,
-                "gsfdg",
-                null,
-                1243,
-                "green",
-                150,
-                AutoDriveType.AWD,
-                TransmissionType.AUTOMATIC,
-                FuelType.DIESEL).Value;
-
-        var money = Money.Of(Currency.Of("BYN").Value, 1200).Value;
-
-        var sellerSnapshot = SellerSnapshot.Of("gsd", DateTime.UtcNow, ad.SellerId).Value;
-
-        var location = Location.Of("fdasgs", "fdgsgs").Value;
         ad.Update(
             title: "Lorem ipsum",
-            car: carSnapshot,
-            price: money,
-            seller: sellerSnapshot,
-            location: location);
+            car: GetCarSnapshot(),
+            price: GetMoney(),
+            seller: GetSellerSnapshot(Guid.NewGuid()),
+            location: GetLocation());
 
-        ad.AddImages(new HashSet<Guid>([Guid.NewGuid()]));
+        ad.AddImages(new List<Guid>([Guid.NewGuid()]));
         var result = ad.Submit();
 
         result.IsSuccess.Should().Be(true);
@@ -123,7 +103,7 @@ public class AdTests
         var ad = GetAd();
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(ad.Id),
+            car: GetCarSnapshot(),
             price: GetMoney(),
             seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
@@ -145,7 +125,7 @@ public class AdTests
 
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(ad.Id),
+            car: GetCarSnapshot(),
             price: GetMoney(),
             seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
@@ -167,7 +147,7 @@ public class AdTests
 
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(ad.Id),
+            car: GetCarSnapshot(),
             price: GetMoney(),
             seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
@@ -189,7 +169,7 @@ public class AdTests
 
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(ad.Id),
+            car: GetCarSnapshot(),
             price: GetMoney(),
             seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
@@ -213,7 +193,7 @@ public class AdTests
 
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(ad.Id),
+            car: GetCarSnapshot(),
             price: GetMoney(),
             seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
@@ -231,9 +211,8 @@ public class AdTests
     }
 
 
-    private CarSnapshot GetCarSnapshot(Guid adId) =>
+    private CarSnapshot GetCarSnapshot() =>
         CarSnapshot.Of(
-            adId,
             "fsdf",
             "fadf",
             1995,
@@ -261,5 +240,5 @@ public class AdTests
     private ModerationResult GetSuccessfulModerationResult() =>
         ModerationResult.Of(Guid.NewGuid(), DateTime.UtcNow).Value;
 
-    private ISet<Guid> GetImages() => new HashSet<Guid>([Guid.NewGuid()]);
+    private IList<Guid> GetImages() => new List<Guid>([Guid.NewGuid()]);
 }
