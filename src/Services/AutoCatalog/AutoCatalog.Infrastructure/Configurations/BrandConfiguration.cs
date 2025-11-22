@@ -14,5 +14,7 @@ public class BrandConfiguration : IEntityTypeConfiguration<Brand>
             .WithOne(m => m.Brand)
             .HasForeignKey(m => m.BrandId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.HasIndex(b => b.Name).IsUnique();
     }
 }
