@@ -3,6 +3,7 @@ using AdService.Domain.Entities;
 using AdService.Domain.Enums;
 using AdService.Domain.Events;
 using AdService.Domain.ValueObjects;
+using BuildingBlocks.DDD;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.Aggregates;

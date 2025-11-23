@@ -1,5 +1,5 @@
 ﻿using AdService.Domain.Aggregates;
-using BuildingBlocks.DDD.Abstractions;
+using BuildingBlocks.DDD;
 
 namespace AdService.Domain.Events;
 

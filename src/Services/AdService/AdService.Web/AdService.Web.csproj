@@ -22,6 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\AdService.Application\AdService.Application.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure\AdService.Infrastructure.csproj" />
       <ProjectReference Include="..\AdService.Presenters\AdService.Presenters.csproj" />
     </ItemGroup>

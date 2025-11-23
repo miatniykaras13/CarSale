@@ -3,7 +3,7 @@ using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.Entities;
 
-public class CarOption : BuildingBlocks.DDD.Abstractions.Entity<int>
+public class CarOption : BuildingBlocks.DDD.Entity<int>
 {
     public const int MAX_NAME_LENGTH = 100;
     public const int MIN_NAME_LENGTH = 3;

@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.DDD.Abstractions;
+﻿namespace BuildingBlocks.DDD;
 
 public abstract class Aggregate<TId> : Entity<TId>, IAggregate
     where TId : IComparable<TId>
