@@ -1,0 +1,39 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "FileManagement.Grpc";
+
+
+package file_manager;
+
+service FileManager {
+    // File CRUD Operations
+    rpc UploadImage (stream UploadImageRequest) returns (UploadImageResponse);
+    rpc UploadFile (stream UploadFileRequest) returns (UploadFileResponse);
+    rpc GetDownloadLink (GetDownloadLinkRequest) returns (GetDownloadLinkResponse);
+    rpc DeleteFile (DeleteRequest) returns (DeleteResponse);
+}
+
+message UploadRequest {
+    bytes chunk = 1;
+}
+
+message UploadResponse {
+    string fileId = 1;
+}
+
+message GetDownloadLinkRequest {
+    string fileId = 1;
+}
+
+message GetDownloadLinkResponse {
+    string link = 1;
+    int64 expiresInSeconds = 2;
+}
+
+message DeleteRequest {
+    string fileId = 1;
+}
+
+message DeleteResponse {
+    bool success = 1;
+}

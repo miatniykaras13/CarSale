@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 18
-VisualStudioVersion = 18.0.11205.157 d18.0
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{610AEA3B-AE8B-4A6B-949E-93E663FD4F85}"
 EndProject
@@ -43,9 +43,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Application", "sr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Tests", "src\Services\AdService\AdService.Tests\AdService.Tests.csproj", "{1F677F8B-A272-4050-B626-0EB5905CB202}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileService", "FileService", "{965E0721-4ED6-4EC4-A74D-390B6DCAE9E4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileManagement", "FileManagement", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileService.Grpc", "src\Services\FileService\FileService.Grpc\FileService.Grpc.csproj", "{8D45C271-16F5-4A39-B88F-01FCD064BB6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManagement.Grpc", "Src\Services\FileManagement\FileManagement.Grpc\FileManagement.Grpc.csproj", "{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,10 +101,10 @@ Global
 		{1F677F8B-A272-4050-B626-0EB5905CB202}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F677F8B-A272-4050-B626-0EB5905CB202}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F677F8B-A272-4050-B626-0EB5905CB202}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D45C271-16F5-4A39-B88F-01FCD064BB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D45C271-16F5-4A39-B88F-01FCD064BB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D45C271-16F5-4A39-B88F-01FCD064BB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D45C271-16F5-4A39-B88F-01FCD064BB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -125,8 +125,8 @@ Global
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{7983ECE4-832B-4208-931A-4A1D4779C849} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{1F677F8B-A272-4050-B626-0EB5905CB202} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
-		{965E0721-4ED6-4EC4-A74D-390B6DCAE9E4} = {7CBE294C-9684-47C4-B0C8-700251B44558}
-		{8D45C271-16F5-4A39-B88F-01FCD064BB6D} = {965E0721-4ED6-4EC4-A74D-390B6DCAE9E4}
+		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {7CBE294C-9684-47C4-B0C8-700251B44558}
+		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8872AD1A-914B-4D1D-BA6F-22C02F4D87F8}
