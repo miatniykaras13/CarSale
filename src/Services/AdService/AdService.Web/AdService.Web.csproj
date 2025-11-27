@@ -24,7 +24,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AdService.Application\AdService.Application.csproj" />
-      <ProjectReference Include="..\AdService.Infrastructure\AdService.Infrastructure.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj" />
       <ProjectReference Include="..\AdService.Presenters\AdService.Presenters.csproj" />
     </ItemGroup>
 
@@ -33,5 +34,6 @@
         <Link>Protos\file_manager.proto</Link>
       </Protobuf>
     </ItemGroup>
+  
 
 </Project>

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197
+# Visual Studio Version 18
+VisualStudioVersion = 18.0.11205.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{610AEA3B-AE8B-4A6B-949E-93E663FD4F85}"
 EndProject
@@ -35,8 +35,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Web", "src\Servic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Domain", "src\Services\AdService\AdService.Domain\AdService.Domain.csproj", "{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Infrastructure", "src\Services\AdService\AdService.Infrastructure\AdService.Infrastructure.csproj", "{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Presenters", "src\Services\AdService\AdService.Presenters\AdService.Presenters.csproj", "{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Application", "src\Services\AdService\AdService.Application\AdService.Application.csproj", "{7983ECE4-832B-4208-931A-4A1D4779C849}"
@@ -46,6 +44,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FileManagement", "FileManagement", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileManagement.Grpc", "Src\Services\FileManagement\FileManagement.Grpc\FileManagement.Grpc.csproj", "{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Infrastructure.Postgres", "src\Services\AdService\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj", "{E8518F1B-7FB7-43FB-8E60-ABD452AC9092}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Infrastructure.FileStorage", "src\Services\AdService\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj", "{AE08E355-FE6B-43AB-A968-A041DFCE8DF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,10 +87,6 @@ Global
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,6 +103,14 @@ Global
 		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8518F1B-7FB7-43FB-8E60-ABD452AC9092}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8518F1B-7FB7-43FB-8E60-ABD452AC9092}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8518F1B-7FB7-43FB-8E60-ABD452AC9092}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8518F1B-7FB7-43FB-8E60-ABD452AC9092}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE08E355-FE6B-43AB-A968-A041DFCE8DF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE08E355-FE6B-43AB-A968-A041DFCE8DF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE08E355-FE6B-43AB-A968-A041DFCE8DF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE08E355-FE6B-43AB-A968-A041DFCE8DF3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,12 +127,13 @@ Global
 		{533F55D5-A22F-434A-92BD-D4C7A45EE923} = {7CBE294C-9684-47C4-B0C8-700251B44558}
 		{38581EE0-7250-438E-966D-4E5339F20806} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{88DD73E1-A3BB-4EB7-B80E-ABDF93B102B1} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
-		{F6F28827-D30D-4BAF-9B67-AD39BC4FD23B} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{6513AB8A-6405-4B1C-9C12-9D0330F6DAFA} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{7983ECE4-832B-4208-931A-4A1D4779C849} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{1F677F8B-A272-4050-B626-0EB5905CB202} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{02EA681E-C7D8-13C7-8484-4AC65E1B71E8} = {7CBE294C-9684-47C4-B0C8-700251B44558}
 		{2BA7AF95-B01C-42F3-BD1D-C7B26CB5349F} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{E8518F1B-7FB7-43FB-8E60-ABD452AC9092} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
+		{AE08E355-FE6B-43AB-A968-A041DFCE8DF3} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8872AD1A-914B-4D1D-BA6F-22C02F4D87F8}

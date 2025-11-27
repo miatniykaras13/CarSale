@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using AdService.Application.FileStorage;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AdService.Application;
@@ -11,6 +12,7 @@ public static class DependencyInjection
         {
             options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
+
 
         return services;
     }
