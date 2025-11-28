@@ -1,4 +1,7 @@
-﻿using FileManagement.Grpc.Data;
+﻿using System.Buffers;
+using System.Diagnostics.Tracing;
+using System.IO.Pipelines;
+using FileManagement.Grpc.Data;
 using Grpc.Core;
 using Minio;
 using Minio.DataModel.Args;
@@ -11,65 +14,45 @@ public class FileService(
     IMinioClient minioClient,
     ILogger<FileService> logger) : FileManager.FileManagerBase
 {
-    public override async Task<UploadFileResponse> UploadFile(
-        IAsyncStreamReader<UploadFileRequest> request,
+    public override async Task<UploadSmallFileResponse> UploadSmallFile(
+        UploadSmallFileRequest request,
         ServerCallContext context)
     {
-        throw new NotImplementedException();
-    }
-
-    public override async Task<UploadImageResponse> UploadImage(
-        IAsyncStreamReader<UploadImageRequest> request,
-        ServerCallContext context)
-    {
-        string? sourceService = null;
-        string? contentType = "application/octet-stream";
-        string? fileName = null;
-        int fileSize = 0;
         var ct = context.CancellationToken;
 
-        var ms = new MemoryStream();
+        var ms = new MemoryStream(request.File.ToByteArray());
 
-        await foreach (var chunk in request.ReadAllAsync(ct))
-        {
-            ms.Write(chunk.Chunk.ToByteArray());
+        string bucketName = DefineBucketName(request.SourceService);
 
-            fileSize += chunk.Chunk.Length;
+        string contentType = request.ContentType!;
 
-            if (sourceService == null && !string.IsNullOrEmpty(chunk.SourceService))
-                sourceService = chunk.SourceService;
-            if (!string.IsNullOrEmpty(chunk.ContentType))
-                contentType = chunk.ContentType;
-            if (fileName == null && !string.IsNullOrEmpty(chunk.FileName))
-                fileName = chunk.FileName;
-        }
-
-        ms.Seek(0, SeekOrigin.Begin);
-
-        string bucketName = DefineBucketName(sourceService);
+        string fileName = request.FileName!;
 
         var fileId = Guid.CreateVersion7();
 
-        string objectName = $"{fileId}_{fileName}";
+        string objectName = GenerateObjectName(fileName, contentType, fileId);
+
+        long fileSize = request.File.Length;
 
         var fileInfo = FileInfo.Create(
             fileId,
             Path.GetFileNameWithoutExtension(fileName)!,
             fileSize,
-            Path.GetExtension(fileName)!,
-            DateTime.UtcNow);
+            Path.GetExtension(fileName),
+            DateTime.UtcNow,
+            contentType);
+
+        var putObjArgs = new PutObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(objectName)
+            .WithStreamData(ms)
+            .WithObjectSize(fileSize)
+            .WithContentType(contentType);
 
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
         {
             await managementDbContext.Files.AddAsync(fileInfo, ct);
-
-            var putObjArgs = new PutObjectArgs()
-                .WithBucket(bucketName)
-                .WithObject(objectName)
-                .WithStreamData(ms)
-                .WithObjectSize(ms.Length)
-                .WithContentType(contentType);
 
             await minioClient.PutObjectAsync(putObjArgs, ct);
 
@@ -77,7 +60,100 @@ public class FileService(
 
             await transaction.CommitAsync(ct);
 
-            return new UploadImageResponse { FileId = fileId.ToString() };
+            return new UploadSmallFileResponse { FileId = fileId.ToString() };
+        }
+        catch (Exception e)
+        {
+            await transaction.RollbackAsync(ct);
+            logger.LogError(e.Message);
+            throw;
+        }
+    }
+
+    public override async Task<UploadLargeFileResponse> UploadLargeFile(
+        IAsyncStreamReader<UploadLargeFileRequest> request,
+        ServerCallContext context)
+    {
+        string? sourceService = null;
+        string? contentType = "application/octet-stream";
+        string? fileName = null;
+        long fileSize = 0;
+        var ct = context.CancellationToken;
+        var fileId = Guid.CreateVersion7();
+
+        var writerReady = new TaskCompletionSource();
+
+        var pipe = new Pipe();
+
+        await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
+        try
+        {
+            var writer = Task.Run(async () =>
+            {
+                await foreach (var chunk in request.ReadAllAsync(ct))
+                {
+                    fileName ??= chunk.FileName;
+                    sourceService ??= chunk.SourceService;
+
+                    if (!string.IsNullOrEmpty(chunk.ContentType))
+                        contentType = chunk.ContentType;
+
+                    if (fileSize == 0 && chunk.FileSize > 0)
+                        fileSize = chunk.FileSize;
+
+                    var data = chunk.Chunk;
+                    if (data is not null && data.Length > 0)
+                    {
+                        var span = data.Span;
+                        pipe.Writer.Write(span);
+                        await pipe.Writer.FlushAsync(ct);
+                    }
+
+                    if (fileName != null && contentType != null && sourceService != null && fileSize > 0)
+                        writerReady.TrySetResult();
+                }
+
+                await pipe.Writer.CompleteAsync();
+            });
+
+            var reader = Task.Run(async () =>
+            {
+                await writerReady.Task;
+
+                await using var stream = pipe.Reader.AsStream(leaveOpen: false);
+
+                var bucketName = DefineBucketName(sourceService);
+
+                var objectName = GenerateObjectName(fileName, contentType, fileId);
+
+                var putObjArgs = new PutObjectArgs()
+                    .WithBucket(bucketName)
+                    .WithObject(objectName)
+                    .WithStreamData(stream)
+                    .WithObjectSize(fileSize)
+                    .WithContentType(contentType);
+
+                await minioClient.PutObjectAsync(putObjArgs, ct);
+            });
+
+
+            await Task.WhenAll(reader, writer);
+
+            var fileInfo = FileInfo.Create(
+                fileId,
+                Path.GetFileNameWithoutExtension(fileName)!,
+                fileSize,
+                Path.GetExtension(fileName)!,
+                DateTime.UtcNow,
+                contentType);
+
+            await managementDbContext.Files.AddAsync(fileInfo, ct);
+
+            await managementDbContext.SaveChangesAsync(ct);
+
+            await transaction.CommitAsync(ct);
+
+            return new UploadLargeFileResponse { FileId = fileId.ToString() };
         }
         catch (Exception e)
         {
@@ -101,7 +177,13 @@ public class FileService(
 
         string bucketName = DefineBucketName(request.SourceService);
 
-        string objectName = $"{fileInfo.Id}_{fileInfo.Name}{fileInfo.Extension}";
+        string fileName = $"{fileInfo.Name}{fileInfo.Extension}";
+
+        string contentType = fileInfo.ContentType;
+
+        var fileId = fileInfo.Id;
+
+        string objectName = GenerateObjectName(fileName, contentType, fileId);
 
         int expirySeconds = request.ExpirySeconds;
 
@@ -160,4 +242,40 @@ public class FileService(
             "AutoCatalog" => "auto-catalog",
             _ => "other"
         };
+
+    private string DefineFolderByContentType(string? contentType) =>
+        contentType switch
+        {
+            // Изображения
+            "image/jpeg" => "images",
+            "image/png" => "images",
+            "image/gif" => "images",
+            "image/webp" => "images",
+
+            // Документы
+            "application/pdf" => "documents",
+            "application/msword" => "documents",
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document" => "documents",
+            "application/vnd.ms-excel" => "documents",
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" => "documents",
+            "text/plain" => "documents",
+            "text/csv" => "documents",
+
+            // Аудио
+            "audio/mpeg" => "audio",
+            "audio/wav" => "audio",
+            "audio/ogg" => "audio",
+
+            // Видео
+            "video/mp4" => "video",
+            "video/webm" => "video",
+            "video/x-msvideo" => "video",
+
+            // По умолчанию
+            _ => "misc"
+        };
+
+
+    private string GenerateObjectName(string? fileName, string contentType, Guid fileId) =>
+        $"{DefineFolderByContentType(contentType)}/{fileId}_{fileName ?? "file"}";
 }

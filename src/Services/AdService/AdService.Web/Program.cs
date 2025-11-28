@@ -1,6 +1,7 @@
 using AdService.Application;
 using AdService.Web;
 using MediatR;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
@@ -8,6 +9,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
+
+builder.Services.Configure<FormOptions>(o =>
+{
+    o.MultipartBodyLengthLimit = long.MaxValue;        // или конкретный предел
+    o.MemoryBufferThreshold = int.MaxValue;            // по желанию, смещение порога буферизации в памяти
+});
+
+// 2) Снимаем/увеличиваем лимит Kestrel на тело запроса
+builder.WebHost.ConfigureKestrel(o =>
+{
+    o.Limits.MaxRequestBodySize = null;                // снять полностью
+    // o.Limits.MaxRequestBodySize = 1_000_000_000;    // или задать 1GB, если нужен предел
+});
 
 services.AddProgramDependencies(configuration);
 
@@ -24,7 +38,7 @@ if (app.Environment.IsDevelopment())
 }
 
 
-app.MapPost("/image", async ([FromForm] IFormFile file, ISender sender, CancellationToken ct = default) =>
+app.MapPost("/file", async ([FromForm] IFormFile file, ISender sender, CancellationToken ct = default) =>
     {
         var stream = file.OpenReadStream();
 
@@ -32,7 +46,7 @@ app.MapPost("/image", async ([FromForm] IFormFile file, ISender sender, Cancella
 
         var fileName = file.FileName;
 
-        var command = new UploadImageCommand(stream, fileName, contentType);
+        var command = new UploadLargeFileCommand(stream, fileName, contentType);
 
         var result = await sender.Send(command, ct);
 

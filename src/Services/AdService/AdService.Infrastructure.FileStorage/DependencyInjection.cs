@@ -12,6 +12,17 @@ public static class DependencyInjection
         services.AddGrpcClient<FileManager.FileManagerClient>(o =>
         {
             o.Address = new Uri(configuration["FileStorage:Endpoint"]!);
+        })
+        .ConfigureChannel(o =>
+        {
+            // пример конфигурации канала
+            o.MaxReceiveMessageSize = null;
+            o.MaxSendMessageSize = null;
+            o.HttpHandler = new SocketsHttpHandler
+            {
+                // можно настроить TLS, прокси, пул соединений
+                EnableMultipleHttp2Connections = true,
+            };
         });
         services.AddScoped<IFileStorage, MinioFileStorage>();
         return services;

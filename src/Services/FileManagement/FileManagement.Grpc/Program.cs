@@ -7,6 +7,16 @@ var services = builder.Services;
 
 var configuration = builder.Configuration;
 
+builder.Services.AddGrpc(options =>
+{
+    options.MaxReceiveMessageSize = null; // снимаем лимит
+    options.MaxSendMessageSize = null;
+});
+builder.WebHost.ConfigureKestrel(o =>
+{
+    o.Limits.MaxRequestBodySize = null; // снимаем глобально
+});
+
 // Add services to the container.
 services.AddProgramDependencies(configuration);
 

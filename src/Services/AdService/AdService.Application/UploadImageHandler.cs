@@ -6,14 +6,14 @@ using CSharpFunctionalExtensions;
 
 namespace AdService.Application;
 
-public record UploadImageCommand(Stream Stream, string FileName, string ContentType) : ICommand<Guid>;
+public record UploadLargeFileCommand(Stream Stream, string FileName, string ContentType) : ICommand<Guid>;
 
-internal class UploadImageCommandHandler(
-    IFileStorage fileStorage) : ICommandHandler<UploadImageCommand, Guid>
+internal class UploadLargeFileCommandHandler(
+    IFileStorage fileStorage) : ICommandHandler<UploadLargeFileCommand, Guid>
 {
-    public async Task<Guid> Handle(UploadImageCommand command, CancellationToken ct = default)
+    public async Task<Guid> Handle(UploadLargeFileCommand command, CancellationToken ct = default)
     {
-        var fileId = await fileStorage.UploadImageAsync(command.Stream, command.FileName, command.ContentType, ct);
+        var fileId = await fileStorage.UploadSmallFileAsync(command.Stream, command.FileName, command.ContentType, ct);
         return fileId;
     }
 }
