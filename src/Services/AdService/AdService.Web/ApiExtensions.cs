@@ -1,4 +1,4 @@
-﻿using AdService.Infrastructure.Data;
+﻿using AdService.Infrastructure.Postgres.Data;
 
 namespace AdService.Web;
 

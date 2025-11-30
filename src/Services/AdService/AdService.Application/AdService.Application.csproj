@@ -8,7 +8,11 @@
 
     <ItemGroup>
       <PackageReference Include="MediatR" Version="13.1.0" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.11" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+      <ProjectReference Include="..\AdService.Contracts\AdService.Contracts.csproj" />
     </ItemGroup>
 
 </Project>

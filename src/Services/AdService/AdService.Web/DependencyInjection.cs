@@ -1,5 +1,6 @@
 ﻿using AdService.Application;
-using AdService.Infrastructure;
+using AdService.Infrastructure.FileStorage;
+using AdService.Infrastructure.Postgres;
 
 namespace AdService.Web;
 
@@ -9,7 +10,16 @@ public static class DependencyInjection
     {
         services
             .AddApplication()
-            .AddInfrastructure(configuration);
+            .AddPostgresInfrastructure(configuration)
+            .AddFileStorage(configuration)
+            .AddWeb();
+        return services;
+    }
+
+    private static IServiceCollection AddWeb(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
         return services;
     }
 }

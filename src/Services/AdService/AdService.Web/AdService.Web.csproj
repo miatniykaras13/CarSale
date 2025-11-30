@@ -8,8 +8,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.10">
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -23,8 +25,16 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AdService.Application\AdService.Application.csproj" />
-      <ProjectReference Include="..\AdService.Infrastructure\AdService.Infrastructure.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj" />
       <ProjectReference Include="..\AdService.Presenters\AdService.Presenters.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Protobuf Include="..\..\FileManagement\FileManagement.Grpc\Protos\file_manager.proto" GrpcServices="Client">
+        <Link>Protos\file_manager.proto</Link>
+      </Protobuf>
+    </ItemGroup>
+  
 
 </Project>

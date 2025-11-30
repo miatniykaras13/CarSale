@@ -17,10 +17,17 @@ services:
   keycloakdb:
     image: postgres
     
+  minio:
+    image: minio/minio:latest
+    
+  
+
     
 volumes:
   auto-catalog-postgres:
   ad-service-postgres:
   keycloak-data:
+  minio-data:
+    driver: local
   
   

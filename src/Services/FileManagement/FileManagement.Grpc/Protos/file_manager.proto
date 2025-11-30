@@ -1,0 +1,79 @@
+﻿syntax = "proto3";
+
+option csharp_namespace = "FileManagement.Grpc";
+
+
+package file_manager;
+
+service FileManager {
+    // File CRUD Operations
+    rpc UploadSmallFile (UploadSmallFileRequest) returns (UploadSmallFileResponse);
+    rpc UploadLargeFile (stream UploadLargeFileRequest) returns (UploadLargeFileResponse);
+    rpc GetDownloadLink (GetDownloadLinkRequest) returns (GetDownloadLinkResponse);
+    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
+    rpc GenerateThumbnail (GenerateThumbnailRequest) returns (GenerateThumbnailResponse);
+    rpc DeleteThumbnail (DeleteThumbnailRequest) returns (DeleteThumbnailResponse);
+}
+
+message UploadSmallFileRequest {
+    bytes file = 1;
+    string sourceService = 2;
+    string contentType = 3;
+    string fileName = 4;
+    int64 fileSize = 5;
+}
+
+message UploadSmallFileResponse {
+    string fileId = 1;
+}
+
+message UploadLargeFileRequest {
+    bytes chunk = 1;
+    string sourceService = 2;
+    string contentType = 3;
+    string fileName = 4;
+    int64 fileSize = 5;
+}
+
+message UploadLargeFileResponse {
+    string fileId = 1;
+}
+
+message GetDownloadLinkRequest {
+    string fileId = 1;
+    string sourceService = 2;
+    int32 expirySeconds = 3;
+}
+
+message GetDownloadLinkResponse {
+    string link = 1;
+}
+
+message DeleteFileRequest {
+    string fileId = 1;
+    string sourceService = 2;
+}
+
+message DeleteFileResponse {
+    bool isSuccess = 1;
+}
+
+message GenerateThumbnailRequest {
+    string fileId = 1;
+    string sourceService = 2;
+    int32 thumbnailWidth = 3;
+    int32 thumbnailHeight = 4;
+}
+
+message GenerateThumbnailResponse {
+    string thumbnailId = 1;
+}
+
+message DeleteThumbnailRequest {
+    string fileId = 1;
+    string sourceService = 2;
+}
+
+message DeleteThumbnailResponse {
+    bool isSuccess = 1;
+}
