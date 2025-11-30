@@ -12,7 +12,6 @@ service FileManager {
     rpc GetDownloadLink (GetDownloadLinkRequest) returns (GetDownloadLinkResponse);
     rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
     rpc GenerateThumbnail (GenerateThumbnailRequest) returns (GenerateThumbnailResponse);
-    rpc DeleteThumbnail (DeleteThumbnailRequest) returns (DeleteThumbnailResponse);
 }
 
 message UploadSmallFileRequest {
@@ -67,13 +66,4 @@ message GenerateThumbnailRequest {
 
 message GenerateThumbnailResponse {
     string thumbnailId = 1;
-}
-
-message DeleteThumbnailRequest {
-    string fileId = 1;
-    string sourceService = 2;
-}
-
-message DeleteThumbnailResponse {
-    bool isSuccess = 1;
 }

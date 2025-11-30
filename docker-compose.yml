@@ -20,9 +20,13 @@ services:
   minio:
     image: minio/minio:latest
     
-  
+  filemanagement.grpc:
+    image: ${DOCKER_REGISTRY-}filemanagementgrpc
+    build:
+      context: .
+      dockerfile: Src/Services/FileManagement/FileManagement.Grpc/Dockerfile
+      
 
-    
 volumes:
   auto-catalog-postgres:
   ad-service-postgres:
