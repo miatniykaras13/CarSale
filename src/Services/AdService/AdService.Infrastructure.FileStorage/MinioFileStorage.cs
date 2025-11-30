@@ -1,4 +1,5 @@
 ﻿using AdService.Application.FileStorage;
+using AdService.Contracts.Files;
 using FileManagement.Grpc;
 using Grpc.Net.Client;
 using Microsoft.AspNetCore.Components;
@@ -77,10 +78,28 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
 
     public async Task<bool> DeleteFileAsync(Guid fileId, CancellationToken ct)
     {
-        var request = new DeleteRequest { FileId = fileId.ToString(), SourceService = _sourceService };
+        var request = new DeleteFileRequest { FileId = fileId.ToString(), SourceService = _sourceService };
 
         var response = await client.DeleteFileAsync(request, cancellationToken: ct);
 
         return response.IsSuccess;
+    }
+
+    public async Task<Guid> GenerateThumbnailAsync(
+        Guid fileId,
+        ThumbnailDto thumbnailDto,
+        CancellationToken ct)
+    {
+        var request = new GenerateThumbnailRequest
+        {
+            FileId = fileId.ToString(),
+            SourceService = _sourceService,
+            ThumbnailHeight = thumbnailDto.Height,
+            ThumbnailWidth = thumbnailDto.Width,
+        };
+
+        var response = await client.GenerateThumbnailAsync(request, cancellationToken: ct);
+
+        return Guid.Parse(response.ThumbnailId);
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace AdService.Application.FileStorage
+﻿using AdService.Contracts.Files;
+
+namespace AdService.Application.FileStorage
 {
     public interface IFileStorage
     {
@@ -9,5 +11,7 @@
         Task<string> GetDownloadLinkAsync(Guid fileId, int expirySeconds, CancellationToken ct);
 
         Task<bool> DeleteFileAsync(Guid fileId, CancellationToken ct);
+
+        Task<Guid> GenerateThumbnailAsync(Guid fileId, ThumbnailDto thumbnailDto, CancellationToken ct);
     }
 }

@@ -10,7 +10,9 @@ service FileManager {
     rpc UploadSmallFile (UploadSmallFileRequest) returns (UploadSmallFileResponse);
     rpc UploadLargeFile (stream UploadLargeFileRequest) returns (UploadLargeFileResponse);
     rpc GetDownloadLink (GetDownloadLinkRequest) returns (GetDownloadLinkResponse);
-    rpc DeleteFile (DeleteRequest) returns (DeleteResponse);
+    rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
+    rpc GenerateThumbnail (GenerateThumbnailRequest) returns (GenerateThumbnailResponse);
+    rpc DeleteThumbnail (DeleteThumbnailRequest) returns (DeleteThumbnailResponse);
 }
 
 message UploadSmallFileRequest {
@@ -47,11 +49,31 @@ message GetDownloadLinkResponse {
     string link = 1;
 }
 
-message DeleteRequest {
+message DeleteFileRequest {
     string fileId = 1;
     string sourceService = 2;
 }
 
-message DeleteResponse {
+message DeleteFileResponse {
+    bool isSuccess = 1;
+}
+
+message GenerateThumbnailRequest {
+    string fileId = 1;
+    string sourceService = 2;
+    int32 thumbnailWidth = 3;
+    int32 thumbnailHeight = 4;
+}
+
+message GenerateThumbnailResponse {
+    string thumbnailId = 1;
+}
+
+message DeleteThumbnailRequest {
+    string fileId = 1;
+    string sourceService = 2;
+}
+
+message DeleteThumbnailResponse {
     bool isSuccess = 1;
 }

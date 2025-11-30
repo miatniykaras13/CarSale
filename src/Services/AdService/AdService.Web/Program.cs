@@ -1,4 +1,5 @@
 using AdService.Application;
+using AdService.Contracts.Files;
 using AdService.Web;
 using MediatR;
 using Microsoft.AspNetCore.Http.Features;
@@ -12,15 +13,14 @@ var configuration = builder.Configuration;
 
 builder.Services.Configure<FormOptions>(o =>
 {
-    o.MultipartBodyLengthLimit = long.MaxValue;        // или конкретный предел
-    o.MemoryBufferThreshold = int.MaxValue;            // по желанию, смещение порога буферизации в памяти
+    o.MultipartBodyLengthLimit = long.MaxValue;
+    o.MemoryBufferThreshold = int.MaxValue;
 });
 
-// 2) Снимаем/увеличиваем лимит Kestrel на тело запроса
+
 builder.WebHost.ConfigureKestrel(o =>
 {
-    o.Limits.MaxRequestBodySize = null;                // снять полностью
-    // o.Limits.MaxRequestBodySize = 1_000_000_000;    // или задать 1GB, если нужен предел
+    o.Limits.MaxRequestBodySize = null;
 });
 
 services.AddProgramDependencies(configuration);
@@ -55,13 +55,27 @@ app.MapPost("/file", async ([FromForm] IFormFile file, ISender sender, Cancellat
     .ExcludeFromDescription()
     .DisableAntiforgery();
 
-app.MapGet("/image/{fileId:guid}", async (
+app.MapGet("/file/{fileId:guid}", async (
         [FromRoute] Guid fileId,
         int expirySeconds,
         ISender sender,
         CancellationToken ct = default) =>
     {
         var request = new GetDownloadLinkQuery(fileId, expirySeconds);
+
+        var response = await sender.Send(request, ct);
+        return Results.Ok(response);
+    })
+    .ExcludeFromDescription()
+    .DisableAntiforgery();
+
+app.MapPost("/file/{fileId:guid}/thumbnail", async (
+        [FromRoute] Guid fileId,
+        [FromBody] ThumbnailDto thumbnailDto,
+        ISender sender,
+        CancellationToken ct = default) =>
+    {
+        var request = new GenerateThumbnailCommand(fileId, thumbnailDto);
 
         var response = await sender.Send(request, ct);
         return Results.Ok(response);

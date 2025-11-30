@@ -1,3 +1,4 @@
+using AspNetCore.Swagger.Themes;
 using AutoCatalog.Infrastructure;
 using AutoCatalog.Web;
 using HealthChecks.UI.Client;
@@ -25,13 +26,13 @@ app.MapCarter();
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
-    app.UseSwaggerUI(options =>
+    app.UseSwaggerUI(Theme.Dark, options =>
     {
-        options.OAuthClientId("autocatalog");
+        options.OAuthClientId("swagger");
         options.OAuthUsePkce();
         options.OAuthScopes("openid", "profile");
         options.SwaggerEndpoint("/swagger/v1/swagger.json", "Auto catalog");
-        options.RoutePrefix = string.Empty;
+        options.RoutePrefix = "docs";
     });
 }
 

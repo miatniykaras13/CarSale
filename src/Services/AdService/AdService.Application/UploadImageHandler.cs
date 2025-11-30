@@ -13,7 +13,7 @@ internal class UploadLargeFileCommandHandler(
 {
     public async Task<Guid> Handle(UploadLargeFileCommand command, CancellationToken ct = default)
     {
-        var fileId = await fileStorage.UploadSmallFileAsync(command.Stream, command.FileName, command.ContentType, ct);
+        var fileId = await fileStorage.UploadLargeFileAsync(command.Stream, command.FileName, command.ContentType, ct);
         return fileId;
     }
 }

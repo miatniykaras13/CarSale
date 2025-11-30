@@ -15,12 +15,10 @@ public static class DependencyInjection
         })
         .ConfigureChannel(o =>
         {
-            // пример конфигурации канала
             o.MaxReceiveMessageSize = null;
             o.MaxSendMessageSize = null;
             o.HttpHandler = new SocketsHttpHandler
             {
-                // можно настроить TLS, прокси, пул соединений
                 EnableMultipleHttp2Connections = true,
             };
         });

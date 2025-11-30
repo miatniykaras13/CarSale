@@ -1,4 +1,5 @@
 ﻿using FileManagement.Grpc.Data;
+using FileManagement.Grpc.Infra;
 using Microsoft.EntityFrameworkCore;
 using Minio;
 
@@ -8,10 +9,16 @@ public static class DependencyInjection
 {
     public static void AddProgramDependencies(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddGrpc();
+        services.AddGrpc(options =>
+        {
+            options.MaxReceiveMessageSize = null;
+            options.MaxSendMessageSize = null;
+        });
 
         services.AddDbContext<FileManagementDbContext>(options =>
             options.UseSqlite(configuration.GetConnectionString("FileManagementDbContext")));
+
+        services.AddScoped<IImageProcessor, ImageProcessor>();
 
         services.AddFileStorage(configuration);
     }

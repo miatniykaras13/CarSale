@@ -2,6 +2,8 @@
 using System.Diagnostics.Tracing;
 using System.IO.Pipelines;
 using FileManagement.Grpc.Data;
+using FileManagement.Grpc.Infra;
+using FileManagement.Grpc.Models;
 using Grpc.Core;
 using Minio;
 using Minio.DataModel.Args;
@@ -12,8 +14,12 @@ namespace FileManagement.Grpc.Services;
 public class FileService(
     FileManagementDbContext managementDbContext,
     IMinioClient minioClient,
-    ILogger<FileService> logger) : FileManager.FileManagerBase
+    ILogger<FileService> logger,
+    IImageProcessor imageProcessor) : FileManager.FileManagerBase
 {
+    /// <summary>
+    /// Suitable for uploading small files (0-10 MB). E.g., icons, logos, images.
+    /// </summary>
     public override async Task<UploadSmallFileResponse> UploadSmallFile(
         UploadSmallFileRequest request,
         ServerCallContext context)
@@ -70,6 +76,9 @@ public class FileService(
         }
     }
 
+    /// <summary>
+    /// Suitable for uploading large files (10 MB - 1.5 GB). E.g., short videos, archives, big PDFs.
+    /// </summary>
     public override async Task<UploadLargeFileResponse> UploadLargeFile(
         IAsyncStreamReader<UploadLargeFileRequest> request,
         ServerCallContext context)
@@ -83,7 +92,11 @@ public class FileService(
 
         var writerReady = new TaskCompletionSource();
 
-        var pipe = new Pipe();
+        var pipe = new Pipe(new PipeOptions(
+            pauseWriterThreshold: 1024 * 1024, // ~1 MB — активирует бэкпрешсур
+            resumeWriterThreshold: 512 * 1024, // ~512 KB — возобновит запись
+            minimumSegmentSize: 64 * 1024, // 64 KB сегменты
+            useSynchronizationContext: false));
 
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
@@ -183,7 +196,7 @@ public class FileService(
 
         var fileId = fileInfo.Id;
 
-        string objectName = GenerateObjectName(fileName, contentType, fileId);
+        string objectName = GenerateObjectName(fileName, contentType, fileId, isThumbnail: fileInfo.IsThumbnail);
 
         int expirySeconds = request.ExpirySeconds;
 
@@ -196,8 +209,8 @@ public class FileService(
         return new GetDownloadLinkResponse { Link = response };
     }
 
-    public override async Task<DeleteResponse> DeleteFile(
-        DeleteRequest request,
+    public override async Task<DeleteFileResponse> DeleteFile(
+        DeleteFileRequest request,
         ServerCallContext context)
     {
         var ct = context.CancellationToken;
@@ -210,7 +223,7 @@ public class FileService(
 
         string bucketName = DefineBucketName(request.SourceService);
 
-        string objectName = $"{fileInfo.Id}_{fileInfo.Name}{fileInfo.Extension}";
+        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId, isThumbnail: fileInfo.IsThumbnail);
 
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
@@ -224,13 +237,111 @@ public class FileService(
             await minioClient.RemoveObjectAsync(removeObjArgs, ct);
             await managementDbContext.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
-            return new DeleteResponse { IsSuccess = true };
+            return new DeleteFileResponse { IsSuccess = true };
         }
         catch (Exception e)
         {
             await transaction.RollbackAsync(ct);
             logger.LogError(e.Message);
-            return new DeleteResponse { IsSuccess = false };
+            return new DeleteFileResponse { IsSuccess = false };
+        }
+    }
+
+    public override async Task<GenerateThumbnailResponse> GenerateThumbnail(
+        GenerateThumbnailRequest request,
+        ServerCallContext context)
+    {
+        var ct = context.CancellationToken;
+
+        var fileId = Guid.Parse(request.FileId);
+        var fileInfo = await managementDbContext.Files.FindAsync([fileId], ct);
+
+        if (fileInfo is null)
+            throw new RpcException(new Status(StatusCode.NotFound, $"File with id {fileId} not found"));
+
+        if (fileInfo.IsThumbnail)
+        {
+            throw new RpcException(new Status(
+                StatusCode.InvalidArgument,
+                $"Cannot generate thumbnails for thumbnail."));
+        }
+
+        if (!fileInfo.ContentType.StartsWith("image"))
+        {
+            throw new RpcException(new Status(
+                StatusCode.InvalidArgument,
+                $"File should be an image to generate thumbnail"));
+        }
+
+        string bucketName = DefineBucketName(request.SourceService);
+
+        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId);
+
+
+        var ms = new MemoryStream();
+
+        var getObjArgs = new GetObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(objectName)
+            .WithCallbackStream(stream => stream.CopyTo(ms));
+
+        await minioClient.GetObjectAsync(getObjArgs, ct);
+
+        ms.Position = 0;
+
+        var thumbnailStream = await imageProcessor.ResizeAsync(
+            ms,
+            request.ThumbnailWidth,
+            request.ThumbnailHeight,
+            ct);
+
+
+        var thumbnailSize = thumbnailStream.Length;
+
+        var thumbnailId = Guid.CreateVersion7();
+
+        var thumbnailInfo = FileInfo.Create(
+            thumbnailId,
+            $"{fileInfo.Name}",
+            thumbnailSize,
+            fileInfo.Extension,
+            DateTime.UtcNow,
+            fileInfo.ContentType,
+            parentId: fileInfo.Id);
+
+        var thumbnailObjectName = GenerateObjectName(
+            $"{fileInfo.Name}{fileInfo.Extension}",
+            fileInfo.ContentType,
+            thumbnailId,
+            isThumbnail: true);
+
+        var thumbnailPutObjArgs = new PutObjectArgs()
+            .WithBucket(bucketName)
+            .WithObject(thumbnailObjectName)
+            .WithObjectSize(thumbnailSize)
+            .WithStreamData(thumbnailStream)
+            .WithContentType(fileInfo.ContentType);
+
+
+        await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
+        try
+        {
+            await managementDbContext.Files.AddAsync(thumbnailInfo, ct);
+
+            await minioClient.PutObjectAsync(thumbnailPutObjArgs, ct);
+
+            await managementDbContext.SaveChangesAsync(ct);
+            await transaction.CommitAsync(ct);
+            return new GenerateThumbnailResponse
+            {
+                ThumbnailId = thumbnailInfo.Id.ToString(),
+            };
+        }
+        catch (Exception e)
+        {
+            await transaction.RollbackAsync(ct);
+            logger.LogError(e.Message);
+            throw;
         }
     }
 
@@ -276,6 +387,24 @@ public class FileService(
         };
 
 
-    private string GenerateObjectName(string? fileName, string contentType, Guid fileId) =>
-        $"{DefineFolderByContentType(contentType)}/{fileId}_{fileName ?? "file"}";
+    private string GenerateObjectName(string? fileName, string contentType, Guid fileId, bool isThumbnail = false)
+    {
+        string objectName = $"{DefineFolderByContentType(contentType)}/{fileId}_{fileName ?? "file"}";
+        if (isThumbnail)
+            objectName = GenerateThumbnailObjectName(objectName);
+        return objectName;
+    }
+
+
+    private string GenerateThumbnailObjectName(string originalObjectName)
+    {
+        var words = originalObjectName.Split('/').ToList();
+        if (!words[1].Equals("thumbs"))
+        {
+            words.Insert(1, $"thumbs");
+            return string.Join('/', words);
+        }
+
+        return originalObjectName;
+    }
 }
