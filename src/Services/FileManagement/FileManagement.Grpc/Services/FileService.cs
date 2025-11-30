@@ -223,11 +223,33 @@ public class FileService(
 
         string bucketName = DefineBucketName(request.SourceService);
 
-        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId, isThumbnail: fileInfo.IsThumbnail);
+        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId,
+            isThumbnail: fileInfo.IsThumbnail);
+
 
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
         {
+            if (!fileInfo.IsThumbnail)
+            {
+                var thumbnails = managementDbContext.Files.Where(f => f.ParentId == fileId).ToList();
+
+                foreach (var thumbnail in thumbnails)
+                {
+                    var thumbnailObjectName = GenerateObjectName(
+                        $"{thumbnail.Name}{thumbnail.Extension}",
+                        thumbnail.ContentType,
+                        thumbnail.Id,
+                        isThumbnail: true);
+
+                    var removeThumbnailObjArgs = new RemoveObjectArgs()
+                        .WithBucket(bucketName)
+                        .WithObject(thumbnailObjectName);
+
+                    await minioClient.RemoveObjectAsync(removeThumbnailObjArgs, ct);
+                }
+            }
+
             managementDbContext.Remove(fileInfo);
 
             var removeObjArgs = new RemoveObjectArgs()
@@ -332,10 +354,7 @@ public class FileService(
 
             await managementDbContext.SaveChangesAsync(ct);
             await transaction.CommitAsync(ct);
-            return new GenerateThumbnailResponse
-            {
-                ThumbnailId = thumbnailInfo.Id.ToString(),
-            };
+            return new GenerateThumbnailResponse { ThumbnailId = thumbnailInfo.Id.ToString(), };
         }
         catch (Exception e)
         {

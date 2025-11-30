@@ -10,6 +10,7 @@ public class FileManagementDbContext(DbContextOptions<FileManagementDbContext> o
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.ApplyConfiguration(new FileInfoConfiguration());
         base.OnModelCreating(modelBuilder);
     }
 }
