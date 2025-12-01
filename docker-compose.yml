@@ -21,12 +21,18 @@ services:
     image: minio/minio:latest
     
   filemanagement.grpc:
-    image: ${DOCKER_REGISTRY-}filemanagementgrpc
+    image: filemanagement.grpc
     build:
       context: .
-      dockerfile: Src/Services/FileManagement/FileManagement.Grpc/Dockerfile
+      dockerfile: src/Services/FileManagement/FileManagement.Grpc/Dockerfile
       
-
+  profileservice.web:
+    image: profileservice.web
+    build:
+      context: .
+      dockerfile: src/Services/ProfileService/ProfileService.Web/Dockerfile
+      
+      
 volumes:
   auto-catalog-postgres:
   ad-service-postgres:
@@ -35,3 +41,5 @@ volumes:
     driver: local
   
   
+  
+

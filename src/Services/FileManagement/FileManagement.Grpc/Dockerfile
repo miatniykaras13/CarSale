@@ -13,10 +13,10 @@ FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Directory.Build.props", "."]
-COPY ["Src/Services/FileManagement/FileManagement.Grpc/FileManagement.Grpc.csproj", "Src/Services/FileManagement/FileManagement.Grpc/"]
-RUN dotnet restore "./Src/Services/FileManagement/FileManagement.Grpc/FileManagement.Grpc.csproj"
+COPY ["src/Services/FileManagement/FileManagement.Grpc/FileManagement.Grpc.csproj", "src/Services/FileManagement/FileManagement.Grpc/"]
+RUN dotnet restore "./src/Services/FileManagement/FileManagement.Grpc/FileManagement.Grpc.csproj"
 COPY . .
-WORKDIR "/src/Src/Services/FileManagement/FileManagement.Grpc"
+WORKDIR "src/Services/FileManagement/FileManagement.Grpc"
 RUN dotnet build "./FileManagement.Grpc.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # This stage is used to publish the service project to be copied to the final stage
