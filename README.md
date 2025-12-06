@@ -39,3 +39,5 @@ CarSale is a microservices-based project inspired by <a href="https://av.by">av.
 
 * Redis caching  
 * Event bus pattern
+* API Gateway
+* UI
