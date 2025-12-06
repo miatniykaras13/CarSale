@@ -4,7 +4,7 @@ CarSale is a microservices-based project inspired by <a href="https://av.by">av.
 
 ## Technologies
 
-**Language/platform**: C#, ASP.NET Core Web API
+**Language/platform**: C#, ASP.NET Core Web API  
 **Architecture**: Microservices  
 **Database**: PostgreSQL, SQLite, EF Core  
 **File Storage**: Minio  
