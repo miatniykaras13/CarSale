@@ -93,7 +93,7 @@ public static class DbContextExtensions
     {
         for (int i = 0; i < ads.Length; i++)
         {
-            ads[i] = Ad.Create(Guid.CreateVersion7()).Value;
+            ads[i] = Ad.Create(sellers[i]).Value;
         }
 
         ads[1].Update("Ad 1 gfdgsd");
@@ -101,7 +101,6 @@ public static class DbContextExtensions
             title: "Ad 2 gsdfgsd",
             car: carSnapshots[0],
             price: money[0],
-            seller: sellers[0],
             location: locations[0]);
 
         ads[2].AddImages(new List<Guid> { Guid.CreateVersion7(), Guid.CreateVersion7() });
@@ -112,7 +111,6 @@ public static class DbContextExtensions
             title: "Ad 3 sdgdsgsdf",
             car: carSnapshots[1],
             price: money[1],
-            seller: sellers[1],
             location: locations[1]);
 
         ads[3].AddImages(new List<Guid> { Guid.CreateVersion7(), Guid.CreateVersion7() });
@@ -126,7 +124,6 @@ public static class DbContextExtensions
             title: "Ad 4 sdfgsdgf",
             car: carSnapshots[2],
             price: money[2],
-            seller: sellers[2],
             location: locations[2]);
 
         ads[4].AddImages(new List<Guid> { Guid.NewGuid(), Guid.NewGuid() });
@@ -142,7 +139,6 @@ public static class DbContextExtensions
             title: "Ad 5 sdgsdgs",
             car: carSnapshots[3],
             price: money[3],
-            seller: sellers[3],
             location: locations[3]);
 
         ads[5].AddImages(new List<Guid> { Guid.CreateVersion7(), Guid.CreateVersion7() });

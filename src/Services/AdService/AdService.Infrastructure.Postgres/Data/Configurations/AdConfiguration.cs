@@ -15,18 +15,7 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
         builder.OwnsOne(x => x.Car, carBuilder =>
         {
             carBuilder.ToTable("CarSnapshots");
-
-            carBuilder.Property(x => x.Brand)
-                .HasMaxLength(CarSnapshot.MAX_BRAND_LENGTH)
-                .IsRequired();
-
-            carBuilder.Property(x => x.Model)
-                .HasMaxLength(CarSnapshot.MAX_MODEL_LENGTH)
-                .IsRequired();
-
-            carBuilder.Property(x => x.Generation)
-                .HasMaxLength(CarSnapshot.MAX_GENERATION_LENGTH)
-                .IsRequired();
+            carBuilder.HasKey(x => x.CarId);
 
             carBuilder.Property(x => x.DriveType).HasConversion<string>();
             carBuilder.Property(x => x.TransmissionType).HasConversion<string>();
@@ -58,6 +47,7 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
 
         builder.OwnsOne(x => x.Seller, s =>
         {
+            s.HasKey(x => x.SellerId);
             s.Property(x => x.DisplayName)
                 .HasMaxLength(SellerSnapshot.MAX_NAME_LENGTH)
                 .HasColumnName("Seller_Name");
@@ -76,7 +66,7 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             m.Property(x => x.ModeratorId)
                 .HasColumnName("ModeratorId");
         });
-        
+
         builder
             .Property<List<Guid>>("_images")
             .UsePropertyAccessMode(PropertyAccessMode.Field)

@@ -28,9 +28,7 @@ public sealed class Ad : Aggregate<Guid>
         Money? price,
         Location? location,
         int views,
-        Guid sellerId,
         CarSnapshot? car,
-        int carConfigurationId,
         SellerSnapshot? seller,
         AdStatus status)
     {
@@ -41,7 +39,6 @@ public sealed class Ad : Aggregate<Guid>
         Views = views;
         CreatedAt = DateTime.UtcNow;
         UpdatedAt = DateTime.UtcNow;
-        SellerId = sellerId;
         Seller = seller;
         Car = car;
         Status = status;
@@ -57,11 +54,7 @@ public sealed class Ad : Aggregate<Guid>
 
     public int Views { get; private set; }
 
-    public Guid SellerId { get; private set; }
-
-    public SellerSnapshot? Seller { get; private set; } = null!;
-
-    public Guid? CarId { get; private set; }
+    public SellerSnapshot Seller { get; private set; } = null!;
 
     public CarSnapshot? Car { get; private set; } = null!;
 
@@ -81,11 +74,11 @@ public sealed class Ad : Aggregate<Guid>
     public IReadOnlyList<CarOption> CarOptions => _carOptions.AsReadOnly();
 
     // First state - draft
-    public static Result<Ad, Error> Create(Guid sellerId)
+    public static Result<Ad, Error> Create(SellerSnapshot seller)
     {
         var ad = new Ad
         {
-            SellerId = sellerId, Status = AdStatus.DRAFT, CreatedAt = DateTime.UtcNow, CreatedBy = sellerId.ToString(),
+            Seller = seller, Status = AdStatus.DRAFT, CreatedAt = DateTime.UtcNow, CreatedBy = seller.DisplayName,
         };
 
         ad.AddDomainEvent(new AdCreatedEvent(ad));
@@ -99,7 +92,6 @@ public sealed class Ad : Aggregate<Guid>
         Money? price = null,
         Location? location = null,
         CarSnapshot? car = null,
-        Guid? carId = null,
         SellerSnapshot? seller = null)
     {
         if (IsExpired)
@@ -130,13 +122,13 @@ public sealed class Ad : Aggregate<Guid>
                 $"Description's length must be between 0 and {MAX_DESCRIPTION_LENGTH} to update"));
         }
 
-        Title = title ?? Title;
-        Description = description ?? Description;
-        Price = price ?? Price;
-        Location = location ?? Location;
-        CarId = carId ?? CarId;
-        Car = car ?? Car;
-        Seller = seller ?? Seller;
+        if (title is not null) Title = title;
+        if (description is not null) Description = description;
+        if (price is not null) Price = price;
+        if (location is not null) Location = location;
+        if (car is not null) Car = car;
+        if (seller is not null) Seller = seller;
+
 
         AddDomainEvent(new AdUpdatedEvent(this));
         return Result.Success<Ad, Error>(this);
@@ -157,7 +149,6 @@ public sealed class Ad : Aggregate<Guid>
         Price = null;
         Location = null;
         Car = null;
-        Seller = null;
 
         _images.Clear();
         _comments.Clear();
@@ -203,13 +194,6 @@ public sealed class Ad : Aggregate<Guid>
             return UnitResult.Failure<Error>(Error.Domain(
                 "ad.price.is_conflict",
                 "Ad cannot be submitted without the price"));
-        }
-
-        if (Seller is null)
-        {
-            return UnitResult.Failure<Error>(Error.Domain(
-                "ad.seller_snapshot.is_conflict",
-                "Ad cannot be submitted without the information about the seller"));
         }
 
         if (Location is null)

@@ -21,7 +21,7 @@ public class SellerSnapshotFaker
                 var imageId = f.Random.Guid();
                 var registrationDate = DateTime.UtcNow;
 
-                var result = SellerSnapshot.Of(displayName, registrationDate, imageId);
+                var result = SellerSnapshot.Of(f.Random.Guid(), displayName, registrationDate, imageId);
 
                 if (result.IsFailure)
                     throw new InvalidOperationException($"SellerSnapshot faker failed: {result.Error}");

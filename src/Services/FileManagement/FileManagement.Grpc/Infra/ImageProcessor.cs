@@ -14,6 +14,8 @@ public class ImageProcessor : IImageProcessor
     {
         stream.Position = 0;
         using var image = await Image.LoadAsync<Rgba64>(stream, ct);
+        
+        image.Mutate(x => x.AutoOrient());
 
         int srcWidth = image.Width;
         int srcHeight = image.Height;

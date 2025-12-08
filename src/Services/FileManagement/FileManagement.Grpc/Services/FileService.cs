@@ -34,11 +34,11 @@ public class FileService(
 
         string fileName = request.FileName!;
 
+        long fileSize = request.FileSize;
+
         var fileId = Guid.CreateVersion7();
 
-        string objectName = GenerateObjectName(fileName, contentType, fileId);
-
-        long fileSize = request.File.Length;
+        string objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
 
         var fileInfo = FileInfo.Create(
             fileId,
@@ -137,7 +137,7 @@ public class FileService(
 
                 var bucketName = DefineBucketName(sourceService);
 
-                var objectName = GenerateObjectName(fileName, contentType, fileId);
+                var objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
 
                 var putObjArgs = new PutObjectArgs()
                     .WithBucket(bucketName)
@@ -194,9 +194,12 @@ public class FileService(
 
         string contentType = fileInfo.ContentType;
 
+        long fileSize = fileInfo.Size;
+
         var fileId = fileInfo.Id;
 
-        string objectName = GenerateObjectName(fileName, contentType, fileId, isThumbnail: fileInfo.IsThumbnail);
+        string objectName =
+            GenerateObjectName(fileName, contentType, fileId, fileSize, isThumbnail: fileInfo.IsThumbnail);
 
         int expirySeconds = request.ExpirySeconds;
 
@@ -223,7 +226,11 @@ public class FileService(
 
         string bucketName = DefineBucketName(request.SourceService);
 
-        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId,
+        string objectName = GenerateObjectName(
+            $"{fileInfo.Name}{fileInfo.Extension}",
+            fileInfo.ContentType,
+            fileId,
+            fileInfo.Size,
             isThumbnail: fileInfo.IsThumbnail);
 
 
@@ -240,6 +247,7 @@ public class FileService(
                         $"{thumbnail.Name}{thumbnail.Extension}",
                         thumbnail.ContentType,
                         thumbnail.Id,
+                        thumbnail.Size,
                         isThumbnail: true);
 
                     var removeThumbnailObjArgs = new RemoveObjectArgs()
@@ -297,7 +305,8 @@ public class FileService(
 
         string bucketName = DefineBucketName(request.SourceService);
 
-        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId);
+        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId,
+            fileInfo.Size);
 
 
         var ms = new MemoryStream();
@@ -335,6 +344,7 @@ public class FileService(
             $"{fileInfo.Name}{fileInfo.Extension}",
             fileInfo.ContentType,
             thumbnailId,
+            thumbnailSize,
             isThumbnail: true);
 
         var thumbnailPutObjArgs = new PutObjectArgs()
@@ -406,9 +416,11 @@ public class FileService(
         };
 
 
-    private string GenerateObjectName(string? fileName, string contentType, Guid fileId, bool isThumbnail = false)
+    private string GenerateObjectName(string? fileName, string contentType, Guid fileId, long fileSize,
+        bool isThumbnail = false)
     {
-        string objectName = $"{DefineFolderByContentType(contentType)}/{fileId}_{fileName ?? "file"}";
+        string objectName =
+            $"{DefineFolderByContentType(contentType)}/{fileId}_{fileSize}{Path.GetExtension(fileName)}";
         if (isThumbnail)
             objectName = GenerateThumbnailObjectName(objectName);
         return objectName;

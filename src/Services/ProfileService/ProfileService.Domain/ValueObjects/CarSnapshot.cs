@@ -1,18 +1,12 @@
-﻿using AdService.Domain.Entities;
-using AdService.Domain.Enums;
+﻿using BuildingBlocks.Errors;
 using CSharpFunctionalExtensions;
+using ProfileService.Domain.Enums;
 
-namespace AdService.Domain.ValueObjects;
+namespace ProfileService.Domain.ValueObjects;
 
 public record CarSnapshot
 {
     public const int REQUIRED_VIN_LENGTH = 17;
-
-    public const int MAX_BRAND_LENGTH = 50;
-
-    public const int MAX_MODEL_LENGTH = 50;
-
-    public const int MAX_GENERATION_LENGTH = 50;
 
     public const int MAX_HORSE_POWER = 1500;
 
