@@ -1,7 +1,8 @@
 ﻿using System.Text.RegularExpressions;
+using BuildingBlocks.Errors;
 using CSharpFunctionalExtensions;
 
-namespace AdService.Domain.ValueObjects;
+namespace ProfileService.Domain.ValueObjects;
 
 public record PhoneNumber
 {

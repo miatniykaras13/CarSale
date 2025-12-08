@@ -13,18 +13,16 @@ public class AdTests
     [Fact]
     public void Create_ReturnsAdWithStatusDraftAndHasAdCreatedEvent()
     {
-        var adResult = Ad.Create(Guid.NewGuid());
+        var ad = GetAd();
 
-        adResult.Value.Status.Should().Be(AdStatus.DRAFT);
-        adResult.Value.DomainEvents.Should().Contain(new AdCreatedEvent(adResult.Value));
+        ad.Status.Should().Be(AdStatus.DRAFT);
+        ad.DomainEvents.Should().Contain(new AdCreatedEvent(ad));
     }
 
     [Fact]
     public void Update_ExpectUpdatedAdAndAdUpdatedEventWhenStatusDraft()
     {
-        var adResult = Ad.Create(Guid.NewGuid());
-
-        var ad = adResult.Value;
+        var ad = GetAd();
 
         ad.Update(title: "Lorem ipsum");
 
@@ -36,9 +34,7 @@ public class AdTests
     [Fact]
     public void Update_ExpectConflictErrorWhenTitleIsConflict()
     {
-        var adResult = Ad.Create(Guid.NewGuid());
-
-        var ad = adResult.Value;
+        var ad = GetAd();
 
         var result = ad.Update(title: "Lorem");
 
@@ -50,9 +46,7 @@ public class AdTests
     [Fact]
     public void Publish_ExpectConflictErrorWhenStatusIsConflict()
     {
-        var adResult = Ad.Create(Guid.NewGuid());
-
-        var ad = adResult.Value;
+        var ad = GetAd();
 
         ad.Update(title: "Lorem ipsum");
 
@@ -66,7 +60,7 @@ public class AdTests
     [Fact]
     public void Submit_ExpectConflictErrorWhenPropertiesAreConflict()
     {
-        var ad = Ad.Create(Guid.NewGuid()).Value;
+        var ad = GetAd();
 
         ad.Update(title: "Lorem ipsum");
 
@@ -80,13 +74,12 @@ public class AdTests
     [Fact]
     public void Submit_ExpectAdStatusPendingAndAdSubmittedEvent()
     {
-        var ad = Ad.Create(Guid.NewGuid()).Value;
+        var ad = GetAd();
 
         ad.Update(
             title: "Lorem ipsum",
             car: GetCarSnapshot(),
             price: GetMoney(),
-            seller: GetSellerSnapshot(Guid.NewGuid()),
             location: GetLocation());
 
         ad.AddImages(new List<Guid>([Guid.NewGuid()]));
@@ -105,7 +98,6 @@ public class AdTests
             title: "Lorem ipsum",
             car: GetCarSnapshot(),
             price: GetMoney(),
-            seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
 
         ad.AddImages(GetImages());
@@ -127,7 +119,6 @@ public class AdTests
             title: "Lorem ipsum",
             car: GetCarSnapshot(),
             price: GetMoney(),
-            seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
 
         ad.AddImages(GetImages());
@@ -149,7 +140,6 @@ public class AdTests
             title: "Lorem ipsum",
             car: GetCarSnapshot(),
             price: GetMoney(),
-            seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
 
         ad.AddImages(GetImages());
@@ -171,7 +161,6 @@ public class AdTests
             title: "Lorem ipsum",
             car: GetCarSnapshot(),
             price: GetMoney(),
-            seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
 
         ad.AddImages(GetImages());
@@ -195,7 +184,6 @@ public class AdTests
             title: "Lorem ipsum",
             car: GetCarSnapshot(),
             price: GetMoney(),
-            seller: GetSellerSnapshot(ad.SellerId),
             location: GetLocation());
 
         ad.AddImages(GetImages());
@@ -210,9 +198,9 @@ public class AdTests
         ad.DomainEvents.Should().Contain(new AdPausedEvent(ad));
     }
 
-
     private CarSnapshot GetCarSnapshot() =>
         CarSnapshot.Of(
+            Guid.CreateVersion7(),
             "fsdf",
             "fadf",
             1995,
@@ -221,6 +209,7 @@ public class AdTests
             1243,
             "green",
             150,
+            5.5M,
             AutoDriveType.AWD,
             TransmissionType.AUTOMATIC,
             FuelType.DIESEL).Value;
@@ -228,11 +217,11 @@ public class AdTests
     private Money GetMoney() => Money.Of(Currency.Of("BYN").Value, 1200).Value;
 
     private SellerSnapshot GetSellerSnapshot(Guid sellerId) =>
-        SellerSnapshot.Of("gsd", DateTime.UtcNow, sellerId).Value;
+        SellerSnapshot.Of(sellerId, "gsd", DateTime.UtcNow, sellerId).Value;
 
     private Location GetLocation() => Location.Of("fdasgs", "fdgsgs").Value;
 
-    private Ad GetAd() => Ad.Create(Guid.NewGuid()).Value;
+    private Ad GetAd() => Ad.Create(GetSellerSnapshot(Guid.CreateVersion7())).Value;
 
     private ModerationResult GetFailedModerationResult() =>
         ModerationResult.Of(Guid.NewGuid(), DateTime.UtcNow, DenyReason.FRAUD_SUSPICION).Value;
