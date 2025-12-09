@@ -368,6 +368,13 @@ public sealed class Ad : Aggregate<Guid>
 
     public UnitResult<Error> Expire()
     {
+        if (Status == AdStatus.EXPIRED)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.already_expired",
+                "Ad is already expired."));
+        }
+
         if (!IsExpired)
         {
             return UnitResult.Failure<Error>(Error.Domain(

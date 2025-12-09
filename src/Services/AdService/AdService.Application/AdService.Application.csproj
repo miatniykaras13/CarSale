@@ -8,11 +8,13 @@
 
     <ItemGroup>
       <PackageReference Include="MediatR" Version="13.1.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.9" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
       <ProjectReference Include="..\AdService.Contracts\AdService.Contracts.csproj" />
+      <ProjectReference Include="..\AdService.Domain\AdService.Domain.csproj" />
     </ItemGroup>
 
 </Project>

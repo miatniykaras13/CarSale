@@ -1,4 +1,5 @@
 ﻿using AdService.Application;
+using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
 using AdService.Infrastructure.Postgres;
 
@@ -9,8 +10,9 @@ public static class DependencyInjection
     public static IServiceCollection AddProgramDependencies(this IServiceCollection services, IConfiguration configuration)
     {
         services
-            .AddApplication()
             .AddPostgresInfrastructure(configuration)
+            .AddApplication()
+            .AddBackgroundServices()
             .AddFileStorage(configuration)
             .AddWeb();
         return services;
