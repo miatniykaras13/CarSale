@@ -57,7 +57,7 @@ public static class DbContextExtensions
 
                 var money = MoneyFaker.Fake(4, currencies);
 
-                var sellers = SellerSnapshotFaker.Fake(4);
+                var sellers = SellerSnapshotFaker.Fake(6);
 
                 var locations = LocationFaker.Fake(4);
 
@@ -146,7 +146,7 @@ public static class DbContextExtensions
 
         ads[5].Submit();
 
-        ads[5].Publish(TimeSpan.FromDays(5), ModerationResult.Of(Guid.CreateVersion7(), DateTime.UtcNow).Value);
+        ads[5].Publish(TimeSpan.FromMicroseconds(5), ModerationResult.Of(Guid.CreateVersion7(), DateTime.UtcNow).Value);
 
         ads[5].Delete();
     }

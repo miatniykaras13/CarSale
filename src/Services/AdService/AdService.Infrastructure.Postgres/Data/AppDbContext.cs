@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
+using AdService.Application.Data;
 using AdService.Domain.Aggregates;
 using AdService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdService.Infrastructure.Postgres.Data;
 
-public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options)
+public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(options), IAppDbContext
 {
     public DbSet<Ad> Ads { get; set; }
 

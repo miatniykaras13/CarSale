@@ -1,4 +1,5 @@
-﻿using AdService.Infrastructure.Postgres.Data;
+﻿using AdService.Application.Data;
+using AdService.Infrastructure.Postgres.Data;
 using AdService.Infrastructure.Postgres.Data.Interceptors;
 using AdService.Infrastructure.Postgres.Extensions;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,8 @@ public static class DependencyInjection
                 .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>())
                 .SeedDatabase();
         });
+
+        services.AddScoped<IAppDbContext, AppDbContext>();
         return services;
     }
 }
