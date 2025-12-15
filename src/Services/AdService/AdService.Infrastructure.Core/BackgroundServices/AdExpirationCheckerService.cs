@@ -26,8 +26,8 @@ public class AdExpirationCheckerService(
             {
                 using var scope = factory.CreateScope();
                 var sender = scope.ServiceProvider.GetRequiredService<ISender>();
-                var response = await sender.Send(new ExpireAdsCommand(), stoppingToken);
-                if (response.Result.IsFailure)
+                var result = await sender.Send(new ExpireAdsCommand(), stoppingToken);
+                if (result.IsFailure)
                 {
                     logger.LogWarning("Ads expiration went with errors.");
                 }

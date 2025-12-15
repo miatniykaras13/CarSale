@@ -1,4 +1,4 @@
-﻿using AdService.Application.FileStorage;
+﻿using AdService.Application.Abstractions.FileStorage;
 using AdService.Contracts.Files;
 using FileManagement.Grpc;
 using Grpc.Net.Client;

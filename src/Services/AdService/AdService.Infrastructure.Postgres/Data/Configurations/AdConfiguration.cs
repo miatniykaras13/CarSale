@@ -15,11 +15,36 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
         builder.OwnsOne(x => x.Car, carBuilder =>
         {
             carBuilder.ToTable("CarSnapshots");
-            carBuilder.HasKey(x => x.CarId);
+
+            carBuilder.Property<Guid>("AdId")
+                .HasColumnName("AdId")
+                .ValueGeneratedNever();
+
+            carBuilder.Property(c => c.CarId)
+                .ValueGeneratedNever();
+
+            carBuilder.HasKey("AdId", nameof(CarSnapshot.CarId));
 
             carBuilder.Property(x => x.DriveType).HasConversion<string>();
             carBuilder.Property(x => x.TransmissionType).HasConversion<string>();
             carBuilder.Property(x => x.FuelType).HasConversion<string>();
+            carBuilder.Property(x => x.Consumption).HasPrecision(18, 2);
+        });
+
+        builder.OwnsOne(x => x.Seller, sellerBuilder =>
+        {
+            sellerBuilder.ToTable("SellerSnapshots");
+
+            sellerBuilder.Property(s => s.SellerId)
+                .ValueGeneratedNever();
+
+            sellerBuilder.Property<Guid>("AdId")
+                .HasColumnName("AdId")
+                .ValueGeneratedNever();
+
+            sellerBuilder.HasKey("AdId", nameof(SellerSnapshot.SellerId));
+
+            sellerBuilder.Property(x => x.DisplayName).HasMaxLength(SellerSnapshot.MAX_NAME_LENGTH).IsRequired();
         });
 
         builder
@@ -43,14 +68,6 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             {
                 cur.Property(c => c.CurrencyCode).HasColumnName("Price_CurrencyCode");
             });
-        });
-
-        builder.OwnsOne(x => x.Seller, s =>
-        {
-            s.HasKey(x => x.SellerId);
-            s.Property(x => x.DisplayName)
-                .HasMaxLength(SellerSnapshot.MAX_NAME_LENGTH)
-                .HasColumnName("Seller_Name");
         });
 
         builder.OwnsOne(x => x.ModerationResult, m =>

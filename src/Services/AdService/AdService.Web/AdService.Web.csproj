@@ -8,7 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AspNetCore.SwaggerUI.Themes" Version="3.0.1" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
@@ -28,6 +30,7 @@
       <ProjectReference Include="..\AdService.Infrastructure.Core\AdService.Infrastructure.Core.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.ProfileService\AdService.Infrastructure.ProfileService.csproj" />
       <ProjectReference Include="..\AdService.Presenters\AdService.Presenters.csproj" />
     </ItemGroup>
 

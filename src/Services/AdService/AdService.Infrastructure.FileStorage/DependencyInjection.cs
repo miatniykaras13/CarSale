@@ -1,4 +1,4 @@
-﻿using AdService.Application.FileStorage;
+﻿using AdService.Application.Abstractions.FileStorage;
 using FileManagement.Grpc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

@@ -210,9 +210,9 @@ public class AdTests
             "green",
             150,
             5.5M,
-            AutoDriveType.AWD,
-            TransmissionType.AUTOMATIC,
-            FuelType.DIESEL).Value;
+            "AWD",
+            "Automatic",
+            "Diesel").Value;
 
     private Money GetMoney() => Money.Of(Currency.Of("BYN").Value, 1200).Value;
 

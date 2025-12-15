@@ -17,4 +17,10 @@
       <ProjectReference Include="..\AdService.Domain\AdService.Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Commands\SubmitAd\" />
+      <Folder Include="Commands\UpdateAdsLocation\" />
+      <Folder Include="Commands\UpdateAdsPrice\" />
+    </ItemGroup>
+
 </Project>

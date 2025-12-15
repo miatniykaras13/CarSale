@@ -1,6 +1,6 @@
 ﻿using AdService.Contracts.Files;
 
-namespace AdService.Application.FileStorage
+namespace AdService.Application.Abstractions.FileStorage
 {
     public interface IFileStorage
     {

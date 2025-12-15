@@ -16,25 +16,25 @@ public record CarSnapshot
 
     public const int MAX_HORSE_POWER = 1500;
 
-    public Guid CarId { get; private set; }
+    public Guid? CarId { get; private set; }
 
-    public string Brand { get; private set; } = null!;
+    public string? Brand { get; private set; } = null!;
 
-    public string Model { get; private set; } = null!;
+    public string? Model { get; private set; } = null!;
 
-    public string Generation { get; private set; } = null!;
+    public string? Generation { get; private set; } = null!;
 
-    public int Year { get; private set; }
+    public int? Year { get; private set; }
 
     public decimal? Consumption { get; private set; }
 
-    public int HorsePower { get; private set; }
+    public int? HorsePower { get; private set; }
 
-    public AutoDriveType DriveType { get; private set; }
+    public string? DriveType { get; private set; }
 
-    public TransmissionType TransmissionType { get; private set; }
+    public string? TransmissionType { get; private set; }
 
-    public FuelType FuelType { get; private set; }
+    public string? FuelType { get; private set; }
 
     public string? Vin { get; private set; }
 
@@ -47,9 +47,9 @@ public record CarSnapshot
     {
     }
 
-    private CarSnapshot(Guid carId, string brand, string model, int year, string generation, string? vin, int? mileage,
+    private CarSnapshot(Guid? carId, string? brand, string? model, int? year, string? generation, string? vin, int? mileage,
         decimal? consumption,
-        string? color, int horsePower, AutoDriveType driveType, TransmissionType transmissionType, FuelType fuelType)
+        string? color, int? horsePower, string? driveType, string? transmissionType, string? fuelType)
     {
         CarId = carId;
         Brand = brand;
@@ -67,19 +67,19 @@ public record CarSnapshot
     }
 
     public static Result<CarSnapshot, Error> Of(
-        Guid carId,
-        string brand,
-        string model,
-        int year,
-        string generation,
+        Guid? carId,
+        string? brand,
+        string? model,
+        int? year,
+        string? generation,
         string? vin,
-        int mileage,
-        string color,
-        int horsePower,
-        decimal consumption,
-        AutoDriveType driveType,
-        TransmissionType transmissionType,
-        FuelType fuelType)
+        int? mileage,
+        string? color,
+        int? horsePower,
+        decimal? consumption,
+        string? driveType,
+        string? transmissionType,
+        string? fuelType)
     {
         if (year <= 1900)
         {

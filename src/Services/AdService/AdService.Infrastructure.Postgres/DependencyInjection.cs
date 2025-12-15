@@ -1,4 +1,4 @@
-﻿using AdService.Application.Data;
+﻿using AdService.Application.Abstractions.Data;
 using AdService.Infrastructure.Postgres.Data;
 using AdService.Infrastructure.Postgres.Data.Interceptors;
 using AdService.Infrastructure.Postgres.Extensions;

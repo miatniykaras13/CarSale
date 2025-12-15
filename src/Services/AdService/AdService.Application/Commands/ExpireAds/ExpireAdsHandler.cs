@@ -1,4 +1,4 @@
-﻿using AdService.Application.Data;
+﻿using AdService.Application.Abstractions.Data;
 using AdService.Domain.Enums;
 using Microsoft.Extensions.Logging;
 
@@ -6,9 +6,9 @@ namespace AdService.Application.Commands.ExpireAds;
 
 public class ExpireAdsHandler(
     IAppDbContext dbContext,
-    ILogger<ExpireAdsHandler> logger) : ICommandHandler<ExpireAdsCommand, ExpireAdsResponse>
+    ILogger<ExpireAdsHandler> logger) : ICommandHandler<ExpireAdsCommand, Result<Unit>>
 {
-    public async Task<ExpireAdsResponse> Handle(ExpireAdsCommand request, CancellationToken cancellationToken)
+    public async Task<Result<Unit>> Handle(ExpireAdsCommand request, CancellationToken cancellationToken)
     {
         var now = DateTime.UtcNow;
         var expiredAds =
@@ -31,14 +31,13 @@ public class ExpireAdsHandler(
 
         logger.LogInformation("Expired {Count} ads.", expiredAds.Count - errors);
 
-        
 
         if (errors != 0)
         {
             logger.LogWarning("Couldn't expire {ErrorsCount} ads.", errors);
-            return new ExpireAdsResponse(UnitResult.Failure<Unit>(Unit.Value));
+            return Result.Failure<Unit>(string.Empty);
         }
 
-        return new ExpireAdsResponse(UnitResult.Success<Unit>());
+        return Result.Success(Unit.Value);
     }
 }

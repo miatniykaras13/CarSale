@@ -1,4 +1,4 @@
-﻿using AdService.Application.FileStorage;
+﻿using AdService.Application.Abstractions.FileStorage;
 using BuildingBlocks.CQRS;
 
 namespace AdService.Application;

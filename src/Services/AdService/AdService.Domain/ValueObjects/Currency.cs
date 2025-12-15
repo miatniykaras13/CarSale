@@ -4,7 +4,7 @@ namespace AdService.Domain.ValueObjects;
 
 public record Currency
 {
-    public string CurrencyCode { get; private set; } = null!;
+    public string? CurrencyCode { get; private set; } = null!;
 
     private static readonly IReadOnlyDictionary<string, float> _all = new Dictionary<string, float>(StringComparer.OrdinalIgnoreCase)
     {
@@ -18,14 +18,14 @@ public record Currency
     {
     }
 
-    private Currency(string currencyCode)
+    private Currency(string? currencyCode)
     {
         CurrencyCode = currencyCode;
     }
 
     public static IEnumerable<string> GetSupportedCurrencies => _all.Keys.ToList();
 
-    public static Result<Currency, Error> Of(string currencyCode)
+    public static Result<Currency, Error> Of(string? currencyCode)
     {
         if (!_all.Keys.Contains(currencyCode))
         {

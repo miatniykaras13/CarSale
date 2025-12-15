@@ -18,7 +18,7 @@ namespace AdService.Infrastructure.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("ProductVersion", "9.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -44,9 +44,6 @@ namespace AdService.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("CarId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime?>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
@@ -58,9 +55,6 @@ namespace AdService.Infrastructure.Migrations
 
                     b.Property<DateTime?>("ExpiresAt")
                         .HasColumnType("timestamp with time zone");
-
-                    b.Property<Guid>("SellerId")
-                        .HasColumnType("uuid");
 
                     b.Property<string>("Status")
                         .IsRequired()
@@ -182,18 +176,22 @@ namespace AdService.Infrastructure.Migrations
                     b.OwnsOne("AdService.Domain.ValueObjects.CarSnapshot", "Car", b1 =>
                         {
                             b1.Property<Guid>("AdId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("AdId");
+
+                            b1.Property<Guid>("CarId")
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("Brand")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("text");
 
                             b1.Property<string>("Color")
                                 .HasColumnType("text");
 
                             b1.Property<decimal?>("Consumption")
-                                .HasColumnType("numeric");
+                                .HasPrecision(18, 2)
+                                .HasColumnType("numeric(18,2)");
 
                             b1.Property<string>("DriveType")
                                 .IsRequired()
@@ -205,8 +203,7 @@ namespace AdService.Infrastructure.Migrations
 
                             b1.Property<string>("Generation")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("text");
 
                             b1.Property<int>("HorsePower")
                                 .HasColumnType("integer");
@@ -216,8 +213,7 @@ namespace AdService.Infrastructure.Migrations
 
                             b1.Property<string>("Model")
                                 .IsRequired()
-                                .HasMaxLength(50)
-                                .HasColumnType("character varying(50)");
+                                .HasColumnType("text");
 
                             b1.Property<string>("TransmissionType")
                                 .IsRequired()
@@ -229,7 +225,10 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<int>("Year")
                                 .HasColumnType("integer");
 
-                            b1.HasKey("AdId");
+                            b1.HasKey("AdId", "CarId");
+
+                            b1.HasIndex("AdId")
+                                .IsUnique();
 
                             b1.ToTable("CarSnapshots", (string)null);
 
@@ -327,13 +326,16 @@ namespace AdService.Infrastructure.Migrations
                     b.OwnsOne("AdService.Domain.ValueObjects.SellerSnapshot", "Seller", b1 =>
                         {
                             b1.Property<Guid>("AdId")
+                                .HasColumnType("uuid")
+                                .HasColumnName("AdId");
+
+                            b1.Property<Guid>("SellerId")
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("DisplayName")
                                 .IsRequired()
                                 .HasMaxLength(50)
-                                .HasColumnType("character varying(50)")
-                                .HasColumnName("Seller_Name");
+                                .HasColumnType("character varying(50)");
 
                             b1.Property<Guid>("ImageId")
                                 .HasColumnType("uuid");
@@ -341,9 +343,12 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<DateTime>("RegistrationDate")
                                 .HasColumnType("timestamp with time zone");
 
-                            b1.HasKey("AdId");
+                            b1.HasKey("AdId", "SellerId");
 
-                            b1.ToTable("Ads");
+                            b1.HasIndex("AdId")
+                                .IsUnique();
+
+                            b1.ToTable("SellerSnapshots", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AdId");
@@ -357,7 +362,8 @@ namespace AdService.Infrastructure.Migrations
 
                     b.Navigation("Price");
 
-                    b.Navigation("Seller");
+                    b.Navigation("Seller")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("AdService.Domain.Entities.Comment", b =>

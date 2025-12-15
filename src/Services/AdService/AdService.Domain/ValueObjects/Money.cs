@@ -4,9 +4,9 @@ namespace AdService.Domain.ValueObjects;
 
 public record Money
 {
-    public Currency Currency { get; private set; } = null!;
+    public Currency? Currency { get; private set; } = null!;
 
-    public int Amount { get; private set; }
+    public int? Amount { get; private set; }
 
     public const int MIN_AMOUNT = 100;
 
@@ -14,13 +14,13 @@ public record Money
     {
     }
 
-    private Money(Currency currency, int amount)
+    private Money(Currency? currency, int? amount)
     {
         Currency = currency;
         Amount = amount;
     }
 
-    public static Result<Money, Error> Of(Currency currency, int amount)
+    public static Result<Money, Error> Of(Currency? currency, int? amount)
     {
         if (amount <= MIN_AMOUNT)
         {

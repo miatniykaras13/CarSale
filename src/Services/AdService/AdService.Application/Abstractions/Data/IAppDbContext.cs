@@ -1,7 +1,7 @@
 ﻿using AdService.Domain.Aggregates;
 using AdService.Domain.Entities;
 
-namespace AdService.Application.Data;
+namespace AdService.Application.Abstractions.Data;
 
 public interface IAppDbContext
 {

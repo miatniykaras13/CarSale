@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using AdService.Application.FileStorage;
+using AdService.Application.Abstractions.FileStorage;
 using BuildingBlocks.CQRS;
 using BuildingBlocks.Errors;
 using CSharpFunctionalExtensions;
