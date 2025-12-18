@@ -60,10 +60,17 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             .IsRequired()
             .HasConversion<string>();
 
-        builder.OwnsOne(x => x.Location);
+        builder.OwnsOne(x => x.Location, locationBuilder =>
+        {
+            locationBuilder.ToTable("AdLocations");
+            locationBuilder.WithOwner().HasForeignKey("AdId");
+        });
 
         builder.OwnsOne(x => x.Price, p =>
         {
+            p.ToTable("AdPrices");
+            p.WithOwner().HasForeignKey("AdId");
+            p.Property(pr => pr.Amount).HasColumnName("Amount");
             p.OwnsOne(x => x.Currency, cur =>
             {
                 cur.Property(c => c.CurrencyCode).HasColumnName("Price_CurrencyCode");

@@ -78,20 +78,23 @@ public sealed class Ad : Aggregate<Guid>
     {
         var ad = new Ad
         {
-            Id = Guid.CreateVersion7(), Seller = seller, Status = AdStatus.DRAFT, CreatedAt = DateTime.UtcNow, CreatedBy = seller.DisplayName,
+            Id = Guid.CreateVersion7(),
+            Seller = seller,
+            Status = AdStatus.DRAFT,
+            CreatedAt = DateTime.UtcNow,
+            CreatedBy = seller.DisplayName,
         };
 
         ad.AddDomainEvent(new AdCreatedEvent(ad));
         return Result.Success<Ad, Error>(ad);
     }
 
-    // Can update only draft, denied, paused and published
+    // Can update only draft, denied, paused and published, can update other fields only if car is not null
     public Result<Ad, Error> Update(
         string? title = null,
         string? description = null,
         Money? price = null,
         Location? location = null,
-        CarSnapshot? car = null,
         SellerSnapshot? seller = null)
     {
         if (IsExpired)
@@ -106,6 +109,13 @@ public sealed class Ad : Aggregate<Guid>
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.status.is_conflict",
                 "Ad's status must be draft or denied to update"));
+        }
+
+        if (Car is null)
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.car_snapshot.is_conflict",
+                "Car snapshot should not be null to update other properties"));
         }
 
         if (title is { Length: > MAX_TITLE_LENGTH or < MIN_TITLE_LENGTH })
@@ -126,10 +136,31 @@ public sealed class Ad : Aggregate<Guid>
         if (description is not null) Description = description;
         if (price is not null) Price = price;
         if (location is not null) Location = location;
-        if (car is not null) Car = car;
         if (seller is not null) Seller = seller;
 
 
+        AddDomainEvent(new AdUpdatedEvent(this));
+        return Result.Success<Ad, Error>(this);
+    }
+
+    // should be called first when updating the draft
+    public Result<Ad, Error> UpdateCar(CarSnapshot car)
+    {
+        if (IsExpired)
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
+        if (Status is not (AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.status.is_conflict",
+                "Ad's status must be draft or denied to update"));
+        }
+
+        Car = car;
         AddDomainEvent(new AdUpdatedEvent(this));
         return Result.Success<Ad, Error>(this);
     }

@@ -21,6 +21,8 @@ public class CarSnapshotFaker
 
     private static readonly string[] _fuelTypes = ["Diesel", "Petrol", "Electro"];
 
+    private static readonly string[] _bodyTypes = ["Sedan", "SUV", "Crossover", "Hatchback", "Coupe"];
+
 
     public static CarSnapshot[] Fake(int amount)
     {
@@ -40,6 +42,7 @@ public class CarSnapshotFaker
                 var driveType = f.Random.ArrayElement(_driveTypes);
                 var transmissionType = f.Random.ArrayElement(_transmissionTypes);
                 var fuelType = f.Random.ArrayElement(_fuelTypes);
+                var bodyType = f.Random.ArrayElement(_bodyTypes);
 
                 var result = CarSnapshot.Of(
                     f.Random.Guid(),
@@ -54,8 +57,8 @@ public class CarSnapshotFaker
                     consumption,
                     driveType,
                     transmissionType,
-                    fuelType
-                );
+                    fuelType,
+                    bodyType);
 
                 if (result.IsFailure)
                     throw new InvalidOperationException($"CarSnapshot faker failed: {result.Error}");

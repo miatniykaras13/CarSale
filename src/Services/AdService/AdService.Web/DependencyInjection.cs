@@ -1,4 +1,5 @@
 ﻿using AdService.Application;
+using AdService.Infrastructure.AutoCatalog;
 using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
 using AdService.Infrastructure.Postgres;
@@ -20,6 +21,7 @@ public static class DependencyInjection
             .AddBackgroundServices()
             .AddFileStorage(configuration)
             .AddProfileServiceCommunication()
+            .AddAutoCatalogCommunication()
             .AddPresenters()
             .AddWeb();
         return services;

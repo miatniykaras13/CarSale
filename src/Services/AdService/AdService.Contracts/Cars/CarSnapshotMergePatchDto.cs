@@ -26,5 +26,5 @@ public class CarSnapshotMergePatchDto
 
     public int? TransmissionTypeId { get; set; }
 
-    public int? FuelTypeId { get; set; }
+    public int? BodyTypeId { get; set; }
 }

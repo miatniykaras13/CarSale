@@ -1,7 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using CSharpFunctionalExtensions;
-using FluentValidation.Results;
-using Microsoft.AspNetCore.Routing.Template;
+using Microsoft.AspNetCore.Http;
 
 namespace BuildingBlocks.Errors;
 

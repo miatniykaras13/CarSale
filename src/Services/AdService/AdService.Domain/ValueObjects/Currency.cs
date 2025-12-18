@@ -4,7 +4,7 @@ namespace AdService.Domain.ValueObjects;
 
 public record Currency
 {
-    public string? CurrencyCode { get; private set; } = null!;
+    public string? CurrencyCode { get; private set; }
 
     private static readonly IReadOnlyDictionary<string, float> _all = new Dictionary<string, float>(StringComparer.OrdinalIgnoreCase)
     {

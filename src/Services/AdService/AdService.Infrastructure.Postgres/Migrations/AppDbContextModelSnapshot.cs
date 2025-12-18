@@ -182,6 +182,10 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<Guid>("CarId")
                                 .HasColumnType("uuid");
 
+                            b1.Property<string>("BodyType")
+                                .IsRequired()
+                                .HasColumnType("text");
+
                             b1.Property<string>("Brand")
                                 .IsRequired()
                                 .HasColumnType("text");
@@ -205,7 +209,7 @@ namespace AdService.Infrastructure.Migrations
                                 .IsRequired()
                                 .HasColumnType("text");
 
-                            b1.Property<int>("HorsePower")
+                            b1.Property<int?>("HorsePower")
                                 .HasColumnType("integer");
 
                             b1.Property<int?>("Mileage")
@@ -222,7 +226,7 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<string>("Vin")
                                 .HasColumnType("text");
 
-                            b1.Property<int>("Year")
+                            b1.Property<int?>("Year")
                                 .HasColumnType("integer");
 
                             b1.HasKey("AdId", "CarId");
@@ -242,11 +246,15 @@ namespace AdService.Infrastructure.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("City")
-                                .IsRequired()
                                 .HasColumnType("text");
 
+                            b1.Property<bool>("LocationExists")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("boolean")
+                                .HasDefaultValue(false)
+                                .HasColumnName("LocationExists");
+
                             b1.Property<string>("Region")
-                                .IsRequired()
                                 .HasColumnType("text");
 
                             b1.HasKey("AdId");
@@ -291,8 +299,14 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<Guid>("AdId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int>("Amount")
+                            b1.Property<int?>("Amount")
                                 .HasColumnType("integer");
+
+                            b1.Property<bool>("PriceExists")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("boolean")
+                                .HasDefaultValue(false)
+                                .HasColumnName("PriceExists");
 
                             b1.HasKey("AdId");
 
@@ -307,7 +321,6 @@ namespace AdService.Infrastructure.Migrations
                                         .HasColumnType("uuid");
 
                                     b2.Property<string>("CurrencyCode")
-                                        .IsRequired()
                                         .HasColumnType("text")
                                         .HasColumnName("Price_CurrencyCode");
 
@@ -319,8 +332,7 @@ namespace AdService.Infrastructure.Migrations
                                         .HasForeignKey("MoneyAdId");
                                 });
 
-                            b1.Navigation("Currency")
-                                .IsRequired();
+                            b1.Navigation("Currency");
                         });
 
                     b.OwnsOne("AdService.Domain.ValueObjects.SellerSnapshot", "Seller", b1 =>

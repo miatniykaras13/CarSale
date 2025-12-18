@@ -1,3 +1,3 @@
 ﻿namespace AdService.Contracts.AutoCatalog;
 
-public record GenerationDto();
+public record GenerationDto(int Id, string Name, int ModelId);

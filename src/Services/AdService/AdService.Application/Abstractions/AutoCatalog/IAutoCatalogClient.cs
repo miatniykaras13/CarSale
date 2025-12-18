@@ -1,30 +1,48 @@
 ﻿using AdService.Contracts.AutoCatalog;
+using AdService.Domain.Enums;
 
 namespace AdService.Application.Abstractions.AutoCatalog;
 
 public interface IAutoCatalogClient
 {
-    public Task<Result<BrandDto, Error>> GetBrandByIdAsync(int brandId);
+    Task<Result<BrandDto, Error>> GetBrandByIdAsync(
+        int brandId,
+        CancellationToken ct = default);
 
-    public Task<Result<ModelDto, Error>> GetModelByIdAsync(int modelId);
+    Task<Result<ModelDto, Error>> GetModelByIdAsync(
+        int modelId,
+        CancellationToken ct = default);
 
-    public Task<Result<GenerationDto, Error>> GetGenerationByIdAsync(int modelId);
+    Task<Result<GenerationDto, Error>> GetGenerationByIdAsync(
+        int modelId,
+        CancellationToken ct = default);
 
-    public Task<Result<EngineDto, Error>> GetEngineByIdAsync(int engineId);
+    Task<Result<EngineDto, Error>> GetEngineByIdAsync(
+        int engineId,
+        CancellationToken ct = default);
 
-    public Task<bool> IsModelOfBrandAsync(int modelId);
+    Task<Result<TransmissionTypeDto, Error>> GetTransmissionTypeByIdAsync(
+        int transmissionId,
+        CancellationToken ct = default);
 
-    public Task<bool> IsGenerationOfModelAsync(int generationId);
+    Task<Result<AutoDriveTypeDto, Error>> GetAutoDriveTypeByIdAsync(
+        int autoDriveId,
+        CancellationToken ct = default);
 
-    public Task<bool> IsEngineOfGenerationAsync(int engineId);
+    Task<Result<BodyTypeDto, Error>> GetBodyTypeByIdAsync(
+        int bodyId,
+        CancellationToken ct = default);
 
-    public Task<Result<Guid, Error>> GetCarIdAsync(
+
+    Task<Result<Guid, Error>> GetCarIdAsync(
         int brandId,
         int modelId,
         int generationId,
         int engineId,
         int transmissionId,
-        int autoDriveTypeId);
+        int autoDriveTypeId,
+        int bodyTypeId,
+        CancellationToken ct = default);
 
-    public Task<Result<CarDto, Error>> GetCarByIdAsync(Guid carId);
+    Task<Result<FuelTypeDto, Error>> GetFuelTypeByIdAsync(int fuelTypeId, CancellationToken ct = default);
 }

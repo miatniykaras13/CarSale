@@ -96,10 +96,10 @@ public static class DbContextExtensions
             ads[i] = Ad.Create(sellers[i]).Value;
         }
 
+        ads[1].UpdateCar(carSnapshots[0]);
         ads[1].Update("Ad 1 gfdgsd");
         ads[2].Update(
             title: "Ad 2 gsdfgsd",
-            car: carSnapshots[0],
             price: money[0],
             location: locations[0]);
 
@@ -107,9 +107,9 @@ public static class DbContextExtensions
 
         ads[2].Submit();
 
+        ads[3].UpdateCar(carSnapshots[1]);
         ads[3].Update(
             title: "Ad 3 sdgdsgsdf",
-            car: carSnapshots[1],
             price: money[1],
             location: locations[1]);
 
@@ -120,9 +120,9 @@ public static class DbContextExtensions
             .Value);
 
 
+        ads[4].UpdateCar(carSnapshots[2]);
         ads[4].Update(
             title: "Ad 4 sdfgsdgf",
-            car: carSnapshots[2],
             price: money[2],
             location: locations[2]);
 
@@ -135,9 +135,9 @@ public static class DbContextExtensions
         ads[4].AddComment(Comment.Create("Comment 1", ads[4].Id).Value);
         comments = ads[4].Comments;
 
+        ads[5].UpdateCar(carSnapshots[3]);
         ads[5].Update(
             title: "Ad 5 sdgsdgs",
-            car: carSnapshots[3],
             price: money[3],
             location: locations[3]);
 

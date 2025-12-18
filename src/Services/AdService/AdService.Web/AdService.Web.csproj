@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AdService.Application\AdService.Application.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.AutoCatalog\AdService.Infrastructure.AutoCatalog.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.Core\AdService.Infrastructure.Core.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj" />

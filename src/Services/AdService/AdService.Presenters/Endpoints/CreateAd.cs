@@ -20,7 +20,7 @@ public class CreateAd : ICarterModule
                 var result = await sender.Send(new CreateAdCommand(Guid.Parse(userId)), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse();
 
                 var response = result.Value;
 

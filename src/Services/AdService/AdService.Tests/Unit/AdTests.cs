@@ -76,9 +76,9 @@ public class AdTests
     {
         var ad = GetAd();
 
+        ad.UpdateCar(GetCarSnapshot());
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(),
             price: GetMoney(),
             location: GetLocation());
 
@@ -94,9 +94,9 @@ public class AdTests
     public void Deny_ExpectAdStatusDeniedAndAdDeniedEvent()
     {
         var ad = GetAd();
+        ad.UpdateCar(GetCarSnapshot());
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(),
             price: GetMoney(),
             location: GetLocation());
 
@@ -115,9 +115,9 @@ public class AdTests
     {
         var ad = GetAd();
 
+        ad.UpdateCar(GetCarSnapshot());
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(),
             price: GetMoney(),
             location: GetLocation());
 
@@ -136,9 +136,9 @@ public class AdTests
     {
         var ad = GetAd();
 
+        ad.UpdateCar(GetCarSnapshot());
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(),
             price: GetMoney(),
             location: GetLocation());
 
@@ -157,9 +157,9 @@ public class AdTests
     {
         var ad = GetAd();
 
+        ad.UpdateCar(GetCarSnapshot());
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(),
             price: GetMoney(),
             location: GetLocation());
 
@@ -180,9 +180,9 @@ public class AdTests
     {
         var ad = GetAd();
 
+        ad.UpdateCar(GetCarSnapshot());
         ad.Update(
             title: "Lorem ipsum",
-            car: GetCarSnapshot(),
             price: GetMoney(),
             location: GetLocation());
 
@@ -212,7 +212,8 @@ public class AdTests
             5.5M,
             "AWD",
             "Automatic",
-            "Diesel").Value;
+            "Diesel",
+            "Hatchback").Value;
 
     private Money GetMoney() => Money.Of(Currency.Of("BYN").Value, 1200).Value;
 
