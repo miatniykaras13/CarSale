@@ -27,7 +27,7 @@ public record Currency
 
     public static Result<Currency, Error> Of(string? currencyCode)
     {
-        if (!_all.Keys.Contains(currencyCode))
+        if (currencyCode is not null && !_all.Keys.Contains(currencyCode))
         {
             return Result.Failure<Currency, Error>(Error.Domain("currency_code.not.supported", "Currency code is not supported."));
         }

@@ -1,4 +1,4 @@
-﻿using AdService.Contracts.Cars;
+﻿using AdService.Contracts.Ads;
 using AdService.Domain.ValueObjects;
 using FluentValidation;
 

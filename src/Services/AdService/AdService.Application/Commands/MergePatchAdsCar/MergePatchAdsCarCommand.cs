@@ -1,4 +1,4 @@
-﻿using AdService.Contracts.Cars;
+﻿using AdService.Contracts.Ads;
 
 namespace AdService.Application.Commands.MergePatchAdsCar;
 

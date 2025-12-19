@@ -153,7 +153,7 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad is expired and it cannot be modified."));
         }
 
-        if (Status is not (AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
+        if (Status is not(AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.status.is_conflict",

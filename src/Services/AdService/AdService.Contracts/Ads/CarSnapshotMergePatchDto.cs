@@ -1,4 +1,4 @@
-﻿namespace AdService.Contracts.Cars;
+﻿namespace AdService.Contracts.Ads;
 
 public class CarSnapshotMergePatchDto
 {
