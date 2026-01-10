@@ -24,6 +24,8 @@ public class AdTests
     {
         var ad = GetAd();
 
+        ad.UpdateCar(GetCarSnapshot());
+
         ad.Update(title: "Lorem ipsum");
 
         ad.Title.Should().Be("Lorem ipsum");
@@ -201,26 +203,45 @@ public class AdTests
     private CarSnapshot GetCarSnapshot() =>
         CarSnapshot.Of(
             Guid.CreateVersion7(),
-            "fsdf",
-            "fadf",
-            1995,
-            "gsfdg",
+            GetBrandSnapshot(),
+            GetModelSnapshot(),
+            GetGenerationSnapshot(),
+            GetEngineSnapshot(),
+            GetAutoDriveTypeSnapshot(),
+            GetTransmissionTypeSnapshot(),
+            GetBodyTypeSnapshot(),
+            2015,
             null,
-            1243,
-            "green",
-            150,
-            5.5M,
-            "AWD",
-            "Automatic",
-            "Diesel",
-            "Hatchback").Value;
+            20000,
+            3.5m,
+            "black").Value;
+
+    private TransmissionTypeSnapshot GetTransmissionTypeSnapshot() => TransmissionTypeSnapshot.Of(1, "Manual").Value;
+
+    private AutoDriveTypeSnapshot GetAutoDriveTypeSnapshot() => AutoDriveTypeSnapshot.Of(1, "FWD").Value;
+
+    private BodyTypeSnapshot GetBodyTypeSnapshot() => BodyTypeSnapshot.Of(1, "Liftback").Value;
+
+    private FuelTypeSnapshot GetFuelTypeSnapshot() => FuelTypeSnapshot.Of(1, "Hybrid").Value;
+
+
+    private BrandSnapshot GetBrandSnapshot() => BrandSnapshot.Of(1, "Toyota").Value;
+
+    private ModelSnapshot GetModelSnapshot() => ModelSnapshot.Of(2, "Prius", 1).Value;
+
+    private GenerationSnapshot GetGenerationSnapshot() => GenerationSnapshot.Of(3, "III - Restyling", 2, 1999, 2004).Value;
+
+    private EngineSnapshot GetEngineSnapshot() => EngineSnapshot.Of(4, "2.0 HEV", 300, GetFuelTypeSnapshot(), 3).Value;
+
 
     private Money GetMoney() => Money.Of(Currency.Of("BYN").Value, 1200).Value;
 
     private SellerSnapshot GetSellerSnapshot(Guid sellerId) =>
-        SellerSnapshot.Of(sellerId, "gsd", DateTime.UtcNow, sellerId).Value;
+        SellerSnapshot.Of(sellerId, "gsd", DateTime.UtcNow, sellerId, GetPhoneNumber()).Value;
 
     private Location GetLocation() => Location.Of("fdasgs", "fdgsgs").Value;
+
+    private PhoneNumber GetPhoneNumber() => PhoneNumber.Of("+375297304300").Value;
 
     private Ad GetAd() => Ad.Create(GetSellerSnapshot(Guid.CreateVersion7())).Value;
 

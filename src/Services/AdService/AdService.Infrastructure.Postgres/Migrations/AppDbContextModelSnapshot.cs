@@ -44,10 +44,11 @@ namespace AdService.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Description")
@@ -63,10 +64,11 @@ namespace AdService.Infrastructure.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("text");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("Views")
@@ -90,10 +92,11 @@ namespace AdService.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Name")
@@ -110,10 +113,11 @@ namespace AdService.Infrastructure.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("character varying(20)");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -123,19 +127,18 @@ namespace AdService.Infrastructure.Migrations
 
             modelBuilder.Entity("AdService.Domain.Entities.Comment", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+                        .HasColumnType("uuid");
 
                     b.Property<Guid>("AdId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime?>("CreatedAt")
+                    b.Property<DateTime>("CreatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Message")
@@ -143,15 +146,17 @@ namespace AdService.Infrastructure.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
 
-                    b.Property<DateTime?>("UpdatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UpdatedBy")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("AdId");
+                    b.HasIndex("AdId")
+                        .IsUnique();
 
                     b.ToTable("Comments");
                 });
@@ -179,49 +184,18 @@ namespace AdService.Infrastructure.Migrations
                                 .HasColumnType("uuid")
                                 .HasColumnName("AdId");
 
-                            b1.Property<Guid>("CarId")
+                            b1.Property<Guid?>("CarId")
                                 .HasColumnType("uuid");
-
-                            b1.Property<string>("BodyType")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Brand")
-                                .IsRequired()
-                                .HasColumnType("text");
 
                             b1.Property<string>("Color")
                                 .HasColumnType("text");
 
                             b1.Property<decimal?>("Consumption")
-                                .HasPrecision(18, 2)
-                                .HasColumnType("numeric(18,2)");
-
-                            b1.Property<string>("DriveType")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("FuelType")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("Generation")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<int?>("HorsePower")
-                                .HasColumnType("integer");
+                                .HasPrecision(18, 1)
+                                .HasColumnType("numeric(18,1)");
 
                             b1.Property<int?>("Mileage")
                                 .HasColumnType("integer");
-
-                            b1.Property<string>("Model")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<string>("TransmissionType")
-                                .IsRequired()
-                                .HasColumnType("text");
 
                             b1.Property<string>("Vin")
                                 .HasColumnType("text");
@@ -229,15 +203,227 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<int?>("Year")
                                 .HasColumnType("integer");
 
-                            b1.HasKey("AdId", "CarId");
-
-                            b1.HasIndex("AdId")
-                                .IsUnique();
+                            b1.HasKey("AdId");
 
                             b1.ToTable("CarSnapshots", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AdId");
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.AutoDriveTypeSnapshot", "DriveType", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("DriveType_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("DriveType_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.BodyTypeSnapshot", "BodyType", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("BodyType_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("BodyType_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.BrandSnapshot", "Brand", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Brand_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("Brand_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.EngineSnapshot", "Engine", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("GenerationId")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Engine_Generation_Id");
+
+                                    b2.Property<int>("HorsePower")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Engine_HorsePower");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Engine_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("Engine_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+
+                                    b2.OwnsOne("AdService.Domain.ValueObjects.FuelTypeSnapshot", "FuelType", b3 =>
+                                        {
+                                            b3.Property<Guid>("EngineSnapshotCarSnapshotAdId")
+                                                .HasColumnType("uuid");
+
+                                            b3.Property<int>("Id")
+                                                .HasColumnType("integer")
+                                                .HasColumnName("Engine_FuelType_Id");
+
+                                            b3.Property<string>("Name")
+                                                .IsRequired()
+                                                .HasColumnType("text")
+                                                .HasColumnName("Engine_FuelType_Name");
+
+                                            b3.HasKey("EngineSnapshotCarSnapshotAdId");
+
+                                            b3.ToTable("CarSnapshots");
+
+                                            b3.WithOwner()
+                                                .HasForeignKey("EngineSnapshotCarSnapshotAdId");
+                                        });
+
+                                    b2.Navigation("FuelType")
+                                        .IsRequired();
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.GenerationSnapshot", "Generation", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Generation_Id");
+
+                                    b2.Property<int>("ModelId")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Generation_Model_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("Generation_Name");
+
+                                    b2.Property<int>("YearFrom")
+                                        .HasColumnType("integer");
+
+                                    b2.Property<int>("YearTo")
+                                        .HasColumnType("integer");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.ModelSnapshot", "Model", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("BrandId")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Model_Brand_Id");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("Model_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("Model_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.TransmissionTypeSnapshot", "TransmissionType", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("TransmissionType_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("TransmissionType_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.Navigation("BodyType");
+
+                            b1.Navigation("Brand");
+
+                            b1.Navigation("DriveType");
+
+                            b1.Navigation("Engine");
+
+                            b1.Navigation("Generation");
+
+                            b1.Navigation("Model");
+
+                            b1.Navigation("TransmissionType");
                         });
 
                     b.OwnsOne("AdService.Domain.ValueObjects.Location", "Location", b1 =>
@@ -293,7 +479,7 @@ namespace AdService.Infrastructure.Migrations
                             b1.Property<Guid>("AdId")
                                 .HasColumnType("uuid");
 
-                            b1.Property<int?>("Amount")
+                            b1.Property<int>("Amount")
                                 .HasColumnType("integer")
                                 .HasColumnName("Amount");
 
@@ -310,7 +496,10 @@ namespace AdService.Infrastructure.Migrations
                                         .HasColumnType("uuid");
 
                                     b2.Property<string>("CurrencyCode")
+                                        .IsRequired()
+                                        .ValueGeneratedOnAdd()
                                         .HasColumnType("text")
+                                        .HasDefaultValue("USD")
                                         .HasColumnName("Price_CurrencyCode");
 
                                     b2.HasKey("MoneyAdId");
@@ -321,7 +510,8 @@ namespace AdService.Infrastructure.Migrations
                                         .HasForeignKey("MoneyAdId");
                                 });
 
-                            b1.Navigation("Currency");
+                            b1.Navigation("Currency")
+                                .IsRequired();
                         });
 
                     b.OwnsOne("AdService.Domain.ValueObjects.SellerSnapshot", "Seller", b1 =>
@@ -334,7 +524,6 @@ namespace AdService.Infrastructure.Migrations
                                 .HasColumnType("uuid");
 
                             b1.Property<string>("DisplayName")
-                                .IsRequired()
                                 .HasMaxLength(50)
                                 .HasColumnType("character varying(50)");
 
@@ -353,6 +542,28 @@ namespace AdService.Infrastructure.Migrations
 
                             b1.WithOwner()
                                 .HasForeignKey("AdId");
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.PhoneNumber", "PhoneNumber", b2 =>
+                                {
+                                    b2.Property<Guid>("SellerSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<Guid>("SellerSnapshotSellerId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<string>("E164")
+                                        .IsRequired()
+                                        .HasColumnType("text");
+
+                                    b2.HasKey("SellerSnapshotAdId", "SellerSnapshotSellerId");
+
+                                    b2.ToTable("SellerSnapshots");
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("SellerSnapshotAdId", "SellerSnapshotSellerId");
+                                });
+
+                            b1.Navigation("PhoneNumber");
                         });
 
                     b.Navigation("Car");
@@ -370,15 +581,15 @@ namespace AdService.Infrastructure.Migrations
             modelBuilder.Entity("AdService.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("AdService.Domain.Aggregates.Ad", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("AdId")
+                        .WithOne("Comment")
+                        .HasForeignKey("AdService.Domain.Entities.Comment", "AdId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
             modelBuilder.Entity("AdService.Domain.Aggregates.Ad", b =>
                 {
-                    b.Navigation("Comments");
+                    b.Navigation("Comment");
                 });
 #pragma warning restore 612, 618
         }

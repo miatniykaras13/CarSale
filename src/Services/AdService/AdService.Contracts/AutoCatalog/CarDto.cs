@@ -9,8 +9,6 @@ public record CarDto(
     int TransmissionTypeId,
     int AutoDriveTypeId,
     int BodyTypeId,
-    int YearFrom,
-    int YearTo,
     Guid PhotoId,
     decimal Consumption,
     decimal Acceleration,

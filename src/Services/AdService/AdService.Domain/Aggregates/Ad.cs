@@ -15,7 +15,6 @@ public sealed class Ad : Aggregate<Guid>
     public const int MAX_DESCRIPTION_LENGTH = 400;
 
     private readonly List<Guid> _images = [];
-    private readonly List<Comment> _comments = [];
     private readonly List<CarOption> _carOptions = [];
 
     private Ad()
@@ -69,7 +68,7 @@ public sealed class Ad : Aggregate<Guid>
 
     public IReadOnlyList<Guid> Images => _images.AsReadOnly();
 
-    public IReadOnlyList<Comment> Comments => _comments.AsReadOnly();
+    public Comment? Comment { get; private set; }
 
     public IReadOnlyList<CarOption> CarOptions => _carOptions.AsReadOnly();
 
@@ -132,11 +131,90 @@ public sealed class Ad : Aggregate<Guid>
                 $"Description's length must be between 0 and {MAX_DESCRIPTION_LENGTH} to update"));
         }
 
+        if (Status is AdStatus.PUBLISHED &&
+            (title is null ||
+             description is null ||
+             price is null ||
+             location?.City is null || location.Region is null ||
+             (seller is not null && (seller.DisplayName is null || seller.PhoneNumber is null))))
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.properties.is_conflict",
+                $"To update published ad these properties must be provided: title, description, price, location, seller's display name and seller's phone number"));
+        }
+
         if (title is not null) Title = title;
         if (description is not null) Description = description;
         if (price is not null) Price = price;
         if (location is not null) Location = location;
         if (seller is not null) Seller = seller;
+
+
+        AddDomainEvent(new AdUpdatedEvent(this));
+        return Result.Success<Ad, Error>(this);
+    }
+
+    // updating ad with merge patch semantics
+    public Result<Ad, Error> UpdateMergePatch(
+        string? title,
+        string? description,
+        Money? price,
+        Location? location,
+        SellerSnapshot seller)
+    {
+        if (IsExpired)
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
+        if (Status is not (AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.status.is_conflict",
+                "Ad's status must be draft or denied to update"));
+        }
+
+        if (Car is null)
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.car_snapshot.is_conflict",
+                "Car snapshot should not be null to update other properties"));
+        }
+
+        if (title is { Length: > MAX_TITLE_LENGTH or < MIN_TITLE_LENGTH })
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.title.is_conflict",
+                $"Title's length must be between {MIN_TITLE_LENGTH} and {MAX_TITLE_LENGTH} to update"));
+        }
+
+        if (description is { Length: > MAX_DESCRIPTION_LENGTH })
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.description.is_conflict",
+                $"Description's length must be between 0 and {MAX_DESCRIPTION_LENGTH} to update"));
+        }
+
+        if (Status is AdStatus.PUBLISHED &&
+            (title is null ||
+             description is null ||
+             price is null ||
+             location?.City is null || location.Region is null ||
+             seller.DisplayName is null || seller.PhoneNumber is null))
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.properties.is_conflict",
+                $"To update published ad these properties must be provided: title, description, price, location, seller's display name and seller's phone number"));
+        }
+
+
+        Title = title;
+        Description = description;
+        Price = price;
+        Location = location;
+        Seller = seller;
 
 
         AddDomainEvent(new AdUpdatedEvent(this));
@@ -153,11 +231,27 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad is expired and it cannot be modified."));
         }
 
-        if (Status is not(AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
+        if (Status is not (AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.status.is_conflict",
                 "Ad's status must be draft or denied to update"));
+        }
+
+        if (Status is AdStatus.PUBLISHED && (
+                Car!.CarId != car.CarId ||
+                Car!.Brand != car.Brand ||
+                Car!.Model != car.Model ||
+                Car!.Generation != car.Generation ||
+                Car!.Engine != car.Engine ||
+                Car!.BodyType != car.BodyType ||
+                Car!.DriveType != car.DriveType ||
+                Car!.TransmissionType != car.TransmissionType ||
+                Car!.Year != car.Year))
+        {
+            return Result.Failure<Ad, Error>(Error.Domain(
+                "ad.car.is_conflict",
+                "Cannot change the information about the car when ad is published."));
         }
 
         Car = car;
@@ -182,7 +276,6 @@ public sealed class Ad : Aggregate<Guid>
         Car = null;
 
         _images.Clear();
-        _comments.Clear();
         _carOptions.Clear();
 
         AddDomainEvent(new AdClearedEvent(this));
@@ -213,7 +306,13 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad cannot be submitted without any images"));
         }
 
-        if (Car is null)
+        if (Car?.Brand is null ||
+            Car.Model is null ||
+            Car.Generation is null ||
+            Car.Engine is null ||
+            Car.BodyType is null ||
+            Car.DriveType is null ||
+            Car.TransmissionType is null)
         {
             return UnitResult.Failure<Error>(Error.Domain(
                 "ad.car_snapshot.is_conflict",
@@ -227,11 +326,11 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad cannot be submitted without the price"));
         }
 
-        if (Location is null)
+        if (Location?.City is null || Location.Region is null)
         {
             return UnitResult.Failure<Error>(Error.Domain(
                 "ad.location.is_conflict",
-                "Ad cannot be submitted without the location"));
+                "Ad cannot be submitted without the location information"));
         }
 
         Status = AdStatus.PENDING;
@@ -448,14 +547,27 @@ public sealed class Ad : Aggregate<Guid>
 
     public UnitResult<Error> AddComment(Comment comment)
     {
-        if (_comments.Contains(comment))
+        if (Comment is not null)
         {
             return UnitResult.Failure<Error>(Error.Domain(
-                "ad.comment.already_exist",
-                "Such comment already exists"));
+                "ad.comment.already_added",
+                "Only one comment can be added to ad."));
         }
 
-        _comments.Add(comment);
+        Comment = comment;
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> RemoveComment()
+    {
+        if (Comment is null)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.comment.doesnt_exist",
+                "No comment in this ad."));
+        }
+
+        Comment = null;
         return UnitResult.Success<Error>();
     }
 
@@ -482,6 +594,26 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         _carOptions.Remove(carOption);
+        return UnitResult.Success<Error>();
+    }
+
+    public UnitResult<Error> IncreaseViews(int number = 1)
+    {
+        if (number < 1)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad_views.increase_number.is_invalid",
+                "Number of views to increase must be greater than 0."));
+        }
+
+        if (Status is not AdStatus.PUBLISHED)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.status.is_conflict",
+                "Ad's status must be published to increase views."));
+        }
+
+        Views += number;
         return UnitResult.Success<Error>();
     }
 }

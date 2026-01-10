@@ -17,7 +17,7 @@ public class LocationFaker
                 var result = Location.Of(region, city);
 
                 if (result.IsFailure)
-                    throw new InvalidOperationException($"Location faker failed: {result.Error}");
+                    throw new InvalidOperationException($"Location faker failed: {result.Error.Message}");
 
                 return result.Value;
             });

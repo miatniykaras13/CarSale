@@ -5,7 +5,7 @@ namespace AdService.Infrastructure.Postgres.Data.Seeding.Fakers;
 
 public class SellerSnapshotFaker
 {
-    public static SellerSnapshot[] Fake(int amount)
+    public static SellerSnapshot[] Fake(int amount, PhoneNumber[] phoneNumbers)
     {
         var faker = new Faker<SellerSnapshot>()
             .UseSeed(7)
@@ -20,11 +20,13 @@ public class SellerSnapshotFaker
 
                 var imageId = f.Random.Guid();
                 var registrationDate = DateTime.UtcNow;
+                
+                var phoneNumber = f.Random.ArrayElement(phoneNumbers);
 
-                var result = SellerSnapshot.Of(f.Random.Guid(), displayName, registrationDate, imageId);
+                var result = SellerSnapshot.Of(f.Random.Guid(), displayName, registrationDate, imageId, phoneNumber);
 
                 if (result.IsFailure)
-                    throw new InvalidOperationException($"SellerSnapshot faker failed: {result.Error}");
+                    throw new InvalidOperationException($"SellerSnapshot faker failed: {result.Error.Message}");
 
                 return result.Value;
             });

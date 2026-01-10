@@ -40,11 +40,18 @@ public class CreateAdCommandHandler(
 
         var userDto = userDtoResult.Value;
 
+        var phoneNumberDto = userDto.PhoneNumber;
+
+        var phoneNumberResult = PhoneNumber.Of(phoneNumberDto.Number);
+
+        if (phoneNumberResult.IsFailure) return Result.Failure<CreateAdResponse, List<Error>>(phoneNumberResult.Error);
+
         var sellerSnapshotResult = SellerSnapshot.Of(
             userId,
             userDto.DisplayName,
             userDto.RegisteredAt,
-            userDto.ImageId);
+            userDto.ImageId,
+            phoneNumberResult.Value);
 
         if (sellerSnapshotResult.IsFailure)
             return Result.Failure<CreateAdResponse, List<Error>>(sellerSnapshotResult.Error);

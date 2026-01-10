@@ -9,7 +9,7 @@ public class AutoCatalogClient : IAutoCatalogClient
 {
     public async Task<Result<BrandDto, Error>> GetBrandByIdAsync(int brandId, CancellationToken ct = default)
     {
-        return Result.Success<BrandDto, Error>(new BrandDto(1, "Volkswagen", 1930, 2025));
+        return Result.Success<BrandDto, Error>(new BrandDto(1, "Volkswagen"));
     }
 
     public async Task<Result<ModelDto, Error>> GetModelByIdAsync(int modelId, CancellationToken ct = default)
@@ -19,12 +19,12 @@ public class AutoCatalogClient : IAutoCatalogClient
 
     public async Task<Result<GenerationDto, Error>> GetGenerationByIdAsync(int modelId, CancellationToken ct = default)
     {
-        return Result.Success<GenerationDto, Error>(new GenerationDto(3, "IV", 2));
+        return Result.Success<GenerationDto, Error>(new GenerationDto(3, "IV", 2, 2000, 2005));
     }
 
     public async Task<Result<EngineDto, Error>> GetEngineByIdAsync(int engineId, CancellationToken ct = default)
     {
-        return Result.Success<EngineDto, Error>(new EngineDto(4, 3, "1.9 TDI", 1, 1.9f, 90, 880));
+        return Result.Success<EngineDto, Error>(new EngineDto(4, 3, "1.9 TDI", new FuelTypeDto(1, "Diesel"), 1.9f, 90, 880));
     }
 
     public async Task<Result<TransmissionTypeDto, Error>> GetTransmissionTypeByIdAsync(

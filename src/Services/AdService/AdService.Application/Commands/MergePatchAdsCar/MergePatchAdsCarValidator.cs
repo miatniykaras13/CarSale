@@ -1,26 +1,27 @@
 ﻿using AdService.Contracts.Ads;
+using AdService.Contracts.Ads.MergePatch;
 using AdService.Domain.ValueObjects;
 using FluentValidation;
 
 namespace AdService.Application.Commands.MergePatchAdsCar;
 
-public class CarSnapshotMergePatchValidator : AbstractValidator<CarSnapshotMergePatchDto>
+public class MergePatchAdsCarValidator : AbstractValidator<CarSnapshotDto>
 {
-    public CarSnapshotMergePatchValidator()
+    /*public MergePatchAdsCarValidator()
     {
-        When(x => x.ModelId.HasValue, () =>
+        When(x => x.Model is not null, () =>
         {
-            RuleFor(x => x.BrandId)
+            RuleFor(x => x.Brand)
                 .NotNull()
                 .WithMessage("BrandId is required when ModelId is provided.");
         });
 
 
-        When(x => x.GenerationId.HasValue, () =>
+        When(x => x.Generation is not null, () =>
         {
-            RuleFor(x => x.ModelId)
+            RuleFor(x => x.Model)
                 .NotNull()
-                .WithMessage("ModelId is required when GenerationId is provided.");
+                .WithMessage("Model is required when GenerationId is provided.");
         });
 
 
@@ -41,5 +42,5 @@ public class CarSnapshotMergePatchValidator : AbstractValidator<CarSnapshotMerge
             .Length(CarSnapshot.REQUIRED_VIN_LENGTH)
             .When(x => x.Vin != null)
             .WithMessage($"VIN must be {CarSnapshot.REQUIRED_VIN_LENGTH} characters long.");
-    }
+    }*/
 }

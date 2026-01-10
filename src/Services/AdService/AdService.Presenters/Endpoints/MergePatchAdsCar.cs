@@ -1,7 +1,6 @@
-﻿using System.Security.Claims;
-using AdService.Application.Commands.CreateAd;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 using AdService.Application.Commands.MergePatchAdsCar;
-using AdService.Contracts.Ads;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -15,11 +14,17 @@ public class MergePatchAdsCar : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPatch("/ads/{adId:guid}/car", async (
                 [FromRoute] Guid adId,
-                [FromBody] CarSnapshotMergePatchDto dto,
+                HttpRequest request,
                 ISender sender,
                 CancellationToken ct) =>
             {
-                var command = new MergePatchAdsCarCommand(adId, dto);
+                var patchObject =
+                    await JsonSerializer.DeserializeAsync<JsonObject>(request.Body, JsonSerializerOptions.Web, ct);
+
+                if (patchObject is null || patchObject.GetType() != typeof(JsonObject))
+                    return Results.BadRequest(new { error = "Patch body must be a JSON object" });
+
+                var command = new MergePatchAdsCarCommand(adId, patchObject);
 
                 var result = await sender.Send(command, ct);
                 if (result.IsFailure)
@@ -28,6 +33,7 @@ public class MergePatchAdsCar : ICarterModule
 
                 return Results.Ok();
             })
+            .WithMetadata(new ConsumesAttribute("application/merge-patch+json"))
             .WithName("MergePatchAdsCar")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status200OK);

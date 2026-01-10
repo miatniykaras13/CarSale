@@ -4,7 +4,7 @@ public record EngineDto(
     int Id,
     int GenerationId,
     string Name,
-    int FuelTypeId,
+    FuelTypeDto FuelType,
     float Volume,
     int HorsePower,
     int TorqueNm);

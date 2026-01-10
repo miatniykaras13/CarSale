@@ -17,13 +17,31 @@ public static class DbContextExtensions
                 if (context.Set<Ad>().Any())
                     return;
 
-                var carSnapshots = CarSnapshotFaker.Fake(4);
+                var transmissionTypes = TransmissionTypeSnapshotFaker.Fake(3);
+
+                var bodyTypes = BodyTypeSnapshotFaker.Fake(4);
+
+                var driveTypes = AutoDriveTypeSnapshotFaker.Fake(3);
+
+                var fuelTypes = FuelTypeSnapshotFaker.Fake(3);
+
+                var brands = BrandSnapshotFaker.Fake(4);
+
+                var models = ModelSnapshotFaker.Fake(4, brands);
+
+                var generations = GenerationSnapshotFaker.Fake(4, models);
+
+                var engines = EngineSnapshotFaker.Fake(4, generations, fuelTypes);
+
+                var carSnapshots = CarSnapshotFaker.Fake(4, brands, models, generations, engines, transmissionTypes, driveTypes, bodyTypes);
 
                 var currencies = CurrencyFaker.Fake(3);
 
                 var money = MoneyFaker.Fake(4, currencies);
 
-                var sellers = SellerSnapshotFaker.Fake(4);
+                var phoneNumbers = PhoneNumberFaker.Fake(4);
+
+                var sellers = SellerSnapshotFaker.Fake(6, phoneNumbers);
 
                 var locations = LocationFaker.Fake(4);
 
@@ -39,7 +57,7 @@ public static class DbContextExtensions
                     money,
                     sellers,
                     carOptions,
-                    out IReadOnlyList<Comment> comments);
+                    out List<Comment> comments);
 
                 context.Set<CarOption>().AddRange(carOptions);
                 context.Set<Comment>().AddRange(comments);
@@ -51,13 +69,31 @@ public static class DbContextExtensions
                 if (await context.Set<Ad>().AnyAsync(ct))
                     return;
 
-                var carSnapshots = CarSnapshotFaker.Fake(4);
+                var transmissionTypes = TransmissionTypeSnapshotFaker.Fake(3);
+
+                var bodyTypes = BodyTypeSnapshotFaker.Fake(4);
+
+                var driveTypes = AutoDriveTypeSnapshotFaker.Fake(3);
+
+                var fuelTypes = FuelTypeSnapshotFaker.Fake(3);
+
+                var brands = BrandSnapshotFaker.Fake(4);
+
+                var models = ModelSnapshotFaker.Fake(4, brands);
+
+                var generations = GenerationSnapshotFaker.Fake(4, models);
+
+                var engines = EngineSnapshotFaker.Fake(4, generations, fuelTypes);
+
+                var carSnapshots = CarSnapshotFaker.Fake(4, brands, models, generations, engines, transmissionTypes, driveTypes, bodyTypes);
 
                 var currencies = CurrencyFaker.Fake(3);
 
                 var money = MoneyFaker.Fake(4, currencies);
 
-                var sellers = SellerSnapshotFaker.Fake(6);
+                var phoneNumbers = PhoneNumberFaker.Fake(4);
+
+                var sellers = SellerSnapshotFaker.Fake(6, phoneNumbers);
 
                 var locations = LocationFaker.Fake(4);
 
@@ -73,7 +109,7 @@ public static class DbContextExtensions
                     money,
                     sellers,
                     carOptions,
-                    out IReadOnlyList<Comment> comments);
+                    out List<Comment> comments);
 
                 await context.Set<CarOption>().AddRangeAsync(carOptions, ct);
                 await context.Set<Comment>().AddRangeAsync(comments, ct);
@@ -89,8 +125,9 @@ public static class DbContextExtensions
         Money[] money,
         SellerSnapshot[] sellers,
         CarOption[] carOptions,
-        out IReadOnlyList<Comment> comments)
+        out List<Comment> comments)
     {
+        comments = new List<Comment>();
         for (int i = 0; i < ads.Length; i++)
         {
             ads[i] = Ad.Create(sellers[i]).Value;
@@ -132,8 +169,7 @@ public static class DbContextExtensions
         ads[4].Publish(TimeSpan.FromDays(5), ModerationResult.Of(Guid.CreateVersion7(), DateTime.UtcNow).Value);
 
         ads[4].AddComment(Comment.Create("Comment 1", ads[4].Id).Value);
-        ads[4].AddComment(Comment.Create("Comment 1", ads[4].Id).Value);
-        comments = ads[4].Comments;
+        comments.Add(ads[4].Comment!);
 
         ads[5].UpdateCar(carSnapshots[3]);
         ads[5].Update(

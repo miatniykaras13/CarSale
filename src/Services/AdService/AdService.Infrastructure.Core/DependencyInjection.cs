@@ -1,5 +1,6 @@
-﻿using AdService.Infrastructure.Core.BackgroundServices;
-using Microsoft.Extensions.Configuration;
+﻿using AdService.Application.Abstractions.Helpers;
+using AdService.Infrastructure.Core.BackgroundServices;
+using AdService.Infrastructure.Core.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AdService.Infrastructure.Core;
@@ -10,6 +11,7 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         services.AddHostedService<AdExpirationCheckerService>();
+        services.AddSingleton<IMergePatchHelper, MergePatchHelper>();
         return services;
     }
 }

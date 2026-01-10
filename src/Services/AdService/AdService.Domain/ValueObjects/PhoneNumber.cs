@@ -5,9 +5,9 @@ namespace AdService.Domain.ValueObjects;
 
 public record PhoneNumber
 {
-    private static readonly Regex _phoneRegex = new Regex(@"^\+[1-9]\d{1-14}", RegexOptions.Compiled);
+    private static readonly Regex _phoneRegex = new(@"^\+[1-9]\d{5,14}", RegexOptions.Compiled);
 
-    public string E164 { get; private set; } = null!;
+    public string E164 { get; private set; } = "+000000000000";
 
     protected PhoneNumber()
     {

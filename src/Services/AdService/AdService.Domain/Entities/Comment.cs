@@ -2,7 +2,7 @@
 
 namespace AdService.Domain.Entities;
 
-public class Comment : BuildingBlocks.DDD.Entity<int>
+public class Comment : BuildingBlocks.DDD.Entity<Guid>
 {
     public const int MAX_MESSAGE_LENGTH = 500;
 

@@ -20,15 +20,60 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
                 .HasColumnName("AdId")
                 .ValueGeneratedNever();
 
-            carBuilder.Property(c => c.CarId)
-                .ValueGeneratedNever();
+            carBuilder.HasKey("AdId");
 
-            carBuilder.HasKey("AdId", nameof(CarSnapshot.CarId));
+            carBuilder.Property(x => x.Consumption).HasPrecision(18, 1);
 
-            carBuilder.Property(x => x.DriveType).HasConversion<string>();
-            carBuilder.Property(x => x.TransmissionType).HasConversion<string>();
-            carBuilder.Property(x => x.FuelType).HasConversion<string>();
-            carBuilder.Property(x => x.Consumption).HasPrecision(18, 2);
+            carBuilder.OwnsOne(x => x.Brand, brandBuilder =>
+            {
+                brandBuilder.Property(x => x.Id).HasColumnName("Brand_Id").ValueGeneratedNever();
+                brandBuilder.Property(x => x.Name).HasColumnName("Brand_Name");
+            });
+
+            carBuilder.OwnsOne(x => x.Model, modelBuilder =>
+            {
+                modelBuilder.Property(x => x.Id).HasColumnName("Model_Id").ValueGeneratedNever();
+                modelBuilder.Property(x => x.Name).HasColumnName("Model_Name");
+                modelBuilder.Property(x => x.BrandId).HasColumnName("Model_Brand_Id");
+            });
+
+            carBuilder.OwnsOne(x => x.Generation, generationBuilder =>
+            {
+                generationBuilder.Property(x => x.Id).HasColumnName("Generation_Id").ValueGeneratedNever();
+                generationBuilder.Property(x => x.Name).HasColumnName("Generation_Name");
+                generationBuilder.Property(x => x.ModelId).HasColumnName("Generation_Model_Id");
+            });
+
+            carBuilder.OwnsOne(x => x.Engine, engineBuilder =>
+            {
+                engineBuilder.Property(x => x.Id).HasColumnName("Engine_Id").ValueGeneratedNever();
+                engineBuilder.Property(x => x.Name).HasColumnName("Engine_Name");
+                engineBuilder.Property(x => x.GenerationId).HasColumnName("Engine_Generation_Id");
+                engineBuilder.Property(x => x.HorsePower).HasColumnName("Engine_HorsePower").ValueGeneratedNever();
+                engineBuilder.OwnsOne(x => x.FuelType, fuelBuilder =>
+                {
+                    fuelBuilder.Property(x => x.Id).HasColumnName("Engine_FuelType_Id").ValueGeneratedNever();
+                    fuelBuilder.Property(x => x.Name).HasColumnName("Engine_FuelType_Name");
+                });
+            });
+
+            carBuilder.OwnsOne(x => x.TransmissionType, transmissionBuilder =>
+            {
+                transmissionBuilder.Property(x => x.Id).HasColumnName("TransmissionType_Id").ValueGeneratedNever();
+                transmissionBuilder.Property(x => x.Name).HasColumnName("TransmissionType_Name");
+            });
+
+            carBuilder.OwnsOne(x => x.DriveType, driveBuilder =>
+            {
+                driveBuilder.Property(x => x.Id).HasColumnName("DriveType_Id").ValueGeneratedNever();
+                driveBuilder.Property(x => x.Name).HasColumnName("DriveType_Name");
+            });
+
+            carBuilder.OwnsOne(x => x.BodyType, bodyBuilder =>
+            {
+                bodyBuilder.Property(x => x.Id).HasColumnName("BodyType_Id").ValueGeneratedNever();
+                bodyBuilder.Property(x => x.Name).HasColumnName("BodyType_Name");
+            });
         });
 
         builder.OwnsOne(x => x.Seller, sellerBuilder =>
@@ -44,7 +89,9 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
 
             sellerBuilder.HasKey("AdId", nameof(SellerSnapshot.SellerId));
 
-            sellerBuilder.Property(x => x.DisplayName).HasMaxLength(SellerSnapshot.MAX_NAME_LENGTH).IsRequired();
+            sellerBuilder.Property(x => x.DisplayName).HasMaxLength(SellerSnapshot.MAX_NAME_LENGTH);
+
+            sellerBuilder.OwnsOne(x => x.PhoneNumber);
         });
 
         builder
@@ -52,9 +99,8 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             .WithMany();
 
         builder
-            .HasMany(a => a.Comments)
-            .WithOne()
-            .HasForeignKey(c => c.AdId);
+            .HasOne(a => a.Comment)
+            .WithOne();
 
         builder.Property(x => x.Status)
             .IsRequired()
@@ -73,7 +119,7 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             p.Property(pr => pr.Amount).HasColumnName("Amount");
             p.OwnsOne(x => x.Currency, cur =>
             {
-                cur.Property(c => c.CurrencyCode).HasColumnName("Price_CurrencyCode");
+                cur.Property(c => c.CurrencyCode).HasColumnName("Price_CurrencyCode").HasDefaultValue("USD");
             });
         });
 
