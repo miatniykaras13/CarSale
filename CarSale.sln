@@ -67,6 +67,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Infrastructure.Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Infrastructure.AutoCatalog", "src\Services\AdService\AdService.Infrastructure.AutoCatalog\AdService.Infrastructure.AutoCatalog.csproj", "{904DD8A2-B850-468F-A3B4-81231F9E4857}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdService.Common", "src\Services\AdService\AdService.Common\AdService.Common.csproj", "{1C3F0CBD-9E54-4B90-AFDE-30116E94BBB0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -161,6 +163,10 @@ Global
 		{904DD8A2-B850-468F-A3B4-81231F9E4857}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{904DD8A2-B850-468F-A3B4-81231F9E4857}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{904DD8A2-B850-468F-A3B4-81231F9E4857}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C3F0CBD-9E54-4B90-AFDE-30116E94BBB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C3F0CBD-9E54-4B90-AFDE-30116E94BBB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C3F0CBD-9E54-4B90-AFDE-30116E94BBB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C3F0CBD-9E54-4B90-AFDE-30116E94BBB0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -193,6 +199,7 @@ Global
 		{F909AC89-CEC5-4FF2-B24A-D6CC28BD3B6A} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{77B9C096-4522-4182-8E75-E54E90250D1A} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 		{904DD8A2-B850-468F-A3B4-81231F9E4857} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
+		{1C3F0CBD-9E54-4B90-AFDE-30116E94BBB0} = {533F55D5-A22F-434A-92BD-D4C7A45EE923}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8872AD1A-914B-4D1D-BA6F-22C02F4D87F8}

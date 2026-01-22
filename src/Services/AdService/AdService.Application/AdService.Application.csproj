@@ -13,13 +13,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks\BuildingBlocks.csproj" />
+      <ProjectReference Include="..\AdService.Common\AdService.Common.csproj" />
       <ProjectReference Include="..\AdService.Contracts\AdService.Contracts.csproj" />
       <ProjectReference Include="..\AdService.Domain\AdService.Domain.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Commands\SubmitAd\" />
-      <Folder Include="Commands\UpdateAdsPrice\" />
     </ItemGroup>
 
 </Project>

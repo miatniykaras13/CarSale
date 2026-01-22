@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using AdService.Application.Abstractions.AutoCatalog;
+﻿using AdService.Application.Abstractions.AutoCatalog;
 using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.Helpers;
 using AdService.Contracts.Ads.MergePatch;
@@ -12,14 +11,21 @@ public class MergePatchAdsCarCommandHandler(
     IAppDbContext dbContext,
     IAutoCatalogClient autoCatalog,
     IMergePatchHelper mergePatchHelper)
-    : ICommandHandler<MergePatchAdsCarCommand, UnitResult<Error>>
+    : ICommandHandler<MergePatchAdsCarCommand, UnitResult<List<Error>>>
 {
-    public async Task<UnitResult<Error>> Handle(MergePatchAdsCarCommand command, CancellationToken ct)
+    public async Task<UnitResult<List<Error>>> Handle(MergePatchAdsCarCommand command, CancellationToken ct)
     {
         var ad = await dbContext.Ads.FindAsync([command.AdId], ct);
 
         if (ad is null)
-            return UnitResult.Failure(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
+            return UnitResult.Failure<List<Error>>(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
+
+        if (ad.Seller.SellerId != command.UserId)
+        {
+            return UnitResult.Failure<List<Error>>(Error.Forbidden(
+                "ad",
+                $"Authenticated user does not own the ad"));
+        }
 
         var patch = command.Patch;
 
@@ -45,49 +51,47 @@ public class MergePatchAdsCarCommandHandler(
 
         var patchedDto = mergePatchHelper.ApplyMergePatch(currentCarDto, patch);
 
-
         if (patchedDto.ModelId is not null && patchedDto.BrandId is null)
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "patched_car.model_id",
                 "Brand id is required when model id is provided"));
         }
 
         if (patchedDto.GenerationId is not null && patchedDto.ModelId is null)
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "patched_car.generation_id",
                 "Model id is required when generation id is provided"));
         }
 
         if (patchedDto.EngineId is not null && patchedDto.GenerationId is null)
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "patched_car.engine_id",
                 "Generation id is required when engine id is provided"));
         }
 
         if (patchedDto.BodyTypeId is not null && patchedDto.EngineId is null)
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "patched_car.body_type_id",
                 "Engine id is required when body type id is provided"));
         }
 
         if (patchedDto.DriveTypeId is not null && patchedDto.EngineId is null)
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "patched_car.drive_type_id",
                 "Engine id is required when drive type id is provided"));
         }
 
         if (patchedDto.TransmissionTypeId is not null && patchedDto.EngineId is null)
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "patched_car.transmission_type_id",
                 "Engine id is required when transmission type id is provided"));
         }
-
 
         bool brandChanged = patchedDto.BrandId != currentCarDto.BrandId;
         bool modelChanged = patchedDto.ModelId != currentCarDto.ModelId;
@@ -96,7 +100,6 @@ public class MergePatchAdsCarCommandHandler(
         bool driveChanged = patchedDto.DriveTypeId != currentCarDto.DriveTypeId;
         bool bodyChanged = patchedDto.BodyTypeId != currentCarDto.BodyTypeId;
         bool transmissionChanged = patchedDto.TransmissionTypeId != currentCarDto.TransmissionTypeId;
-
 
         Task<Result<BrandDto, Error>>? brandTask = null;
         Task<Result<ModelDto, Error>>? modelTask = null;
@@ -126,7 +129,6 @@ public class MergePatchAdsCarCommandHandler(
 
         if (bodyChanged && patchedDto.BodyTypeId is not null)
             bodyTask = autoCatalog.GetBodyTypeByIdAsync(patchedDto.BodyTypeId.Value, ct);
-
 
         var tasks = new List<Task>();
         if (brandTask is not null) tasks.Add(brandTask);
@@ -184,69 +186,77 @@ public class MergePatchAdsCarCommandHandler(
         if (brandTask is not null)
         {
             var brandResult = await brandTask;
-            if (brandResult.IsFailure) return UnitResult.Failure(brandResult.Error);
+            if (brandResult.IsFailure) return UnitResult.Failure<List<Error>>(brandResult.Error);
             brandDto = brandResult.Value;
         }
 
         if (modelTask is not null)
         {
             var modelResult = await modelTask;
-            if (modelResult.IsFailure) return UnitResult.Failure(modelResult.Error);
+            if (modelResult.IsFailure) return UnitResult.Failure<List<Error>>(modelResult.Error);
             modelDto = modelResult.Value;
         }
 
         if (generationTask is not null)
         {
             var generationResult = await generationTask;
-            if (generationResult.IsFailure) return UnitResult.Failure(generationResult.Error);
+            if (generationResult.IsFailure) return UnitResult.Failure<List<Error>>(generationResult.Error);
             generationDto = generationResult.Value;
         }
 
         if (engineTask is not null)
         {
             var engineResult = await engineTask;
-            if (engineResult.IsFailure) return UnitResult.Failure(engineResult.Error);
+            if (engineResult.IsFailure) return UnitResult.Failure<List<Error>>(engineResult.Error);
             engineDto = engineResult.Value;
         }
 
         if (driveTask is not null)
         {
             var driveResult = await driveTask;
-            if (driveResult.IsFailure) return UnitResult.Failure(driveResult.Error);
+            if (driveResult.IsFailure) return UnitResult.Failure<List<Error>>(driveResult.Error);
             driveDto = driveResult.Value;
         }
 
         if (transmissionTask is not null)
         {
             var transmissionResult = await transmissionTask;
-            if (transmissionResult.IsFailure) return UnitResult.Failure(transmissionResult.Error);
+            if (transmissionResult.IsFailure) return UnitResult.Failure<List<Error>>(transmissionResult.Error);
             transmissionDto = transmissionResult.Value;
         }
 
         if (bodyTask is not null)
         {
             var bodyResult = await bodyTask;
-            if (bodyResult.IsFailure) return UnitResult.Failure(bodyResult.Error);
+            if (bodyResult.IsFailure) return UnitResult.Failure<List<Error>>(bodyResult.Error);
             bodyDto = bodyResult.Value;
         }
 
         if (modelDto is not null && brandDto is not null && modelDto.BrandId != brandDto.Id)
-            return UnitResult.Failure(Error.Validation("car_snapshot.model", "Model does not belong to Brand"));
+        {
+            return UnitResult.Failure<List<Error>>(Error.Validation(
+                "car_snapshot.model",
+                "Model does not belong to Brand"));
+        }
 
         if (generationDto is not null && modelDto is not null && generationDto.ModelId != modelDto.Id)
         {
-            return UnitResult.Failure(
-                Error.Validation("car_snapshot.generation", "Generation does not belong to Model"));
+            return UnitResult.Failure<List<Error>>(Error.Validation(
+                "car_snapshot.generation",
+                "Generation does not belong to Model"));
         }
 
         if (engineDto is not null && generationDto is not null && engineDto.GenerationId != generationDto.Id)
-            return UnitResult.Failure(Error.Validation("car_snapshot.engine", "Engine does not belong to Generation"));
-
+        {
+            return UnitResult.Failure<List<Error>>(Error.Validation(
+                "car_snapshot.engine",
+                "Engine does not belong to Generation"));
+        }
 
         if (generationDto is not null && patchedDto.Year is not null &&
             (patchedDto.Year < generationDto.YearFrom || patchedDto.Year > generationDto.YearTo))
         {
-            return UnitResult.Failure(Error.Validation(
+            return UnitResult.Failure<List<Error>>(Error.Validation(
                 "car_snapshot.year",
                 "Provided year of production should be within boundaries of the generation production years"));
         }
@@ -280,7 +290,7 @@ public class MergePatchAdsCarCommandHandler(
                 bodyDto.Id,
                 ct);
 
-            if (carIdResult.IsFailure) return carIdResult;
+            if (carIdResult.IsFailure) return UnitResult.Failure<List<Error>>(carIdResult.Error);
 
             carId = carIdResult.Value;
         }
@@ -293,18 +303,17 @@ public class MergePatchAdsCarCommandHandler(
         TransmissionTypeSnapshot? transmissionType = null;
         AutoDriveTypeSnapshot? driveType = null;
 
-
         if (brandDto is not null)
         {
             var brandSnapshotResult = BrandSnapshot.Of(brandDto.Id, brandDto.Name);
-            if (brandSnapshotResult.IsFailure) return brandSnapshotResult;
+            if (brandSnapshotResult.IsFailure) return UnitResult.Failure<List<Error>>(brandSnapshotResult.Error);
             brand = brandSnapshotResult.Value;
         }
 
         if (modelDto is not null)
         {
             var modelSnapshotResult = ModelSnapshot.Of(modelDto.Id, modelDto.Name, brandDto!.Id);
-            if (modelSnapshotResult.IsFailure) return modelSnapshotResult;
+            if (modelSnapshotResult.IsFailure) return UnitResult.Failure<List<Error>>(modelSnapshotResult.Error);
             model = modelSnapshotResult.Value;
         }
 
@@ -317,14 +326,15 @@ public class MergePatchAdsCarCommandHandler(
                 generationDto.YearFrom,
                 generationDto.YearTo);
 
-            if (generationSnapshotResult.IsFailure) return generationSnapshotResult;
+            if (generationSnapshotResult.IsFailure)
+                return UnitResult.Failure<List<Error>>(generationSnapshotResult.Error);
             generation = generationSnapshotResult.Value;
         }
 
         if (engineDto is not null)
         {
             var fuelTypeSnapshotResult = FuelTypeSnapshot.Of(engineDto.FuelType.Id, engineDto.FuelType.Name);
-            if (fuelTypeSnapshotResult.IsFailure) return fuelTypeSnapshotResult;
+            if (fuelTypeSnapshotResult.IsFailure) return UnitResult.Failure<List<Error>>(fuelTypeSnapshotResult.Error);
 
             var engineSnapshotResult = EngineSnapshot.Of(
                 engineDto.Id,
@@ -333,31 +343,32 @@ public class MergePatchAdsCarCommandHandler(
                 fuelTypeSnapshotResult.Value,
                 generationDto!.Id);
 
-            if (engineSnapshotResult.IsFailure) return engineSnapshotResult;
+            if (engineSnapshotResult.IsFailure) return UnitResult.Failure<List<Error>>(engineSnapshotResult.Error);
             engine = engineSnapshotResult.Value;
         }
 
         if (driveDto is not null)
         {
             var driveTypeSnapshotResult = AutoDriveTypeSnapshot.Of(driveDto.Id, driveDto.Name);
-            if (driveTypeSnapshotResult.IsFailure) return driveTypeSnapshotResult;
+            if (driveTypeSnapshotResult.IsFailure)
+                return UnitResult.Failure<List<Error>>(driveTypeSnapshotResult.Error);
             driveType = driveTypeSnapshotResult.Value;
         }
 
         if (bodyDto is not null)
         {
             var bodyTypeSnapshotResult = BodyTypeSnapshot.Of(bodyDto.Id, bodyDto.Name);
-            if (bodyTypeSnapshotResult.IsFailure) return bodyTypeSnapshotResult;
+            if (bodyTypeSnapshotResult.IsFailure) return UnitResult.Failure<List<Error>>(bodyTypeSnapshotResult.Error);
             bodyType = bodyTypeSnapshotResult.Value;
         }
 
         if (transmissionDto is not null)
         {
             var transmissionTypeSnapshotResult = TransmissionTypeSnapshot.Of(transmissionDto.Id, transmissionDto.Name);
-            if (transmissionTypeSnapshotResult.IsFailure) return transmissionTypeSnapshotResult;
+            if (transmissionTypeSnapshotResult.IsFailure)
+                return UnitResult.Failure<List<Error>>(transmissionTypeSnapshotResult.Error);
             transmissionType = transmissionTypeSnapshotResult.Value;
         }
-
 
         var newCarResult = CarSnapshot.Of(
             carId: carId,
@@ -374,14 +385,14 @@ public class MergePatchAdsCarCommandHandler(
             color: patchedDto.Color,
             consumption: patchedDto.Consumption);
 
-        if (newCarResult.IsFailure) return newCarResult;
+        if (newCarResult.IsFailure) return UnitResult.Failure<List<Error>>(newCarResult.Error);
 
         var adUpdateCarResult = ad.UpdateCar(newCarResult.Value);
 
-        if (adUpdateCarResult.IsFailure) return adUpdateCarResult;
+        if (adUpdateCarResult.IsFailure) return UnitResult.Failure<List<Error>>(adUpdateCarResult.Error);
 
         await dbContext.SaveChangesAsync(ct);
 
-        return UnitResult.Success<Error>();
+        return UnitResult.Success<List<Error>>();
     }
 }

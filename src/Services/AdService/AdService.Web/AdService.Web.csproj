@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>4aedb948-17f0-4bc4-9295-c09c9ca123de</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
@@ -27,6 +28,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AdService.Application\AdService.Application.csproj" />
+      <ProjectReference Include="..\AdService.Common\AdService.Common.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.AutoCatalog\AdService.Infrastructure.AutoCatalog.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.Core\AdService.Infrastructure.Core.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj" />

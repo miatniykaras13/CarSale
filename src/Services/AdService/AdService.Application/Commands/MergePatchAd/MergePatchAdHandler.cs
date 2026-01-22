@@ -8,16 +8,23 @@ namespace AdService.Application.Commands.MergePatchAd;
 public class MergePatchAdCommandHandler(
     IAppDbContext dbContext,
     IMergePatchHelper mergePatchHelper)
-    : ICommandHandler<MergePatchAdCommand, UnitResult<Error>>
+    : ICommandHandler<MergePatchAdCommand, UnitResult<List<Error>>>
 {
-    public async Task<UnitResult<Error>> Handle(
+    public async Task<UnitResult<List<Error>>> Handle(
         MergePatchAdCommand command,
         CancellationToken ct)
     {
         var ad = await dbContext.Ads.FindAsync([command.AdId], ct);
 
         if (ad is null)
-            return UnitResult.Failure(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
+            return UnitResult.Failure<List<Error>>(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
+
+        if (ad.Seller.SellerId != command.UserId)
+        {
+            return UnitResult.Failure<List<Error>>(Error.Forbidden(
+                "ad",
+                $"Authenticated user does not own the ad"));
+        }
 
         var adDto = new AdNoCarDto
         {
@@ -54,7 +61,7 @@ public class MergePatchAdCommandHandler(
                 ((patchedPrice.Currency?.CurrencyCode is not null && patchedPrice.Amount is null) ||
                  (patchedPrice.Currency?.CurrencyCode is null && patchedPrice.Amount is not null)))
             {
-                return UnitResult.Failure(Error.Validation(
+                return UnitResult.Failure<List<Error>>(Error.Validation(
                     "ad.price",
                     "Both currency and amount must be provided when price is provided."));
             }
@@ -64,14 +71,14 @@ public class MergePatchAdCommandHandler(
             if (patchedPrice?.Currency?.CurrencyCode is not null)
             {
                 var currencyResult = Currency.Of(patchedPrice.Currency.CurrencyCode);
-                if (currencyResult.IsFailure) return currencyResult;
+                if (currencyResult.IsFailure) return UnitResult.Failure<List<Error>>(currencyResult.Error);
                 currency = currencyResult.Value;
             }
 
             if (patchedPrice?.Amount is not null && currency is not null)
             {
                 var priceResult = Money.Of(currency, patchedPrice.Amount.Value);
-                if (priceResult.IsFailure) return priceResult;
+                if (priceResult.IsFailure) return UnitResult.Failure<List<Error>>(priceResult.Error);
                 price = priceResult.Value;
             }
         }
@@ -82,7 +89,7 @@ public class MergePatchAdCommandHandler(
 
             if (patchedLocation is { City: not null, Region: null })
             {
-                return UnitResult.Failure(Error.Validation(
+                return UnitResult.Failure<List<Error>>(Error.Validation(
                     "ad.location",
                     "City and currency must be both provided when price is not null."));
             }
@@ -91,7 +98,7 @@ public class MergePatchAdCommandHandler(
             {
                 var locationResult = Location.Of(patchedLocation.Region, patchedLocation.City);
 
-                if (locationResult.IsFailure) return locationResult;
+                if (locationResult.IsFailure) return UnitResult.Failure<List<Error>>(locationResult.Error);
 
                 location = locationResult.Value;
             }
@@ -104,7 +111,7 @@ public class MergePatchAdCommandHandler(
         if (patchedDto.Seller?.Phone?.Number is not null)
         {
             var phoneResult = PhoneNumber.Of(patchedDto.Seller.Phone.Number);
-            if (phoneResult.IsFailure) return phoneResult;
+            if (phoneResult.IsFailure) return UnitResult.Failure<List<Error>>(phoneResult.Error);
             phoneNumber = phoneResult.Value;
         }
 
@@ -115,7 +122,7 @@ public class MergePatchAdCommandHandler(
             previousSeller.ImageId,
             phoneNumber);
 
-        if (sellerResult.IsFailure) return sellerResult;
+        if (sellerResult.IsFailure) return UnitResult.Failure<List<Error>>(sellerResult.Error);
 
 
         var updateResult = ad.UpdateMergePatch(
@@ -124,10 +131,10 @@ public class MergePatchAdCommandHandler(
             seller: sellerResult.Value,
             location: location,
             price: price);
-        if (updateResult.IsFailure) return updateResult;
+        if (updateResult.IsFailure) return UnitResult.Failure<List<Error>>(updateResult.Error);
 
         await dbContext.SaveChangesAsync(ct);
 
-        return UnitResult.Success<Error>();
+        return UnitResult.Success<List<Error>>();
     }
 }

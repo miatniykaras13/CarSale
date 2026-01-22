@@ -47,7 +47,10 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
         return Guid.Parse(response.FileId);
     }
 
-    public async Task<Guid> UploadSmallFileAsync(Stream stream, string fileName, string contentType,
+    public async Task<Guid> UploadSmallFileAsync(
+        Stream stream,
+        string fileName,
+        string contentType,
         CancellationToken ct)
     {
         var request = new UploadSmallFileRequest()

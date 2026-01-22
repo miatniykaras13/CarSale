@@ -1,7 +1,9 @@
-﻿namespace AdService.Contracts.Ads.Default;
+﻿using AdService.Domain.Enums;
+
+namespace AdService.Contracts.Ads.Default;
 
 public record CarOptionDto(
     int Id,
-    string OptionType,
+    OptionType OptionType,
     string Name,
     string TechnicalName);

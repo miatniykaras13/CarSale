@@ -9,6 +9,6 @@ public static class FluentValidationExtensions
     public static Error ToError(this ValidationFailure failure, string obj) =>
         Error.Validation($"{obj}.{failure.PropertyName.ToLowerInvariant()}", failure.ErrorMessage);
 
-    public static List<Error> ToErrors(this List<ValidationFailure> failure, string obj) =>
-        failure.Select(x => x.ToError(obj)).ToList();
+    public static List<Error> ToErrors(this List<ValidationFailure> failures, string obj) =>
+        failures.Select(x => x.ToError(obj)).ToList();
 }

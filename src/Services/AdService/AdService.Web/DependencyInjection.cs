@@ -1,4 +1,5 @@
 ﻿using AdService.Application;
+using AdService.Common;
 using AdService.Infrastructure.AutoCatalog;
 using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
@@ -23,7 +24,8 @@ public static class DependencyInjection
             .AddProfileServiceCommunication()
             .AddAutoCatalogCommunication()
             .AddPresenters()
-            .AddWeb();
+            .AddWeb()
+            .AddAdServiceOptions(configuration);
         return services;
     }
 
@@ -32,7 +34,7 @@ public static class DependencyInjection
         services.AddEndpointsApiExplorer();
         return services;
     }
-    
+
     public static IServiceCollection AddApiAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)

@@ -71,7 +71,10 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Domain(string code, string? message = null) =>
-        new Error(code, ErrorType.CONFLICT, message);
+        new Error(code, ErrorType.DOMAIN, message);
+
+    public static Error Forbidden(string obj, string? message = null) =>
+        new Error($"{obj}.is_forbidden", ErrorType.FORBIDDEN, message);
 
     public static implicit operator List<Error>(Error error) => [error];
 }

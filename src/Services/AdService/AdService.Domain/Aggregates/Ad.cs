@@ -28,7 +28,7 @@ public sealed class Ad : Aggregate<Guid>
         Location? location,
         int views,
         CarSnapshot? car,
-        SellerSnapshot? seller,
+        SellerSnapshot seller,
         AdStatus status)
     {
         Title = title;
@@ -57,7 +57,6 @@ public sealed class Ad : Aggregate<Guid>
 
     public CarSnapshot? Car { get; private set; } = null!;
 
-    [JsonConverter(typeof(JsonStringEnumConverter))]
     public AdStatus Status { get; private set; }
 
     public ModerationResult? ModerationResult { get; private set; }
@@ -65,6 +64,8 @@ public sealed class Ad : Aggregate<Guid>
     public DateTime? ExpiresAt { get; private set; }
 
     public bool IsExpired => ExpiresAt.HasValue && ExpiresAt <= DateTime.UtcNow;
+
+    public bool CanBeModified => Status is AdStatus.PUBLISHED or AdStatus.DENIED or AdStatus.PAUSED or AdStatus.DRAFT;
 
     public IReadOnlyList<Guid> Images => _images.AsReadOnly();
 
@@ -81,7 +82,7 @@ public sealed class Ad : Aggregate<Guid>
             Seller = seller,
             Status = AdStatus.DRAFT,
             CreatedAt = DateTime.UtcNow,
-            CreatedBy = seller.DisplayName,
+            CreatedBy = seller.DisplayName!,
         };
 
         ad.AddDomainEvent(new AdCreatedEvent(ad));
@@ -103,7 +104,7 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad is expired and it cannot be modified."));
         }
 
-        if (Status is not (AdStatus.DRAFT or AdStatus.DENIED or AdStatus.PUBLISHED or AdStatus.PAUSED))
+        if (!CanBeModified)
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.status.is_conflict",
@@ -132,10 +133,10 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         if (Status is AdStatus.PUBLISHED &&
-            (title is null ||
-             description is null ||
-             price is null ||
-             location?.City is null || location.Region is null ||
+            ((title is null && Title is null) ||
+             (description is null && Description is null) ||
+             (price is null && Price is null) ||
+             (location is null && Location is null) ||
              (seller is not null && (seller.DisplayName is null || seller.PhoneNumber is null))))
         {
             return Result.Failure<Ad, Error>(Error.Domain(
@@ -173,7 +174,7 @@ public sealed class Ad : Aggregate<Guid>
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.status.is_conflict",
-                "Ad's status must be draft or denied to update"));
+                "Ad's status must be draft, published, paused or denied to update"));
         }
 
         if (Car is null)
@@ -235,7 +236,7 @@ public sealed class Ad : Aggregate<Guid>
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.status.is_conflict",
-                "Ad's status must be draft or denied to update"));
+                "Ad's status must be draft, published, paused or denied to update"));
         }
 
         if (Status is AdStatus.PUBLISHED && (
@@ -292,7 +293,7 @@ public sealed class Ad : Aggregate<Guid>
                 $"Ad's status must be draft or denied to submit."));
         }
 
-        if (Title is { Length: > MAX_TITLE_LENGTH or < MIN_TITLE_LENGTH })
+        if (Title is null or { Length: > MAX_TITLE_LENGTH or < MIN_TITLE_LENGTH })
         {
             return UnitResult.Failure<Error>(Error.Domain(
                 "ad.title.is_conflict",
@@ -312,7 +313,8 @@ public sealed class Ad : Aggregate<Guid>
             Car.Engine is null ||
             Car.BodyType is null ||
             Car.DriveType is null ||
-            Car.TransmissionType is null)
+            Car.TransmissionType is null ||
+            Car.Year is null)
         {
             return UnitResult.Failure<Error>(Error.Domain(
                 "ad.car_snapshot.is_conflict",
@@ -521,6 +523,20 @@ public sealed class Ad : Aggregate<Guid>
     // cannot add existing images
     public UnitResult<Error> AddImages(IList<Guid> images)
     {
+        if (IsExpired)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
+        if (Status is not (AdStatus.DRAFT or AdStatus.PAUSED or AdStatus.PUBLISHED or AdStatus.DENIED))
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.status.is_conflict",
+                $"Ad's status must be published, paused, draft or denied to archive."));
+        }
+
         if (images.Any(i => _images.Contains(i)))
         {
             return UnitResult.Failure<Error>(Error.Domain(
@@ -532,21 +548,35 @@ public sealed class Ad : Aggregate<Guid>
         return UnitResult.Success<Error>();
     }
 
-    public UnitResult<Error> RemoveImage(Guid image)
+    public UnitResult<Error> RemoveImage(Guid imageId)
     {
-        if (!_images.Contains(image))
+        if (IsExpired)
         {
             return UnitResult.Failure<Error>(Error.Domain(
-                "ad.image.not_found",
-                "Image not found"));
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
         }
 
-        _images.Remove(image);
+        if (!_images.Contains(imageId))
+        {
+            return UnitResult.Failure(Error.NotFound(
+                "ad.image.not_found",
+                $"Ad does not contain image with id {imageId}"));
+        }
+
+        _images.Remove(imageId);
         return UnitResult.Success<Error>();
     }
 
     public UnitResult<Error> AddComment(Comment comment)
     {
+        if (IsExpired)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
         if (Comment is not null)
         {
             return UnitResult.Failure<Error>(Error.Domain(
@@ -560,6 +590,13 @@ public sealed class Ad : Aggregate<Guid>
 
     public UnitResult<Error> RemoveComment()
     {
+        if (IsExpired)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
         if (Comment is null)
         {
             return UnitResult.Failure<Error>(Error.Domain(
@@ -573,6 +610,13 @@ public sealed class Ad : Aggregate<Guid>
 
     public UnitResult<Error> AddCarOptions(IList<CarOption> carOptions)
     {
+        if (IsExpired)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
         if (carOptions.Any(o => _carOptions.Contains(o)))
         {
             return UnitResult.Failure<Error>(Error.Domain(
@@ -586,6 +630,13 @@ public sealed class Ad : Aggregate<Guid>
 
     public UnitResult<Error> RemoveCarOption(CarOption carOption)
     {
+        if (IsExpired)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
         if (!_carOptions.Contains(carOption))
         {
             return UnitResult.Failure<Error>(Error.Domain(
@@ -599,6 +650,13 @@ public sealed class Ad : Aggregate<Guid>
 
     public UnitResult<Error> IncreaseViews(int number = 1)
     {
+        if (IsExpired)
+        {
+            return UnitResult.Failure<Error>(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
         if (number < 1)
         {
             return UnitResult.Failure<Error>(Error.Domain(

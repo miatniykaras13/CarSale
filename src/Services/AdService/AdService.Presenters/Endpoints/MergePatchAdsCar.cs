@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Security.Claims;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using AdService.Application.Commands.MergePatchAdsCar;
 using BuildingBlocks.Extensions;
@@ -15,16 +16,22 @@ public class MergePatchAdsCar : ICarterModule
         app.MapPatch("/ads/{adId:guid}/car", async (
                 [FromRoute] Guid adId,
                 HttpRequest request,
+                ClaimsPrincipal user,
                 ISender sender,
                 CancellationToken ct) =>
             {
+                var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId is null)
+                    return Results.Unauthorized();
+
                 var patchObject =
                     await JsonSerializer.DeserializeAsync<JsonObject>(request.Body, JsonSerializerOptions.Web, ct);
 
                 if (patchObject is null || patchObject.GetType() != typeof(JsonObject))
                     return Results.BadRequest(new { error = "Patch body must be a JSON object" });
 
-                var command = new MergePatchAdsCarCommand(adId, patchObject);
+                var command = new MergePatchAdsCarCommand(adId, patchObject, Guid.Parse(userId));
 
                 var result = await sender.Send(command, ct);
                 if (result.IsFailure)

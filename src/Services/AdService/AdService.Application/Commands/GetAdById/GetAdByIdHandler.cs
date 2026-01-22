@@ -7,22 +7,26 @@ using AdService.Contracts.Ads.Extended.Snapshots;
 using AdService.Domain.Enums;
 using AdService.Domain.ValueObjects;
 
-namespace AdService.Application.Commands.GetPublishedAdById;
+namespace AdService.Application.Commands.GetAdById;
 
-public class GetPublishedAdByIdHandler(
+public class GetAdByIdCommandHandler(
     IAppDbContext dbContext,
     IFileStorage fileStorage)
-    : ICommandHandler<GetPublishedAdByIdCommand, Result<AdDto, Error>>
+    : ICommandHandler<GetAdByIdCommand, Result<AdDto, List<Error>>>
 {
-    public async Task<Result<AdDto, Error>> Handle(GetPublishedAdByIdCommand command, CancellationToken ct)
+    public async Task<Result<AdDto, List<Error>>> Handle(GetAdByIdCommand command, CancellationToken ct)
     {
+        var userAuthorized = command.UserId is not null;
+
         var ad = await dbContext.Ads
             .Include(a => a.CarOptions)
             .Include(a => a.Comment)
             .FirstOrDefaultAsync(a => a.Id == command.AdId, ct);
 
-        if (ad is null || ad.Status != AdStatus.PUBLISHED)
-            return Result.Failure<AdDto, Error>(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
+        if (ad is null ||
+            (ad.Status is not(AdStatus.PUBLISHED or AdStatus.ARCHIVED) &&
+             (!userAuthorized || (userAuthorized && ad.Seller.SellerId != command.UserId!.Value))))
+        return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
 
         var moneyTask = GetPriceDtos(ad.Price!, ct);
         var imageTask = GetImageUrls(ad.Images, ct);
@@ -32,13 +36,13 @@ public class GetPublishedAdByIdHandler(
         var moneyResult = await moneyTask;
         var imageResult = await imageTask;
 
-        if (moneyResult.IsFailure) return Result.Failure<AdDto, Error>(moneyResult.Error);
-        if (imageResult.IsFailure) return Result.Failure<AdDto, Error>(imageResult.Error);
+        if (moneyResult.IsFailure) return Result.Failure<AdDto, List<Error>>(moneyResult.Error);
+        if (imageResult.IsFailure) return Result.Failure<AdDto, List<Error>>(imageResult.Error);
 
         var carOptionDtos = ad.CarOptions.Select(carOption =>
                 new CarOptionDto(
                     carOption.Id,
-                    carOption.OptionType.ToString(),
+                    carOption.OptionType,
                     carOption.Name,
                     carOption.TechnicalName))
             .ToList();
@@ -95,15 +99,15 @@ public class GetPublishedAdByIdHandler(
             moneyResult.Value,
             locationDto,
             ad.Views,
+            ad.Status,
             sellerDto,
             carSnapshotDto,
             imageResult.Value,
             commentDto,
             carOptionDtos);
 
-        ad.IncreaseViews();
-
-        return Result.Success<AdDto, Error>(adDto);
+        // ad.IncreaseViews(); // todo сделать отдельный эндпоинт post ads/{id}/views
+        return Result.Success<AdDto, List<Error>>(adDto);
     }
 
     private async Task<Result<List<MoneyDto>, Error>> GetPriceDtos(Money price, CancellationToken ct)

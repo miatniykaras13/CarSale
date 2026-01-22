@@ -2,4 +2,4 @@
 
 namespace AdService.Application.Commands.MergePatchAd;
 
-public record MergePatchAdCommand(Guid AdId, JsonObject Patch) : ICommand<UnitResult<Error>>;
+public record MergePatchAdCommand(Guid AdId, JsonObject Patch, Guid UserId) : ICommand<UnitResult<List<Error>>>;
