@@ -34,19 +34,19 @@ public class AdTests
     }
 
     [Fact]
-    public void Update_ExpectConflictErrorWhenTitleIsConflict()
+    public void Update_ExpectDomainErrorWhenTitleIsConflict()
     {
         var ad = GetAd();
 
         var result = ad.Update(title: "Lorem");
 
-        result.Error.Type.Should().Be(ErrorType.CONFLICT);
+        result.Error.Type.Should().Be(ErrorType.DOMAIN);
         result.IsFailure.Should().Be(true);
         ad.DomainEvents.Should().NotContain(new AdUpdatedEvent(ad));
     }
 
     [Fact]
-    public void Publish_ExpectConflictErrorWhenStatusIsConflict()
+    public void Publish_ExpectDomainErrorWhenStatusIsConflict()
     {
         var ad = GetAd();
 
@@ -54,13 +54,13 @@ public class AdTests
 
         var result = ad.Publish(TimeSpan.FromHours(7), GetSuccessfulModerationResult());
 
-        result.Error.Type.Should().Be(ErrorType.CONFLICT);
+        result.Error.Type.Should().Be(ErrorType.DOMAIN);
         result.IsFailure.Should().Be(true);
         ad.DomainEvents.Should().NotContain(new AdPublishedEvent(ad));
     }
 
     [Fact]
-    public void Submit_ExpectConflictErrorWhenPropertiesAreConflict()
+    public void Submit_ExpectDomainErrorWhenPropertiesAreConflict()
     {
         var ad = GetAd();
 
@@ -69,7 +69,7 @@ public class AdTests
         var result = ad.Submit();
 
         result.IsFailure.Should().Be(true);
-        result.Error.Type.Should().Be(ErrorType.CONFLICT);
+        result.Error.Type.Should().Be(ErrorType.DOMAIN);
         ad.DomainEvents.Should().NotContain(new AdSubmittedEvent(ad));
     }
 
