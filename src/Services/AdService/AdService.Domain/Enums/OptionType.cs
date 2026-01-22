@@ -1,5 +1,8 @@
-﻿namespace AdService.Domain.Enums;
+﻿using System.Text.Json.Serialization;
 
+namespace AdService.Domain.Enums;
+
+[JsonConverter(typeof(JsonStringEnumConverter))]
 public enum OptionType
 {
     /// <summary>

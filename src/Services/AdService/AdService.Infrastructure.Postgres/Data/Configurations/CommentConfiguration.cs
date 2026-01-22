@@ -15,7 +15,6 @@ public class CommentConfiguration : IEntityTypeConfiguration<Comment>
 
         builder
             .HasOne<Ad>()
-            .WithMany(a => a.Comments)
-            .HasForeignKey(c => c.AdId);
+            .WithOne(a => a.Comment);
     }
 }

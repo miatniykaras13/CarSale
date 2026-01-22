@@ -5,10 +5,13 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+        <UserSecretsId>4aedb948-17f0-4bc4-9295-c09c9ca123de</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AspNetCore.SwaggerUI.Themes" Version="3.0.1" />
         <PackageReference Include="Grpc.AspNetCore" Version="2.71.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.11" />
         <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.3.0" />
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.9" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.11">
@@ -25,9 +28,12 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AdService.Application\AdService.Application.csproj" />
+      <ProjectReference Include="..\AdService.Common\AdService.Common.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.AutoCatalog\AdService.Infrastructure.AutoCatalog.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.Core\AdService.Infrastructure.Core.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.FileStorage\AdService.Infrastructure.FileStorage.csproj" />
       <ProjectReference Include="..\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.ProfileService\AdService.Infrastructure.ProfileService.csproj" />
       <ProjectReference Include="..\AdService.Presenters\AdService.Presenters.csproj" />
     </ItemGroup>
 

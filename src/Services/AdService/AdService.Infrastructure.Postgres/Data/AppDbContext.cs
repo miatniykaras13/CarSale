@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using AdService.Application.Data;
+using AdService.Application.Abstractions.Data;
 using AdService.Domain.Aggregates;
 using AdService.Domain.Entities;
 using Microsoft.EntityFrameworkCore;

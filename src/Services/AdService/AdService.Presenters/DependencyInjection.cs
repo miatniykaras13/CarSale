@@ -1,6 +1,12 @@
-﻿namespace AdService.Presenters;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-public class DependencyInjection
+namespace AdService.Presenters;
+
+public static class DependencyInjection
 {
-    
+    public static IServiceCollection AddPresenters(this IServiceCollection services)
+    {
+        services.AddCarter();
+        return services;
+    }
 }

@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
-using CSharpFunctionalExtensions;
-using FluentValidation.Results;
+using Microsoft.AspNetCore.Http;
 
 namespace BuildingBlocks.Errors;
 
@@ -28,7 +27,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Validation(string obj, string? message = null) =>
-        new Error($"{obj}.is.invalid", ErrorType.VALIDATION, message);
+        new Error($"{obj}.is_invalid", ErrorType.VALIDATION, message);
 
 
     /// <summary>
@@ -38,7 +37,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error NotFound(string obj, string? message = null) =>
-        new Error($"{obj}.not.found", ErrorType.NOT_FOUND, message);
+        new Error($"{obj}.not_found", ErrorType.NOT_FOUND, message);
 
     /// <summary>
     /// Represents internal server error
@@ -46,7 +45,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Internal(string? message = null) =>
-        new Error($"internal.error", ErrorType.INTERNAL, message);
+        new Error($"internal_error", ErrorType.INTERNAL, message);
 
     /// <summary>
     /// Represents conflict error
@@ -55,7 +54,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Conflict(string obj, string? message = null) =>
-        new Error($"{obj}.is.conflict", ErrorType.CONFLICT, message);
+        new Error($"{obj}.is_conflict", ErrorType.CONFLICT, message);
 
     /// <summary>
     /// Represents unknown error
@@ -63,7 +62,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Unknown(string? message = null) =>
-        new Error($"unknown.error", ErrorType.UNKNOWN, message);
+        new Error($"unknown_error", ErrorType.UNKNOWN, message);
 
     /// <summary>
     /// Represents domain error. Error code should be fully entered
@@ -72,5 +71,10 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Domain(string code, string? message = null) =>
-        new Error(code, ErrorType.CONFLICT, message);
+        new Error(code, ErrorType.DOMAIN, message);
+
+    public static Error Forbidden(string obj, string? message = null) =>
+        new Error($"{obj}.is_forbidden", ErrorType.FORBIDDEN, message);
+
+    public static implicit operator List<Error>(Error error) => [error];
 }

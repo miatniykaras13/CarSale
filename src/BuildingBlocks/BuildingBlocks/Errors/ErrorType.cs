@@ -31,4 +31,9 @@ public enum ErrorType
     /// Ошибка домена
     /// </summary>
     DOMAIN,
+
+    /// <summary>
+    /// Запрещено
+    /// </summary>
+    FORBIDDEN,
 }

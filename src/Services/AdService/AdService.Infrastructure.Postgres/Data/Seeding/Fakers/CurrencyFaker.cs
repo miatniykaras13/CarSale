@@ -11,11 +11,11 @@ public class CurrencyFaker
             .UseSeed(7)
             .CustomInstantiator(f =>
             {
-                var code = f.PickRandom(Currency.GetSupportedCurrencies);
+                var code = f.PickRandom(Currency.SupportedCurrencies.Keys);
                 var result = Currency.Of(code);
 
                 if (result.IsFailure)
-                    throw new InvalidOperationException($"Currency faker failed: {result.Error}");
+                    throw new InvalidOperationException($"Currency faker failed: {result.Error.Message}");
 
                 return result.Value;
             });

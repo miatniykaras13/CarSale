@@ -11,14 +11,14 @@ public class MoneyFaker
             .UseSeed(7)
             .CustomInstantiator(f =>
             {
-                var value = f.Random.Int(Money.MIN_AMOUNT + 1, 5_253_255);
+                var value = f.Random.Int(1000, 5_253_255);
 
                 var currency = f.Random.ArrayElement(currencies);
 
                 var result = Money.Of(currency, value);
 
                 if (result.IsFailure)
-                    throw new InvalidOperationException($"Money faker failed: {result.Error}");
+                    throw new InvalidOperationException($"Money faker failed: {result.Error.Message}");
 
                 return result.Value;
             });

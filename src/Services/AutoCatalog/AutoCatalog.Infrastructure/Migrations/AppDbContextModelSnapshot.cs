@@ -138,7 +138,8 @@ namespace AutoCatalog.Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<decimal>("Acceleration")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 1)
+                        .HasColumnType("numeric(18,1)");
 
                     b.Property<string>("AutoDriveType")
                         .IsRequired()
@@ -148,7 +149,8 @@ namespace AutoCatalog.Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.Property<decimal>("Consumption")
-                        .HasColumnType("numeric");
+                        .HasPrecision(18, 1)
+                        .HasColumnType("numeric(18,1)");
 
                     b.Property<int>("EngineId")
                         .HasColumnType("integer");

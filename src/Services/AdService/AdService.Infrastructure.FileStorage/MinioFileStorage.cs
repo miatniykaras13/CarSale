@@ -1,4 +1,4 @@
-﻿using AdService.Application.FileStorage;
+﻿using AdService.Application.Abstractions.FileStorage;
 using AdService.Contracts.Files;
 using FileManagement.Grpc;
 using Grpc.Net.Client;
@@ -47,7 +47,10 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
         return Guid.Parse(response.FileId);
     }
 
-    public async Task<Guid> UploadSmallFileAsync(Stream stream, string fileName, string contentType,
+    public async Task<Guid> UploadSmallFileAsync(
+        Stream stream,
+        string fileName,
+        string contentType,
         CancellationToken ct)
     {
         var request = new UploadSmallFileRequest()

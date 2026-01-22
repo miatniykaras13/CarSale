@@ -37,7 +37,7 @@ public class CarOptionFaker
                 var result = CarOption.Create(optionType, name, technicalName);
 
                 if (result.IsFailure)
-                    throw new InvalidOperationException($"CarOption faker failed: {result.Error}");
+                    throw new InvalidOperationException($"CarOption faker failed: {result.Error.Message}");
 
                 return result.Value;
             });

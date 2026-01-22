@@ -1,5 +1,5 @@
 ﻿using System.Reflection;
-using AdService.Application.FileStorage;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace AdService.Application;
@@ -12,6 +12,8 @@ public static class DependencyInjection
         {
             options.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
         });
+
+        services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 
         return services;
