@@ -31,6 +31,7 @@ public class ArchiveAd : ICarterModule
 
                 return Results.Ok();
             })
+            .RequireAuthorization()
             .WithName("ArchiveAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)

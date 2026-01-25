@@ -23,7 +23,7 @@ public class DeleteImage : ICarterModule
 
                 if (userId is null)
                     return Results.Unauthorized();
-                
+
                 var command = new DeleteImageCommand(adId, imageId, Guid.Parse(userId));
 
                 var result = await sender.Send(command, ct);
@@ -33,6 +33,7 @@ public class DeleteImage : ICarterModule
 
                 return Results.Ok();
             })
+            .RequireAuthorization()
             .WithName("DeleteImage")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status200OK);

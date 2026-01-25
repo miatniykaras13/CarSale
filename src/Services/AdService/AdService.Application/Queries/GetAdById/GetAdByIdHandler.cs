@@ -1,32 +1,40 @@
-﻿using AdService.Application.Abstractions.Data;
+﻿using AdService.Application.Abstractions.Caching;
+using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
 using AdService.Contracts.Ads.Default;
 using AdService.Contracts.Ads.Default.Snapshots;
 using AdService.Contracts.Ads.Extended;
 using AdService.Contracts.Ads.Extended.Snapshots;
+using AdService.Domain.Aggregates;
 using AdService.Domain.Enums;
 using AdService.Domain.ValueObjects;
 
-namespace AdService.Application.Commands.GetAdById;
+namespace AdService.Application.Queries.GetAdById;
 
 public class GetAdByIdCommandHandler(
     IAppDbContext dbContext,
-    IFileStorage fileStorage)
-    : ICommandHandler<GetAdByIdCommand, Result<AdDto, List<Error>>>
+    IFileStorage fileStorage,
+    ICacheService cacheService)
+    : ICommandHandler<GetAdByIdQuery, Result<AdDto, List<Error>>>
 {
-    public async Task<Result<AdDto, List<Error>>> Handle(GetAdByIdCommand command, CancellationToken ct)
+    public async Task<Result<AdDto, List<Error>>> Handle(GetAdByIdQuery query, CancellationToken ct)
     {
-        var userAuthorized = command.UserId is not null;
+        var userAuthorized = query.UserId is not null;
 
-        var ad = await dbContext.Ads
+        Ad? ad;
+
+        ad = await cacheService.GetDataAsync<Ad>($"ad_{query.AdId}", ct)
+             ?? await dbContext.Ads
             .Include(a => a.CarOptions)
             .Include(a => a.Comment)
-            .FirstOrDefaultAsync(a => a.Id == command.AdId, ct);
+            .FirstOrDefaultAsync(a => a.Id == query.AdId, ct);
 
         if (ad is null ||
-            (ad.Status is not(AdStatus.PUBLISHED or AdStatus.ARCHIVED) &&
-             (!userAuthorized || (userAuthorized && ad.Seller.SellerId != command.UserId!.Value))))
-        return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
+            (ad.Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED) &&
+             (!userAuthorized || (userAuthorized && ad.Seller.SellerId != query.UserId!.Value))))
+            return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {query.AdId} not found"));
+        
+        
 
         var moneyTask = GetPriceDtos(ad.Price!, ct);
         var imageTask = GetImageUrls(ad.Images, ct);
@@ -36,8 +44,10 @@ public class GetAdByIdCommandHandler(
         var moneyResult = await moneyTask;
         var imageResult = await imageTask;
 
-        if (moneyResult.IsFailure) return Result.Failure<AdDto, List<Error>>(moneyResult.Error);
-        if (imageResult.IsFailure) return Result.Failure<AdDto, List<Error>>(imageResult.Error);
+        if (moneyResult.IsFailure)
+            return Result.Failure<AdDto, List<Error>>(moneyResult.Error);
+        if (imageResult.IsFailure)
+            return Result.Failure<AdDto, List<Error>>(imageResult.Error);
 
         var carOptionDtos = ad.CarOptions.Select(carOption =>
                 new CarOptionDto(

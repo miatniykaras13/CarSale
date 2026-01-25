@@ -31,6 +31,7 @@ public class PauseAd : ICarterModule
 
                 return Results.Ok();
             })
+            .RequireAuthorization()
             .WithName("PauseAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)

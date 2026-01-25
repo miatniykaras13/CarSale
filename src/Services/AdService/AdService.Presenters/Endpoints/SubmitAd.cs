@@ -32,6 +32,7 @@ public class SubmitAd : ICarterModule
 
                 return Results.Ok();
             })
+            .RequireAuthorization()
             .WithName("SubmitAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
