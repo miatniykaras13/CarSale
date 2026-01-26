@@ -11,20 +11,16 @@ using AdService.Domain.ValueObjects;
 
 namespace AdService.Application.Queries.GetAdById;
 
-public class GetAdByIdCommandHandler(
+public class GetAdByIdQueryHandler(
     IAppDbContext dbContext,
-    IFileStorage fileStorage,
-    ICacheService cacheService)
+    IFileStorage fileStorage)
     : ICommandHandler<GetAdByIdQuery, Result<AdDto, List<Error>>>
 {
     public async Task<Result<AdDto, List<Error>>> Handle(GetAdByIdQuery query, CancellationToken ct)
     {
         var userAuthorized = query.UserId is not null;
 
-        Ad? ad;
-
-        ad = await cacheService.GetDataAsync<Ad>($"ad_{query.AdId}", ct)
-             ?? await dbContext.Ads
+        var ad = await dbContext.Ads
             .Include(a => a.CarOptions)
             .Include(a => a.Comment)
             .FirstOrDefaultAsync(a => a.Id == query.AdId, ct);
@@ -33,8 +29,7 @@ public class GetAdByIdCommandHandler(
             (ad.Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED) &&
              (!userAuthorized || (userAuthorized && ad.Seller.SellerId != query.UserId!.Value))))
             return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {query.AdId} not found"));
-        
-        
+
 
         var moneyTask = GetPriceDtos(ad.Price!, ct);
         var imageTask = GetImageUrls(ad.Images, ct);
