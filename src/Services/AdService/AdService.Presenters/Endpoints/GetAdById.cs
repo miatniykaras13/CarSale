@@ -1,5 +1,5 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.GetAdById;
+using AdService.Application.Queries.GetAdById;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -20,12 +20,16 @@ public class GetAdById : ICarterModule
         {
             var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var command = new GetAdByIdCommand(adId, userId is null ? null : Guid.Parse(userId));
+            var command = new GetAdByIdQuery(adId, userId is null ? null : Guid.Parse(userId));
             var result = await sender.Send(command, ct);
 
             if (result.IsFailure)
                 return result.Error.ToResponse();
 
             return Results.Ok(result.Value);
-        });
+        })
+        .WithName("GetAdById")
+        .Produces(StatusCodes.Status401Unauthorized)
+        .Produces(StatusCodes.Status403Forbidden)
+        .Produces(StatusCodes.Status200OK);
 }

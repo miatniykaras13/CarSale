@@ -40,6 +40,7 @@ public class MergePatchAdsCar : ICarterModule
 
                 return Results.Ok();
             })
+            .RequireAuthorization()
             .WithMetadata(new ConsumesAttribute("application/merge-patch+json"))
             .WithName("MergePatchAdsCar")
             .Produces(StatusCodes.Status401Unauthorized)

@@ -35,6 +35,7 @@ public class UploadImage : ICarterModule
 
                 return Results.Ok(result.Value);
             })
+            .RequireAuthorization()
             .DisableAntiforgery()
             .Accepts<IFormFile>("multipart/form-data")
             .WithName("UploadImage")

@@ -5,6 +5,7 @@ using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
 using AdService.Infrastructure.Postgres;
 using AdService.Infrastructure.ProfileService;
+using AdService.Infrastructure.Redis;
 using AdService.Presenters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -23,6 +24,7 @@ public static class DependencyInjection
             .AddFileStorage(configuration)
             .AddProfileServiceCommunication()
             .AddAutoCatalogCommunication()
+            .AddRedisCaching(configuration)
             .AddPresenters()
             .AddWeb()
             .AddAdServiceOptions(configuration);

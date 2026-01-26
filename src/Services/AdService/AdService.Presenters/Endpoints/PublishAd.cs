@@ -31,6 +31,7 @@ public class PublishAd : ICarterModule
 
                 return Results.Ok();
             })
+            .RequireAuthorization()
             .WithName("PublishAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
