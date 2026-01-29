@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
 
@@ -20,6 +21,7 @@ public record SellerSnapshot
     {
     }
 
+    [JsonConstructor]
     private SellerSnapshot(
         Guid sellerId,
         string? displayName,

@@ -1,4 +1,5 @@
-﻿using BuildingBlocks.Errors;
+﻿using System.Text.RegularExpressions;
+using BuildingBlocks.Errors;
 using Microsoft.IdentityModel.Tokens;
 using ValidationFailure = FluentValidation.Results.ValidationFailure;
 
@@ -6,9 +7,20 @@ namespace BuildingBlocks.Extensions;
 
 public static class FluentValidationExtensions
 {
-    public static Error ToError(this ValidationFailure failure, string obj) =>
-        Error.Validation($"{obj}.{failure.PropertyName.ToLowerInvariant()}", failure.ErrorMessage);
+    public static Error ToError(this ValidationFailure failure, string obj)
+    {
+        var path = string.Join(
+            ".",
+            failure.PropertyName
+                .Split('.')
+                .Select(ToSnakeCase));
+
+        return Error.Validation($"{obj}.{path}", failure.ErrorMessage);
+    }
+
 
     public static List<Error> ToErrors(this List<ValidationFailure> failures, string obj) =>
         failures.Select(x => x.ToError(obj)).ToList();
+
+    private static string ToSnakeCase(string s) => Regex.Replace(s, "([a-z])([A-Z])", "$1_$2").ToLower();
 }

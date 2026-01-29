@@ -1,26 +1,35 @@
-﻿using AdService.Application.Abstractions.Caching;
-using AdService.Application.Abstractions.Data;
+﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
 using AdService.Contracts.Ads.Default;
 using AdService.Contracts.Ads.Default.Snapshots;
 using AdService.Contracts.Ads.Extended;
 using AdService.Contracts.Ads.Extended.Snapshots;
-using AdService.Domain.Aggregates;
 using AdService.Domain.Enums;
 using AdService.Domain.ValueObjects;
+using Microsoft.Extensions.Caching.Hybrid;
 
 namespace AdService.Application.Queries.GetAdById;
 
 public class GetAdByIdQueryHandler(
     IAppDbContext dbContext,
-    IFileStorage fileStorage)
-    : ICommandHandler<GetAdByIdQuery, Result<AdDto, List<Error>>>
+    IFileStorage fileStorage,
+    HybridCache cache)
+    : IQueryHandler<GetAdByIdQuery, Result<AdDto, List<Error>>>
 {
     public async Task<Result<AdDto, List<Error>>> Handle(GetAdByIdQuery query, CancellationToken ct)
     {
         var userAuthorized = query.UserId is not null;
 
+        var adDto = await cache.GetOrCreateAsync<AdDto?>(
+            query.CacheKey,
+            factory: null!,
+            options: new HybridCacheEntryOptions() { Flags = HybridCacheEntryFlags.DisableUnderlyingData },
+            cancellationToken: ct);
+
+        if (adDto is not null) return adDto;
+
         var ad = await dbContext.Ads
+            .AsNoTracking()
             .Include(a => a.CarOptions)
             .Include(a => a.Comment)
             .FirstOrDefaultAsync(a => a.Id == query.AdId, ct);
@@ -29,7 +38,6 @@ public class GetAdByIdQueryHandler(
             (ad.Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED) &&
              (!userAuthorized || (userAuthorized && ad.Seller.SellerId != query.UserId!.Value))))
             return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {query.AdId} not found"));
-
 
         var moneyTask = GetPriceDtos(ad.Price!, ct);
         var imageTask = GetImageUrls(ad.Images, ct);
@@ -92,12 +100,11 @@ public class GetAdByIdQueryHandler(
             adsCar.Mileage,
             adsCar.Color);
 
-
         CommentDto? commentDto = null;
         if (ad.Comment is not null)
             commentDto = new CommentDto(ad.Comment.Message, ad.Comment.CreatedAt);
 
-        var adDto = new AdDto(
+        adDto = new AdDto(
             ad.Id,
             ad.Title!,
             ad.Description,
@@ -111,11 +118,13 @@ public class GetAdByIdQueryHandler(
             commentDto,
             carOptionDtos);
 
+        await cache.SetAsync(query.CacheKey, adDto, cancellationToken: ct);
+
         // ad.IncreaseViews(); // todo сделать отдельный эндпоинт post ads/{id}/views
-        return Result.Success<AdDto, List<Error>>(adDto);
+        return adDto;
     }
 
-    private async Task<Result<List<MoneyDto>, Error>> GetPriceDtos(Money price, CancellationToken ct)
+    private Task<Result<List<MoneyDto>, Error>> GetPriceDtos(Money price, CancellationToken ct)
     {
         List<MoneyDto> priceInAllCurrenciesDtos = [];
 
@@ -128,7 +137,7 @@ public class GetAdByIdQueryHandler(
             var conversionFactorResult = Currency.GetConversionFactor(price.Currency.CurrencyCode, currency.Key);
 
             if (conversionFactorResult.IsFailure)
-                return Result.Failure<List<MoneyDto>, Error>(conversionFactorResult.Error);
+                return Task.FromResult(Result.Failure<List<MoneyDto>, Error>(conversionFactorResult.Error));
 
             var conversionFactor = conversionFactorResult.Value;
 
@@ -138,7 +147,7 @@ public class GetAdByIdQueryHandler(
             priceInAllCurrenciesDtos.Add(moneyDto);
         }
 
-        return Result.Success<List<MoneyDto>, Error>(priceInAllCurrenciesDtos);
+        return Task.FromResult(Result.Success<List<MoneyDto>, Error>(priceInAllCurrenciesDtos));
     }
 
     private async Task<Result<List<string>, Error>> GetImageUrls(IReadOnlyList<Guid> imageIds, CancellationToken ct)

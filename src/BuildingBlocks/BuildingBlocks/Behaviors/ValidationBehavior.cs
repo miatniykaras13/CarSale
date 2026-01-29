@@ -33,16 +33,16 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
 
         var responseType = typeof(TResponse);
 
-        if (responseType.IsGenericType && responseType.GetGenericTypeDefinition() == typeof(Result<,>)) // todo сделать для unit result
+        if (responseType.IsGenericType && responseType.GetGenericTypeDefinition() == typeof(Result<,>))
         {
             var genericArguments = responseType.GetGenericArguments();
             var valueType = genericArguments[0];
             var errorType = genericArguments[1];
 
-
             var failureMethodGeneric = typeof(Result)
                 .GetMethods(BindingFlags.Public | BindingFlags.Static)
-                .Where(m => m is { Name: "Failure", IsGenericMethodDefinition: true } && m.GetGenericArguments().Length == 2)
+                .Where(m => m is { Name: "Failure", IsGenericMethodDefinition: true } &&
+                            m.GetGenericArguments().Length == 2)
                 .Select(m => new { Method = m, Params = m.GetParameters() })
                 .FirstOrDefault(x => x.Params.Length == 1)?.Method;
 
@@ -50,6 +50,28 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
                 throw new InvalidOperationException("Cannot find Result.Failure generic method.");
 
             var constructedFailure = failureMethodGeneric.MakeGenericMethod(valueType, errorType)
+                .Invoke(null, [errors]);
+
+            return (TResponse)constructedFailure!;
+        }
+
+        if (responseType.IsGenericType &&
+            responseType.GetGenericTypeDefinition() == typeof(UnitResult<>)) // todo сделать для unit result
+        {
+            var genericArguments = responseType.GetGenericArguments();
+            var errorType = genericArguments[0];
+
+            var failureMethodGeneric = typeof(UnitResult)
+                .GetMethods(BindingFlags.Public | BindingFlags.Static)
+                .Where(m => m is { Name: "Failure", IsGenericMethodDefinition: true } &&
+                            m.GetGenericArguments().Length == 1)
+                .Select(m => new { Method = m, Params = m.GetParameters() })
+                .FirstOrDefault(x => x.Params.Length == 1)?.Method;
+
+            if (failureMethodGeneric == null)
+                throw new InvalidOperationException("Cannot find UnitResult.Failure generic method.");
+
+            var constructedFailure = failureMethodGeneric.MakeGenericMethod(errorType)
                 .Invoke(null, [errors]);
 
             return (TResponse)constructedFailure!;
@@ -66,6 +88,8 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         if (name.Contains("generation")) return "generation";
         if (name.Contains("engine")) return "engine";
         if (name.Contains("car")) return "car";
+        if (name.Contains("ad")) return "ad";
+        if (name.Contains("car_option")) return "car_option";
         return "entity";
     }
 }

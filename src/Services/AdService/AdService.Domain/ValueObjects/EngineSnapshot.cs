@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
@@ -24,6 +25,7 @@ public record EngineSnapshot
     {
     }
 
+    [JsonConstructor]
     private EngineSnapshot(
         int id,
         string name,

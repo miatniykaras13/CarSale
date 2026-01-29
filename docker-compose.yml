@@ -5,6 +5,9 @@ services:
   adservicedb:
     image: postgres
     
+  redis:
+    image: redis:latest
+    
   autocatalog.web:
     image: autocatalog.web
     build:
@@ -38,6 +41,8 @@ volumes:
   ad-service-postgres:
   keycloak-data:
   minio-data:
+    driver: local
+  redis-data:
     driver: local
   
   

@@ -1,5 +1,5 @@
 ﻿using AdService.Application.Abstractions.Data;
-using AdService.Common.Options;
+using AdService.Application.Options;
 using AdService.Domain.ValueObjects;
 using Microsoft.Extensions.Options;
 

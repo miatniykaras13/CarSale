@@ -2,9 +2,9 @@ services:
   autocatalogdb:
     container_name: autocatalogdb
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1111
-      - POSTGRES_DB=AutoCatalogDb
+      - POSTGRES_USER=${ADSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${ADSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${ADSERVICE_POSTGRES_DB}
     restart: always
     ports:
       - "5432:5432"
@@ -22,6 +22,18 @@ services:
       - "5434:5432"
     volumes:
       - "ad-service-postgres:/var/lib/postgresql"
+        
+  redis:
+    container_name: redis
+    ports:
+      - "6379:6379"
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_USER=${REDIS_USER}
+      - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
+    restart: always
+    volumes:
+      - "redis-data:/data"
     
   
   autocatalog.web:

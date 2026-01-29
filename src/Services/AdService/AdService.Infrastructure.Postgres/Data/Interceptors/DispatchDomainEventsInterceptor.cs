@@ -5,11 +5,15 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace AdService.Infrastructure.Postgres.Data.Interceptors;
 
+
+// todo сделать, чтоб не было гонок либо реализовать outbox pattern
 public class DispatchDomainEventsInterceptor(IMediator mediator) : SaveChangesInterceptor
 {
+    private List<IDomainEvent> _domainEvents = []; // это заменить
+
     public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
     {
-        DispatchDomainEventsAsync(eventData.Context).GetAwaiter().GetResult();
+        _domainEvents = CollectAndClearDomainEventsAsync(eventData.Context).GetAwaiter().GetResult();
         return base.SavingChanges(eventData, result);
     }
 
@@ -18,13 +22,38 @@ public class DispatchDomainEventsInterceptor(IMediator mediator) : SaveChangesIn
         InterceptionResult<int> result,
         CancellationToken ct = default)
     {
-        await DispatchDomainEventsAsync(eventData.Context);
+        _domainEvents = await CollectAndClearDomainEventsAsync(eventData.Context);
         return await base.SavingChangesAsync(eventData, result, ct);
     }
 
-    private async Task DispatchDomainEventsAsync(DbContext? context)
+    public override void SaveChangesFailed(DbContextErrorEventData eventData)
     {
-        if (context is null) return;
+        _domainEvents.Clear();
+        base.SaveChangesFailed(eventData);
+    }
+
+    public override async Task SaveChangesFailedAsync(
+        DbContextErrorEventData eventData,
+        CancellationToken ct = default)
+    {
+        _domainEvents.Clear();
+        await base.SaveChangesFailedAsync(eventData, ct);
+    }
+
+    public override async ValueTask<int> SavedChangesAsync(
+        SaveChangesCompletedEventData eventData,
+        int result,
+        CancellationToken ct = default)
+    {
+        foreach (var domainEvent in _domainEvents)
+            await mediator.Publish(domainEvent, ct);
+        _domainEvents.Clear();
+        return await base.SavedChangesAsync(eventData, result, ct);
+    }
+
+    private Task<List<IDomainEvent>> CollectAndClearDomainEventsAsync(DbContext? context)
+    {
+        if (context is null) return Task.FromResult<List<IDomainEvent>>([]);
 
         var aggregates = context.ChangeTracker.Entries<IAggregate>().Select(e => e.Entity).ToList();
 
@@ -32,7 +61,6 @@ public class DispatchDomainEventsInterceptor(IMediator mediator) : SaveChangesIn
 
         aggregates.ForEach(a => a.ClearDomainEvents());
 
-        foreach (var domainEvent in domainEvents)
-            await mediator.Publish(domainEvent);
+        return Task.FromResult(domainEvents);
     }
 }
