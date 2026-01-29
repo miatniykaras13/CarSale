@@ -1,15 +1,12 @@
 ﻿using AdService.Application.Abstractions.FileStorage;
 using AdService.Contracts.Files;
 using FileManagement.Grpc;
-using Grpc.Net.Client;
-using Microsoft.AspNetCore.Components;
 
 namespace AdService.Infrastructure.FileStorage;
 
 public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStorage
 {
     private readonly string _sourceService = "AdService";
-
 
     public async Task<Guid> UploadLargeFileAsync(
         Stream stream,
@@ -22,7 +19,6 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
         byte[] buffer = new byte[64 * 1024];
 
         int bytesRead;
-
 
         var metadata = new UploadLargeFileRequest
         {
@@ -61,7 +57,6 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
             SourceService = _sourceService,
             FileSize = stream.Length,
         };
-
 
         var response = await client.UploadSmallFileAsync(request, cancellationToken: ct);
         return Guid.Parse(response.FileId);

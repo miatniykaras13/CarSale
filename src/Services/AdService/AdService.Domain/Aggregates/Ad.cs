@@ -135,14 +135,13 @@ public sealed class Ad : Aggregate<Guid>
 
         if (Status is AdStatus.PUBLISHED &&
             ((title is null && Title is null) ||
-             (description is null && Description is null) ||
              (price is null && Price is null) ||
              (location is null && Location is null) ||
              (seller is not null && (seller.DisplayName is null || seller.PhoneNumber is null))))
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.properties.is_conflict",
-                $"To update published ad these properties must be provided: title, description, price, location, seller's display name and seller's phone number"));
+                $"To update published ad these properties must be provided: title, price, location, seller's display name and seller's phone number"));
         }
 
         if (title is not null) Title = title;
@@ -201,14 +200,13 @@ public sealed class Ad : Aggregate<Guid>
 
         if (Status is AdStatus.PUBLISHED &&
             (title is null ||
-             description is null ||
              price is null ||
              location?.City is null || location.Region is null ||
              seller.DisplayName is null || seller.PhoneNumber is null))
         {
             return Result.Failure<Ad, Error>(Error.Domain(
                 "ad.properties.is_conflict",
-                $"To update published ad these properties must be provided: title, description, price, location, seller's display name and seller's phone number"));
+                $"To update published ad these properties must be provided: title, price, location, seller's display name and seller's phone number"));
         }
 
 
@@ -281,6 +279,7 @@ public sealed class Ad : Aggregate<Guid>
         _carOptions.Clear();
 
         AddDomainEvent(new AdClearedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -339,6 +338,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.PENDING;
 
         AddDomainEvent(new AdSubmittedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -355,6 +355,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.DRAFT;
 
         AddDomainEvent(new AdSubmissionCanceledEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -380,6 +381,7 @@ public sealed class Ad : Aggregate<Guid>
         ModerationResult = moderationResult;
 
         AddDomainEvent(new AdPublishedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -404,6 +406,7 @@ public sealed class Ad : Aggregate<Guid>
         ModerationResult = result;
 
         AddDomainEvent(new AdDeniedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -427,6 +430,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.DELETED;
 
         AddDomainEvent(new AdDeletedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -450,6 +454,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.ARCHIVED;
 
         AddDomainEvent(new AdArchivedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -473,6 +478,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.PAUSED;
 
         AddDomainEvent(new AdPausedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -496,6 +502,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.SOLD;
 
         AddDomainEvent(new AdSoldEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -518,6 +525,7 @@ public sealed class Ad : Aggregate<Guid>
         Status = AdStatus.EXPIRED;
 
         AddDomainEvent(new AdExpiredEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -546,6 +554,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         _images.AddRange(images);
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -566,6 +575,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         _images.Remove(imageId);
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -586,6 +596,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         Comment = comment;
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -606,6 +617,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         Comment = null;
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -626,6 +638,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         _carOptions.AddRange(carOptions);
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -646,6 +659,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         _carOptions.Remove(carOption);
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 
@@ -673,6 +687,7 @@ public sealed class Ad : Aggregate<Guid>
         }
 
         Views += number;
+        AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
 }

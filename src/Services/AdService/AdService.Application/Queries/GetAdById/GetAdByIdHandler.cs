@@ -22,7 +22,8 @@ public class GetAdByIdQueryHandler(
 
         var adDto = await cache.GetOrCreateAsync<AdDto?>(
             query.CacheKey,
-            _ => ValueTask.FromResult<AdDto?>(null),
+            factory: null!,
+            options: new HybridCacheEntryOptions() { Flags = HybridCacheEntryFlags.DisableUnderlyingData },
             cancellationToken: ct);
 
         if (adDto is not null) return adDto;

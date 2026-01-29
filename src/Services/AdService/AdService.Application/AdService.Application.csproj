@@ -19,8 +19,4 @@
       <ProjectReference Include="..\AdService.Domain\AdService.Domain.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Behaviors\" />
-    </ItemGroup>
-
 </Project>
