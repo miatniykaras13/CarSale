@@ -1,4 +1,4 @@
-﻿namespace AdService.Common.Options;
+﻿namespace AdService.Application.Options;
 
 public class AdExpirationOptions
 {

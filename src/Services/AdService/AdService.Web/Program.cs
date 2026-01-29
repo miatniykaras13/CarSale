@@ -7,17 +7,12 @@ using MediatR;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using JsonOptions = Microsoft.AspNetCore.Http.Json.JsonOptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var configuration = builder.Configuration;
-
-builder.Services.Configure<FormOptions>(o =>
-{
-    o.MultipartBodyLengthLimit = long.MaxValue;
-    o.MemoryBufferThreshold = int.MaxValue;
-});
 
 
 builder.WebHost.ConfigureKestrel(o =>

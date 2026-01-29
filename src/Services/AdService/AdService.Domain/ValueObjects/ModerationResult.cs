@@ -1,4 +1,5 @@
-﻿using AdService.Domain.Enums;
+﻿using System.Text.Json.Serialization;
+using AdService.Domain.Enums;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
@@ -21,6 +22,7 @@ public record ModerationResult
     {
     }
 
+    [JsonConstructor]
     private ModerationResult(Guid moderatorId, DateTime decidedAt, DenyReason? denyReason = null, string? message = null)
     {
         ModeratorId = moderatorId;

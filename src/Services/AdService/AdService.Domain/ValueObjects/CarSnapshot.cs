@@ -1,4 +1,5 @@
-﻿using AdService.Domain.Entities;
+﻿using System.Text.Json.Serialization;
+using AdService.Domain.Entities;
 using AdService.Domain.Enums;
 using CSharpFunctionalExtensions;
 
@@ -38,6 +39,7 @@ public record CarSnapshot
     {
     }
 
+    [JsonConstructor]
     private CarSnapshot(
         Guid? carId,
         BrandSnapshot? brand,

@@ -1,6 +1,6 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
-using AdService.Common.Options;
+using AdService.Application.Options;
 using Microsoft.Extensions.Options;
 
 namespace AdService.Application.Commands.UploadImage;

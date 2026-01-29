@@ -1,5 +1,4 @@
 ﻿using AdService.Application;
-using AdService.Common;
 using AdService.Infrastructure.AutoCatalog;
 using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
@@ -8,6 +7,8 @@ using AdService.Infrastructure.ProfileService;
 using AdService.Infrastructure.Redis;
 using AdService.Presenters;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http.Features;
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -15,27 +16,24 @@ namespace AdService.Web;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddProgramDependencies(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddProgramDependencies(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services
             .AddPostgresInfrastructure(configuration)
-            .AddApplication()
+            .AddApplication(configuration)
             .AddBackgroundServices()
             .AddFileStorage(configuration)
             .AddProfileServiceCommunication()
             .AddAutoCatalogCommunication()
-            .AddRedisCaching(configuration)
+            .AddHybridCachingWithFusionAndRedis(configuration)
             .AddPresenters()
             .AddWeb()
-            .AddAdServiceOptions(configuration);
+            .ConfigureOptions();
         return services;
     }
 
-    private static IServiceCollection AddWeb(this IServiceCollection services)
-    {
-        services.AddEndpointsApiExplorer();
-        return services;
-    }
 
     public static IServiceCollection AddApiAuthentication(
         this IServiceCollection services,
@@ -60,6 +58,27 @@ public static class DependencyInjection
             {
                 policy.RequireClaim("roles", "autocatalog_admin");
             });
+        });
+        return services;
+    }
+
+    private static IServiceCollection AddWeb(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+        return services;
+    }
+
+    private static IServiceCollection ConfigureOptions(this IServiceCollection services)
+    {
+        services.Configure<FormOptions>(o =>
+        {
+            o.MultipartBodyLengthLimit = long.MaxValue;
+            o.MemoryBufferThreshold = int.MaxValue;
+        });
+
+        services.Configure<JsonOptions>(o =>
+        {
+            o.SerializerOptions.IncludeFields = true;
         });
         return services;
     }

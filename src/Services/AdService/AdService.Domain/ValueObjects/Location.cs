@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
 
@@ -11,6 +12,7 @@ public record Location
     {
     }
 
+    [JsonConstructor]
     private Location(string? region, string? city)
     {
         Region = region;

@@ -1,7 +1,6 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
 using AdService.Application.Commands.DeleteImage;
-using AdService.Common.Options;
 using Microsoft.Extensions.Options;
 
 namespace AdService.Application.Commands.DeleteImage;

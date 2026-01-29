@@ -51,47 +51,9 @@ public class MergePatchAdsCarCommandHandler(
 
         var patchedDto = mergePatchHelper.ApplyMergePatch(currentCarDto, patch);
 
-        if (patchedDto.ModelId is not null && patchedDto.BrandId is null)
-        {
-            return UnitResult.Failure<List<Error>>(Error.Validation(
-                "patched_car.model_id",
-                "Brand id is required when model id is provided"));
-        }
-
-        if (patchedDto.GenerationId is not null && patchedDto.ModelId is null)
-        {
-            return UnitResult.Failure<List<Error>>(Error.Validation(
-                "patched_car.generation_id",
-                "Model id is required when generation id is provided"));
-        }
-
-        if (patchedDto.EngineId is not null && patchedDto.GenerationId is null)
-        {
-            return UnitResult.Failure<List<Error>>(Error.Validation(
-                "patched_car.engine_id",
-                "Generation id is required when engine id is provided"));
-        }
-
-        if (patchedDto.BodyTypeId is not null && patchedDto.EngineId is null)
-        {
-            return UnitResult.Failure<List<Error>>(Error.Validation(
-                "patched_car.body_type_id",
-                "Engine id is required when body type id is provided"));
-        }
-
-        if (patchedDto.DriveTypeId is not null && patchedDto.EngineId is null)
-        {
-            return UnitResult.Failure<List<Error>>(Error.Validation(
-                "patched_car.drive_type_id",
-                "Engine id is required when drive type id is provided"));
-        }
-
-        if (patchedDto.TransmissionTypeId is not null && patchedDto.EngineId is null)
-        {
-            return UnitResult.Failure<List<Error>>(Error.Validation(
-                "patched_car.transmission_type_id",
-                "Engine id is required when transmission type id is provided"));
-        }
+        var validationResult = ValidatePatchedDto(patchedDto);
+        if (validationResult.IsFailure)
+            return UnitResult.Failure<List<Error>>(validationResult.Error);
 
         bool brandChanged = patchedDto.BrandId != currentCarDto.BrandId;
         bool modelChanged = patchedDto.ModelId != currentCarDto.ModelId;
@@ -394,5 +356,52 @@ public class MergePatchAdsCarCommandHandler(
         await dbContext.SaveChangesAsync(ct);
 
         return UnitResult.Success<List<Error>>();
+    }
+
+    private static UnitResult<Error> ValidatePatchedDto(CarSnapshotDto patchedDto)
+    {
+        if (patchedDto.ModelId is not null && patchedDto.BrandId is null)
+        {
+            return UnitResult.Failure(Error.Validation(
+                "patched_car.model_id",
+                "Brand id is required when model id is provided"));
+        }
+
+        if (patchedDto.GenerationId is not null && patchedDto.ModelId is null)
+        {
+            return UnitResult.Failure(Error.Validation(
+                "patched_car.generation_id",
+                "Model id is required when generation id is provided"));
+        }
+
+        if (patchedDto.EngineId is not null && patchedDto.GenerationId is null)
+        {
+            return UnitResult.Failure(Error.Validation(
+                "patched_car.engine_id",
+                "Generation id is required when engine id is provided"));
+        }
+
+        if (patchedDto.BodyTypeId is not null && patchedDto.EngineId is null)
+        {
+            return UnitResult.Failure(Error.Validation(
+                "patched_car.body_type_id",
+                "Engine id is required when body type id is provided"));
+        }
+
+        if (patchedDto.DriveTypeId is not null && patchedDto.EngineId is null)
+        {
+            return UnitResult.Failure(Error.Validation(
+                "patched_car.drive_type_id",
+                "Engine id is required when drive type id is provided"));
+        }
+
+        if (patchedDto.TransmissionTypeId is not null && patchedDto.EngineId is null)
+        {
+            return UnitResult.Failure(Error.Validation(
+                "patched_car.transmission_type_id",
+                "Engine id is required when transmission type id is provided"));
+        }
+
+        return UnitResult.Success<Error>();
     }
 }

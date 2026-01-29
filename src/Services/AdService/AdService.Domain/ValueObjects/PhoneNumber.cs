@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
@@ -13,6 +14,7 @@ public record PhoneNumber
     {
     }
 
+    [JsonConstructor]
     private PhoneNumber(string e164)
     {
         E164 = e164;

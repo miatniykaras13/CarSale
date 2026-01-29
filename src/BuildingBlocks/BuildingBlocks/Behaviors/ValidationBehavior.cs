@@ -33,8 +33,7 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
 
         var responseType = typeof(TResponse);
 
-        if (responseType.IsGenericType &&
-            responseType.GetGenericTypeDefinition() == typeof(Result<,>)) // todo сделать для unit result
+        if (responseType.IsGenericType && responseType.GetGenericTypeDefinition() == typeof(Result<,>))
         {
             var genericArguments = responseType.GetGenericArguments();
             var valueType = genericArguments[0];

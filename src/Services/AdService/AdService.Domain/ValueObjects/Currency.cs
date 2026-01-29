@@ -1,4 +1,5 @@
-﻿using CSharpFunctionalExtensions;
+﻿using System.Text.Json.Serialization;
+using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
 
@@ -18,6 +19,7 @@ public record Currency
     {
     }
 
+    [JsonConstructor]
     private Currency(string currencyCode)
     {
         CurrencyCode = currencyCode;

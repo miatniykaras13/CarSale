@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using CSharpFunctionalExtensions;
 
 namespace AdService.Domain.ValueObjects;
@@ -17,6 +18,7 @@ public record BodyTypeSnapshot
     {
     }
 
+    [JsonConstructor]
     private BodyTypeSnapshot(
         int id,
         string name)
