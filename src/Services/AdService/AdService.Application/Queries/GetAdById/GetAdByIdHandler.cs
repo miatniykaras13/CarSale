@@ -29,6 +29,7 @@ public class GetAdByIdQueryHandler(
         if (adDto is not null) return adDto;
 
         var ad = await dbContext.Ads
+            .AsNoTracking()
             .Include(a => a.CarOptions)
             .Include(a => a.Comment)
             .FirstOrDefaultAsync(a => a.Id == query.AdId, ct);
