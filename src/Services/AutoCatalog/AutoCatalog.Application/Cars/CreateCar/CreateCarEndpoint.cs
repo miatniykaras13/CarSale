@@ -1,9 +1,6 @@
-﻿using AutoCatalog.Domain.Enums;
+﻿using AutoCatalog.Application.Cars.Dtos;
+using AutoCatalog.Application.Dtos;
 using BuildingBlocks.Extensions;
-using Carter;
-using CSharpFunctionalExtensions;
-using Mapster;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -16,13 +13,11 @@ public record CreateCarRequest(
     int ModelId,
     int GenerationId,
     int EngineId,
-    TransmissionType TransmissionType,
-    AutoDriveType AutoDriveType,
-    int YearFrom,
-    int YearTo,
-    Guid PhotoId,
-    decimal Consumption,
-    decimal Acceleration,
+    int TransmissionTypeId,
+    int DriveTypeId,
+    int BodyTypeId,
+    float Consumption,
+    float Acceleration,
     int FuelTankCapacity,
     DimensionsDto DimensionsDto);
 

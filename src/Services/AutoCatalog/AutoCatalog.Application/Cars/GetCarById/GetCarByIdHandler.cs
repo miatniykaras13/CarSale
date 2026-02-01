@@ -1,7 +1,5 @@
-﻿using AutoCatalog.Application.Abstractions;
-using AutoCatalog.Domain.Specs;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Transport.Cars;
-using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Cars.GetCarById;
 

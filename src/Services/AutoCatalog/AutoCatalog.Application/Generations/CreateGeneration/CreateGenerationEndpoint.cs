@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Generations.CreateGeneration;
 
-public record CreateGenerationRequest(int ModelId, string Name);
+public record CreateGenerationRequest(int ModelId, string Name, int YearFrom, int? YearTo);
 
 public record CreateGenerationResponse(int Id);
 

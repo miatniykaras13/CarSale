@@ -1,11 +1,12 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.CQRS;
 using BuildingBlocks.Extensions;
 
 namespace AutoCatalog.Application.Brands.CreateBrand;
 
-public record CreateBrandCommand(string Name, string Country, int YearFrom, int YearTo)
+public record CreateBrandCommand(string Name, string Country, int YearFrom, int? YearTo)
     : ICommand<Result<int, List<Error>>>;
 
 internal class CreateBrandCommandHandler(IBrandsRepository brandsRepository)

@@ -1,4 +1,6 @@
-﻿using AutoCatalog.Application.Abstractions;
+﻿using System.Linq.Expressions;
+using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.Engines;
 using AutoCatalog.Application.Engines.Extensions;
 using AutoCatalog.Domain.Specs;
@@ -9,9 +11,9 @@ namespace AutoCatalog.Infrastructure.Repositories.Specs;
 
 public class EnginesRepository(AppDbContext context) : IEnginesRepository
 {
-    public async Task<Result<Engine, Error>> GetByIdAsync(int id, CancellationToken cancellationToken)
+    public async Task<Result<Engine, Error>> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var engine = await context.Engines.FindAsync(id, cancellationToken);
+        var engine = await context.Engines.FindAsync([id], cancellationToken);
         if (engine == null)
         {
             return Result.Failure<Engine, Error>(Error.NotFound(
@@ -22,31 +24,36 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
         return Result.Success<Engine, Error>(engine);
     }
 
-    public async Task<Result<List<Engine>, Error>> GetAllAsync(EngineFilter filter, SortParameters sortParameters, PageParameters pageParameters, CancellationToken cancellationToken)
+    public async Task<Result<List<Engine>, Error>> GetAllAsync(
+        EngineFilter filter,
+        SortParameters sortParameters,
+        PageParameters pageParameters,
+        CancellationToken cancellationToken = default)
     {
         var engines = await context.Engines
+            .AsNoTracking()
+            .Include(e => e.FuelType)
             .Filter(filter)
             .Sort(sortParameters)
-            .Page(pageParameters)
-            .ToListAsync(cancellationToken);
+            .Page(pageParameters).ToListAsync(cancellationToken);
         return Result.Success<List<Engine>, Error>(engines);
     }
 
-    public async Task<Result<int, Error>> AddAsync(Engine engine, CancellationToken cancellationToken)
+    public async Task<Result<int, Error>> AddAsync(Engine engine, CancellationToken cancellationToken = default)
     {
         await context.Engines.AddAsync(engine, cancellationToken);
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<int, Error>(engine.Id);
     }
 
-    public async Task<Result<int, Error>> UpdateAsync(Engine engine, CancellationToken cancellationToken)
+    public async Task<Result<int, Error>> UpdateAsync(Engine engine, CancellationToken cancellationToken = default)
     {
         context.Engines.Update(engine);
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<int, Error>(engine.Id);
     }
 
-    public async Task<Result<Unit, Error>> DeleteAsync(int id, CancellationToken cancellationToken)
+    public async Task<Result<Unit, Error>> DeleteAsync(int id, CancellationToken cancellationToken = default)
     {
         var engineResult = await GetByIdAsync(id, cancellationToken);
         if (engineResult.IsFailure)
@@ -65,14 +72,21 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
         SortParameters sortParameters,
         PageParameters pageParameters,
         int generationId,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken = default,
+        params Expression<Func<Engine, object>>[] includes)
     {
-        var engines = await context.Engines
-            .Where(e => e.GenerationId == generationId)
+        IQueryable<Engine> query = context.Engines.Where(e => e.GenerationId == generationId);
+
+        foreach (var include in includes)
+            query = query.Include(include);
+
+        query = query
+            .AsNoTracking()
             .Filter(filter)
             .Sort(sortParameters)
-            .Page(pageParameters)
-            .ToListAsync(cancellationToken);
+            .Page(pageParameters);
+
+        var engines = await query.ToListAsync(cancellationToken);
 
         return Result.Success<List<Engine>, Error>(engines);
     }

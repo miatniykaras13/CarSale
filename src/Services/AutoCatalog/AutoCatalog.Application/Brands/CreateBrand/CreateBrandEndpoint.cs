@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Brands.CreateBrand;
 
-public record CreateBrandRequest(string Name, string Country, int YearFrom, int YearTo);
+public record CreateBrandRequest(string Name, string Country, int YearFrom, int? YearTo);
 
 public record CreateBrandResponse(int Id);
 

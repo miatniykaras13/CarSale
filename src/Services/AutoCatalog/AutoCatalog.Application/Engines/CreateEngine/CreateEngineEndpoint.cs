@@ -1,6 +1,4 @@
-﻿using AutoCatalog.Application.Engines.CreateEngine;
-using AutoCatalog.Domain.Enums;
-using BuildingBlocks.Extensions;
+﻿using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -9,7 +7,7 @@ using Microsoft.OpenApi.Models;
 namespace AutoCatalog.Application.Engines.CreateEngine;
 
 public record CreateEngineRequest(
-    FuelType FuelType,
+    int FuelTypeId,
     int GenerationId,
     string Name,
     float Volume,

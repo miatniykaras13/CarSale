@@ -1,6 +1,5 @@
-﻿using AutoCatalog.Application.Abstractions;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Specs;
-using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Engines.GetEngineById;
 

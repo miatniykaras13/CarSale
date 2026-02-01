@@ -34,21 +34,12 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
             .OnDelete(DeleteBehavior.Cascade);
 
         builder
-            .Property(c => c.AutoDriveType)
-            .HasConversion<string>();
-
-        builder
-            .Property(c => c.TransmissionType)
-            .HasConversion<string>();
-
-        builder
             .Property(x => x.Consumption)
             .HasPrecision(18, 1);
 
         builder
             .Property(x => x.Acceleration)
             .HasPrecision(18, 1);
-
 
         builder.OwnsOne(c => c.Dimensions);
     }

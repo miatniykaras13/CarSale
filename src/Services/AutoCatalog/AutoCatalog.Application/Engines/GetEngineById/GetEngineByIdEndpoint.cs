@@ -1,6 +1,6 @@
-﻿using AutoCatalog.Application.Engines.GetEngines;
+﻿using AutoCatalog.Application.Engines.Dtos;
+using AutoCatalog.Application.Engines.GetEngines;
 using AutoCatalog.Application.Extensions;
-using AutoCatalog.Domain.Enums;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +14,7 @@ public record GetEngineByIdResponse(
     int Id,
     int GenerationId,
     string Name,
-    FuelType FuelType,
+    FuelTypeDto FuelType,
     float Volume,
     int HorsePower,
     int TorqueNm);

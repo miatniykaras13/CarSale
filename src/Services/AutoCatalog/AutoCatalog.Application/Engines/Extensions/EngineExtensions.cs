@@ -1,6 +1,4 @@
 ﻿using System.Linq.Expressions;
-using AutoCatalog.Application.Engines;
-using AutoCatalog.Domain.Enums;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -11,9 +9,28 @@ public static class EngineExtensions
 {
     public static IQueryable<Engine> Filter(this IQueryable<Engine> query, EngineFilter filter)
     {
-        if(filter.FuelType != null && filter.FuelType.Length != 0)
-            query = query.Where(e => filter.FuelType.Contains(e.FuelType));
-        if(filter.TorqueNm != null)
+        if (filter.GenerationId != null)
+            query = query.Where(e => e.GenerationId == filter.GenerationId);
+
+        if (!string.IsNullOrEmpty(filter.GenerationName))
+        {
+            query =
+                query.Where(e => e.Generation.Name.Equals(filter.GenerationName, StringComparison.OrdinalIgnoreCase));
+        }
+
+        if (filter.FuelTypeId != null)
+            query = query.Where(e => e.FuelTypeId == filter.FuelTypeId);
+
+        if (!string.IsNullOrEmpty(filter.FuelType))
+            query = query.Where(e => e.FuelType.Name.Equals(filter.FuelType, StringComparison.OrdinalIgnoreCase));
+
+        if (filter.TorqueNm != null)
+            query = query.Where(e => e.TorqueNm == filter.TorqueNm);
+
+        if (filter.Volume != null)
+            query = query.Where(e => e.TorqueNm == filter.TorqueNm);
+
+        if (filter.HorsePower != null)
             query = query.Where(e => e.TorqueNm == filter.TorqueNm);
         return query;
     }

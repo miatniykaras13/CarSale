@@ -21,7 +21,7 @@ public class CreateEngineCommandValidator : AbstractValidator<CreateEngineComman
         RuleFor(x => x.Volume)
             .NotEmpty().WithMessage("Volume is required");
 
-        RuleFor(x => x.FuelType)
-            .NotEmpty().WithMessage("Fuel type is required");
+        RuleFor(x => x.FuelTypeId)
+            .NotEmpty().WithMessage("Fuel type id is required");
     }
 }

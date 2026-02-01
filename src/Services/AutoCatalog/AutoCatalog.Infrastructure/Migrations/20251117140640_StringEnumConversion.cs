@@ -27,7 +27,7 @@ namespace AutoCatalog.Infrastructure.Migrations
                 oldType: "integer");
 
             migrationBuilder.AlterColumn<string>(
-                name: "AutoDriveType",
+                name: "DriveType",
                 table: "Cars",
                 type: "text",
                 nullable: false,
@@ -55,7 +55,7 @@ namespace AutoCatalog.Infrastructure.Migrations
                 oldType: "text");
 
             migrationBuilder.AlterColumn<int>(
-                name: "AutoDriveType",
+                name: "DriveType",
                 table: "Cars",
                 type: "integer",
                 nullable: false,

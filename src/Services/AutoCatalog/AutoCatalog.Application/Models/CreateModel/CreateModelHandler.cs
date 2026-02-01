@@ -1,8 +1,5 @@
-﻿using AutoCatalog.Application.Abstractions;
-using AutoCatalog.Application.Cars.CreateCar;
-using AutoCatalog.Domain.Enums;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Specs;
-using BuildingBlocks.CQRS;
 
 namespace AutoCatalog.Application.Models.CreateModel;
 

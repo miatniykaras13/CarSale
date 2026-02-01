@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Specs;
 using Microsoft.Extensions.Logging;
 
@@ -15,6 +16,10 @@ public class GetBrandByIdQueryHandler(IBrandsRepository brandsRepository)
         if (brandResult.IsFailure)
             return Result.Failure<Brand, List<Error>>([brandResult.Error]);
 
-        return Result.Success<Brand, List<Error>>(brandResult.Value);
+        var brand = brandResult.Value;
+        if (brand.IsActive)
+            brand.YearTo = DateTime.UtcNow.Year;
+
+        return Result.Success<Brand, List<Error>>(brand);
     }
 }

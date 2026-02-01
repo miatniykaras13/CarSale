@@ -35,7 +35,7 @@ public class UploadImageHandler(
 
         if (command.Stream.Length > maxFileSize)
         {
-            return Result.Failure<Guid, List<Error>>(Error.NotFound(
+            return Result.Failure<Guid, List<Error>>(Error.Validation(
                 "file_size",
                 $"File's size must be less than {maxFileSize}"));
         }

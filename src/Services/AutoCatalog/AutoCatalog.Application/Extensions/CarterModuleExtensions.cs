@@ -30,7 +30,7 @@ public static class CarterModuleExtensions
         return builder;
     }
 
-    public static RouteHandlerBuilder ProducesPatchProblems(this RouteHandlerBuilder builder)
+    public static RouteHandlerBuilder ProducesUpdateProblems(this RouteHandlerBuilder builder)
     {
         builder
             .ProducesGetProblems();

@@ -1,15 +1,20 @@
-﻿using AutoCatalog.Domain.Enums;
-
-namespace AutoCatalog.Application.Cars;
+﻿namespace AutoCatalog.Application.Cars;
 
 public record CarFilter(
+    int? BrandId,
     string? BrandName,
+    int? ModelId,
     string? ModelName,
+    int? GenerationId,
     string? GenerationName,
+    int? EngineId,
     string? EngineName,
-    TransmissionType[]? TransmissionType,
-    AutoDriveType[]? AutoDriveType,
-    int? Year,
-    decimal? Consumption,
-    decimal? Acceleration,
+    int? TransmissionTypeId,
+    string? TransmissionType,
+    int? DriveTypeId,
+    string? DriveType,
+    int? BodyTypeId,
+    string? BodyType,
+    float? Consumption,
+    float? Acceleration,
     int? FuelTankCapacity);

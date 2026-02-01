@@ -10,6 +10,11 @@ public static class ModelExtensions
 {
     public static IQueryable<Model> Filter(this IQueryable<Model> query, ModelFilter filter)
     {
+        if (filter.BrandId is not null)
+            query = query.Where(x => x.BrandId == filter.BrandId);
+
+        if (!string.IsNullOrEmpty(filter.BrandName))
+            query = query.Where(x => x.Brand.Name.Equals(filter.BrandName, StringComparison.OrdinalIgnoreCase));
         return query;
     }
 

@@ -1,11 +1,10 @@
-﻿using AutoCatalog.Domain.Enums;
-using Microsoft.AspNetCore.Mvc;
-
-namespace AutoCatalog.Application.Engines;
+﻿namespace AutoCatalog.Application.Engines;
 
 public record EngineFilter(
-    FuelType[]? FuelType,
+    int? GenerationId,
+    string? GenerationName,
+    int? FuelTypeId,
+    string? FuelType,
     float? Volume,
     int? HorsePower,
-    int? TorqueNm
-    );
+    int? TorqueNm);

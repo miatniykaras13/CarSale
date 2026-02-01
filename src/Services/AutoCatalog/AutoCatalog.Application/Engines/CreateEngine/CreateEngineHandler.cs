@@ -1,12 +1,10 @@
-﻿using AutoCatalog.Application.Abstractions;
-using AutoCatalog.Domain.Enums;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Specs;
-using BuildingBlocks.CQRS;
 
 namespace AutoCatalog.Application.Engines.CreateEngine;
 
 public record CreateEngineCommand(
-    FuelType FuelType,
+    int FuelTypeId,
     int GenerationId,
     string Name,
     float Volume,
@@ -27,7 +25,7 @@ internal class CreateEngineCommandHandler(
 
         Engine engine = new()
         {
-            FuelType = command.FuelType,
+            FuelTypeId = command.FuelTypeId,
             GenerationId = command.GenerationId,
             Generation = generationResult.Value,
             Name = command.Name,

@@ -9,7 +9,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Generations.GetGenerations;
 
-public record GetGenerationResponse(int Id, string Name, int ModelId);
+public record GetGenerationResponse(int Id, string Name, int ModelId, int YearFrom, int YearTo);
 
 public class GetGenerationsEndpoint : ICarterModule
 {
