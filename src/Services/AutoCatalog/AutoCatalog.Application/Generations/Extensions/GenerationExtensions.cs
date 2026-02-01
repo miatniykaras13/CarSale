@@ -14,7 +14,7 @@ public static class GenerationExtensions
             query = query.Where(x => x.ModelId == filter.ModelId);
 
         if (!string.IsNullOrEmpty(filter.ModelName))
-            query = query.Where(x => x.Model.Name.Equals(filter.ModelName, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(x => x.Model.Name.ToLower().Equals(filter.ModelName.ToLower()));
 
         if (filter.YearFrom.HasValue)
             query = query.Where(x => x.YearFrom >= filter.YearFrom);

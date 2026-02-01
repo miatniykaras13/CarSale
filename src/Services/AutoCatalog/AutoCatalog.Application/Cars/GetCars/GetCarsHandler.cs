@@ -58,6 +58,7 @@ public class GetCarsQueryHandler(
                     c.Engine.TorqueNm),
                 new TransmissionTypeDto(c.TransmissionType.Id, c.TransmissionType.Name),
                 new AutoDriveTypeDto(c.DriveType.Id, c.DriveType.Name),
+                new BodyTypeDto(c.BodyType.Id, c.BodyType.Name),
                 imageTasks[i] is not null ? await imageTasks[i]! : null,
                 c.Consumption,
                 c.Acceleration,

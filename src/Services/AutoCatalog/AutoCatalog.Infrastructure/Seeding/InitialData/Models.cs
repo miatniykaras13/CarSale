@@ -16,5 +16,10 @@ public static partial class InitialData
             Name = "Passat",
             BrandId = 1,
         },
+        new()
+        {
+            Name = "Sequoia",
+            BrandId = 7,
+        },
     ];
 }

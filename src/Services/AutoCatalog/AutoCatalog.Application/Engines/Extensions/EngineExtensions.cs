@@ -14,36 +14,34 @@ public static class EngineExtensions
 
         if (!string.IsNullOrEmpty(filter.GenerationName))
         {
-            query =
-                query.Where(e => e.Generation.Name.Equals(filter.GenerationName, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(e => e.Generation.Name.ToLower().Equals(filter.GenerationName.ToLower()));
         }
 
         if (filter.FuelTypeId != null)
             query = query.Where(e => e.FuelTypeId == filter.FuelTypeId);
 
         if (!string.IsNullOrEmpty(filter.FuelType))
-            query = query.Where(e => e.FuelType.Name.Equals(filter.FuelType, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(e => e.FuelType.Name.ToLower().Equals(filter.FuelType.ToLower()));
 
         if (filter.TorqueNm != null)
             query = query.Where(e => e.TorqueNm == filter.TorqueNm);
 
         if (filter.Volume != null)
-            query = query.Where(e => e.TorqueNm == filter.TorqueNm);
+            query = query.Where(e => e.Volume.Equals(filter.Volume));
 
         if (filter.HorsePower != null)
-            query = query.Where(e => e.TorqueNm == filter.TorqueNm);
+            query = query.Where(e => e.HorsePower == filter.HorsePower);
+
         return query;
     }
 
     public static IQueryable<Engine> Page(this IQueryable<Engine> query, PageParameters pageParameters) =>
         query.Skip((pageParameters.PageNumber - 1) * pageParameters.PageSize).Take(pageParameters.PageSize);
 
-
     public static IQueryable<Engine> Sort(this IQueryable<Engine> query, SortParameters sortParameters) =>
         sortParameters.Direction == SortDirection.ASCENDING
             ? query.OrderBy(GetKeySelector(sortParameters.OrderBy))
             : query.OrderByDescending(GetKeySelector(sortParameters.OrderBy));
-
 
     private static Expression<Func<Engine, object>> GetKeySelector(string? orderBy)
     {

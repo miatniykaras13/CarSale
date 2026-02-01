@@ -1,5 +1,4 @@
-﻿using System.Linq.Expressions;
-using AutoCatalog.Application.Abstractions.Repositories;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.BodyTypes;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
@@ -28,7 +27,9 @@ public class BodyTypesRepository(AppDbContext context) : IBodyTypesRepository
         PageParameters pageParameters,
         CancellationToken cancellationToken = default)
     {
-        var bodyTypes = await context.BodyTypes.AsNoTracking().ToListAsync(cancellationToken);
+        var bodyTypes = await context.BodyTypes
+            .AsNoTracking()
+            .ToListAsync(cancellationToken);
         return Result.Success<List<BodyType>, Error>(bodyTypes);
     }
 

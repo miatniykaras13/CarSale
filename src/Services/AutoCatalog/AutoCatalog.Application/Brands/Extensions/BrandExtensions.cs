@@ -13,10 +13,10 @@ public static class BrandExtensions
             query = query.Where(x => x.Country.ToLower().Equals(filter.Country.ToLower()));
 
         if (filter.YearFrom.HasValue)
-            query = query.Where(x => x.YearFrom >= filter.YearFrom);
+            query = query.Where(x => (x.YearTo ?? DateTime.UtcNow.Year) >= filter.YearFrom);
 
         if (filter.YearTo.HasValue)
-            query = query.Where(x => (x.YearTo ?? DateTime.UtcNow.Year) <= filter.YearTo);
+            query = query.Where(x => x.YearFrom <= filter.YearTo);
 
         return query;
     }

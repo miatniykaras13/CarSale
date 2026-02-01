@@ -14,14 +14,14 @@ public static class CarExtensions
             query = query.Where(c => c.BrandId == filter.BrandId);
 
         if (!string.IsNullOrEmpty(filter.BrandName))
-            query = query.Where(c => c.Brand.Name.Equals(filter.BrandName, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(c => c.Brand.Name.ToLower().Equals(filter.BrandName.ToLower()));
 
         // model
         if (filter.ModelId != null)
             query = query.Where(c => c.ModelId == filter.ModelId);
 
         if (!string.IsNullOrEmpty(filter.ModelName))
-            query = query.Where(c => c.Model.Name.Equals(filter.ModelName, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(c => c.Model.Name.ToLower().Equals(filter.ModelName.ToLower()));
 
         // generation
         if (filter.GenerationId != null)
@@ -30,7 +30,7 @@ public static class CarExtensions
         if (!string.IsNullOrEmpty(filter.GenerationName))
         {
             query = query.Where(c =>
-                c.Generation.Name.Equals(filter.GenerationName, StringComparison.OrdinalIgnoreCase));
+                c.Generation.Name.ToLower().Equals(filter.GenerationName.ToLower()));
         }
 
         // engine
@@ -38,7 +38,7 @@ public static class CarExtensions
             query = query.Where(c => c.EngineId == filter.EngineId);
 
         if (!string.IsNullOrEmpty(filter.EngineName))
-            query = query.Where(c => c.Engine.Name.Equals(filter.EngineName, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(c => c.Engine.Name.ToLower().Equals(filter.EngineName.ToLower()));
 
         // transmission type
         if (filter.TransmissionTypeId != null)
@@ -47,7 +47,7 @@ public static class CarExtensions
         if (!string.IsNullOrEmpty(filter.TransmissionType))
         {
             query = query.Where(c =>
-                c.TransmissionType.Name.Equals(filter.TransmissionType, StringComparison.OrdinalIgnoreCase));
+                c.TransmissionType.Name.ToLower().Equals(filter.TransmissionType.ToLower()));
         }
 
         // drive type
@@ -55,14 +55,14 @@ public static class CarExtensions
             query = query.Where(c => c.DriveTypeId == filter.DriveTypeId);
 
         if (!string.IsNullOrEmpty(filter.DriveType))
-            query = query.Where(c => c.DriveType.Name.Equals(filter.DriveType, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(c => c.DriveType.Name.ToLower().Equals(filter.DriveType.ToLower()));
 
         // body type
         if (filter.BodyTypeId != null)
             query = query.Where(c => c.BodyTypeId == filter.BodyTypeId);
 
         if (!string.IsNullOrEmpty(filter.BodyType))
-            query = query.Where(c => c.BodyType.Name.Equals(filter.BodyType, StringComparison.OrdinalIgnoreCase));
+            query = query.Where(c => c.BodyType.Name.ToLower().Equals(filter.BodyType.ToLower()));
 
         if (filter.Acceleration != null)
             query = query.Where(c => Equals(c.Acceleration, filter.Acceleration));

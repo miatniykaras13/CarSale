@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.AutoDriveTypes;
+using AutoCatalog.Application.AutoDriveTypes.Extensions;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -28,7 +29,12 @@ public class AutoDriveTypesRepository(AppDbContext context) : IAutoDriveTypesRep
         PageParameters pageParameters,
         CancellationToken cancellationToken = default)
     {
-        var driveTypes = await context.DriveTypes.AsNoTracking().ToListAsync(cancellationToken);
+        var driveTypes = await context.DriveTypes
+            .AsNoTracking()
+            .Filter(driveTypeFilter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<AutoDriveType>, Error>(driveTypes);
     }
 

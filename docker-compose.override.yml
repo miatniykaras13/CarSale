@@ -2,27 +2,27 @@ services:
   autocatalogdb:
     container_name: autocatalogdb
     environment:
-      - POSTGRES_USER=${ADSERVICE_POSTGRES_USER}
-      - POSTGRES_PASSWORD=${ADSERVICE_POSTGRES_PASSWORD}
-      - POSTGRES_DB=${ADSERVICE_POSTGRES_DB}
+      - POSTGRES_USER=${AUTOCATALOG_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${AUTOCATALOG_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${AUTOCATALOG_POSTGRES_DB}
     restart: always
     ports:
       - "5432:5432"
     volumes:
       - "auto-catalog-postgres:/var/lib/postgresql"
-        
+  
   adservicedb:
     container_name: adservicedb
     environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=1111
-      - POSTGRES_DB=AdServiceDb
+      - POSTGRES_USER=${ADSERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${ADSERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${ADSERVICE_POSTGRES_DB}
     restart: always
     ports:
       - "5434:5432"
     volumes:
       - "ad-service-postgres:/var/lib/postgresql"
-        
+  
   redis:
     container_name: redis
     ports:
@@ -34,7 +34,7 @@ services:
     restart: always
     volumes:
       - "redis-data:/data"
-    
+  
   
   autocatalog.web:
     environment:
@@ -44,7 +44,7 @@ services:
       - ASPNETCORE_URLS=http://0.0.0.0:8080;https://0.0.0.0:8081
       - ASPNETCORE_Kestrel__Certificates__Default__Password=1111
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/certs/aspnetapp.pfx
-      - ConnectionStrings__AppDbContext=Server=autocatalogdb;Port=5432;Database=AutoCatalogDb;Username=postgres;Password=1111
+      - ConnectionStrings__AppDbContext=Server=autocatalogdb;Port=5432;Database=${AUTOCATALOG_POSTGRES_DB};Username=${AUTOCATALOG_POSTGRES_USER};Password=${AUTOCATALOG_POSTGRES_PASSWORD}
     depends_on:
       - autocatalogdb
     ports:
@@ -53,7 +53,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
       - ./certs:/certs:ro
-    
+  
   keycloakdb:
     image: postgres
     container_name: keycloakdb
@@ -74,13 +74,13 @@ services:
       KEYCLOAK_ADMIN_PASSWORD: admin
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloakdb:5432/KeycloakDb
-      KC_DB_USERNAME: postgres
-      KC_DB_PASSWORD: 1111
+      KC_DB_USERNAME: ${KEYCLOAK_DB_USERNAME}
+      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
     ports:
       - "8080:8080"
     depends_on:
       - keycloakdb
-     
+  
   minio:
     container_name: minio
     restart: always
@@ -98,8 +98,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      
-      
+  
+  
   filemanagement.grpc:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
