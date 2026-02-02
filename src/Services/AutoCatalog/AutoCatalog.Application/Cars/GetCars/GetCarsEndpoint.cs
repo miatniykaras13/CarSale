@@ -1,5 +1,6 @@
-﻿using AutoCatalog.Application.Extensions;
-using AutoCatalog.Domain.Enums;
+﻿using AutoCatalog.Application.Cars.Dtos;
+using AutoCatalog.Application.Dtos;
+using AutoCatalog.Application.Extensions;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -11,28 +12,14 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Cars.GetCars;
 
-public record GetCarResponse(
-    Guid Id,
-    int BrandId,
-    int ModelId,
-    int GenerationId,
-    int EngineId,
-    TransmissionType TransmissionType,
-    AutoDriveType AutoDriveType,
-    int YearFrom,
-    int YearTo,
-    Guid PhotoId,
-    float Consumption,
-    float Acceleration,
-    int FuelTankCapacity,
-    DimensionsDto Dimensions
-);
+public record GetCarResponse;
 
 public class GetCarsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/cars", async (
+                HttpContext context,
                 [AsParameters] CarFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -42,13 +29,13 @@ public class GetCarsEndpoint : ICarterModule
                 var result = await sender.Send(new GetCarsQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
-                var response = result.Value.Adapt<List<GetCarResponse>>();
+                    return result.Error.ToResponse(context);
+                var response = result.Value;
                 return Results.Ok(response);
             })
             .RequireAuthorization()
             .WithName("GetCars")
-            .Produces<List<GetCarResponse>>(StatusCodes.Status200OK)
+            .Produces<List<CarDto>>(StatusCodes.Status200OK)
             .ProducesGetProblems()
             .WithTags("Cars")
             .WithOpenApi(op =>

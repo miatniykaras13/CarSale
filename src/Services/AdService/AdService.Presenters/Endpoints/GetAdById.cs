@@ -13,23 +13,24 @@ public class GetAdById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapGet("/ads/{adId:guid}", async (
-            [FromRoute] Guid adId,
-            ClaimsPrincipal user,
-            ISender sender,
-            CancellationToken ct = default) =>
-        {
-            var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+                HttpContext context,
+                [FromRoute] Guid adId,
+                ClaimsPrincipal user,
+                ISender sender,
+                CancellationToken ct = default) =>
+            {
+                var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var command = new GetAdByIdQuery(adId, userId is null ? null : Guid.Parse(userId));
-            var result = await sender.Send(command, ct);
+                var command = new GetAdByIdQuery(adId, userId is null ? null : Guid.Parse(userId));
+                var result = await sender.Send(command, ct);
 
-            if (result.IsFailure)
-                return result.Error.ToResponse();
+                if (result.IsFailure)
+                    return result.Error.ToResponse(context);
 
-            return Results.Ok(result.Value);
-        })
-        .WithName("GetAdById")
-        .Produces(StatusCodes.Status401Unauthorized)
-        .Produces(StatusCodes.Status403Forbidden)
-        .Produces(StatusCodes.Status200OK);
+                return Results.Ok(result.Value);
+            })
+            .WithName("GetAdById")
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status200OK);
 }

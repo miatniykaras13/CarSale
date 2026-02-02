@@ -9,13 +9,14 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Generations.GetGenerations;
 
-public record GetGenerationResponse(int Id, string Name, int ModelId);
+public record GetGenerationResponse(int Id, string Name, int ModelId, int YearFrom, int YearTo);
 
 public class GetGenerationsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/generations", async (
+                HttpContext context,
                 [AsParameters] GenerationFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -25,7 +26,7 @@ public class GetGenerationsEndpoint : ICarterModule
             var result = await sender.Send(new GetGenerationsQuery(filter, sortParameters, pageParameters), ct);
 
             if (result.IsFailure)
-                return result.ToResponse();
+                return result.Error.ToResponse(context);
 
             var response = result.Value.Adapt<List<GetGenerationResponse>>();
             return Results.Ok(response);

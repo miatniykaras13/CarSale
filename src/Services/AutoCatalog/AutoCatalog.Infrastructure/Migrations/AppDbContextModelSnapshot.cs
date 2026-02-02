@@ -22,6 +22,46 @@ namespace AutoCatalog.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.AutoDriveType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("DriveTypes");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.BodyType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("BodyTypes");
+                });
+
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Brand", b =>
                 {
                     b.Property<int>("Id")
@@ -41,7 +81,7 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.Property<int>("YearFrom")
                         .HasColumnType("integer");
 
-                    b.Property<int>("YearTo")
+                    b.Property<int?>("YearTo")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -60,9 +100,8 @@ namespace AutoCatalog.Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("FuelType")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("FuelTypeId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("GenerationId")
                         .HasColumnType("integer");
@@ -82,9 +121,34 @@ namespace AutoCatalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FuelTypeId");
+
                     b.HasIndex("GenerationId");
 
+                    b.HasIndex("Name")
+                        .IsUnique();
+
                     b.ToTable("Engines");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.FuelType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("FuelTypes");
                 });
 
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Generation", b =>
@@ -101,6 +165,12 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<int>("YearFrom")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("YearTo")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -131,26 +201,48 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.ToTable("Models");
                 });
 
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.TransmissionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.ToTable("TransmissionTypes");
+                });
+
             modelBuilder.Entity("AutoCatalog.Domain.Transport.Cars.Car", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<decimal>("Acceleration")
+                    b.Property<float>("Acceleration")
                         .HasPrecision(18, 1)
-                        .HasColumnType("numeric(18,1)");
+                        .HasColumnType("real");
 
-                    b.Property<string>("AutoDriveType")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("BodyTypeId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("BrandId")
                         .HasColumnType("integer");
 
-                    b.Property<decimal>("Consumption")
+                    b.Property<float>("Consumption")
                         .HasPrecision(18, 1)
-                        .HasColumnType("numeric(18,1)");
+                        .HasColumnType("real");
+
+                    b.Property<int>("DriveTypeId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("EngineId")
                         .HasColumnType("integer");
@@ -167,19 +259,16 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.Property<Guid>("PhotoId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("TransmissionType")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("YearFrom")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("YearTo")
+                    b.Property<int>("TransmissionTypeId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("BodyTypeId");
+
                     b.HasIndex("BrandId");
+
+                    b.HasIndex("DriveTypeId");
 
                     b.HasIndex("EngineId");
 
@@ -187,16 +276,26 @@ namespace AutoCatalog.Infrastructure.Migrations
 
                     b.HasIndex("ModelId");
 
+                    b.HasIndex("TransmissionTypeId");
+
                     b.ToTable("Cars");
                 });
 
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Engine", b =>
                 {
+                    b.HasOne("AutoCatalog.Domain.Specs.FuelType", "FuelType")
+                        .WithMany("Engines")
+                        .HasForeignKey("FuelTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AutoCatalog.Domain.Specs.Generation", "Generation")
                         .WithMany("Engines")
                         .HasForeignKey("GenerationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("FuelType");
 
                     b.Navigation("Generation");
                 });
@@ -225,9 +324,21 @@ namespace AutoCatalog.Infrastructure.Migrations
 
             modelBuilder.Entity("AutoCatalog.Domain.Transport.Cars.Car", b =>
                 {
+                    b.HasOne("AutoCatalog.Domain.Specs.BodyType", "BodyType")
+                        .WithMany("Cars")
+                        .HasForeignKey("BodyTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("AutoCatalog.Domain.Specs.Brand", "Brand")
                         .WithMany()
                         .HasForeignKey("BrandId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoCatalog.Domain.Specs.AutoDriveType", "DriveType")
+                        .WithMany("Cars")
+                        .HasForeignKey("DriveTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -246,6 +357,12 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.HasOne("AutoCatalog.Domain.Specs.Model", "Model")
                         .WithMany()
                         .HasForeignKey("ModelId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AutoCatalog.Domain.Specs.TransmissionType", "TransmissionType")
+                        .WithMany("Cars")
+                        .HasForeignKey("TransmissionTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -271,16 +388,32 @@ namespace AutoCatalog.Infrastructure.Migrations
                                 .HasForeignKey("CarId");
                         });
 
+                    b.Navigation("BodyType");
+
                     b.Navigation("Brand");
 
                     b.Navigation("Dimensions")
                         .IsRequired();
+
+                    b.Navigation("DriveType");
 
                     b.Navigation("Engine");
 
                     b.Navigation("Generation");
 
                     b.Navigation("Model");
+
+                    b.Navigation("TransmissionType");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.AutoDriveType", b =>
+                {
+                    b.Navigation("Cars");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.BodyType", b =>
+                {
+                    b.Navigation("Cars");
                 });
 
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Brand", b =>
@@ -293,6 +426,11 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.Navigation("Cars");
                 });
 
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.FuelType", b =>
+                {
+                    b.Navigation("Engines");
+                });
+
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Generation", b =>
                 {
                     b.Navigation("Engines");
@@ -301,6 +439,11 @@ namespace AutoCatalog.Infrastructure.Migrations
             modelBuilder.Entity("AutoCatalog.Domain.Specs.Model", b =>
                 {
                     b.Navigation("Generations");
+                });
+
+            modelBuilder.Entity("AutoCatalog.Domain.Specs.TransmissionType", b =>
+                {
+                    b.Navigation("Cars");
                 });
 #pragma warning restore 612, 618
         }

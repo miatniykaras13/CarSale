@@ -2,7 +2,7 @@
 
 public class Brand
 {
-    public int Id { get; init; }
+    public int Id { get; set; }
 
     public required string Name { get; init; }
 
@@ -10,7 +10,9 @@ public class Brand
 
     public required int YearFrom { get; init; }
 
-    public required int YearTo { get; init; }
+    public bool IsActive => YearTo is null;
+
+    public int? YearTo { get; set; }
 
     public List<Model> Models { get; init; } = [];
 }

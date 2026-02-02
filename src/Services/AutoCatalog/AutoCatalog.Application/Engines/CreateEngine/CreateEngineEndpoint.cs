@@ -1,6 +1,4 @@
-﻿using AutoCatalog.Application.Engines.CreateEngine;
-using AutoCatalog.Domain.Enums;
-using BuildingBlocks.Extensions;
+﻿using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
@@ -9,7 +7,7 @@ using Microsoft.OpenApi.Models;
 namespace AutoCatalog.Application.Engines.CreateEngine;
 
 public record CreateEngineRequest(
-    FuelType FuelType,
+    int FuelTypeId,
     int GenerationId,
     string Name,
     float Volume,
@@ -22,14 +20,18 @@ public class CreateEngineEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/engines", async (CreateEngineRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/engines", async (
+                HttpContext context,
+                CreateEngineRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateEngineCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateEngineResponse response = new(result.Value);
                 return Results.Created($"/engines/{response.Id}", response);

@@ -1,6 +1,4 @@
 ﻿using System.Linq.Expressions;
-using AutoCatalog.Application.Cars;
-using AutoCatalog.Domain.Specs;
 using AutoCatalog.Domain.Transport.Cars;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -9,33 +7,68 @@ namespace AutoCatalog.Application.Cars.Extensions;
 
 public static class CarExtensions
 {
-    private static readonly Dictionary<string, LambdaExpression> _map = new(StringComparer.OrdinalIgnoreCase) { };
-
     public static IQueryable<Car> Filter(this IQueryable<Car> query, CarFilter filter)
     {
+        // brand
+        if (filter.BrandId != null)
+            query = query.Where(c => c.BrandId == filter.BrandId);
+
         if (!string.IsNullOrEmpty(filter.BrandName))
             query = query.Where(c => c.Brand.Name.ToLower().Equals(filter.BrandName.ToLower()));
+
+        // model
+        if (filter.ModelId != null)
+            query = query.Where(c => c.ModelId == filter.ModelId);
 
         if (!string.IsNullOrEmpty(filter.ModelName))
             query = query.Where(c => c.Model.Name.ToLower().Equals(filter.ModelName.ToLower()));
 
+        // generation
+        if (filter.GenerationId != null)
+            query = query.Where(c => c.GenerationId == filter.GenerationId);
+
         if (!string.IsNullOrEmpty(filter.GenerationName))
-            query = query.Where(c => c.Generation.Name.ToLower().Equals(filter.GenerationName.ToLower()));
+        {
+            query = query.Where(c =>
+                c.Generation.Name.ToLower().Equals(filter.GenerationName.ToLower()));
+        }
+
+        // engine
+        if (filter.EngineId != null)
+            query = query.Where(c => c.EngineId == filter.EngineId);
 
         if (!string.IsNullOrEmpty(filter.EngineName))
             query = query.Where(c => c.Engine.Name.ToLower().Equals(filter.EngineName.ToLower()));
 
-        if (filter.TransmissionType != null && filter.TransmissionType.Length != 0)
-            query = query.Where(c => filter.TransmissionType.Contains(c.TransmissionType));
+        // transmission type
+        if (filter.TransmissionTypeId != null)
+            query = query.Where(c => c.TransmissionTypeId == filter.TransmissionTypeId);
 
-        if (filter.AutoDriveType != null && filter.AutoDriveType.Length != 0)
-            query = query.Where(c => filter.AutoDriveType.Contains(c.AutoDriveType));
+        if (!string.IsNullOrEmpty(filter.TransmissionType))
+        {
+            query = query.Where(c =>
+                c.TransmissionType.Name.ToLower().Equals(filter.TransmissionType.ToLower()));
+        }
 
-        if (filter.Year != null)
-            query = query.Where(c => c.YearFrom <= filter.Year && c.YearTo >= filter.Year);
+        // drive type
+        if (filter.DriveTypeId != null)
+            query = query.Where(c => c.DriveTypeId == filter.DriveTypeId);
+
+        if (!string.IsNullOrEmpty(filter.DriveType))
+            query = query.Where(c => c.DriveType.Name.ToLower().Equals(filter.DriveType.ToLower()));
+
+        // body type
+        if (filter.BodyTypeId != null)
+            query = query.Where(c => c.BodyTypeId == filter.BodyTypeId);
+
+        if (!string.IsNullOrEmpty(filter.BodyType))
+            query = query.Where(c => c.BodyType.Name.ToLower().Equals(filter.BodyType.ToLower()));
 
         if (filter.Acceleration != null)
-            query = query.Where(c => c.Acceleration == filter.Acceleration);
+            query = query.Where(c => Equals(c.Acceleration, filter.Acceleration));
+
+        if (filter.Consumption != null)
+            query = query.Where(c => Equals(c.Consumption, filter.Consumption));
 
         if (filter.FuelTankCapacity != null)
             query = query.Where(c => c.FuelTankCapacity == filter.FuelTankCapacity);
@@ -46,23 +79,21 @@ public static class CarExtensions
     public static IQueryable<Car> Page(this IQueryable<Car> query, PageParameters pageParameters) =>
         query.Skip((pageParameters.PageNumber - 1) * pageParameters.PageSize).Take(pageParameters.PageSize);
 
-
     public static IQueryable<Car> Sort(this IQueryable<Car> query, SortParameters sortParameters) =>
         sortParameters.Direction == SortDirection.ASCENDING
             ? query.OrderBy(GetKeySelector(sortParameters.OrderBy))
             : query.OrderByDescending(GetKeySelector(sortParameters.OrderBy));
-
 
     private static Expression<Func<Car, object>> GetKeySelector(string? orderBy)
     {
         return orderBy switch
         {
             nameof(Car.Acceleration) => x => x.Acceleration,
-            nameof(Car.AutoDriveType) => x => x.AutoDriveType,
+            nameof(Car.DriveType) => x => x.DriveType,
             nameof(Car.FuelTankCapacity) => x => x.FuelTankCapacity,
             nameof(Car.TransmissionType) => x => x.TransmissionType,
-            nameof(Car.YearFrom) => x => x.YearFrom,
-            nameof(Car.YearTo) => x => x.YearTo,
+            nameof(Car.Consumption) => x => x.Consumption,
+            nameof(Car.BodyType) => x => x.BodyType,
             _ => x => x.Id
         };
     }

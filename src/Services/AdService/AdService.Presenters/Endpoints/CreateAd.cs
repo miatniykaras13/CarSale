@@ -10,7 +10,11 @@ namespace AdService.Presenters.Endpoints;
 public class CreateAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads", async (ClaimsPrincipal user, ISender sender, CancellationToken ct) =>
+        app.MapPost("/ads", async (
+                HttpContext context,
+                ClaimsPrincipal user,
+                ISender sender,
+                CancellationToken ct) =>
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
@@ -20,7 +24,7 @@ public class CreateAd : ICarterModule
                 var result = await sender.Send(new CreateAdCommand(Guid.Parse(userId)), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 var response = result.Value;
 

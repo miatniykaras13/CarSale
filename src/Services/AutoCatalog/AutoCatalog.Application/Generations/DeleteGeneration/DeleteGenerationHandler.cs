@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Abstractions.Repositories;
 using Microsoft.Extensions.Logging;
 
 namespace AutoCatalog.Application.Generations.DeleteGeneration;

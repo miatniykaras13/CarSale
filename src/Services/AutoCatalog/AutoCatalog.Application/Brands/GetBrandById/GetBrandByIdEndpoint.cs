@@ -15,12 +15,16 @@ public class GetBrandByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/brands/{id:int}", async ([FromRoute] int id, ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/brands/{id:int}", async (
+                HttpContext context,
+                [FromRoute] int id,
+                ISender sender,
+                CancellationToken ct = default) =>
         {
             var result = await sender.Send(new GetBrandByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.ToResponse();
+                return result.Error.ToResponse(context);
 
             var response = result.Value.Adapt<GetBrandsResponse>();
             return Results.Ok(response);

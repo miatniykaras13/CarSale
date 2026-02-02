@@ -1,8 +1,6 @@
 ﻿using System.Reflection;
 using AutoCatalog.Domain.Specs;
 using AutoCatalog.Domain.Transport.Cars;
-using AutoCatalog.Infrastructure.Configurations;
-using AutoCatalog.Infrastructure.Seeding.Fakers;
 
 namespace AutoCatalog.Infrastructure;
 
@@ -18,82 +16,17 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<Engine> Engines { get; set; }
 
+    public DbSet<AutoDriveType> DriveTypes { get; set; }
+
+    public DbSet<BodyType> BodyTypes { get; set; }
+
+    public DbSet<TransmissionType> TransmissionTypes { get; set; }
+
+    public DbSet<FuelType> FuelTypes { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         base.OnModelCreating(modelBuilder);
-    }
-
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder
-            .UseSeeding((context, _) =>
-            {
-                if (context.Set<Brand>().Any())
-                    return;
-
-                var brandsToSeed = BrandFaker.Generate(20);
-                context.Set<Brand>().AddRange(brandsToSeed);
-                context.SaveChanges();
-
-
-                var modelsToSeed = ModelFaker.Generate(20, brandsToSeed);
-
-                context.Set<Model>().AddRange(modelsToSeed);
-                context.SaveChanges();
-
-                var generationsToSeed = GenerationFaker.Generate(20, modelsToSeed);
-
-                context.Set<Generation>()
-                    .AddRange(generationsToSeed);
-                context.SaveChanges();
-
-                var enginesToSeed = EngineFaker.Generate(20, generationsToSeed);
-
-                context.Set<Engine>().AddRange(enginesToSeed);
-                context.SaveChanges();
-
-                var carsToSeed = CarFaker.Generate(20, brandsToSeed, modelsToSeed, generationsToSeed, enginesToSeed);
-
-                context.Set<Car>().AddRange(carsToSeed);
-                context.SaveChanges();
-            })
-            .UseAsyncSeeding(async (context, _, ct) =>
-            {
-                if (await context.Set<Brand>().AnyAsync(ct))
-                    return;
-
-                var brandsToSeed = BrandFaker.Generate(20);
-
-                await context.Set<Brand>()
-                    .AddRangeAsync(brandsToSeed, ct);
-                await context.SaveChangesAsync(ct);
-
-
-                var modelsToSeed = ModelFaker.Generate(20, brandsToSeed);
-
-                await context.Set<Model>()
-                    .AddRangeAsync(modelsToSeed, ct);
-                await context.SaveChangesAsync(ct);
-
-                var generationsToSeed = GenerationFaker.Generate(20, modelsToSeed);
-
-                await context.Set<Generation>()
-                    .AddRangeAsync(generationsToSeed, ct);
-                await context.SaveChangesAsync(ct);
-
-                var enginesToSeed = EngineFaker.Generate(20, generationsToSeed);
-
-                await context.Set<Engine>()
-                    .AddRangeAsync(enginesToSeed, ct);
-                await context.SaveChangesAsync(ct);
-
-                var carsToSeed = CarFaker.Generate(20, brandsToSeed, modelsToSeed, generationsToSeed, enginesToSeed);
-
-                await context.Set<Car>()
-                    .AddRangeAsync(carsToSeed, ct);
-                await context.SaveChangesAsync(ct);
-            });
-        base.OnConfiguring(optionsBuilder);
     }
 }

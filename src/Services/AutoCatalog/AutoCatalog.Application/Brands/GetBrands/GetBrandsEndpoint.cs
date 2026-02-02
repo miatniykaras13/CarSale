@@ -19,6 +19,7 @@ public class GetBrandsEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/brands", async (
+                HttpContext context,
                 [AsParameters] BrandFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -28,7 +29,7 @@ public class GetBrandsEndpoint : ICarterModule
                 var result = await sender.Send(new GetBrandsQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 var response = result.Value.Adapt<List<GetBrandsResponse>>();
                 return Results.Ok(response);

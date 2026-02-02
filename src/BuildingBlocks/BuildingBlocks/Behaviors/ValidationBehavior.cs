@@ -1,6 +1,4 @@
 ﻿using System.Reflection;
-using BuildingBlocks.CQRS;
-using BuildingBlocks.Errors;
 using BuildingBlocks.Extensions;
 using CSharpFunctionalExtensions;
 using FluentValidation;
@@ -56,7 +54,7 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         }
 
         if (responseType.IsGenericType &&
-            responseType.GetGenericTypeDefinition() == typeof(UnitResult<>)) // todo сделать для unit result
+            responseType.GetGenericTypeDefinition() == typeof(UnitResult<>))
         {
             var genericArguments = responseType.GetGenericArguments();
             var errorType = genericArguments[0];
@@ -89,7 +87,11 @@ public class ValidationBehavior<TRequest, TResponse>(IEnumerable<IValidator<TReq
         if (name.Contains("engine")) return "engine";
         if (name.Contains("car")) return "car";
         if (name.Contains("ad")) return "ad";
-        if (name.Contains("car_option")) return "car_option";
+        if (name.Contains("caroption")) return "car_option";
+        if (name.Contains("bodytype")) return "body_type";
+        if (name.Contains("transmissiontype")) return "transmission_type";
+        if (name.Contains("autodrivetype")) return "drive_type";
+        if (name.Contains("fueltype")) return "fuel_type";
         return "entity";
     }
 }

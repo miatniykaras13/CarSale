@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Generations.CreateGeneration;
 
-public record CreateGenerationRequest(int ModelId, string Name);
+public record CreateGenerationRequest(int ModelId, string Name, int YearFrom, int? YearTo);
 
 public record CreateGenerationResponse(int Id);
 
@@ -15,14 +15,18 @@ public class CreateGenerationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/generations", async (CreateGenerationRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/generations", async (
+                HttpContext context,
+                CreateGenerationRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateGenerationCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateGenerationResponse response = new(result.Value);
                 return Results.Created($"/generations/{response.Id}", response);

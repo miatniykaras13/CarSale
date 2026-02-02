@@ -18,12 +18,12 @@ public static class DependencyInjection
     {
         services.AddInfrastructure(configuration);
         services.AddWeb();
-        services.AddApplication();
+        services.AddApplication(configuration);
         services.AddHealthChecks()
             .AddNpgSql(configuration.GetConnectionString(nameof(AppDbContext))!);
         return services;
     }
-    
+
     public static IServiceCollection AddApiAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)

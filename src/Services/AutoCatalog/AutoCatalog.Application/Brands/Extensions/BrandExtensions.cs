@@ -13,10 +13,10 @@ public static class BrandExtensions
             query = query.Where(x => x.Country.ToLower().Equals(filter.Country.ToLower()));
 
         if (filter.YearFrom.HasValue)
-            query = query.Where(x => x.YearFrom >= filter.YearFrom);
+            query = query.Where(x => (x.YearTo ?? DateTime.UtcNow.Year) >= filter.YearFrom);
 
         if (filter.YearTo.HasValue)
-            query = query.Where(x => x.YearTo <= filter.YearTo);
+            query = query.Where(x => x.YearFrom <= filter.YearTo);
 
         return query;
     }
@@ -38,7 +38,7 @@ public static class BrandExtensions
             nameof(Brand.Name) => x => x.Name,
             nameof(Brand.Country) => x => x.Country,
             nameof(Brand.YearFrom) => x => x.YearFrom,
-            nameof(Brand.YearTo) => x => x.YearTo,
+            nameof(Brand.YearTo) => x => x.YearTo ?? DateTime.UtcNow.Year,
             _ => x => x.Id
         };
     }

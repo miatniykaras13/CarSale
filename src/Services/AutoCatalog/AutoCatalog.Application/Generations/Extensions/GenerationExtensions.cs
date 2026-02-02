@@ -10,6 +10,17 @@ public static class GenerationExtensions
 {
     public static IQueryable<Generation> Filter(this IQueryable<Generation> query, GenerationFilter filter)
     {
+        if (filter.ModelId is not null)
+            query = query.Where(x => x.ModelId == filter.ModelId);
+
+        if (!string.IsNullOrEmpty(filter.ModelName))
+            query = query.Where(x => x.Model.Name.ToLower().Equals(filter.ModelName.ToLower()));
+
+        if (filter.YearFrom.HasValue)
+            query = query.Where(x => x.YearFrom >= filter.YearFrom);
+
+        if (filter.YearTo.HasValue)
+            query = query.Where(x => (x.YearTo ?? DateTime.UtcNow.Year) <= filter.YearTo);
         return query;
     }
 

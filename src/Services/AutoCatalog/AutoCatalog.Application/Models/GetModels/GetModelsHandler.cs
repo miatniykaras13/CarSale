@@ -1,4 +1,5 @@
 ﻿using AutoCatalog.Application.Abstractions;
+using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;

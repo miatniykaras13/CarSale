@@ -14,6 +14,7 @@ public class DenyAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPost("/ads/{adId:guid}/deny", async (
+                HttpContext context,
                 [FromRoute] Guid adId,
                 [FromBody] ModerationResultDto moderationResultDto,
                 ClaimsPrincipal user,
@@ -30,7 +31,7 @@ public class DenyAd : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok();
             })

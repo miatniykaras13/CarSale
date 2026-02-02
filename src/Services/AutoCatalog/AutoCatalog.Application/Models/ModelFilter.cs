@@ -1,5 +1,3 @@
 ﻿namespace AutoCatalog.Application.Models;
 
-public class ModelFilter
-{
-}
+public record ModelFilter(int? BrandId, string? BrandName);

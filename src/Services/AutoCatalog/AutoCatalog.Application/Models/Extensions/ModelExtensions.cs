@@ -10,18 +10,21 @@ public static class ModelExtensions
 {
     public static IQueryable<Model> Filter(this IQueryable<Model> query, ModelFilter filter)
     {
+        if (filter.BrandId is not null)
+            query = query.Where(x => x.BrandId == filter.BrandId);
+
+        if (!string.IsNullOrEmpty(filter.BrandName))
+            query = query.Where(x => x.Brand.Name.ToLower().Equals(filter.BrandName.ToLower()));
         return query;
     }
 
     public static IQueryable<Model> Page(this IQueryable<Model> query, PageParameters pageParameters) =>
         query.Skip((pageParameters.PageNumber - 1) * pageParameters.PageSize).Take(pageParameters.PageSize);
 
-
     public static IQueryable<Model> Sort(this IQueryable<Model> query, SortParameters sortParameters) =>
         sortParameters.Direction == SortDirection.ASCENDING
             ? query.OrderBy(GetKeySelector(sortParameters.OrderBy))
             : query.OrderByDescending(GetKeySelector(sortParameters.OrderBy));
-
 
     private static Expression<Func<Model, object>> GetKeySelector(string? orderBy)
     {

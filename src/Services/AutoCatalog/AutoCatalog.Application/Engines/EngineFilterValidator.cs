@@ -1,6 +1,4 @@
-﻿using AutoCatalog.Domain.Enums;
-
-namespace AutoCatalog.Application.Engines;
+﻿namespace AutoCatalog.Application.Engines;
 
 public class EngineFilterValidator : AbstractValidator<EngineFilter>
 {
@@ -8,9 +6,6 @@ public class EngineFilterValidator : AbstractValidator<EngineFilter>
     {
         RuleFor(x => x.HorsePower)
             .GreaterThan(0).WithMessage("Horse power must be greater than zero");
-
-        RuleForEach(x => x.FuelType)
-            .IsInEnum().WithMessage("Fuel type is invalid");
 
         RuleFor(x => x.TorqueNm)
             .GreaterThan(0).WithMessage("Torque must be greater than zero");

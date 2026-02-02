@@ -16,6 +16,7 @@ public class GetModelsEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/models", async (
+                HttpContext context,
                 [AsParameters] ModelFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -25,7 +26,7 @@ public class GetModelsEndpoint : ICarterModule
             var result = await sender.Send(new GetModelsQuery(filter, sortParameters, pageParameters), ct);
 
             if (result.IsFailure)
-                return result.ToResponse();
+                return result.Error.ToResponse(context);
 
             var response = result.Value.Adapt<List<GetModelResponse>>();
             return Results.Ok(response);
