@@ -1,6 +1,6 @@
 ﻿using AutoCatalog.Application.AutoDriveTypes.UpdateDriveType;
 
-namespace AutoCatalog.Application.BodyTypes.UpdateBodyType;
+namespace AutoCatalog.Application.FuelTypes.UpdateFuelType;
 
 public class UpdateFuelTypeCommandValidator : AbstractValidator<UpdateDriveTypeCommand>
 {

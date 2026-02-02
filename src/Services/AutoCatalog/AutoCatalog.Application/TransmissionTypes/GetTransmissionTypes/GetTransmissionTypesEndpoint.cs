@@ -16,6 +16,7 @@ public class GetTransmissionTypesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/transmission-types", async (
+                HttpContext context,
                 [AsParameters] TransmissionTypeFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -25,7 +26,7 @@ public class GetTransmissionTypesEndpoint : ICarterModule
                 var result = await sender.Send(new GetTransmissionTypesQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 var response = result.Value.Adapt<List<GetTransmissionTypesResponse>>();
                 return Results.Ok(response);

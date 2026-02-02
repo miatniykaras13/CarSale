@@ -16,6 +16,7 @@ public class GetFuelTypesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/fuel-types", async (
+                HttpContext context,
                 [AsParameters] FuelTypeFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -25,7 +26,7 @@ public class GetFuelTypesEndpoint : ICarterModule
                 var result = await sender.Send(new GetFuelTypesQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 var response = result.Value.Adapt<List<GetFuelTypesResponse>>();
                 return Results.Ok(response);

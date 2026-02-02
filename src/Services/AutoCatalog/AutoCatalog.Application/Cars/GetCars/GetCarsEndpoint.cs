@@ -19,6 +19,7 @@ public class GetCarsEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/cars", async (
+                HttpContext context,
                 [AsParameters] CarFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -28,7 +29,7 @@ public class GetCarsEndpoint : ICarterModule
                 var result = await sender.Send(new GetCarsQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
                 var response = result.Value;
                 return Results.Ok(response);
             })

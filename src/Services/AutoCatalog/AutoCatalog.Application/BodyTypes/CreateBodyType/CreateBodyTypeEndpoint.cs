@@ -16,6 +16,7 @@ public class CreateBodyTypeEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/body-types", async (
+                HttpContext context,
                 CreateBodyTypeRequest request,
                 ISender sender,
                 CancellationToken ct = default) =>
@@ -25,7 +26,7 @@ public class CreateBodyTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateBodyTypeResponse response = new(result.Value);
                 return Results.Created($"/body-types/{response.Id}", response);

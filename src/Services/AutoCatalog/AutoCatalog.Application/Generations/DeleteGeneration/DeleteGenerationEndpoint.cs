@@ -13,17 +13,21 @@ public class DeleteGenerationsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/generations/{id:int}", async ([FromRoute] int id, ISender sender, CancellationToken ct = default) =>
+        app.MapDelete("/generations/{id:int}", async (
+                HttpContext context,
+                [FromRoute] int id,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var result = await sender.Send(new DeleteGenerationCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.NoContent();
             })
             .WithName("DeleteGeneration")
-            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()
             .WithTags("Generations")
             .WithOpenApi(op =>

@@ -15,6 +15,7 @@ public class UpdateImageEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPut("/cars/{id:guid}/image", async (
+                HttpContext context,
                 [FromRoute] Guid id,
                 IFormFile file,
                 ISender sender,
@@ -29,7 +30,7 @@ public class UpdateImageEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 UpdateImageResponse response = new(result.Value);
                 return Results.Ok(response);

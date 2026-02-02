@@ -17,6 +17,7 @@ public class UpdateBrandEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/brands/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 [FromBody] UpdateBrandRequest request,
                 ISender sender,
@@ -27,7 +28,7 @@ public class UpdateBrandEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok(new UpdateBrandResponse(result.Value));
             })

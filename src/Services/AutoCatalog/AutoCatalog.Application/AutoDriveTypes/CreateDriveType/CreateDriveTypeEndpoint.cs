@@ -15,14 +15,18 @@ public class CreateDriveTypeEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/drive-types", async (CreateDriveTypeRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/drive-types", async (
+                HttpContext context,
+                CreateDriveTypeRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateDriveTypeCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateDriveTypeResponse response = new(result.Value);
                 return Results.Created($"/drive-types/{response.Id}", response);

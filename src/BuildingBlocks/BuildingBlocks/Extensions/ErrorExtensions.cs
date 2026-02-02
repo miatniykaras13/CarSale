@@ -1,33 +1,36 @@
 ﻿using BuildingBlocks.Errors;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BuildingBlocks.Extensions;
 
 public static class ErrorExtensions
 {
-    public static IResult ToResponse(this Error error)
+    public static IResult ToResponse(this Error error, HttpContext context)
     {
-        return error.Type switch
+        (string Title, string? Detail, string Instance) details =
+            ("CustomError", error.Message, context.Request.Path);
+
+        var statusCode = error.Type switch
         {
-            ErrorType.VALIDATION => Results.BadRequest(error),
-            ErrorType.CONFLICT or ErrorType.DOMAIN => Results.Conflict(error),
-            ErrorType.INTERNAL => Results.InternalServerError(error),
-            ErrorType.NOT_FOUND => Results.NotFound(error),
-            ErrorType.FORBIDDEN => Results.Json(error, statusCode: StatusCodes.Status403Forbidden),
-            _ => Results.BadRequest(error)
+            ErrorType.VALIDATION => StatusCodes.Status400BadRequest,
+            ErrorType.CONFLICT or ErrorType.DOMAIN => StatusCodes.Status409Conflict,
+            ErrorType.INTERNAL => StatusCodes.Status500InternalServerError,
+            ErrorType.NOT_FOUND => StatusCodes.Status404NotFound,
+            ErrorType.FORBIDDEN => StatusCodes.Status403Forbidden,
+            _ => StatusCodes.Status400BadRequest
         };
+
+        var problemDetails = new ProblemDetails()
+        {
+            Title = details.Title, Detail = details.Detail, Instance = details.Instance, Status = statusCode,
+        };
+
+        problemDetails.Extensions.Add("errorCode", error.Code);
+        problemDetails.Extensions.Add("traceId", context.TraceIdentifier);
+
+        return Results.Problem(problemDetails);
     }
 
-    public static IResult ToResponse(this IList<Error> errors)
-    {
-        return errors[0].Type switch
-        {
-            ErrorType.VALIDATION => Results.BadRequest(errors),
-            ErrorType.CONFLICT or ErrorType.DOMAIN => Results.Conflict(errors),
-            ErrorType.INTERNAL => Results.InternalServerError(errors),
-            ErrorType.NOT_FOUND => Results.NotFound(errors),
-            ErrorType.FORBIDDEN => Results.Json(errors, statusCode: StatusCodes.Status403Forbidden),
-            _ => Results.BadRequest(errors)
-        };
-    }
+    public static IResult ToResponse(this IList<Error> errors, HttpContext context) => errors[0].ToResponse(context);
 }

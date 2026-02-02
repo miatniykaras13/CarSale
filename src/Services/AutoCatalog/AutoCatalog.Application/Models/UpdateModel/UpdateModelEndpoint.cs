@@ -16,6 +16,7 @@ public class UpdateModelEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/models/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 [FromBody] UpdateModelRequest request,
                 ISender sender,
@@ -26,7 +27,7 @@ public class UpdateModelEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.NoContent();
             })

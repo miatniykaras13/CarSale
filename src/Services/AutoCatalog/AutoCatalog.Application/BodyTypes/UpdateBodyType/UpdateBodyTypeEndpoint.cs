@@ -17,6 +17,7 @@ public class UpdateBodyTypeEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/body-types/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 [FromBody] UpdateBodyTypeRequest request,
                 ISender sender,
@@ -27,7 +28,7 @@ public class UpdateBodyTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok(new UpdateBodyTypeResponse(result.Value));
             })

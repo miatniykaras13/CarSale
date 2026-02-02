@@ -14,12 +14,16 @@ public class GetDriveTypeByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/drive-types/{id:int}", async ([FromRoute] int id, ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/drive-types/{id:int}", async (
+                HttpContext context,
+                [FromRoute] int id,
+                ISender sender,
+                CancellationToken ct = default) =>
         {
             var result = await sender.Send(new GetDriveTypeByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse();
+                return result.Error.ToResponse(context);
 
             var response = result.Value.Adapt<GetDriveTypeByIdResponse>();
             return Results.Ok(response);

@@ -1,6 +1,4 @@
-﻿using AutoCatalog.Application.FuelTypes.DeleteFuelType;
-
-namespace AutoCatalog.Application.BodyTypes.DeleteBodyType;
+﻿namespace AutoCatalog.Application.FuelTypes.DeleteFuelType;
 
 public class DeleteFuelTypeCommandValidator : AbstractValidator<DeleteFuelTypeCommand>
 {

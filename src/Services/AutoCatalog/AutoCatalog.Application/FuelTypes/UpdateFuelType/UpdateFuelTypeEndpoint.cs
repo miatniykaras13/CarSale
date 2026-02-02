@@ -17,6 +17,7 @@ public class UpdateFuelTypeEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/fuel-types/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 [FromBody] UpdateFuelTypeRequest request,
                 ISender sender,
@@ -27,7 +28,7 @@ public class UpdateFuelTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok(new UpdateFuelTypeResponse(result.Value));
             })

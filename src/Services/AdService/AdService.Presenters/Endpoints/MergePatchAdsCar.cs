@@ -14,6 +14,7 @@ public class MergePatchAdsCar : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPatch("/ads/{adId:guid}/car", async (
+                HttpContext context,
                 [FromRoute] Guid adId,
                 HttpRequest request,
                 ClaimsPrincipal user,
@@ -35,7 +36,7 @@ public class MergePatchAdsCar : ICarterModule
 
                 var result = await sender.Send(command, ct);
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
 
                 return Results.Ok();

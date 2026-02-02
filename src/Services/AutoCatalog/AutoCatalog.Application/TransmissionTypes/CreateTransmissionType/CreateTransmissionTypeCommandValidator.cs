@@ -1,7 +1,4 @@
-﻿using AutoCatalog.Application.FuelTypes.CreateFuelType;
-using AutoCatalog.Application.TransmissionTypes.CreateTransmissionType;
-
-namespace AutoCatalog.Application.BodyTypes.CreateBodyType;
+﻿namespace AutoCatalog.Application.TransmissionTypes.CreateTransmissionType;
 
 public class CreateTransmissionTypeCommandValidator : AbstractValidator<CreateTransmissionTypeCommand>
 {

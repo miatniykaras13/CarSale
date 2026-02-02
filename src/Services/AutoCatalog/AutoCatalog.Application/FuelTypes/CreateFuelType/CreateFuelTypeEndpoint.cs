@@ -16,6 +16,7 @@ public class CreateFuelTypeEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/fuel-types", async (
+                HttpContext context,
                 CreateFuelTypeRequest request,
                 ISender sender,
                 CancellationToken ct = default) =>
@@ -25,7 +26,7 @@ public class CreateFuelTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateFuelTypeResponse response = new(result.Value);
                 return Results.Created($"/fuel-types/{response.Id}", response);

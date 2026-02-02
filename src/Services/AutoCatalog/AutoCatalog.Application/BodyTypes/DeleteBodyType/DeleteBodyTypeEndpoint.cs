@@ -13,6 +13,7 @@ public class DeleteBodyTypesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete("/body-types/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 ISender sender,
                 CancellationToken ct = default) =>
@@ -20,12 +21,12 @@ public class DeleteBodyTypesEndpoint : ICarterModule
                 var result = await sender.Send(new DeleteBodyTypeCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.NoContent();
             })
             .WithName("DeleteBodyType")
-            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()
             .WithTags("BodyTypes")
             .WithOpenApi(op =>

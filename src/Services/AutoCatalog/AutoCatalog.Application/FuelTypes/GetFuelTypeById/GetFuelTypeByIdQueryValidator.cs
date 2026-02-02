@@ -1,6 +1,6 @@
 ﻿using AutoCatalog.Application.AutoDriveTypes.GetDriveTypeById;
 
-namespace AutoCatalog.Application.BodyTypes.GetBodyTypeById;
+namespace AutoCatalog.Application.FuelTypes.GetFuelTypeById;
 
 public class GetFuelTypeByIdQueryValidator : AbstractValidator<GetDriveTypeByIdQuery>
 {

@@ -12,6 +12,7 @@ public class PublishAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPost("/ads/{adId:guid}/publish", async (
+                HttpContext context,
                 [FromRoute] Guid adId,
                 ClaimsPrincipal user,
                 ISender sender,
@@ -27,7 +28,7 @@ public class PublishAd : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok();
             })

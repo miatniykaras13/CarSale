@@ -16,6 +16,7 @@ public class CreateTransmissionTypeEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPost("/transmission-types", async (
+                HttpContext context,
                 CreateTransmissionTypeRequest request,
                 ISender sender,
                 CancellationToken ct = default) =>
@@ -25,7 +26,7 @@ public class CreateTransmissionTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateTransmissionTypeResponse response = new(result.Value);
                 return Results.Created($"/transmission-types/{response.Id}", response);

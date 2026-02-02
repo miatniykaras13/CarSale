@@ -29,12 +29,16 @@ public class GetCarByIdEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapGet("/cars/{id:guid}", async ([FromRoute] Guid id, ISender sender, CancellationToken ct = default) =>
+        app.MapGet("/cars/{id:guid}", async (
+                HttpContext context,
+                [FromRoute] Guid id,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var result = await sender.Send(new GetCarByIdQuery(id), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 var response = result.Value.Adapt<GetCarResponse>();
                 return Results.Ok(response);

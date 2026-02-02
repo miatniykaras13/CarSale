@@ -15,6 +15,7 @@ public class GetBodyTypeByIdEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/body-types/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 ISender sender,
                 CancellationToken ct = default) =>
@@ -22,7 +23,7 @@ public class GetBodyTypeByIdEndpoint : ICarterModule
             var result = await sender.Send(new GetBodyTypeByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse();
+                return result.Error.ToResponse(context);
 
             var response = result.Value.Adapt<GetBodyTypeByIdResponse>();
             return Results.Ok(response);

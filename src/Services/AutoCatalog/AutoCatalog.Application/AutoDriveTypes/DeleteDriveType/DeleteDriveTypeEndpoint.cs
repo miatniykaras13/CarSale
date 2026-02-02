@@ -13,6 +13,7 @@ public class DeleteDriveTypesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapDelete("/drive-types/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 ISender sender,
                 CancellationToken ct = default) =>
@@ -20,12 +21,12 @@ public class DeleteDriveTypesEndpoint : ICarterModule
                 var result = await sender.Send(new DeleteDriveTypeCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.NoContent();
             })
             .WithName("DeleteDriveType")
-            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()
             .WithTags("DriveTypes")
             .WithOpenApi(op =>

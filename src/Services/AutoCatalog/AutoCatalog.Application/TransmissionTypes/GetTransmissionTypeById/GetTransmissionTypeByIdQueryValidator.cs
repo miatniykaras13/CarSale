@@ -1,6 +1,6 @@
 ﻿using AutoCatalog.Application.AutoDriveTypes.GetDriveTypeById;
 
-namespace AutoCatalog.Application.BodyTypes.GetBodyTypeById;
+namespace AutoCatalog.Application.TransmissionTypes.GetTransmissionTypeById;
 
 public class GetTransmissionTypeByIdQueryValidator : AbstractValidator<GetDriveTypeByIdQuery>
 {

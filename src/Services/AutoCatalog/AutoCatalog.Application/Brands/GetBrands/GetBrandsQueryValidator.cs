@@ -1,13 +1,13 @@
 ﻿using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
 
-namespace AutoCatalog.Application.Cars.GetCars;
+namespace AutoCatalog.Application.Brands.GetBrands;
 
-public class GetCarsQueryValidator : AbstractValidator<GetCarsQuery>
+public class GetBrandsQueryValidator : AbstractValidator<GetBrandsQuery>
 {
-    public GetCarsQueryValidator()
+    public GetBrandsQueryValidator()
     {
-        RuleFor(x => x.Filter).SetValidator(new CarFilterValidator());
+        RuleFor(x => x.Filter).SetValidator(new BrandFilterValidator());
         RuleFor(x => x.PageParameters).SetValidator(new PageParametersValidator());
         RuleFor(x => x.SortParameters).SetValidator(new SortParametersValidator());
     }

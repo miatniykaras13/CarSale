@@ -15,14 +15,18 @@ public class CreateModelEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/models", async (CreateModelRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/models", async (
+                HttpContext context,
+                CreateModelRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateModelCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateModelResponse response = new(result.Value);
                 return Results.Created($"/models/{response.Id}", response);

@@ -12,17 +12,21 @@ public class DeleteBrandsEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapDelete("/brands/{id:int}", async ([FromRoute] int id, ISender sender, CancellationToken ct = default) =>
+        app.MapDelete("/brands/{id:int}", async (
+                HttpContext context,
+                [FromRoute] int id,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var result = await sender.Send(new DeleteBrandCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.NoContent();
             })
             .WithName("DeleteBrand")
-            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()
             .WithTags("Brands")
             .WithOpenApi(op =>

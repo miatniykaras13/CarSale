@@ -16,6 +16,7 @@ public class GetBodyTypesEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapGet("/body-types", async (
+                HttpContext context,
                 [AsParameters] BodyTypeFilter filter,
                 [AsParameters] SortParameters sortParameters,
                 [AsParameters] PageParameters pageParameters,
@@ -25,7 +26,7 @@ public class GetBodyTypesEndpoint : ICarterModule
                 var result = await sender.Send(new GetBodyTypesQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 var response = result.Value.Adapt<List<GetBodyTypesResponse>>();
                 return Results.Ok(response);

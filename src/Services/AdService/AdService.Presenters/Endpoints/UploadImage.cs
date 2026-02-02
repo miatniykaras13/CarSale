@@ -15,6 +15,7 @@ public class UploadImage : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPost("/ads/{adId:guid}/images", async (
+                HttpContext context,
                 [FromRoute] Guid adId,
                 IFormFile file,
                 ClaimsPrincipal user,
@@ -31,7 +32,7 @@ public class UploadImage : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok(result.Value);
             })

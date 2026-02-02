@@ -15,14 +15,18 @@ public class CreateGenerationEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/generations", async (CreateGenerationRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/generations", async (
+                HttpContext context,
+                CreateGenerationRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateGenerationCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateGenerationResponse response = new(result.Value);
                 return Results.Created($"/generations/{response.Id}", response);

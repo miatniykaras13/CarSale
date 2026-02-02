@@ -17,6 +17,7 @@ public class UpdateDriveTypeEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/drive-types/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 [FromBody] UpdateDriveTypeRequest request,
                 ISender sender,
@@ -27,7 +28,7 @@ public class UpdateDriveTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok(new UpdateDriveTypeResponse(result.Value));
             })

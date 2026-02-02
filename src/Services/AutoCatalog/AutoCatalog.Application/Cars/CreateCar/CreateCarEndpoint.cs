@@ -26,14 +26,18 @@ public record CreateCarResponse(Guid Id);
 public class CreateCarEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/cars", async (CreateCarRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/cars", async (
+                HttpContext context,
+                CreateCarRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateCarCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateCarResponse response = new(result.Value);
                 return Results.Created($"/cars/{response.Id}", response);

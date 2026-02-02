@@ -29,6 +29,7 @@ public class UpdateCarEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapPut("/car/{id:guid}", async (
+                HttpContext context,
                 [FromRoute] Guid id,
                 [FromBody] UpdateCarRequest request,
                 ISender sender,
@@ -51,7 +52,7 @@ public class UpdateCarEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 UpdateCarResponse response = new(result.Value);
                 return Results.Ok(response);

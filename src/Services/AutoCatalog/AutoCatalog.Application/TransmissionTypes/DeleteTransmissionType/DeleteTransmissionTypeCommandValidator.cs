@@ -1,6 +1,4 @@
-﻿using AutoCatalog.Application.TransmissionTypes.DeleteTransmissionType;
-
-namespace AutoCatalog.Application.BodyTypes.DeleteBodyType;
+﻿namespace AutoCatalog.Application.TransmissionTypes.DeleteTransmissionType;
 
 public class DeleteTransmissionTypeCommandValidator : AbstractValidator<DeleteTransmissionTypeCommand>
 {

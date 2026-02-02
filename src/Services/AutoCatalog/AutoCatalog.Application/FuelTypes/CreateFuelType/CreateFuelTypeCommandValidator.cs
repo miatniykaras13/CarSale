@@ -1,6 +1,4 @@
-﻿using AutoCatalog.Application.FuelTypes.CreateFuelType;
-
-namespace AutoCatalog.Application.BodyTypes.CreateBodyType;
+﻿namespace AutoCatalog.Application.FuelTypes.CreateFuelType;
 
 public class CreateFuelTypeCommandValidator : AbstractValidator<CreateFuelTypeCommand>
 {

@@ -20,14 +20,18 @@ public class CreateEngineEndpoint : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
     {
-        app.MapPost("/engines", async (CreateEngineRequest request, ISender sender, CancellationToken ct = default) =>
+        app.MapPost("/engines", async (
+                HttpContext context,
+                CreateEngineRequest request,
+                ISender sender,
+                CancellationToken ct = default) =>
             {
                 var command = request.Adapt<CreateEngineCommand>();
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 CreateEngineResponse response = new(result.Value);
                 return Results.Created($"/engines/{response.Id}", response);

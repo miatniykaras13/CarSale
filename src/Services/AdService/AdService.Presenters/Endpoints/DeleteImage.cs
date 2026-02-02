@@ -13,6 +13,7 @@ public class DeleteImage : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
         app.MapDelete("/ads/{adId:guid}/images/{imageId:guid}", async (
+                HttpContext context,
                 [FromRoute] Guid adId,
                 [FromRoute] Guid imageId,
                 ClaimsPrincipal user,
@@ -29,7 +30,7 @@ public class DeleteImage : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 return Results.Ok();
             })

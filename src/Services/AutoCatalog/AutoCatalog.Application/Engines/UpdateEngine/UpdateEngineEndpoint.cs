@@ -23,6 +23,7 @@ public class UpdateEngineEndpoint : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         app.MapPut("/engines/{id:int}", async (
+                HttpContext context,
                 [FromRoute] int id,
                 [FromBody] UpdateEngineRequest request,
                 ISender sender,
@@ -40,7 +41,7 @@ public class UpdateEngineEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.ToResponse();
+                    return result.Error.ToResponse(context);
 
                 UpdateEngineResponse response = new(result.Value);
 
