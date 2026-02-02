@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.TransmissionTypes;
+using AutoCatalog.Application.TransmissionTypes.Extensions;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -30,7 +31,12 @@ public class TransmissionTypesRepository(AppDbContext context) : ITransmissionTy
         PageParameters pageParameters,
         CancellationToken cancellationToken = default)
     {
-        var transmissionTypes = await context.TransmissionTypes.AsNoTracking().ToListAsync(cancellationToken);
+        var transmissionTypes = await context.TransmissionTypes
+            .AsNoTracking()
+            .Filter(transmissionTypeFilter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<TransmissionType>, Error>(transmissionTypes);
     }
 

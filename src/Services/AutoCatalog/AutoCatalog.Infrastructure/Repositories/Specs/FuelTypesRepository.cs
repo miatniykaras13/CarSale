@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.FuelTypes;
+using AutoCatalog.Application.FuelTypes.Extensions;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -28,7 +29,12 @@ public class FuelTypesRepository(AppDbContext context) : IFuelTypesRepository
         PageParameters pageParameters,
         CancellationToken cancellationToken = default)
     {
-        var fuelTypes = await context.FuelTypes.AsNoTracking().ToListAsync(cancellationToken);
+        var fuelTypes = await context.FuelTypes
+            .AsNoTracking()
+            .Filter(fuelTypeFilter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<FuelType>, Error>(fuelTypes);
     }
 

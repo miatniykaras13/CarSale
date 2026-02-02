@@ -1,5 +1,6 @@
 ﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.BodyTypes;
+using AutoCatalog.Application.BodyTypes.Extensions;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Application.Sorting;
@@ -29,6 +30,9 @@ public class BodyTypesRepository(AppDbContext context) : IBodyTypesRepository
     {
         var bodyTypes = await context.BodyTypes
             .AsNoTracking()
+            .Filter(bodyTypeFilter)
+            .Sort(sortParameters)
+            .Page(pageParameters)
             .ToListAsync(cancellationToken);
         return Result.Success<List<BodyType>, Error>(bodyTypes);
     }
