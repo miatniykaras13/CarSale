@@ -46,16 +46,6 @@ public static class DependencyInjection
                 o.MaxReceiveMessageSize = null;
                 o.MaxSendMessageSize = null;
                 o.HttpHandler = new SocketsHttpHandler { EnableMultipleHttp2Connections = true, };
-            })
-            .ConfigurePrimaryHttpMessageHandler(() =>
-            {
-                var handler = new HttpClientHandler
-                {
-                    ServerCertificateCustomValidationCallback =
-                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
-                };
-
-                return handler;
             });
         services.AddScoped<IFileStorage, MinioFileStorage>();
         return services;

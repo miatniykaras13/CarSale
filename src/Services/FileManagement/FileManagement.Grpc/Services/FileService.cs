@@ -46,7 +46,8 @@ public class FileService(
             fileSize,
             Path.GetExtension(fileName),
             DateTime.UtcNow,
-            contentType);
+            contentType,
+            bucketName);
 
         var putObjArgs = new PutObjectArgs()
             .WithBucket(bucketName)
@@ -86,6 +87,7 @@ public class FileService(
         string? sourceService = null;
         string? contentType = "application/octet-stream";
         string? fileName = null;
+        string? bucketName = null;
         long fileSize = 0;
         var ct = context.CancellationToken;
         var fileId = Guid.CreateVersion7();
@@ -114,6 +116,8 @@ public class FileService(
                     if (fileSize == 0 && chunk.FileSize > 0)
                         fileSize = chunk.FileSize;
 
+                    bucketName ??= DefineBucketName(sourceService);
+
                     var data = chunk.Chunk;
                     if (data is not null && data.Length > 0)
                     {
@@ -135,7 +139,6 @@ public class FileService(
 
                 await using var stream = pipe.Reader.AsStream(leaveOpen: false);
 
-                var bucketName = DefineBucketName(sourceService);
 
                 var objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
 
@@ -158,7 +161,8 @@ public class FileService(
                 fileSize,
                 Path.GetExtension(fileName)!,
                 DateTime.UtcNow,
-                contentType);
+                contentType,
+                bucketName!);
 
             await managementDbContext.Files.AddAsync(fileInfo, ct);
 
@@ -182,13 +186,13 @@ public class FileService(
     {
         var ct = context.CancellationToken;
 
+        string bucketName = DefineBucketName(request.SourceService);
+
         var fileInfo = await managementDbContext.Files.FindAsync(
             [Guid.Parse(request.FileId)], ct);
 
-        if (fileInfo is null)
+        if (fileInfo is null || bucketName != fileInfo.BucketName)
             throw new RpcException(new Status(StatusCode.NotFound, $"File with id {request.FileId} not found"));
-
-        string bucketName = DefineBucketName(request.SourceService);
 
         string fileName = $"{fileInfo.Name}{fileInfo.Extension}";
 
@@ -338,6 +342,7 @@ public class FileService(
             fileInfo.Extension,
             DateTime.UtcNow,
             fileInfo.ContentType,
+            bucketName,
             parentId: fileInfo.Id);
 
         var thumbnailObjectName = GenerateObjectName(
