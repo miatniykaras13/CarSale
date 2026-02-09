@@ -1,4 +1,5 @@
-﻿using AdService.Application.Abstractions.FileStorage;
+﻿using System.Net.Security;
+using AdService.Application.Abstractions.FileStorage;
 using FileManagement.Grpc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,19 +18,22 @@ public static class DependencyInjection
             {
                 o.MaxReceiveMessageSize = null;
                 o.MaxSendMessageSize = null;
-                o.HttpHandler = new SocketsHttpHandler { EnableMultipleHttp2Connections = true, };
             })
             .ConfigurePrimaryHttpMessageHandler(() =>
             {
-                var handler = new HttpClientHandler
+                var sockets = new SocketsHttpHandler
                 {
-                    ServerCertificateCustomValidationCallback =
-                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                    EnableMultipleHttp2Connections = true,
+                    SslOptions = new SslClientAuthenticationOptions
+                    {
+                        // делаю это, потому что не смог нормально настроить сертификаты
+                        #pragma warning disable CA5359
+                        RemoteCertificateValidationCallback = (sender, cert, chain, errors) => true,
+                        #pragma warning restore CA5359
+                    },
                 };
-
-                return handler;
+                return sockets;
             });
-        ;
         services.AddScoped<IFileStorage, MinioFileStorage>();
         return services;
     }

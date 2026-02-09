@@ -1,4 +1,5 @@
-﻿using AutoCatalog.Application.Abstractions.FileStorage;
+﻿using System.Net.Security;
+using AutoCatalog.Application.Abstractions.FileStorage;
 using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Infrastructure.FileStorage;
 using AutoCatalog.Infrastructure.Repositories.Specs;
@@ -45,7 +46,21 @@ public static class DependencyInjection
             {
                 o.MaxReceiveMessageSize = null;
                 o.MaxSendMessageSize = null;
-                o.HttpHandler = new SocketsHttpHandler { EnableMultipleHttp2Connections = true, };
+            })
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                var sockets = new SocketsHttpHandler
+                {
+                    EnableMultipleHttp2Connections = true,
+                    SslOptions = new SslClientAuthenticationOptions
+                    {
+                        // делаю это, потому что не смог нормально настроить сертификаты
+                        #pragma warning disable CA5359
+                        RemoteCertificateValidationCallback = (sender, cert, chain, errors) => true,
+                        #pragma warning restore CA5359
+                    },
+                };
+                return sockets;
             });
         services.AddScoped<IFileStorage, MinioFileStorage>();
         return services;

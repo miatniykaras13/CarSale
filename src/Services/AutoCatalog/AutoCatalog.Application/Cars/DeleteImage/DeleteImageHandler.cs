@@ -24,7 +24,9 @@ public class DeleteImageCommandHandler(
                 "Cannot delete car's image, because image id is null."));
         }
 
-        await fileStorage.DeleteFileAsync(car.PhotoId.Value, ct);
+        var success = await fileStorage.DeleteFileAsync(car.PhotoId.Value, ct);
+
+        if (success) car.PhotoId = null;
 
         await carsRepository.UpdateAsync(carResult.Value, ct);
 

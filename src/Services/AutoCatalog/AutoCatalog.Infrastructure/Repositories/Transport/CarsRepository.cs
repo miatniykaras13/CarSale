@@ -12,7 +12,16 @@ public class CarsRepository(AppDbContext context) : ICarsRepository
 {
     public async Task<Result<Car, Error>> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        var car = await context.Cars.FindAsync([id], cancellationToken);
+        var car = await context.Cars
+            .AsNoTracking()
+            .Include(c => c.Brand)
+            .Include(c => c.Model)
+            .Include(c => c.Generation)
+            .Include(c => c.Engine).ThenInclude(e => e.FuelType)
+            .Include(c => c.TransmissionType)
+            .Include(c => c.DriveType)
+            .Include(c => c.BodyType)
+            .FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
         if (car == null)
         {
             return Result.Failure<Car, Error>(Error.NotFound(

@@ -11,19 +11,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Cars.GetCarById;
 
-public record GetCarByIdResponse(
-    Guid Id,
-    BrandDto Brand,
-    ModelDto Model,
-    GenerationDto Generation,
-    EngineDto Engine,
-    TransmissionTypeDto TransmissionType,
-    AutoDriveTypeDto DriveType,
-    string PhotoUrl,
-    float Consumption,
-    float Acceleration,
-    int FuelTankCapacity,
-    DimensionsDto Dimensions);
+
 
 public class GetCarByIdEndpoint : ICarterModule
 {
@@ -40,11 +28,11 @@ public class GetCarByIdEndpoint : ICarterModule
                 if (result.IsFailure)
                     return result.Error.ToResponse(context);
 
-                var response = result.Value.Adapt<GetCarResponse>();
-                return Results.Ok(response);
+                var car = result.Value;
+                return Results.Ok(car);
             })
             .WithName("GetCarById")
-            .Produces<GetCarByIdResponse>(StatusCodes.Status200OK)
+            .Produces<CarDto>(StatusCodes.Status200OK)
             .ProducesGetProblems()
             .WithTags("Cars")
             .WithOpenApi(op =>
