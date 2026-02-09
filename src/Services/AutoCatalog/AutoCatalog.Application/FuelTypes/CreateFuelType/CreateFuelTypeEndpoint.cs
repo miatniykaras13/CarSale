@@ -26,7 +26,7 @@ public class CreateFuelTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateFuelTypeResponse response = new(result.Value);
                 return Results.Created($"/fuel-types/{response.Id}", response);

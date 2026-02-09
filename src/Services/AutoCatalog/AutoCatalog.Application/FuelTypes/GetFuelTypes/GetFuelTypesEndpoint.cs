@@ -26,7 +26,7 @@ public class GetFuelTypesEndpoint : ICarterModule
                 var result = await sender.Send(new GetFuelTypesQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 var response = result.Value.Adapt<List<GetFuelTypesResponse>>();
                 return Results.Ok(response);

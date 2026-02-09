@@ -1,15 +1,41 @@
-﻿using AdService.Application.Abstractions.AutoCatalog;
+﻿using System.Net.Http.Json;
+using System.Text.Json;
+using AdService.Application.Abstractions.AutoCatalog;
 using AdService.Contracts.AutoCatalog;
+using AdService.Infrastructure.AutoCatalog.Options;
 using BuildingBlocks.Errors;
+using BuildingBlocks.Extensions;
 using CSharpFunctionalExtensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace AdService.Infrastructure.AutoCatalog;
 
-public class AutoCatalogClient : IAutoCatalogClient
+public class AutoCatalogClient(IOptions<AutoCatalogOptions> options, HttpClient httpClient) : IAutoCatalogClient
 {
+    private readonly Uri _baseAddress = new(
+        options.Value.Endpoint ??
+        throw new InvalidDataException("Auto catalog endpoint is missing"));
+
+    private readonly JsonSerializerOptions _jsonSerializerOptions = JsonSerializerOptions.Web;
+
     public async Task<Result<BrandDto, Error>> GetBrandByIdAsync(int brandId, CancellationToken ct = default)
     {
-        return Result.Success<BrandDto, Error>(new BrandDto(1, "Volkswagen"));
+        var response = await httpClient.GetAsync($"{_baseAddress}brands/{brandId}", ct);
+        if (!response.IsSuccessStatusCode)
+        {
+            var problemDetails =
+                await response.Content.ReadFromJsonAsync<ProblemDetails>(_jsonSerializerOptions, ct) ??
+                throw new InvalidDataException("Serialized problem details are invalid");
+            return Result.Failure<BrandDto, Error>(problemDetails.ToError());
+        }
+
+        var brandJson = await response.Content.ReadAsStringAsync(ct);
+
+        var brandDto = JsonSerializer.Deserialize<BrandDto>(brandJson, _jsonSerializerOptions) ??
+                       throw new JsonException("Failed to deserialize brand dto");
+
+        return brandDto;
     }
 
     public async Task<Result<ModelDto, Error>> GetModelByIdAsync(int modelId, CancellationToken ct = default)
@@ -24,7 +50,8 @@ public class AutoCatalogClient : IAutoCatalogClient
 
     public async Task<Result<EngineDto, Error>> GetEngineByIdAsync(int engineId, CancellationToken ct = default)
     {
-        return Result.Success<EngineDto, Error>(new EngineDto(4, 3, "1.9 TDI", new FuelTypeDto(1, "Diesel"), 1.9f, 90, 880));
+        return Result.Success<EngineDto, Error>(new EngineDto(4, 3, "1.9 TDI", new FuelTypeDto(1, "Diesel"), 1.9f, 90,
+            880));
     }
 
     public async Task<Result<TransmissionTypeDto, Error>> GetTransmissionTypeByIdAsync(
@@ -58,6 +85,5 @@ public class AutoCatalogClient : IAutoCatalogClient
         CancellationToken ct = default)
     {
         return Result.Success<FuelTypeDto, Error>(new FuelTypeDto(1, "Diesel"));
-
     }
 }

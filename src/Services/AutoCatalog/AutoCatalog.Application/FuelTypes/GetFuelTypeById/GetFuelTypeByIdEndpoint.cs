@@ -23,7 +23,7 @@ public class GetFuelTypeByIdEndpoint : ICarterModule
             var result = await sender.Send(new GetFuelTypeByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse(context);
+                return result.Error.ToProblemDetails(context);
 
             var response = result.Value.Adapt<GetFuelTypeByIdResponse>();
             return Results.Ok(response);

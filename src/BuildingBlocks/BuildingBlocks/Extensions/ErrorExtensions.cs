@@ -6,7 +6,7 @@ namespace BuildingBlocks.Extensions;
 
 public static class ErrorExtensions
 {
-    public static IResult ToResponse(this Error error, HttpContext context)
+    public static IResult ToProblemDetails(this Error error, HttpContext context)
     {
         (string Title, string? Detail, string Instance) details =
             ("CustomError", error.Message, context.Request.Path);
@@ -18,7 +18,7 @@ public static class ErrorExtensions
             ErrorType.INTERNAL => StatusCodes.Status500InternalServerError,
             ErrorType.NOT_FOUND => StatusCodes.Status404NotFound,
             ErrorType.FORBIDDEN => StatusCodes.Status403Forbidden,
-            _ => StatusCodes.Status400BadRequest
+            _ => StatusCodes.Status500InternalServerError
         };
 
         var problemDetails = new ProblemDetails()
@@ -32,5 +32,5 @@ public static class ErrorExtensions
         return Results.Problem(problemDetails);
     }
 
-    public static IResult ToResponse(this IList<Error> errors, HttpContext context) => errors[0].ToResponse(context);
+    public static IResult ToProblemDetails(this IList<Error> errors, HttpContext context) => errors[0].ToProblemDetails(context);
 }

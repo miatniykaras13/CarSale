@@ -26,7 +26,7 @@ public class CreateDriveTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateDriveTypeResponse response = new(result.Value);
                 return Results.Created($"/drive-types/{response.Id}", response);

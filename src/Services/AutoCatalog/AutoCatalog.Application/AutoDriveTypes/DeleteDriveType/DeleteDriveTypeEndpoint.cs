@@ -21,7 +21,7 @@ public class DeleteDriveTypesEndpoint : ICarterModule
                 var result = await sender.Send(new DeleteDriveTypeCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 return Results.NoContent();
             })

@@ -32,7 +32,7 @@ public class GetEngineByIdEndpoint : ICarterModule
             var result = await sender.Send(new GetEngineByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse(context);
+                return result.Error.ToProblemDetails(context);
 
             var response = result.Value.Adapt<GetEngineResponse>();
             return Results.Ok(response);

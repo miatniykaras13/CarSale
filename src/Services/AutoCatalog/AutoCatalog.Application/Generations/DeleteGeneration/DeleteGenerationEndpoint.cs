@@ -22,7 +22,7 @@ public class DeleteGenerationsEndpoint : ICarterModule
                 var result = await sender.Send(new DeleteGenerationCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 return Results.NoContent();
             })

@@ -34,7 +34,7 @@ public class GetEnginesEndpoint : ICarterModule
             var result = await sender.Send(new GetEnginesQuery(filter, sortParameters, pageParameters), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse(context);
+                return result.Error.ToProblemDetails(context);
 
             var response = result.Value.Adapt<List<GetEngineResponse>>();
             return Results.Ok(response);

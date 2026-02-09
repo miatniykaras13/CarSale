@@ -31,7 +31,7 @@ public class CreateEngineEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateEngineResponse response = new(result.Value);
                 return Results.Created($"/engines/{response.Id}", response);

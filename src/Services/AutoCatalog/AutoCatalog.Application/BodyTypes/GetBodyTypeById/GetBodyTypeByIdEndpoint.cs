@@ -23,7 +23,7 @@ public class GetBodyTypeByIdEndpoint : ICarterModule
             var result = await sender.Send(new GetBodyTypeByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse(context);
+                return result.Error.ToProblemDetails(context);
 
             var response = result.Value.Adapt<GetBodyTypeByIdResponse>();
             return Results.Ok(response);
