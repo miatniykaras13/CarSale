@@ -31,6 +31,7 @@ public class UpdateModelEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateModel")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

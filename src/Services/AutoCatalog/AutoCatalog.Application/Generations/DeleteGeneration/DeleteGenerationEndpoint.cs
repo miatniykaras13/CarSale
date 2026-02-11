@@ -26,6 +26,7 @@ public class DeleteGenerationsEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteGeneration")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

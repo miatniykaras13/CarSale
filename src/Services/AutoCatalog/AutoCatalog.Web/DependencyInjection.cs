@@ -35,19 +35,18 @@ public static class DependencyInjection
                 o.RequireHttpsMetadata = false;
                 o.Audience = configuration["Authentication:Audience"];
                 o.MetadataAddress = configuration["Authentication:MetadataAddress"]!;
+                o.MapInboundClaims = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = configuration["Authentication:ValidIssuer"],
+                    RoleClaimType = "role", ValidIssuer = configuration["Authentication:ValidIssuer"],
                 };
             });
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminPolicy", policy =>
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminPolicy", policy =>
             {
-                policy.RequireClaim("roles", "autocatalog_admin");
+                policy.RequireRole("Admin");
             });
-        });
         return services;
     }
 
@@ -72,7 +71,9 @@ public static class DependencyInjection
                             TokenUrl = new Uri(configuration["Keycloak:TokenUrl"]!),
                             Scopes = new Dictionary<string, string>
                             {
-                                { "openid", "openid" }, { "profile", "profile" },
+                                { "openid", "openid" },
+                                { "profile", "profile" },
+                                { "autocatalog.FullAccess", "autocatalog.FullAccess" },
                             },
                         },
                     },
@@ -85,7 +86,7 @@ public static class DependencyInjection
                     {
                         Reference = new OpenApiReference { Id = "Keycloak", Type = ReferenceType.SecurityScheme },
                     },
-                    ["openid", "profile"]
+                    ["openid", "profile", "autocatalog.FullAccess"]
                 },
             };
 

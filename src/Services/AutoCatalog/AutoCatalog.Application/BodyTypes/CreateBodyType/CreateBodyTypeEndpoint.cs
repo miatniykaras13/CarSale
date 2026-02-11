@@ -31,6 +31,7 @@ public class CreateBodyTypeEndpoint : ICarterModule
                 CreateBodyTypeResponse response = new(result.Value);
                 return Results.Created($"/body-types/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateBodyType")
             .Produces<CreateBodyTypeResponse>(StatusCodes.Status201Created)
             .ProducesPostProblems()
