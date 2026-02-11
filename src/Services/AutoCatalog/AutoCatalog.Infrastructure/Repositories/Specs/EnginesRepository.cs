@@ -13,7 +13,9 @@ public class EnginesRepository(AppDbContext context) : IEnginesRepository
 {
     public async Task<Result<Engine, Error>> GetByIdAsync(int id, CancellationToken cancellationToken = default)
     {
-        var engine = await context.Engines.FindAsync([id], cancellationToken);
+        var engine = await context.Engines
+            .Include(x => x.FuelType)
+            .FirstOrDefaultAsync(e => e.Id == id, cancellationToken);
         if (engine == null)
         {
             return Result.Failure<Engine, Error>(Error.NotFound(

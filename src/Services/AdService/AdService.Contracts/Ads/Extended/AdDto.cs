@@ -7,14 +7,14 @@ namespace AdService.Contracts.Ads.Extended;
 
 public record AdDto(
     Guid AdId,
-    string Title,
+    string? Title,
     string? Description,
-    List<MoneyDto> Prices,
-    LocationDto Location,
+    IEnumerable<MoneyDto> Prices,
+    LocationDto? Location,
     int Views,
     AdStatus AdStatus,
-    SellerSnapshotDto Seller,
-    CarSnapshotDto Car,
+    SellerSnapshotDto? Seller,
+    CarSnapshotDto? Car,
     IEnumerable<string> ImageUrls,
     CommentDto? Comment,
     IEnumerable<CarOptionDto> CarOptions);

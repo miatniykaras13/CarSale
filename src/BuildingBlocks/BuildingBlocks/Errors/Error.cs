@@ -42,10 +42,11 @@ public class Error
     /// <summary>
     /// Represents internal server error
     /// </summary>
+    /// <param name="code">error code.</param>
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
-    public static Error Internal(string? message = null) =>
-        new($"internal_error", ErrorType.INTERNAL, message);
+    public static Error Internal(string? code = null, string? message = null) =>
+        new(code ?? $"internal_error", ErrorType.INTERNAL, message);
 
     /// <summary>
     /// Represents conflict error

@@ -18,7 +18,13 @@ public static class ProblemDetailsExtensions
             _ => ErrorType.INTERNAL
         };
 
-        var code = details.Extensions["errorCode"] as string ?? "unknown";
+        var code = "unknown";
+
+        if (details.Title?.Equals("CustomError", StringComparison.OrdinalIgnoreCase) == true)
+        {
+            code = details.Extensions["errorCode"]?.ToString() ?? code;
+        }
+
         var message = details.Detail;
 
         return Error.Custom(code, message, errorType);

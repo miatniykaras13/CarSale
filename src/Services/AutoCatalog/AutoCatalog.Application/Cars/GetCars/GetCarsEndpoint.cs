@@ -33,7 +33,6 @@ public class GetCarsEndpoint : ICarterModule
                 var response = result.Value;
                 return Results.Ok(response);
             })
-            .RequireAuthorization()
             .WithName("GetCars")
             .Produces<List<CarDto>>(StatusCodes.Status200OK)
             .ProducesGetProblems()

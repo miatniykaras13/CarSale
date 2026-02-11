@@ -1,5 +1,4 @@
 ﻿using AdService.Application.Abstractions.AutoCatalog;
-using AdService.Infrastructure.AutoCatalog.Options;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,8 +10,12 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddHttpClient<IAutoCatalogClient, AutoCatalogClient>();
-        services.Configure<AutoCatalogOptions>(configuration.GetSection("AutoCatalog"));
+        services.AddHttpClient<IAutoCatalogClient, AutoCatalogClient>((client) =>
+        {
+            client.BaseAddress = new Uri(configuration.GetValue<string>("AutoCatalog:Endpoint") ??
+                                         throw new InvalidOperationException(
+                                             "Configuration key 'AutoCatalog:Endpoint' is missing or empty."));
+        });
         return services;
     }
 }

@@ -2,7 +2,14 @@
 using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.Helpers;
 using AdService.Contracts.Ads.MergePatch;
-using AdService.Contracts.AutoCatalog;
+using AdService.Contracts.AutoCatalog.AutoDriveTypes;
+using AdService.Contracts.AutoCatalog.BodyTypes;
+using AdService.Contracts.AutoCatalog.Brands;
+using AdService.Contracts.AutoCatalog.Engines;
+using AdService.Contracts.AutoCatalog.FuelTypes;
+using AdService.Contracts.AutoCatalog.Generations;
+using AdService.Contracts.AutoCatalog.Models;
+using AdService.Contracts.AutoCatalog.TransmissionTypes;
 using AdService.Domain.ValueObjects;
 
 namespace AdService.Application.Commands.MergePatchAdsCar;
@@ -240,7 +247,8 @@ public class MergePatchAdsCarCommandHandler(
             engineDto is not null &&
             bodyDto is not null &&
             transmissionDto is not null &&
-            driveDto is not null)
+            driveDto is not null &&
+            carId is null)
         {
             var carIdResult = await autoCatalog.GetCarIdAsync(
                 brandDto.Id,
