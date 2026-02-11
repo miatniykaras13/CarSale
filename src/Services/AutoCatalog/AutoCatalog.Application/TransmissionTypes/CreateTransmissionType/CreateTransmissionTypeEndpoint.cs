@@ -26,7 +26,7 @@ public class CreateTransmissionTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateTransmissionTypeResponse response = new(result.Value);
                 return Results.Created($"/transmission-types/{response.Id}", response);

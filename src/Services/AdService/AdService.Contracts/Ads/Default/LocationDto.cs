@@ -1,3 +1,3 @@
 ﻿namespace AdService.Contracts.Ads.Default;
 
-public record LocationDto(string Region, string City);
+public record LocationDto(string? Region, string? City);

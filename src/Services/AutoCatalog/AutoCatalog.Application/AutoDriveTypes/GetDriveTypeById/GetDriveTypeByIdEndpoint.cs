@@ -23,7 +23,7 @@ public class GetDriveTypeByIdEndpoint : ICarterModule
             var result = await sender.Send(new GetDriveTypeByIdQuery(id), ct);
 
             if (result.IsFailure)
-                return result.Error.ToResponse(context);
+                return result.Error.ToProblemDetails(context);
 
             var response = result.Value.Adapt<GetDriveTypeByIdResponse>();
             return Results.Ok(response);

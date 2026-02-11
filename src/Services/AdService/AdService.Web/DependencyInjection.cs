@@ -26,7 +26,7 @@ public static class DependencyInjection
             .AddBackgroundServices()
             .AddFileStorage(configuration)
             .AddProfileServiceCommunication()
-            .AddAutoCatalogCommunication()
+            .AddAutoCatalogCommunication(configuration)
             .AddHybridCachingWithFusionAndRedis(configuration)
             .AddPresenters()
             .AddWeb()

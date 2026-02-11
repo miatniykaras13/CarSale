@@ -256,7 +256,7 @@ namespace AutoCatalog.Infrastructure.Migrations
                     b.Property<int>("ModelId")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("PhotoId")
+                    b.Property<Guid?>("PhotoId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("TransmissionTypeId")
@@ -264,9 +264,9 @@ namespace AutoCatalog.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BodyTypeId");
+                    b.HasAlternateKey("BrandId", "ModelId", "GenerationId", "EngineId", "BodyTypeId", "DriveTypeId", "TransmissionTypeId");
 
-                    b.HasIndex("BrandId");
+                    b.HasIndex("BodyTypeId");
 
                     b.HasIndex("DriveTypeId");
 

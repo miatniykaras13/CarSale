@@ -26,7 +26,7 @@ public class CreateBodyTypeEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateBodyTypeResponse response = new(result.Value);
                 return Results.Created($"/body-types/{response.Id}", response);

@@ -1,8 +1,9 @@
-﻿namespace AdService.Contracts.AutoCatalog;
+﻿using AdService.Contracts.AutoCatalog.FuelTypes;
+
+namespace AdService.Contracts.AutoCatalog.Cars;
 
 public record EngineDto(
     int Id,
-    int GenerationId,
     string Name,
     FuelTypeDto FuelType,
     float Volume,

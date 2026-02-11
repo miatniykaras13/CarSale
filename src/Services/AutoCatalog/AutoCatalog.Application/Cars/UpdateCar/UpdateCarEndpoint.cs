@@ -52,7 +52,7 @@ public class UpdateCarEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 UpdateCarResponse response = new(result.Value);
                 return Results.Ok(response);

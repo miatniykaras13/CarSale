@@ -30,13 +30,13 @@ public class MergePatchAdsCar : ICarterModule
                     await JsonSerializer.DeserializeAsync<JsonObject>(request.Body, JsonSerializerOptions.Web, ct);
 
                 if (patchObject is null || patchObject.GetType() != typeof(JsonObject))
-                    return Results.BadRequest(new { error = "Patch body must be a JSON object" });
+                    throw new InvalidOperationException("Patch body must be a JsonObject");
 
                 var command = new MergePatchAdsCarCommand(adId, patchObject, Guid.Parse(userId));
 
                 var result = await sender.Send(command, ct);
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
 
                 return Results.Ok();

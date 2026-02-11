@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using AdService.Application.Abstractions.Caching;
 using AdService.Infrastructure.Redis.Options;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;

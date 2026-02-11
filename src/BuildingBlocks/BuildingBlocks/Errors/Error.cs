@@ -27,7 +27,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Validation(string obj, string? message = null) =>
-        new Error($"{obj}.is_invalid", ErrorType.VALIDATION, message);
+        new($"{obj}.is_invalid", ErrorType.VALIDATION, message);
 
 
     /// <summary>
@@ -37,15 +37,16 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error NotFound(string obj, string? message = null) =>
-        new Error($"{obj}.not_found", ErrorType.NOT_FOUND, message);
+        new($"{obj}.not_found", ErrorType.NOT_FOUND, message);
 
     /// <summary>
     /// Represents internal server error
     /// </summary>
+    /// <param name="code">error code.</param>
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
-    public static Error Internal(string? message = null) =>
-        new Error($"internal_error", ErrorType.INTERNAL, message);
+    public static Error Internal(string? code = null, string? message = null) =>
+        new(code ?? $"internal_error", ErrorType.INTERNAL, message);
 
     /// <summary>
     /// Represents conflict error
@@ -54,7 +55,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Conflict(string obj, string? message = null) =>
-        new Error($"{obj}.is_conflict", ErrorType.CONFLICT, message);
+        new($"{obj}.is_conflict", ErrorType.CONFLICT, message);
 
     /// <summary>
     /// Represents unknown error
@@ -62,7 +63,7 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Unknown(string? message = null) =>
-        new Error($"unknown_error", ErrorType.UNKNOWN, message);
+        new($"unknown_error", ErrorType.UNKNOWN, message);
 
     /// <summary>
     /// Represents domain error. Error code should be fully entered
@@ -71,10 +72,13 @@ public class Error
     /// <param name="message">additional info.</param>
     /// <returns>Error.</returns>
     public static Error Domain(string code, string? message = null) =>
-        new Error(code, ErrorType.DOMAIN, message);
+        new(code, ErrorType.DOMAIN, message);
 
     public static Error Forbidden(string obj, string? message = null) =>
-        new Error($"{obj}.is_forbidden", ErrorType.FORBIDDEN, message);
+        new($"{obj}.is_forbidden", ErrorType.FORBIDDEN, message);
+
+    public static Error Custom(string code, string? message = null, ErrorType? errorType = null) =>
+        new(code, errorType ?? ErrorType.UNKNOWN, message);
 
     public static implicit operator List<Error>(Error error) => [error];
 }

@@ -27,7 +27,7 @@ public class CreateBrandEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateBrandResponse response = new(result.Value);
                 return Results.Created($"/brands/{response.Id}", response);

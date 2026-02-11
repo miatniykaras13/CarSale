@@ -39,16 +39,18 @@ public class GetAdByIdQueryHandler(
              (!userAuthorized || (userAuthorized && ad.Seller.SellerId != query.UserId!.Value))))
             return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {query.AdId} not found"));
 
-        var moneyTask = GetPriceDtos(ad.Price!, ct);
-        var imageTask = GetImageUrls(ad.Images, ct);
+        List<MoneyDto> moneyDtos = [];
 
-        await Task.WhenAll(moneyTask, imageTask);
+        if (ad.Price is not null)
+        {
+            var moneyResult = GetPriceDtos(ad.Price);
+            if (moneyResult.IsFailure)
+                return Result.Failure<AdDto, List<Error>>(moneyResult.Error);
+            moneyDtos = moneyResult.Value;
+        }
 
-        var moneyResult = await moneyTask;
-        var imageResult = await imageTask;
+        var imageResult = await GetImageUrls(ad.Images, ct);
 
-        if (moneyResult.IsFailure)
-            return Result.Failure<AdDto, List<Error>>(moneyResult.Error);
         if (imageResult.IsFailure)
             return Result.Failure<AdDto, List<Error>>(imageResult.Error);
 
@@ -60,45 +62,48 @@ public class GetAdByIdQueryHandler(
                     carOption.TechnicalName))
             .ToList();
 
-        var phoneNumberDto = new PhoneNumberDto(ad.Seller.PhoneNumber!.E164);
+        PhoneNumberDto? phoneNumberDto = null;
+        if (ad.Seller.PhoneNumber is not null)
+            phoneNumberDto = new PhoneNumberDto(ad.Seller.PhoneNumber!.E164);
 
         var sellerDto = new SellerSnapshotDto(ad.Seller.SellerId, ad.Seller.DisplayName, phoneNumberDto);
 
-        var adLocation = ad.Location!;
-        var locationDto = new LocationDto(adLocation.Region!, adLocation.City!);
+        LocationDto? locationDto = null;
+        if (ad.Location is not null)
+            locationDto = new LocationDto(ad.Location.Region, ad.Location.City!);
 
-        var adsCar = ad.Car!;
+        var adsCar = ad.Car;
 
-        var carSnapshotDto = new CarSnapshotDto(
-            adsCar.CarId!.Value,
-            new BrandSnapshotDto(
-                adsCar.Brand!.Id,
-                adsCar.Brand.Name),
-            new ModelSnapshotDto(
-                adsCar.Model!.Id,
-                adsCar.Model.Name),
-            new GenerationSnapshotDto(
-                adsCar.Generation!.Id,
-                adsCar.Generation.Name),
-            new EngineSnapshotDto(
-                adsCar.Engine!.Id,
-                adsCar.Engine.Name,
-                new FuelTypeSnapshotDto(adsCar.Engine.FuelType.Id, adsCar.Engine.FuelType.Name),
-                adsCar.Engine.HorsePower),
-            new AutoDriveTypeSnapshotDto(
-                adsCar.DriveType!.Id,
-                adsCar.DriveType.Name),
-            new TransmissionTypeSnapshotDto(
-                adsCar.TransmissionType!.Id,
-                adsCar.TransmissionType.Name),
-            new BodyTypeSnapshotDto(
-                adsCar.BodyType!.Id,
-                adsCar.BodyType.Name),
-            adsCar.Year!.Value,
-            adsCar.Consumption,
-            adsCar.Vin,
-            adsCar.Mileage,
-            adsCar.Color);
+        CarSnapshotDto? carSnapshotDto = null;
+
+        if (adsCar is not null)
+        {
+            carSnapshotDto = new CarSnapshotDto(
+                adsCar.CarId,
+                adsCar.Brand is not null ? new BrandSnapshotDto(adsCar.Brand.Id, adsCar.Brand.Name) : null,
+                adsCar.Model is not null ? new ModelSnapshotDto(adsCar.Model.Id, adsCar.Model.Name) : null,
+                adsCar.Generation is not null
+                    ? new GenerationSnapshotDto(adsCar.Generation.Id, adsCar.Generation.Name)
+                    : null,
+                adsCar.Engine is not null
+                    ? new EngineSnapshotDto(adsCar.Engine.Id, adsCar.Engine.Name,
+                        new FuelTypeSnapshotDto(adsCar.Engine.FuelType.Id, adsCar.Engine.FuelType.Name),
+                        adsCar.Engine.HorsePower)
+                    : null,
+                adsCar.DriveType is not null
+                    ? new AutoDriveTypeSnapshotDto(adsCar.DriveType.Id, adsCar.DriveType.Name)
+                    : null,
+                adsCar.TransmissionType is not null
+                    ? new TransmissionTypeSnapshotDto(adsCar.TransmissionType.Id, adsCar.TransmissionType.Name)
+                    : null,
+                adsCar.BodyType is not null ? new BodyTypeSnapshotDto(adsCar.BodyType.Id, adsCar.BodyType.Name) : null,
+                adsCar.Year,
+                adsCar.Consumption,
+                adsCar.Vin,
+                adsCar.Mileage,
+                adsCar.Color);
+        }
+
 
         CommentDto? commentDto = null;
         if (ad.Comment is not null)
@@ -106,9 +111,9 @@ public class GetAdByIdQueryHandler(
 
         adDto = new AdDto(
             ad.Id,
-            ad.Title!,
+            ad.Title,
             ad.Description,
-            moneyResult.Value,
+            moneyDtos,
             locationDto,
             ad.Views,
             ad.Status,
@@ -124,7 +129,7 @@ public class GetAdByIdQueryHandler(
         return adDto;
     }
 
-    private Task<Result<List<MoneyDto>, Error>> GetPriceDtos(Money price, CancellationToken ct)
+    private Result<List<MoneyDto>, Error> GetPriceDtos(Money price)
     {
         List<MoneyDto> priceInAllCurrenciesDtos = [];
 
@@ -137,7 +142,7 @@ public class GetAdByIdQueryHandler(
             var conversionFactorResult = Currency.GetConversionFactor(price.Currency.CurrencyCode, currency.Key);
 
             if (conversionFactorResult.IsFailure)
-                return Task.FromResult(Result.Failure<List<MoneyDto>, Error>(conversionFactorResult.Error));
+                return Result.Failure<List<MoneyDto>, Error>(conversionFactorResult.Error);
 
             var conversionFactor = conversionFactorResult.Value;
 
@@ -147,7 +152,7 @@ public class GetAdByIdQueryHandler(
             priceInAllCurrenciesDtos.Add(moneyDto);
         }
 
-        return Task.FromResult(Result.Success<List<MoneyDto>, Error>(priceInAllCurrenciesDtos));
+        return Result.Success<List<MoneyDto>, Error>(priceInAllCurrenciesDtos);
     }
 
     private async Task<Result<List<string>, Error>> GetImageUrls(IReadOnlyList<Guid> imageIds, CancellationToken ct)

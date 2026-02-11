@@ -31,7 +31,7 @@ public class DenyAd : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 return Results.Ok();
             })

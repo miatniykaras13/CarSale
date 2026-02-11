@@ -26,7 +26,7 @@ public class CreateModelEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateModelResponse response = new(result.Value);
                 return Results.Created($"/models/{response.Id}", response);

@@ -21,7 +21,7 @@ public class DeleteBodyTypesEndpoint : ICarterModule
                 var result = await sender.Send(new DeleteBodyTypeCommand(id), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 return Results.NoContent();
             })

@@ -26,7 +26,7 @@ public class GetCarByIdEndpoint : ICarterModule
                 var result = await sender.Send(new GetCarByIdQuery(id), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 var car = result.Value;
                 return Results.Ok(car);

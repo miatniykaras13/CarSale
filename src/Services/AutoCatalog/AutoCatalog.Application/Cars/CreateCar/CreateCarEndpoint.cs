@@ -37,7 +37,7 @@ public class CreateCarEndpoint : ICarterModule
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
 
                 CreateCarResponse response = new(result.Value);
                 return Results.Created($"/cars/{response.Id}", response);

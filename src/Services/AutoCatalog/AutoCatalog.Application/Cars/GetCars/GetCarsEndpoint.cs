@@ -29,11 +29,10 @@ public class GetCarsEndpoint : ICarterModule
                 var result = await sender.Send(new GetCarsQuery(filter, sortParameters, pageParameters), ct);
 
                 if (result.IsFailure)
-                    return result.Error.ToResponse(context);
+                    return result.Error.ToProblemDetails(context);
                 var response = result.Value;
                 return Results.Ok(response);
             })
-            .RequireAuthorization()
             .WithName("GetCars")
             .Produces<List<CarDto>>(StatusCodes.Status200OK)
             .ProducesGetProblems()

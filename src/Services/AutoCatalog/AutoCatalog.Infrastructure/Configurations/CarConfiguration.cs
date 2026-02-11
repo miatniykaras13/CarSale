@@ -42,5 +42,14 @@ public class CarConfiguration : IEntityTypeConfiguration<Car>
             .HasPrecision(18, 1);
 
         builder.OwnsOne(c => c.Dimensions);
+
+        builder.HasAlternateKey(
+            "BrandId",
+            "ModelId",
+            "GenerationId",
+            "EngineId",
+            "BodyTypeId",
+            "DriveTypeId",
+            "TransmissionTypeId");
     }
 }

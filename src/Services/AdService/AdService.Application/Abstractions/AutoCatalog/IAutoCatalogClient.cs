@@ -1,4 +1,12 @@
 ﻿using AdService.Contracts.AutoCatalog;
+using AdService.Contracts.AutoCatalog.AutoDriveTypes;
+using AdService.Contracts.AutoCatalog.BodyTypes;
+using AdService.Contracts.AutoCatalog.Brands;
+using AdService.Contracts.AutoCatalog.Engines;
+using AdService.Contracts.AutoCatalog.FuelTypes;
+using AdService.Contracts.AutoCatalog.Generations;
+using AdService.Contracts.AutoCatalog.Models;
+using AdService.Contracts.AutoCatalog.TransmissionTypes;
 using AdService.Domain.Enums;
 
 namespace AdService.Application.Abstractions.AutoCatalog;
@@ -25,12 +33,10 @@ public interface IAutoCatalogClient
         int transmissionId,
         CancellationToken ct = default);
 
-    Task<Result<AutoDriveTypeDto, Error>> GetAutoDriveTypeByIdAsync(
-        int autoDriveId,
+    Task<Result<AutoDriveTypeDto, Error>> GetAutoDriveTypeByIdAsync(int driveTypeId,
         CancellationToken ct = default);
 
-    Task<Result<BodyTypeDto, Error>> GetBodyTypeByIdAsync(
-        int bodyId,
+    Task<Result<BodyTypeDto, Error>> GetBodyTypeByIdAsync(int bodyTypeId,
         CancellationToken ct = default);
 
 
@@ -39,7 +45,7 @@ public interface IAutoCatalogClient
         int modelId,
         int generationId,
         int engineId,
-        int transmissionId,
+        int transmissionTypeId,
         int autoDriveTypeId,
         int bodyTypeId,
         CancellationToken ct = default);
