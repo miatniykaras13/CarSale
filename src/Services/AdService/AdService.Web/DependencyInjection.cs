@@ -52,13 +52,15 @@ public static class DependencyInjection
                 };
             });
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminPolicy", policy =>
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminPolicy", policy =>
             {
-                policy.RequireClaim("roles", "autocatalog_admin");
+                policy.RequireRole("adservice-admin");
+            })
+            .AddPolicy("ModeratorPolicy", policy =>
+            {
+                policy.RequireRole("adservice-admin", "adservice-moderator");
             });
-        });
         return services;
     }
 

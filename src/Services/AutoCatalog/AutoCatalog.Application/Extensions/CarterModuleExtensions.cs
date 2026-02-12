@@ -26,6 +26,7 @@ public static class CarterModuleExtensions
     public static RouteHandlerBuilder ProducesDeleteProblems(this RouteHandlerBuilder builder)
     {
         builder
+            .ProducesAuthorizationProblems()
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
         return builder;
@@ -34,9 +35,18 @@ public static class CarterModuleExtensions
     public static RouteHandlerBuilder ProducesUpdateProblems(this RouteHandlerBuilder builder)
     {
         builder
+            .ProducesAuthorizationProblems()
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .ProducesProblem(StatusCodes.Status404NotFound)
             .ProducesProblem(StatusCodes.Status500InternalServerError);
+        return builder;
+    }
+
+    public static RouteHandlerBuilder ProducesAuthorizationProblems(this RouteHandlerBuilder builder)
+    {
+        builder
+            .ProducesProblem(StatusCodes.Status401Unauthorized)
+            .ProducesProblem(StatusCodes.Status403Forbidden);
         return builder;
     }
 }
