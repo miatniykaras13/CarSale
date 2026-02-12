@@ -45,7 +45,7 @@ public static class DependencyInjection
         services.AddAuthorizationBuilder()
             .AddPolicy("AdminPolicy", policy =>
             {
-                policy.RequireRole("Admin");
+                policy.RequireRole("autocatalog-admin");
             });
         return services;
     }
