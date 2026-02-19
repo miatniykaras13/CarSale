@@ -22,6 +22,19 @@ services:
       - "5434:5432"
     volumes:
       - "ad-service-postgres:/var/lib/postgresql"
+
+
+  profileservicedb:
+    container_name: profileservicedb
+    restart: always
+    environment:
+      - POSTGRES_USER=${PROFILE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PROFILE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${PROFILE_POSTGRES_DB}
+    ports:
+      - "5435:5432"
+    volumes:
+      - profile-service-postgres-data:/var/lib/postgresql
   
   redis:
     container_name: redis
@@ -113,3 +126,4 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/
+

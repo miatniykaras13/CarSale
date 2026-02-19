@@ -29,16 +29,15 @@ services:
       context: .
       dockerfile: src/Services/FileManagement/FileManagement.Grpc/Dockerfile
       
-  profileservice.web:
-    image: profileservice.web
-    build:
-      context: .
-      dockerfile: src/Services/ProfileService/ProfileService.Web/Dockerfile
+  profileservicedb:
+    image: postgres
+
       
       
 volumes:
   auto-catalog-postgres:
   ad-service-postgres:
+  profile-service-postgres-data:
   keycloak-data:
   minio-data:
     driver: local
