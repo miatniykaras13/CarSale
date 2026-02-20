@@ -1,4 +1,8 @@
 services:
+  
+  rabbitmq:
+    image: rabbitmq:latest
+    
   autocatalogdb:
     image: postgres
     
@@ -43,6 +47,10 @@ volumes:
   minio-data:
     driver: local
   redis-data:
+    driver: local
+  rabbitmq-lib:
+    driver: local
+  rabbitmq-log:
     driver: local
   
   
