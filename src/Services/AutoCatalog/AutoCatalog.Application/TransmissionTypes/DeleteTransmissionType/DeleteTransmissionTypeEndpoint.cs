@@ -25,6 +25,7 @@ public class DeleteTransmissionTypesEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteTransmissionType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

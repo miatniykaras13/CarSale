@@ -34,7 +34,8 @@ public class BrandsRepository(AppDbContext context) : IBrandsRepository
             .AsNoTracking()
             .Filter(brandFilter)
             .Sort(sortParameters)
-            .Page(pageParameters).ToListAsync(cancellationToken);
+            .Page(pageParameters)
+            .ToListAsync(cancellationToken);
         return Result.Success<List<Brand>, Error>(brands);
     }
 
@@ -64,5 +65,18 @@ public class BrandsRepository(AppDbContext context) : IBrandsRepository
         context.Brands.Remove(brand);
         await context.SaveChangesAsync(cancellationToken);
         return Result.Success<Unit, Error>(Unit.Value);
+    }
+
+    public async Task<Result<Brand, Error>> GetByName(string name, CancellationToken ct = default)
+    {
+        var brand = await context.Brands.AsNoTracking().FirstOrDefaultAsync(b => b.Name == name, ct);
+        if (brand == null)
+        {
+            return Result.Failure<Brand, Error>(Error.NotFound(
+                nameof(Brand).ToLower(),
+                $"Brand with name {name} not found."));
+        }
+
+        return Result.Success<Brand, Error>(brand);
     }
 }

@@ -25,6 +25,7 @@ public class DeleteEnginesEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteEngine")
             .Produces(StatusCodes.Status200OK)
             .ProducesDeleteProblems()

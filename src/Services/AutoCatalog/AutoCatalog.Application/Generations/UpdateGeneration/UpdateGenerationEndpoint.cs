@@ -31,6 +31,7 @@ public class UpdateGenerationEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateGeneration")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()
