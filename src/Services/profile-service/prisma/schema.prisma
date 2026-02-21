@@ -1,0 +1,56 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("PROFILESERVICE_POSTGRES_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+
+  email String @unique
+  password String
+
+  keycloakId String @unique
+
+  ads AdSnapshot[]
+}
+
+model AdSnapshot {
+  id String @id @default(uuid())
+
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  title String
+  description String?
+  
+  carId String @unique
+  car CarSnapshot @relation(fields: [carId], references: [id])
+
+  city String
+  country String
+
+  costAmount Int
+  currencyCode String
+}
+
+model CarSnapshot {
+  id String @id @default(uuid())
+  
+  ad AdSnapshot?
+
+  brand String
+  model String
+  generation String
+  year Int
+  driveType String
+  transmissionType String
+  volume Float
+  fuelType String
+  bodyType String
+}
+
