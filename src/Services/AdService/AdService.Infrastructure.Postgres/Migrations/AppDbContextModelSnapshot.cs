@@ -35,7 +35,7 @@ namespace AdService.Infrastructure.Migrations
 
                     b.HasIndex("CarOptionsId");
 
-                    b.ToTable("AdCarOption");
+                    b.ToTable("AdCarOption", (string)null);
                 });
 
             modelBuilder.Entity("AdService.Domain.Aggregates.Ad", b =>
@@ -81,7 +81,7 @@ namespace AdService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Ads");
+                    b.ToTable("Ads", (string)null);
                 });
 
             modelBuilder.Entity("AdService.Domain.Entities.CarOption", b =>
@@ -122,7 +122,7 @@ namespace AdService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("CarOptions");
+                    b.ToTable("CarOptions", (string)null);
                 });
 
             modelBuilder.Entity("AdService.Domain.Entities.Comment", b =>
@@ -158,7 +158,7 @@ namespace AdService.Infrastructure.Migrations
                     b.HasIndex("AdId")
                         .IsUnique();
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("AdCarOption", b =>
@@ -210,28 +210,6 @@ namespace AdService.Infrastructure.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("AdId");
 
-                            b1.OwnsOne("AdService.Domain.ValueObjects.AutoDriveTypeSnapshot", "DriveType", b2 =>
-                                {
-                                    b2.Property<Guid>("CarSnapshotAdId")
-                                        .HasColumnType("uuid");
-
-                                    b2.Property<int>("Id")
-                                        .HasColumnType("integer")
-                                        .HasColumnName("DriveType_Id");
-
-                                    b2.Property<string>("Name")
-                                        .IsRequired()
-                                        .HasColumnType("text")
-                                        .HasColumnName("DriveType_Name");
-
-                                    b2.HasKey("CarSnapshotAdId");
-
-                                    b2.ToTable("CarSnapshots");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("CarSnapshotAdId");
-                                });
-
                             b1.OwnsOne("AdService.Domain.ValueObjects.BodyTypeSnapshot", "BodyType", b2 =>
                                 {
                                     b2.Property<Guid>("CarSnapshotAdId")
@@ -248,7 +226,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("CarSnapshotAdId");
 
-                                    b2.ToTable("CarSnapshots");
+                                    b2.ToTable("CarSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("CarSnapshotAdId");
@@ -270,7 +248,29 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("CarSnapshotAdId");
 
-                                    b2.ToTable("CarSnapshots");
+                                    b2.ToTable("CarSnapshots", (string)null);
+
+                                    b2.WithOwner()
+                                        .HasForeignKey("CarSnapshotAdId");
+                                });
+
+                            b1.OwnsOne("AdService.Domain.ValueObjects.AutoDriveTypeSnapshot", "DriveType", b2 =>
+                                {
+                                    b2.Property<Guid>("CarSnapshotAdId")
+                                        .HasColumnType("uuid");
+
+                                    b2.Property<int>("Id")
+                                        .HasColumnType("integer")
+                                        .HasColumnName("DriveType_Id");
+
+                                    b2.Property<string>("Name")
+                                        .IsRequired()
+                                        .HasColumnType("text")
+                                        .HasColumnName("DriveType_Name");
+
+                                    b2.HasKey("CarSnapshotAdId");
+
+                                    b2.ToTable("CarSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("CarSnapshotAdId");
@@ -300,7 +300,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("CarSnapshotAdId");
 
-                                    b2.ToTable("CarSnapshots");
+                                    b2.ToTable("CarSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("CarSnapshotAdId");
@@ -321,7 +321,7 @@ namespace AdService.Infrastructure.Migrations
 
                                             b3.HasKey("EngineSnapshotCarSnapshotAdId");
 
-                                            b3.ToTable("CarSnapshots");
+                                            b3.ToTable("CarSnapshots", (string)null);
 
                                             b3.WithOwner()
                                                 .HasForeignKey("EngineSnapshotCarSnapshotAdId");
@@ -357,7 +357,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("CarSnapshotAdId");
 
-                                    b2.ToTable("CarSnapshots");
+                                    b2.ToTable("CarSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("CarSnapshotAdId");
@@ -383,7 +383,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("CarSnapshotAdId");
 
-                                    b2.ToTable("CarSnapshots");
+                                    b2.ToTable("CarSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("CarSnapshotAdId");
@@ -405,7 +405,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("CarSnapshotAdId");
 
-                                    b2.ToTable("CarSnapshots");
+                                    b2.ToTable("CarSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("CarSnapshotAdId");
@@ -468,7 +468,7 @@ namespace AdService.Infrastructure.Migrations
 
                             b1.HasKey("AdId");
 
-                            b1.ToTable("Ads");
+                            b1.ToTable("Ads", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AdId");
@@ -504,7 +504,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("MoneyAdId");
 
-                                    b2.ToTable("AdPrices");
+                                    b2.ToTable("AdPrices", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("MoneyAdId");
@@ -557,7 +557,7 @@ namespace AdService.Infrastructure.Migrations
 
                                     b2.HasKey("SellerSnapshotAdId", "SellerSnapshotSellerId");
 
-                                    b2.ToTable("SellerSnapshots");
+                                    b2.ToTable("SellerSnapshots", (string)null);
 
                                     b2.WithOwner()
                                         .HasForeignKey("SellerSnapshotAdId", "SellerSnapshotSellerId");

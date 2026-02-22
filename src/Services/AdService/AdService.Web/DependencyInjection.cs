@@ -2,6 +2,7 @@
 using AdService.Infrastructure.AutoCatalog;
 using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
+using AdService.Infrastructure.MessageBus;
 using AdService.Infrastructure.Postgres;
 using AdService.Infrastructure.ProfileService;
 using AdService.Infrastructure.Redis;
@@ -22,6 +23,7 @@ public static class DependencyInjection
     {
         services
             .AddPostgresInfrastructure(configuration)
+            .AddMessageBus(configuration)
             .AddApplication(configuration)
             .AddBackgroundServices()
             .AddFileStorage(configuration)

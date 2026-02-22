@@ -2,7 +2,6 @@
 using AutoCatalog.Application;
 using AutoCatalog.Infrastructure;
 using BuildingBlocks.Exceptions.Handlers;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
@@ -16,11 +15,12 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddInfrastructure(configuration);
-        services.AddWeb();
-        services.AddApplication(configuration);
-        services.AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString(nameof(AppDbContext))!);
+        services
+            .AddInfrastructure(configuration)
+            .AddWeb()
+            .AddApplication(configuration)
+            .AddHealthChecks()
+            .AddNpgSql(configuration.GetConnectionString("AppDbContext")!);
         return services;
     }
 
