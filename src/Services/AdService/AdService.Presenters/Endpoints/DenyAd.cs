@@ -35,7 +35,7 @@ public class DenyAd : ICarterModule
 
                 return Results.Ok();
             })
-            .RequireAuthorization()
+            .RequireAuthorization("ModeratorPolicy")
             .WithName("DenyAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)

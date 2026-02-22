@@ -25,6 +25,7 @@ public class DeleteModelsEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteModel")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

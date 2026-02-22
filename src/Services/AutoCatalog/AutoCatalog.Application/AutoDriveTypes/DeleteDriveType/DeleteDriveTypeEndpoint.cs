@@ -25,6 +25,7 @@ public class DeleteDriveTypesEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteDriveType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

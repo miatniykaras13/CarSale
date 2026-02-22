@@ -57,6 +57,7 @@ public class UpdateCarEndpoint : ICarterModule
                 UpdateCarResponse response = new(result.Value);
                 return Results.Ok(response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateCar")
             .Produces<UpdateCarResponse>(StatusCodes.Status200OK)
             .ProducesUpdateProblems()

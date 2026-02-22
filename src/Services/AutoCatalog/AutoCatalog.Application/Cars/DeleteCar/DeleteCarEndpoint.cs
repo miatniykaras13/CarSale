@@ -25,6 +25,7 @@ public class DeleteCarEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteCar")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

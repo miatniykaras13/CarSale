@@ -31,6 +31,7 @@ public class CreateTransmissionTypeEndpoint : ICarterModule
                 CreateTransmissionTypeResponse response = new(result.Value);
                 return Results.Created($"/transmission-types/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateTransmissionType")
             .Produces<CreateTransmissionTypeResponse>(StatusCodes.Status201Created)
             .ProducesPostProblems()

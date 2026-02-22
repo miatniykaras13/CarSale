@@ -35,6 +35,7 @@ public class UpdateImageEndpoint : ICarterModule
                 UpdateImageResponse response = new(result.Value);
                 return Results.Ok(response);
             })
+            .RequireAuthorization("AdminPolicy")
             .DisableAntiforgery()
             .WithName("UpdateImage")
             .Produces<UpdateImageResponse>(StatusCodes.Status200OK)

@@ -31,6 +31,7 @@ public class CreateModelEndpoint : ICarterModule
                 CreateModelResponse response = new(result.Value);
                 return Results.Created($"/models/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateModel")
             .Produces<CreateModelResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)

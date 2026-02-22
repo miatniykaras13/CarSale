@@ -32,6 +32,7 @@ public class UpdateDriveTypeEndpoint : ICarterModule
 
                 return Results.Ok(new UpdateDriveTypeResponse(result.Value));
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateDriveType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

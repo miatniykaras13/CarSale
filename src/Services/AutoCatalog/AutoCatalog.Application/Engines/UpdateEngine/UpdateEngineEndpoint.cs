@@ -47,6 +47,7 @@ public class UpdateEngineEndpoint : ICarterModule
 
                 return Results.Ok(response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateEngine")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

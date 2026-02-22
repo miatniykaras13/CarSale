@@ -25,6 +25,7 @@ public class DeleteBodyTypesEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteBodyType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

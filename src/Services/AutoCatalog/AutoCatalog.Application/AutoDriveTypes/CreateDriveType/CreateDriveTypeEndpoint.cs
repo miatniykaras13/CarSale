@@ -31,6 +31,7 @@ public class CreateDriveTypeEndpoint : ICarterModule
                 CreateDriveTypeResponse response = new(result.Value);
                 return Results.Created($"/drive-types/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateDriveType")
             .Produces<CreateDriveTypeResponse>(StatusCodes.Status201Created)
             .ProducesPostProblems()
