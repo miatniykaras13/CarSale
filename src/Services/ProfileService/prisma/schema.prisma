@@ -1,0 +1,58 @@
+generator client {
+    provider     = "prisma-client"
+    output       = "./generated"
+    moduleFormat = "cjs"
+}
+
+datasource db {
+    provider = "postgresql"
+}
+
+model User {
+    id         String @id @default(uuid())
+    keycloakId String @unique
+
+    email   String  @unique
+    name    String
+    picture String?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
+    ads AdSnapshot[]
+}
+
+model AdSnapshot {
+    id String @id @default(uuid())
+
+    userId String
+    user   User   @relation(fields: [userId], references: [id])
+
+    title       String
+    description String?
+
+    carId String      @unique
+    car   CarSnapshot @relation(fields: [carId], references: [id])
+
+    city    String
+    country String
+
+    costAmount   Int
+    currencyCode String
+}
+
+model CarSnapshot {
+    id String @id @default(uuid())
+
+    ad AdSnapshot?
+
+    brand            String
+    model            String
+    generation       String
+    year             Int
+    driveType        String
+    transmissionType String
+    volume           Float
+    fuelType         String
+    bodyType         String
+}
