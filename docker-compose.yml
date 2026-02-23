@@ -1,9 +1,9 @@
 services:
   autocatalogdb:
-    image: postgres
+    image: postgres:17
     
   adservicedb:
-    image: postgres
+    image: postgres:17
     
   redis:
     image: redis:latest
@@ -18,7 +18,7 @@ services:
     image: quay.io/keycloak/keycloak
     
   keycloakdb:
-    image: postgres
+    image: postgres:17
     
   minio:
     image: minio/minio:latest
@@ -30,7 +30,7 @@ services:
       dockerfile: src/Services/FileManagement/FileManagement.Grpc/Dockerfile
       
   profileservicedb:
-    image: postgres
+    image: postgres:17
 
       
       
