@@ -1,6 +1,5 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Domain.ValueObjects;
-using BuildingBlocks.Messaging.Events;
 using BuildingBlocks.Messaging.Events.AutoCatalog;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -8,27 +7,28 @@ using Microsoft.Extensions.Logging;
 
 namespace AdService.Infrastructure.MessageBus.EventHandlers;
 
-public class BrandUpdatedEventHandler(
+public class TransmissionTypeUpdatedEventHandler(
     IAppDbContext dbContext,
-    ILogger<BrandUpdatedEventHandler> logger) : IConsumer<BrandUpdatedEvent>
+    ILogger<TransmissionTypeUpdatedEventHandler> logger) : IConsumer<TransmissionTypeUpdatedEvent>
 {
-    public async Task Consume(ConsumeContext<BrandUpdatedEvent> context)
+    public async Task Consume(ConsumeContext<TransmissionTypeUpdatedEvent> context)
     {
-        logger.LogInformation("Received brand updated event: {@event}", context.Message);
+        logger.LogInformation("Received: {@event}", context.Message);
         var message = context.Message;
 
         var ads = await dbContext.Ads
-            .Where(a => a.Car != null && a.Car.Brand != null && a.Car.Brand.Id == message.BrandId)
+            .Where(a => a.Car != null && a.Car.DriveType != null && a.Car.DriveType.Id == message.TransmissionTypeId)
             .ToListAsync();
 
         foreach (var ad in ads)
         {
-            var newBrandResult = BrandSnapshot.Of(message.BrandId, message.BrandName);
-            if (newBrandResult.IsFailure)
+            var transmissionTypeResult = TransmissionTypeSnapshot.Of(message.TransmissionTypeId, message.TransmissionTypeName);
+
+            if (transmissionTypeResult.IsFailure)
             {
                 logger.LogError(
                     "Error happened when creating {name} during handling {event}. Ad with id {adId} was not updated",
-                    nameof(BrandSnapshot),
+                    nameof(TransmissionTypeSnapshot),
                     message,
                     ad.Id);
                 continue;
@@ -36,12 +36,12 @@ public class BrandUpdatedEventHandler(
 
             var newCarResult = CarSnapshot.Of(
                 carId: ad.Car?.CarId,
-                brand: newBrandResult.Value,
+                brand: ad.Car?.Brand,
                 model: ad.Car?.Model,
                 generation: ad.Car?.Generation,
                 engine: ad.Car?.Engine,
                 driveType: ad.Car?.DriveType,
-                transmissionType: ad.Car?.TransmissionType,
+                transmissionType: transmissionTypeResult.Value,
                 bodyType: ad.Car?.BodyType,
                 year: ad.Car?.Year,
                 vin: ad.Car?.Vin,

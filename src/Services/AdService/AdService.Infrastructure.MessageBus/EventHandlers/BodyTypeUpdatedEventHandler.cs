@@ -1,6 +1,5 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Domain.ValueObjects;
-using BuildingBlocks.Messaging.Events;
 using BuildingBlocks.Messaging.Events.AutoCatalog;
 using MassTransit;
 using Microsoft.EntityFrameworkCore;
@@ -8,27 +7,28 @@ using Microsoft.Extensions.Logging;
 
 namespace AdService.Infrastructure.MessageBus.EventHandlers;
 
-public class BrandUpdatedEventHandler(
+public class BodyTypeUpdatedEventHandler(
     IAppDbContext dbContext,
-    ILogger<BrandUpdatedEventHandler> logger) : IConsumer<BrandUpdatedEvent>
+    ILogger<BodyTypeUpdatedEventHandler> logger) : IConsumer<BodyTypeUpdatedEvent>
 {
-    public async Task Consume(ConsumeContext<BrandUpdatedEvent> context)
+    public async Task Consume(ConsumeContext<BodyTypeUpdatedEvent> context)
     {
-        logger.LogInformation("Received brand updated event: {@event}", context.Message);
+        logger.LogInformation("Received: {@event}", context.Message);
         var message = context.Message;
 
         var ads = await dbContext.Ads
-            .Where(a => a.Car != null && a.Car.Brand != null && a.Car.Brand.Id == message.BrandId)
+            .Where(a => a.Car != null && a.Car.BodyType != null && a.Car.BodyType.Id == message.BodyTypeId)
             .ToListAsync();
 
         foreach (var ad in ads)
         {
-            var newBrandResult = BrandSnapshot.Of(message.BrandId, message.BrandName);
-            if (newBrandResult.IsFailure)
+            var bodyTypeResult = BodyTypeSnapshot.Of(message.BodyTypeId, message.BodyTypeName);
+
+            if (bodyTypeResult.IsFailure)
             {
                 logger.LogError(
                     "Error happened when creating {name} during handling {event}. Ad with id {adId} was not updated",
-                    nameof(BrandSnapshot),
+                    nameof(BodyTypeSnapshot),
                     message,
                     ad.Id);
                 continue;
@@ -36,13 +36,13 @@ public class BrandUpdatedEventHandler(
 
             var newCarResult = CarSnapshot.Of(
                 carId: ad.Car?.CarId,
-                brand: newBrandResult.Value,
+                brand: ad.Car?.Brand,
                 model: ad.Car?.Model,
                 generation: ad.Car?.Generation,
                 engine: ad.Car?.Engine,
                 driveType: ad.Car?.DriveType,
                 transmissionType: ad.Car?.TransmissionType,
-                bodyType: ad.Car?.BodyType,
+                bodyType: bodyTypeResult.Value,
                 year: ad.Car?.Year,
                 vin: ad.Car?.Vin,
                 mileage: ad.Car?.Mileage,

@@ -3,6 +3,7 @@ using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.Cars.Dtos;
 using AutoCatalog.Domain.Specs;
 using BuildingBlocks.Messaging.Events;
+using BuildingBlocks.Messaging.Events.AutoCatalog;
 using MassTransit;
 using Microsoft.Extensions.Logging;
 
@@ -27,7 +28,14 @@ internal class UpdateBrandCommandHandler(
 
         if (!brand.Name.Equals(command.Name, StringComparison.OrdinalIgnoreCase))
         {
-            var brandUpdatedEvent = new BrandUpdatedEvent { BrandId = command.Id, BrandName = command.Name, };
+            var brandUpdatedEvent = new BrandUpdatedEvent
+            {
+                BrandId = command.Id,
+                BrandName = command.Name,
+                Country = command.Country,
+                YearFrom = command.YearFrom,
+                YearTo = command.YearTo,
+            };
             logger.LogInformation("Publishing event {EventName}", brandUpdatedEvent);
             await publishEndpoint.Publish(brandUpdatedEvent, cancellationToken);
         }

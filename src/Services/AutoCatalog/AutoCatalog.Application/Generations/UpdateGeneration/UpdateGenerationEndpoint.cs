@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Models;
 
 namespace AutoCatalog.Application.Generations.UpdateGeneration;
 
-public record UpdateGenerationRequest(string Name, int YearFrom, int? YearTo);
+public record UpdateGenerationRequest(string Name, int ModelId, int YearFrom, int? YearTo);
 public record UpdateGenerationResponse(int Id);
 
 public class UpdateGenerationEndpoint : ICarterModule
@@ -22,7 +22,7 @@ public class UpdateGenerationEndpoint : ICarterModule
                 ISender sender,
                 CancellationToken ct = default) =>
             {
-                var command = new UpdateGenerationCommand(id, request.Name, request.YearFrom, request.YearTo);
+                var command = new UpdateGenerationCommand(id, request.Name, request.ModelId, request.YearFrom, request.YearTo);
 
                 var result = await sender.Send(command, ct);
 
