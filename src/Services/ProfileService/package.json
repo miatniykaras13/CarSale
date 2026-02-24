@@ -18,7 +18,10 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json"
+    "test:e2e": "jest --config ./test/jest-e2e.json",
+    "dev": "npx prisma generate && nest start --watch",
+    "db:push": "npx prisma db push",
+    "studio": "npx prisma studio"
   },
   "dependencies": {
     "@nestjs/common": "^11.0.1",
@@ -29,6 +32,8 @@
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.3",
     "dotenv": "^17.3.1",
+    "keycloak-connect": "^26.1.1",
+    "nest-keycloak-connect": "^1.10.1",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1",
     "uuid": "^13.0.0"
