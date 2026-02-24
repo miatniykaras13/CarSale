@@ -4,6 +4,8 @@ import {
 	Req,
 	Res
 } from '@nestjs/common';
+
+import type { Request } from 'express';
 import { ProfileService } from './profile.service';
 
 @Controller('profiles')
@@ -12,8 +14,10 @@ export class ProfileController {
 	
 	@Get('/:id')
 	public async getProfileById(
-		@Param('id') id: string
+		@Param('id') id: string,
+		@Req() req: Request
 	) {
-		return this.profileService.findById(id);
+		  console.log(req.headers.authorization)
+		return this.profileService.findById(id)
 	}
 }

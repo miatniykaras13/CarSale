@@ -13,6 +13,10 @@ const app_service_1 = require("./app.service");
 const profile_module_1 = require("./profile/profile.module");
 const ad_module_1 = require("./ad/ad.module");
 const config_1 = require("@nestjs/config");
+const nest_keycloak_connect_1 = require("nest-keycloak-connect");
+const core_1 = require("@nestjs/core");
+const config_module_1 = require("./config/config.module");
+const keycloak_config_service_1 = require("./config/keycloak-config.service");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,10 +27,29 @@ exports.AppModule = AppModule = __decorate([
             ad_module_1.AdModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true
-            })
+            }),
+            nest_keycloak_connect_1.KeycloakConnectModule.registerAsync({
+                useExisting: keycloak_config_service_1.KeycloakConfigService,
+                imports: [config_module_1.ConfigModules],
+            }),
+            config_1.ConfigModule
         ],
         controllers: [app_controller_1.AppController],
-        providers: [app_service_1.AppService],
+        providers: [
+            app_service_1.AppService,
+            {
+                provide: core_1.APP_GUARD,
+                useClass: nest_keycloak_connect_1.AuthGuard
+            },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: nest_keycloak_connect_1.ResourceGuard
+            },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: nest_keycloak_connect_1.RoleGuard
+            }
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

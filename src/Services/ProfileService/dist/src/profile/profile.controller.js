@@ -20,7 +20,8 @@ let ProfileController = class ProfileController {
     constructor(profileService) {
         this.profileService = profileService;
     }
-    async getProfileById(id) {
+    async getProfileById(id, req) {
+        console.log(req.headers.authorization);
         return this.profileService.findById(id);
     }
 };
@@ -28,8 +29,9 @@ exports.ProfileController = ProfileController;
 __decorate([
     (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Req)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
+    __metadata("design:paramtypes", [String, Object]),
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "getProfileById", null);
 exports.ProfileController = ProfileController = __decorate([

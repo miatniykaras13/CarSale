@@ -43,7 +43,7 @@ const config = {
             "value": "prisma-client"
         },
         "output": {
-            "value": "D:\\Development\\VSC_Projects\\CarSale\\src\\Services\\ProfileService\\prisma\\generated",
+            "value": "D:\\VSC_Projects\\CarSale\\src\\Services\\ProfileService\\prisma\\generated",
             "fromEnvVar": null
         },
         "config": {
@@ -58,7 +58,7 @@ const config = {
             }
         ],
         "previewFeatures": [],
-        "sourceFilePath": "D:\\Development\\VSC_Projects\\CarSale\\src\\Services\\ProfileService\\prisma\\schema.prisma",
+        "sourceFilePath": "D:\\VSC_Projects\\CarSale\\src\\Services\\ProfileService\\prisma\\schema.prisma",
         "isCustomOutput": true
     },
     "relativePath": "..",

@@ -443,11 +443,13 @@ FodyWeavers.xsd
 *.msm
 *.msp
 
+
+
 # Nestjs specific
-/dist
-/node_modules
-/build
-/tmp
+**/dist
+**/node_modules
+**/build
+**/tmp
 
 # Logs
 logs
@@ -458,12 +460,15 @@ yarn-debug.log*
 yarn-error.log*
 lerna-debug.log*
 
+*.vscode
+*.idea
+
 # dotenv environment variable files
-.env
-.env.development
-.env.test
-.env.production
+*.env
+*.env.development
+*.env.test
+*.env.production
 
 # temp directory
-.temp
-.tmp
+*.temp
+*.tmp
