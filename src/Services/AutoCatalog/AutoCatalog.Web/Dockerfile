@@ -15,6 +15,7 @@ WORKDIR /src
 COPY ["Directory.Build.props", "."]
 COPY ["src/Services/AutoCatalog/AutoCatalog.Web/AutoCatalog.Web.csproj", "src/Services/AutoCatalog/AutoCatalog.Web/"]
 COPY ["src/BuildingBlocks/BuildingBlocks/BuildingBlocks.csproj", "src/BuildingBlocks/BuildingBlocks/"]
+COPY ["src/BuildingBlocks/BuildingBlocks.Messaging/BuildingBlocks.Messaging.csproj", "src/BuildingBlocks/BuildingBlocks.Messaging/"]
 COPY ["src/Services/AutoCatalog/AutoCatalog.Infrastructure/AutoCatalog.Infrastructure.csproj", "src/Services/AutoCatalog/AutoCatalog.Infrastructure/"]
 COPY ["src/Services/AutoCatalog/AutoCatalog.Application/AutoCatalog.Application.csproj", "src/Services/AutoCatalog/AutoCatalog.Application/"]
 COPY ["src/Services/AutoCatalog/AutoCatalog.Domain/AutoCatalog.Domain.csproj", "src/Services/AutoCatalog/AutoCatalog.Domain/"]
