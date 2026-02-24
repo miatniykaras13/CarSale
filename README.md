@@ -1,43 +1,51 @@
 # CarSale
 
-CarSale is a microservices-based project inspired by <a href="https://av.by">av.by</a> and <a href="https://drom.ru">drom.ru</a>.
+CarSale is a car sales platform, inspired by <a href="https://av.by">av.by</a> and <a href="https://drom.ru">drom.ru</a>. The project is implemented using a microservices architecture and is intended for learning modern development approaches in C# and TypeScript.
+
+## Content
+- [Technologies](#technologies)
+- [Microservices](#microservices)
+- [How to run](#howtorun)
+- [Roadmap](#roadmap)
 
 ## Technologies
 
-**Language/platform**: C#, ASP.NET Core Web API  
+**Language/platform**: C#, ASP.NET Core Web API, TypeScript, NestJS 
 **Architecture**: Microservices  
-**Database**: PostgreSQL, SQLite, EF Core  
-**File Storage**: Minio  
+**Database**: PostgreSQL, SQLite, Redis, EF Core, Prisma ORM 
+**File Storage**: Minio
 **Auth**: Keycloak  
 **Containerization**: Docker Compose  
 **CI**: GitHub Actions  
-**Message broker**: RabbitMQ (in progress)
+**Message Broker**: RabbitMQ + MassTransit 
 
 ## Microservices
 
-* **Ad service** (REST, Clean Architecture, DDD, CQRS, PostgreSQL, MediatR, xUnit) – service for managing advertisements. Features:
+* **Ad service** (REST, Clean Architecture, DDD, CQRS, PostgreSQL, MediatR, xUnit, Redis) – service for managing advertisements. Features:
   * CRUD operations with ads.
   * Associate ads with users and cars from the catalog.
   * Filtering, pagination, and lifecycle statuses (draft/published/archived).
   * Data generation using <a href="https://github.com/bchavez/Bogus">Bogus</a>.
   * Unit tests for ads using <a href="https://github.com/xunit/xunit">xUnit</a>.
+  * Caching ads and Auto catalog entities following cache-aside pattern.
+  * Policy-based authorization.
+  * Synchronous communication with Auto catalog using <a href="https://learn.microsoft.com/en-us/dotnet/core/extensions/httpclient-factory#typed-clients">typed HttpClient</a>.
 
 * **Auto catalog** (REST, VSA, CQRS, PostgreSQL, MediatR) – service for managing cars in the catalog. Features:
-  * CRUD operations for cars, brands, models, generations, and engines.
+  * CRUD operations for cars, brands, models, generations, engines and other auto specs.
   * Search and filtering by attributes.
-  * Data generation using <a href="https://github.com/bchavez/Bogus">Bogus</a>.
+  * Event publishing when any entity updates.
+  * Policy-based authorization.
 
 * **File management** (gRPC, N-Layer, SQLite, Minio) – infrastructure service for file management. Features:
   * Uploading small and large files (< 1.5 GB).
   * Generating thumbnails using <a href="https://github.com/SixLabors/ImageSharp">ImageSharp</a>.
-  * Storing metadata in a SQLite database.
+  * Storing files metadata in a SQLite database.
 
 **In progress**:
-* **Profile Service** – service for managing user profiles.
+* **Profile Service** (NestJS, Prisma) – service for managing user profiles.
 
 ## Roadmap
 
-* Redis caching  
-* Event bus pattern
-* API Gateway
+* Nginx
 * UI
