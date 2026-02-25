@@ -17,6 +17,29 @@ let ProfileService = class ProfileService {
     constructor(prismaService) {
         this.prismaService = prismaService;
     }
+    async getMe(tokenPayload) {
+        if (!tokenPayload) {
+            throw new common_1.BadRequestException('No token provided');
+        }
+        const id = tokenPayload.sub;
+        const username = tokenPayload.preferred_username;
+        const email = tokenPayload.email;
+        const name = tokenPayload.name;
+        const surname = tokenPayload.surname;
+        const realmRoles = tokenPayload?.realm_access?.roles ?? [];
+        const resourceRoles = Object.values(tokenPayload?.resource_access ?? {})
+            .flatMap((r) => r.roles ?? []);
+        const roles = Array.from(new Set([...realmRoles, ...resourceRoles]));
+        const result = {
+            id,
+            username,
+            email,
+            name,
+            surname,
+            roles,
+        };
+        return result;
+    }
     async findById(id) {
         const user = await this.prismaService.user.findUnique({
             where: {
@@ -46,12 +69,14 @@ let ProfileService = class ProfileService {
         });
         return user;
     }
-    async create(keycloakId, email, name, picture) {
+    async create(keycloakId, email, username, name, surname, picture) {
         await this.prismaService.user.create({
             data: {
                 keycloakId,
                 email,
+                username,
                 name,
+                surname,
                 picture
             }
         });

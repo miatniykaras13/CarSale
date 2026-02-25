@@ -1,4 +1,5 @@
-import { 
+import {
+	BadRequestException,
 	Controller,
 	Get, Param,
 	Req,
@@ -7,17 +8,26 @@ import {
 
 import type { Request } from 'express';
 import { ProfileService } from './profile.service';
+import { AuthenticatedUser, Public } from 'nest-keycloak-connect'
+import { CurrentUser } from '@/profile/decorators/current-user.decorator'
+import { MeDto } from '@/profile/dto/me.dto'
+import { User } from '@prisma/generated/client'
 
 @Controller('profiles')
 export class ProfileController {
   	public constructor(private readonly profileService: ProfileService) {}
+
+	@Get('me')
+	public async getMe(@CurrentUser() tokenPayload: any): Promise<MeDto> {
+        return await this.profileService.getMe(tokenPayload)
+	}
 	
 	@Get('/:id')
 	public async getProfileById(
 		@Param('id') id: string,
-		@Req() req: Request
+		@Req() req: Request,
 	) {
-		  console.log(req.headers.authorization)
-		return this.profileService.findById(id)
+		  // console.log(req.headers.authorization)
+		return await this.profileService.findById(id)
 	}
 }

@@ -74,7 +74,9 @@ exports.UserScalarFieldEnum = {
     id: 'id',
     keycloakId: 'keycloakId',
     email: 'email',
+    username: 'username',
     name: 'name',
+    surname: 'surname',
     picture: 'picture',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'

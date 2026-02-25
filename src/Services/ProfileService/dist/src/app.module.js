@@ -29,8 +29,8 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true
             }),
             nest_keycloak_connect_1.KeycloakConnectModule.registerAsync({
-                useExisting: keycloak_config_service_1.KeycloakConfigService,
-                imports: [config_module_1.ConfigModules],
+                useClass: keycloak_config_service_1.KeycloakConfigService,
+                imports: [config_module_1.ConfigModules, config_1.ConfigModule],
             }),
             config_1.ConfigModule
         ],

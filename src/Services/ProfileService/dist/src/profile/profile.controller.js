@@ -15,17 +15,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
+const current_user_decorator_1 = require("./decorators/current-user.decorator");
 let ProfileController = class ProfileController {
     profileService;
     constructor(profileService) {
         this.profileService = profileService;
     }
+    getMe(tokenPayload) {
+        return this.profileService.getMe(tokenPayload);
+    }
     async getProfileById(id, req) {
-        console.log(req.headers.authorization);
         return this.profileService.findById(id);
     }
 };
 exports.ProfileController = ProfileController;
+__decorate([
+    (0, common_1.Get)('me'),
+    __param(0, (0, current_user_decorator_1.CurrentUser)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ProfileController.prototype, "getMe", null);
 __decorate([
     (0, common_1.Get)('/:id'),
     __param(0, (0, common_1.Param)('id')),

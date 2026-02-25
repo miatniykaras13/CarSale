@@ -12,6 +12,7 @@ import {
 import { APP_GUARD } from '@nestjs/core'
 import { ConfigModules } from './config/config.module';
 import { KeycloakConfigService } from '@/config/keycloak-config.service'
+import { HttpModule } from '@nestjs/axios'
 
 @Module({
   imports: [ 
@@ -21,8 +22,12 @@ import { KeycloakConfigService } from '@/config/keycloak-config.service'
 		  isGlobal: true
 	  }),
 	  KeycloakConnectModule.registerAsync({
-		  useExisting: KeycloakConfigService,
-		  imports: [ConfigModules],
+		  useClass: KeycloakConfigService,
+		  imports: [ConfigModules, ConfigModule],
+	  }),
+	  HttpModule.register({
+		  timeout: 5000,
+		  maxRedirects: 5
 	  }),
 	  ConfigModule
   ],

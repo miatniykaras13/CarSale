@@ -28,9 +28,9 @@ services:
     container_name: profileservicedb
     restart: always
     environment:
-      - POSTGRES_USER=${PROFILE_POSTGRES_USER}
-      - POSTGRES_PASSWORD=${PROFILE_POSTGRES_PASSWORD}
-      - POSTGRES_DB=${PROFILE_POSTGRES_DB}
+      - POSTGRES_USER=${PROFILESERVICE_POSTGRES_USER}
+      - POSTGRES_PASSWORD=${PROFILESERVICE_POSTGRES_PASSWORD}
+      - POSTGRES_DB=${PROFILESERVICE_POSTGRES_DB}
     ports:
       - "5435:5432"
     volumes:
