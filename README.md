@@ -5,6 +5,8 @@ CarSale is a car sales platform, inspired by <a href="https://av.by">av.by</a> a
 ## Content
 - [Technologies](#technologies)
 - [Microservices](#microservices)
+- [Achitecture](#architecture)
+- [Communication](#communication)
 - [How to run](#howtorun)
 - [Roadmap](#roadmap)
 
@@ -44,6 +46,16 @@ CarSale is a car sales platform, inspired by <a href="https://av.by">av.by</a> a
 
 **In progress**:
 * **Profile Service** (NestJS, Prisma) – service for managing user profiles.
+
+## Architecture
+<img width="1237" height="760" alt="image" src="https://github.com/user-attachments/assets/94593860-c047-487c-b617-1ebd56f5da86" />
+
+
+## Communication
+ <img width="1090" height="681" alt="image" src="https://github.com/user-attachments/assets/55d34398-81c7-4c3b-8f86-2dc8173cebcb" />
+
+   
+
 
 ## Roadmap
 
