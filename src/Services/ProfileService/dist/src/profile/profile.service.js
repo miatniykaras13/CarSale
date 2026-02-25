@@ -38,6 +38,7 @@ let ProfileService = class ProfileService {
             surname,
             roles,
         };
+        this.create(result.id, result.email, result.username, result.name, result.surname);
         return result;
     }
     async findById(id) {
@@ -90,7 +91,9 @@ let ProfileService = class ProfileService {
             },
             data: {
                 email: dto.email,
-                name: dto.name
+                username: dto.username,
+                name: dto.name,
+                surname: dto.surname
             }
         });
         return true;

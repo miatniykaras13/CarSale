@@ -17,6 +17,7 @@ const nest_keycloak_connect_1 = require("nest-keycloak-connect");
 const core_1 = require("@nestjs/core");
 const config_module_1 = require("./config/config.module");
 const keycloak_config_service_1 = require("./config/keycloak-config.service");
+const axios_1 = require("@nestjs/axios");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -31,6 +32,10 @@ exports.AppModule = AppModule = __decorate([
             nest_keycloak_connect_1.KeycloakConnectModule.registerAsync({
                 useClass: keycloak_config_service_1.KeycloakConfigService,
                 imports: [config_module_1.ConfigModules, config_1.ConfigModule],
+            }),
+            axios_1.HttpModule.register({
+                timeout: 5000,
+                maxRedirects: 5
             }),
             config_1.ConfigModule
         ],

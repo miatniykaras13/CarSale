@@ -1,6 +1,7 @@
 import type { Request } from 'express';
 import { ProfileService } from './profile.service';
 import { MeDto } from '@/profile/dto/me.dto';
+import { UpdateProfileDto } from '@/profile/dto/update-profile.dto';
 export declare class ProfileController {
     private readonly profileService;
     constructor(profileService: ProfileService);
@@ -10,4 +11,5 @@ export declare class ProfileController {
         email: string;
         name: string;
     }>;
+    updateProfile(dto: UpdateProfileDto, req: Request): Promise<boolean>;
 }

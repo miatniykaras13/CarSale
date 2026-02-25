@@ -2,7 +2,7 @@
 
 import { PrismaService } from '@/prisma/prisma.service'
 
-import { UpdateUserDto } from './dto/update-user.dto'
+import { UpdateProfileDto } from './dto/update-profile.dto'
  import { MeDto } from '@/profile/dto/me.dto'
 
 @Injectable()
@@ -105,7 +105,7 @@ export class ProfileService {
 		return true
 	}
 
-	public async update(userId: string, dto: UpdateUserDto) {
+	public async update(userId: string, dto: UpdateProfileDto) {
 		const user = await this.findById(userId)
 
 		// const updatedUser = 
@@ -115,7 +115,9 @@ export class ProfileService {
 			},
 			data: {
 				email: dto.email,
-				name: dto.name
+				username: dto.username,
+				name: dto.name,
+				surname: dto.surname
 			}
 		})
 

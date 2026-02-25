@@ -57,7 +57,7 @@ model CarSnapshot {
     year             Int
     driveType        String
     transmissionType String
-    volume           Float
+    engineVolume     Float
     fuelType         String
     bodyType         String
 }

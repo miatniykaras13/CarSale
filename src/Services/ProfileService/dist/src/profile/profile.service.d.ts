@@ -1,5 +1,5 @@
 import { PrismaService } from '@/prisma/prisma.service';
-import { UpdateUserDto } from './dto/update-user.dto';
+import { UpdateProfileDto } from './dto/update-profile.dto';
 import { MeDto } from '@/profile/dto/me.dto';
 export declare class ProfileService {
     private readonly prismaService;
@@ -15,6 +15,6 @@ export declare class ProfileService {
         email: string;
         name: string;
     } | null>;
-    create(keycloakId: string, email: string, username: string, name: string, surname: string, picture: string): Promise<boolean>;
-    update(userId: string, dto: UpdateUserDto): Promise<boolean>;
+    create(keycloakId: string, email: string, username: string, name: string, surname: string, picture?: string): Promise<boolean>;
+    update(userId: string, dto: UpdateProfileDto): Promise<boolean>;
 }
