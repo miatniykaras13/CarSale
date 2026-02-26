@@ -1,8 +1,9 @@
 ﻿using System.Text.Json;
-using AdService.Infrastructure.Redis.Options;
+using AdService.Application.Options;
 using Microsoft.Extensions.Caching.StackExchangeRedis;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using StackExchange.Redis;
 using ZiggyCreatures.Caching.Fusion;
 using ZiggyCreatures.Caching.Fusion.Backplane.StackExchangeRedis;
 using ZiggyCreatures.Caching.Fusion.Serialization.SystemTextJson;
@@ -29,6 +30,9 @@ public static class DependencyInjection
             .WithBackplane(new RedisBackplane(new RedisBackplaneOptions { Configuration = redisConnectionString }))
             .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = redisConnectionString }))
             .AsHybridCache();
+
+        services.AddSingleton<IConnectionMultiplexer>(_ => ConnectionMultiplexer.Connect(redisConnectionString!));
+        services.AddSingleton(sp => sp.GetRequiredService<IConnectionMultiplexer>().GetDatabase());
 
         services.Configure<CacheOptions>(configuration.GetSection("Cache"));
         return services;

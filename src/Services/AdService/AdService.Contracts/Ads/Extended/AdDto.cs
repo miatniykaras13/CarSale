@@ -12,7 +12,7 @@ public record AdDto(
     IEnumerable<MoneyDto> Prices,
     LocationDto? Location,
     int Views,
-    AdStatus AdStatus,
+    string AdStatus,
     SellerSnapshotDto? Seller,
     CarSnapshotDto? Car,
     IEnumerable<string> ImageUrls,

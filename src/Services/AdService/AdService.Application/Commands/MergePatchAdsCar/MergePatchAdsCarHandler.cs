@@ -134,7 +134,7 @@ public class MergePatchAdsCarCommandHandler(
                 currentCar.Engine.GenerationId,
                 currentCar.Engine.Name,
                 new FuelTypeDto(currentCar.Engine.FuelType.Id, currentCar.Engine.FuelType.Name),
-                0.0f,
+                currentCar.Engine.Volume,
                 currentCar.Engine.HorsePower,
                 0)
             : null;
@@ -310,6 +310,7 @@ public class MergePatchAdsCarCommandHandler(
                 engineDto.Id,
                 engineDto.Name,
                 engineDto.HorsePower,
+                engineDto.Volume,
                 fuelTypeSnapshotResult.Value,
                 generationDto!.Id);
 

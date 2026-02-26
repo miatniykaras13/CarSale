@@ -1,4 +1,4 @@
-﻿namespace AdService.Infrastructure.Redis.Options;
+﻿namespace AdService.Application.Options;
 
 public class CacheOptions
 {

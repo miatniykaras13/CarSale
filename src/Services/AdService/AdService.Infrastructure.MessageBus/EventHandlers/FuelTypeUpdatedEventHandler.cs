@@ -38,6 +38,7 @@ public class FuelTypeUpdatedEventHandler(
                 ad.Car!.Engine!.Id,
                 ad.Car.Engine.Name,
                 ad.Car.Engine.HorsePower,
+                ad.Car.Engine.Volume,
                 fuelTypeResult.Value,
                 ad.Car.Engine.GenerationId);
 

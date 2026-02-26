@@ -35,7 +35,7 @@ public class GetAdByIdQueryHandler(
             .FirstOrDefaultAsync(a => a.Id == query.AdId, ct);
 
         if (ad is null ||
-            (ad.Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED) &&
+            (ad.Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED or AdStatus.SOLD) &&
              (!userAuthorized || (userAuthorized && ad.Seller.SellerId != query.UserId!.Value))))
             return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {query.AdId} not found"));
 
@@ -116,7 +116,7 @@ public class GetAdByIdQueryHandler(
             moneyDtos,
             locationDto,
             ad.Views,
-            ad.Status,
+            ad.Status.ToString(),
             sellerDto,
             carSnapshotDto,
             imageResult.Value,

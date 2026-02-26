@@ -1,5 +1,4 @@
 ﻿using AdService.Domain.Aggregates;
-using AdService.Domain.Entities;
 using AdService.Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -50,6 +49,7 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
                 engineBuilder.Property(x => x.Name).HasColumnName("Engine_Name");
                 engineBuilder.Property(x => x.GenerationId).HasColumnName("Engine_Generation_Id");
                 engineBuilder.Property(x => x.HorsePower).HasColumnName("Engine_HorsePower").ValueGeneratedNever();
+                engineBuilder.Property(x => x.Volume).HasPrecision(18, 1).HasColumnName("Engine_Volume");
                 engineBuilder.OwnsOne(x => x.FuelType, fuelBuilder =>
                 {
                     fuelBuilder.Property(x => x.Id).HasColumnName("Engine_FuelType_Id").ValueGeneratedNever();

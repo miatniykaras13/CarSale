@@ -18,6 +18,8 @@ public record EngineSnapshot
 
     public string Name { get; private set; }
 
+    public float Volume { get; private set; }
+
     public int GenerationId { get; private set; }
 
 
@@ -30,17 +32,25 @@ public record EngineSnapshot
         int id,
         string name,
         int horsePower,
+        float volume,
         FuelTypeSnapshot fuelType,
         int generationId)
     {
         Id = id;
         Name = name;
         HorsePower = horsePower;
+        Volume = volume;
         FuelType = fuelType;
         GenerationId = generationId;
     }
 
-    public static Result<EngineSnapshot, Error> Of(int id, string name, int horsePower, FuelTypeSnapshot fuelType, int generationId)
+    public static Result<EngineSnapshot, Error> Of(
+        int id,
+        string name,
+        int horsePower,
+        float volume,
+        FuelTypeSnapshot fuelType,
+        int generationId)
     {
         if (name.Length is > MAX_NAME_LENGTH or < MIN_NAME_LENGTH)
         {
@@ -56,7 +66,7 @@ public record EngineSnapshot
                 $"Engine horse power should be between {MIN_HORSE_POWER} and {MAX_HORSE_POWER} characters long"));
         }
 
-        EngineSnapshot engineSnapshot = new(id, name, horsePower, fuelType, generationId);
+        EngineSnapshot engineSnapshot = new(id, name, horsePower, volume, fuelType, generationId);
         return Result.Success<EngineSnapshot, Error>(engineSnapshot);
     }
 }

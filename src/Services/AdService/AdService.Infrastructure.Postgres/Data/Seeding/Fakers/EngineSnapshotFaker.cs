@@ -26,8 +26,9 @@ public class EngineSnapshotFaker
                 var name = _engines[f.IndexFaker % _engines.Length];
                 var fuelType = fuelTypes[f.IndexFaker % fuelTypes.Length] with { };
                 var horsePower = f.Random.Int(EngineSnapshot.MIN_HORSE_POWER, EngineSnapshot.MAX_HORSE_POWER);
+                var volume = f.Random.Float(1f, 5f);
                 var generationId = generations[f.IndexFaker % generations.Length].Id;
-                var result = EngineSnapshot.Of(f.Random.Int(1), name, horsePower, fuelType, generationId);
+                var result = EngineSnapshot.Of(f.Random.Int(1), name, horsePower, volume, fuelType, generationId);
 
                 if (result.IsFailure)
                     throw new InvalidOperationException($"EngineSnapshot faker failed: {result.Error.Message}");
