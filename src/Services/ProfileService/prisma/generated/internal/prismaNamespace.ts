@@ -695,7 +695,7 @@ export const AdSnapshotScalarFieldEnum = {
   description: 'description',
   carId: 'carId',
   city: 'city',
-  country: 'country',
+  region: 'region',
   costAmount: 'costAmount',
   currencyCode: 'currencyCode'
 } as const
@@ -711,7 +711,7 @@ export const CarSnapshotScalarFieldEnum = {
   year: 'year',
   driveType: 'driveType',
   transmissionType: 'transmissionType',
-  volume: 'volume',
+  engineVolume: 'engineVolume',
   fuelType: 'fuelType',
   bodyType: 'bodyType'
 } as const

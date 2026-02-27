@@ -39,8 +39,8 @@ model AdSnapshot {
     carId String      @unique
     car   CarSnapshot @relation(fields: [carId], references: [id])
 
-    city    String
-    country String
+    city   String
+    region String
 
     costAmount   Int
     currencyCode String

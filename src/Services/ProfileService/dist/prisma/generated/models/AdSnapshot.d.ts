@@ -21,7 +21,7 @@ export type AdSnapshotMinAggregateOutputType = {
     description: string | null;
     carId: string | null;
     city: string | null;
-    country: string | null;
+    region: string | null;
     costAmount: number | null;
     currencyCode: string | null;
 };
@@ -32,7 +32,7 @@ export type AdSnapshotMaxAggregateOutputType = {
     description: string | null;
     carId: string | null;
     city: string | null;
-    country: string | null;
+    region: string | null;
     costAmount: number | null;
     currencyCode: string | null;
 };
@@ -43,7 +43,7 @@ export type AdSnapshotCountAggregateOutputType = {
     description: number;
     carId: number;
     city: number;
-    country: number;
+    region: number;
     costAmount: number;
     currencyCode: number;
     _all: number;
@@ -61,7 +61,7 @@ export type AdSnapshotMinAggregateInputType = {
     description?: true;
     carId?: true;
     city?: true;
-    country?: true;
+    region?: true;
     costAmount?: true;
     currencyCode?: true;
 };
@@ -72,7 +72,7 @@ export type AdSnapshotMaxAggregateInputType = {
     description?: true;
     carId?: true;
     city?: true;
-    country?: true;
+    region?: true;
     costAmount?: true;
     currencyCode?: true;
 };
@@ -83,7 +83,7 @@ export type AdSnapshotCountAggregateInputType = {
     description?: true;
     carId?: true;
     city?: true;
-    country?: true;
+    region?: true;
     costAmount?: true;
     currencyCode?: true;
     _all?: true;
@@ -123,7 +123,7 @@ export type AdSnapshotGroupByOutputType = {
     description: string | null;
     carId: string;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
     _count: AdSnapshotCountAggregateOutputType | null;
@@ -145,7 +145,7 @@ export type AdSnapshotWhereInput = {
     description?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null;
     carId?: Prisma.StringFilter<"AdSnapshot"> | string;
     city?: Prisma.StringFilter<"AdSnapshot"> | string;
-    country?: Prisma.StringFilter<"AdSnapshot"> | string;
+    region?: Prisma.StringFilter<"AdSnapshot"> | string;
     costAmount?: Prisma.IntFilter<"AdSnapshot"> | number;
     currencyCode?: Prisma.StringFilter<"AdSnapshot"> | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -158,7 +158,7 @@ export type AdSnapshotOrderByWithRelationInput = {
     description?: Prisma.SortOrderInput | Prisma.SortOrder;
     carId?: Prisma.SortOrder;
     city?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
+    region?: Prisma.SortOrder;
     costAmount?: Prisma.SortOrder;
     currencyCode?: Prisma.SortOrder;
     user?: Prisma.UserOrderByWithRelationInput;
@@ -174,7 +174,7 @@ export type AdSnapshotWhereUniqueInput = Prisma.AtLeast<{
     title?: Prisma.StringFilter<"AdSnapshot"> | string;
     description?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null;
     city?: Prisma.StringFilter<"AdSnapshot"> | string;
-    country?: Prisma.StringFilter<"AdSnapshot"> | string;
+    region?: Prisma.StringFilter<"AdSnapshot"> | string;
     costAmount?: Prisma.IntFilter<"AdSnapshot"> | number;
     currencyCode?: Prisma.StringFilter<"AdSnapshot"> | string;
     user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>;
@@ -187,7 +187,7 @@ export type AdSnapshotOrderByWithAggregationInput = {
     description?: Prisma.SortOrderInput | Prisma.SortOrder;
     carId?: Prisma.SortOrder;
     city?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
+    region?: Prisma.SortOrder;
     costAmount?: Prisma.SortOrder;
     currencyCode?: Prisma.SortOrder;
     _count?: Prisma.AdSnapshotCountOrderByAggregateInput;
@@ -206,7 +206,7 @@ export type AdSnapshotScalarWhereWithAggregatesInput = {
     description?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null;
     carId?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string;
     city?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string;
-    country?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string;
+    region?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string;
     costAmount?: Prisma.IntWithAggregatesFilter<"AdSnapshot"> | number;
     currencyCode?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string;
 };
@@ -215,7 +215,7 @@ export type AdSnapshotCreateInput = {
     title: string;
     description?: string | null;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
     user: Prisma.UserCreateNestedOneWithoutAdsInput;
@@ -228,7 +228,7 @@ export type AdSnapshotUncheckedCreateInput = {
     description?: string | null;
     carId: string;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
 };
@@ -237,7 +237,7 @@ export type AdSnapshotUpdateInput = {
     title?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
     user?: Prisma.UserUpdateOneRequiredWithoutAdsNestedInput;
@@ -250,7 +250,7 @@ export type AdSnapshotUncheckedUpdateInput = {
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     carId?: Prisma.StringFieldUpdateOperationsInput | string;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
 };
@@ -261,7 +261,7 @@ export type AdSnapshotCreateManyInput = {
     description?: string | null;
     carId: string;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
 };
@@ -270,7 +270,7 @@ export type AdSnapshotUpdateManyMutationInput = {
     title?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
 };
@@ -281,7 +281,7 @@ export type AdSnapshotUncheckedUpdateManyInput = {
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     carId?: Prisma.StringFieldUpdateOperationsInput | string;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
 };
@@ -300,7 +300,7 @@ export type AdSnapshotCountOrderByAggregateInput = {
     description?: Prisma.SortOrder;
     carId?: Prisma.SortOrder;
     city?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
+    region?: Prisma.SortOrder;
     costAmount?: Prisma.SortOrder;
     currencyCode?: Prisma.SortOrder;
 };
@@ -314,7 +314,7 @@ export type AdSnapshotMaxOrderByAggregateInput = {
     description?: Prisma.SortOrder;
     carId?: Prisma.SortOrder;
     city?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
+    region?: Prisma.SortOrder;
     costAmount?: Prisma.SortOrder;
     currencyCode?: Prisma.SortOrder;
 };
@@ -325,7 +325,7 @@ export type AdSnapshotMinOrderByAggregateInput = {
     description?: Prisma.SortOrder;
     carId?: Prisma.SortOrder;
     city?: Prisma.SortOrder;
-    country?: Prisma.SortOrder;
+    region?: Prisma.SortOrder;
     costAmount?: Prisma.SortOrder;
     currencyCode?: Prisma.SortOrder;
 };
@@ -414,7 +414,7 @@ export type AdSnapshotCreateWithoutUserInput = {
     title: string;
     description?: string | null;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
     car: Prisma.CarSnapshotCreateNestedOneWithoutAdInput;
@@ -425,7 +425,7 @@ export type AdSnapshotUncheckedCreateWithoutUserInput = {
     description?: string | null;
     carId: string;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
 };
@@ -460,7 +460,7 @@ export type AdSnapshotScalarWhereInput = {
     description?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null;
     carId?: Prisma.StringFilter<"AdSnapshot"> | string;
     city?: Prisma.StringFilter<"AdSnapshot"> | string;
-    country?: Prisma.StringFilter<"AdSnapshot"> | string;
+    region?: Prisma.StringFilter<"AdSnapshot"> | string;
     costAmount?: Prisma.IntFilter<"AdSnapshot"> | number;
     currencyCode?: Prisma.StringFilter<"AdSnapshot"> | string;
 };
@@ -469,7 +469,7 @@ export type AdSnapshotCreateWithoutCarInput = {
     title: string;
     description?: string | null;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
     user: Prisma.UserCreateNestedOneWithoutAdsInput;
@@ -480,7 +480,7 @@ export type AdSnapshotUncheckedCreateWithoutCarInput = {
     title: string;
     description?: string | null;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
 };
@@ -502,7 +502,7 @@ export type AdSnapshotUpdateWithoutCarInput = {
     title?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
     user?: Prisma.UserUpdateOneRequiredWithoutAdsNestedInput;
@@ -513,7 +513,7 @@ export type AdSnapshotUncheckedUpdateWithoutCarInput = {
     title?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
 };
@@ -523,7 +523,7 @@ export type AdSnapshotCreateManyUserInput = {
     description?: string | null;
     carId: string;
     city: string;
-    country: string;
+    region: string;
     costAmount: number;
     currencyCode: string;
 };
@@ -532,7 +532,7 @@ export type AdSnapshotUpdateWithoutUserInput = {
     title?: Prisma.StringFieldUpdateOperationsInput | string;
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
     car?: Prisma.CarSnapshotUpdateOneRequiredWithoutAdNestedInput;
@@ -543,7 +543,7 @@ export type AdSnapshotUncheckedUpdateWithoutUserInput = {
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     carId?: Prisma.StringFieldUpdateOperationsInput | string;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
 };
@@ -553,7 +553,7 @@ export type AdSnapshotUncheckedUpdateManyWithoutUserInput = {
     description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null;
     carId?: Prisma.StringFieldUpdateOperationsInput | string;
     city?: Prisma.StringFieldUpdateOperationsInput | string;
-    country?: Prisma.StringFieldUpdateOperationsInput | string;
+    region?: Prisma.StringFieldUpdateOperationsInput | string;
     costAmount?: Prisma.IntFieldUpdateOperationsInput | number;
     currencyCode?: Prisma.StringFieldUpdateOperationsInput | string;
 };
@@ -564,7 +564,7 @@ export type AdSnapshotSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
     description?: boolean;
     carId?: boolean;
     city?: boolean;
-    country?: boolean;
+    region?: boolean;
     costAmount?: boolean;
     currencyCode?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -577,7 +577,7 @@ export type AdSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
     description?: boolean;
     carId?: boolean;
     city?: boolean;
-    country?: boolean;
+    region?: boolean;
     costAmount?: boolean;
     currencyCode?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -590,7 +590,7 @@ export type AdSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
     description?: boolean;
     carId?: boolean;
     city?: boolean;
-    country?: boolean;
+    region?: boolean;
     costAmount?: boolean;
     currencyCode?: boolean;
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
@@ -603,11 +603,11 @@ export type AdSnapshotSelectScalar = {
     description?: boolean;
     carId?: boolean;
     city?: boolean;
-    country?: boolean;
+    region?: boolean;
     costAmount?: boolean;
     currencyCode?: boolean;
 };
-export type AdSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "carId" | "city" | "country" | "costAmount" | "currencyCode", ExtArgs["result"]["adSnapshot"]>;
+export type AdSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "carId" | "city" | "region" | "costAmount" | "currencyCode", ExtArgs["result"]["adSnapshot"]>;
 export type AdSnapshotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
     user?: boolean | Prisma.UserDefaultArgs<ExtArgs>;
     car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>;
@@ -633,7 +633,7 @@ export type $AdSnapshotPayload<ExtArgs extends runtime.Types.Extensions.Internal
         description: string | null;
         carId: string;
         city: string;
-        country: string;
+        region: string;
         costAmount: number;
         currencyCode: string;
     }, ExtArgs["result"]["adSnapshot"]>;
@@ -701,7 +701,7 @@ export interface AdSnapshotFieldRefs {
     readonly description: Prisma.FieldRef<"AdSnapshot", 'String'>;
     readonly carId: Prisma.FieldRef<"AdSnapshot", 'String'>;
     readonly city: Prisma.FieldRef<"AdSnapshot", 'String'>;
-    readonly country: Prisma.FieldRef<"AdSnapshot", 'String'>;
+    readonly region: Prisma.FieldRef<"AdSnapshot", 'String'>;
     readonly costAmount: Prisma.FieldRef<"AdSnapshot", 'Int'>;
     readonly currencyCode: Prisma.FieldRef<"AdSnapshot", 'String'>;
 }

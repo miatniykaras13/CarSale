@@ -28,12 +28,12 @@ export type AggregateCarSnapshot = {
 
 export type CarSnapshotAvgAggregateOutputType = {
   year: number | null
-  volume: number | null
+  engineVolume: number | null
 }
 
 export type CarSnapshotSumAggregateOutputType = {
   year: number | null
-  volume: number | null
+  engineVolume: number | null
 }
 
 export type CarSnapshotMinAggregateOutputType = {
@@ -44,7 +44,7 @@ export type CarSnapshotMinAggregateOutputType = {
   year: number | null
   driveType: string | null
   transmissionType: string | null
-  volume: number | null
+  engineVolume: number | null
   fuelType: string | null
   bodyType: string | null
 }
@@ -57,7 +57,7 @@ export type CarSnapshotMaxAggregateOutputType = {
   year: number | null
   driveType: string | null
   transmissionType: string | null
-  volume: number | null
+  engineVolume: number | null
   fuelType: string | null
   bodyType: string | null
 }
@@ -70,7 +70,7 @@ export type CarSnapshotCountAggregateOutputType = {
   year: number
   driveType: number
   transmissionType: number
-  volume: number
+  engineVolume: number
   fuelType: number
   bodyType: number
   _all: number
@@ -79,12 +79,12 @@ export type CarSnapshotCountAggregateOutputType = {
 
 export type CarSnapshotAvgAggregateInputType = {
   year?: true
-  volume?: true
+  engineVolume?: true
 }
 
 export type CarSnapshotSumAggregateInputType = {
   year?: true
-  volume?: true
+  engineVolume?: true
 }
 
 export type CarSnapshotMinAggregateInputType = {
@@ -95,7 +95,7 @@ export type CarSnapshotMinAggregateInputType = {
   year?: true
   driveType?: true
   transmissionType?: true
-  volume?: true
+  engineVolume?: true
   fuelType?: true
   bodyType?: true
 }
@@ -108,7 +108,7 @@ export type CarSnapshotMaxAggregateInputType = {
   year?: true
   driveType?: true
   transmissionType?: true
-  volume?: true
+  engineVolume?: true
   fuelType?: true
   bodyType?: true
 }
@@ -121,7 +121,7 @@ export type CarSnapshotCountAggregateInputType = {
   year?: true
   driveType?: true
   transmissionType?: true
-  volume?: true
+  engineVolume?: true
   fuelType?: true
   bodyType?: true
   _all?: true
@@ -221,7 +221,7 @@ export type CarSnapshotGroupByOutputType = {
   year: number
   driveType: string
   transmissionType: string
-  volume: number
+  engineVolume: number
   fuelType: string
   bodyType: string
   _count: CarSnapshotCountAggregateOutputType | null
@@ -257,7 +257,7 @@ export type CarSnapshotWhereInput = {
   year?: Prisma.IntFilter<"CarSnapshot"> | number
   driveType?: Prisma.StringFilter<"CarSnapshot"> | string
   transmissionType?: Prisma.StringFilter<"CarSnapshot"> | string
-  volume?: Prisma.FloatFilter<"CarSnapshot"> | number
+  engineVolume?: Prisma.FloatFilter<"CarSnapshot"> | number
   fuelType?: Prisma.StringFilter<"CarSnapshot"> | string
   bodyType?: Prisma.StringFilter<"CarSnapshot"> | string
   ad?: Prisma.XOR<Prisma.AdSnapshotNullableScalarRelationFilter, Prisma.AdSnapshotWhereInput> | null
@@ -271,7 +271,7 @@ export type CarSnapshotOrderByWithRelationInput = {
   year?: Prisma.SortOrder
   driveType?: Prisma.SortOrder
   transmissionType?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
   fuelType?: Prisma.SortOrder
   bodyType?: Prisma.SortOrder
   ad?: Prisma.AdSnapshotOrderByWithRelationInput
@@ -288,7 +288,7 @@ export type CarSnapshotWhereUniqueInput = Prisma.AtLeast<{
   year?: Prisma.IntFilter<"CarSnapshot"> | number
   driveType?: Prisma.StringFilter<"CarSnapshot"> | string
   transmissionType?: Prisma.StringFilter<"CarSnapshot"> | string
-  volume?: Prisma.FloatFilter<"CarSnapshot"> | number
+  engineVolume?: Prisma.FloatFilter<"CarSnapshot"> | number
   fuelType?: Prisma.StringFilter<"CarSnapshot"> | string
   bodyType?: Prisma.StringFilter<"CarSnapshot"> | string
   ad?: Prisma.XOR<Prisma.AdSnapshotNullableScalarRelationFilter, Prisma.AdSnapshotWhereInput> | null
@@ -302,7 +302,7 @@ export type CarSnapshotOrderByWithAggregationInput = {
   year?: Prisma.SortOrder
   driveType?: Prisma.SortOrder
   transmissionType?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
   fuelType?: Prisma.SortOrder
   bodyType?: Prisma.SortOrder
   _count?: Prisma.CarSnapshotCountOrderByAggregateInput
@@ -323,7 +323,7 @@ export type CarSnapshotScalarWhereWithAggregatesInput = {
   year?: Prisma.IntWithAggregatesFilter<"CarSnapshot"> | number
   driveType?: Prisma.StringWithAggregatesFilter<"CarSnapshot"> | string
   transmissionType?: Prisma.StringWithAggregatesFilter<"CarSnapshot"> | string
-  volume?: Prisma.FloatWithAggregatesFilter<"CarSnapshot"> | number
+  engineVolume?: Prisma.FloatWithAggregatesFilter<"CarSnapshot"> | number
   fuelType?: Prisma.StringWithAggregatesFilter<"CarSnapshot"> | string
   bodyType?: Prisma.StringWithAggregatesFilter<"CarSnapshot"> | string
 }
@@ -336,7 +336,7 @@ export type CarSnapshotCreateInput = {
   year: number
   driveType: string
   transmissionType: string
-  volume: number
+  engineVolume: number
   fuelType: string
   bodyType: string
   ad?: Prisma.AdSnapshotCreateNestedOneWithoutCarInput
@@ -350,7 +350,7 @@ export type CarSnapshotUncheckedCreateInput = {
   year: number
   driveType: string
   transmissionType: string
-  volume: number
+  engineVolume: number
   fuelType: string
   bodyType: string
   ad?: Prisma.AdSnapshotUncheckedCreateNestedOneWithoutCarInput
@@ -364,7 +364,7 @@ export type CarSnapshotUpdateInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   driveType?: Prisma.StringFieldUpdateOperationsInput | string
   transmissionType?: Prisma.StringFieldUpdateOperationsInput | string
-  volume?: Prisma.FloatFieldUpdateOperationsInput | number
+  engineVolume?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelType?: Prisma.StringFieldUpdateOperationsInput | string
   bodyType?: Prisma.StringFieldUpdateOperationsInput | string
   ad?: Prisma.AdSnapshotUpdateOneWithoutCarNestedInput
@@ -378,7 +378,7 @@ export type CarSnapshotUncheckedUpdateInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   driveType?: Prisma.StringFieldUpdateOperationsInput | string
   transmissionType?: Prisma.StringFieldUpdateOperationsInput | string
-  volume?: Prisma.FloatFieldUpdateOperationsInput | number
+  engineVolume?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelType?: Prisma.StringFieldUpdateOperationsInput | string
   bodyType?: Prisma.StringFieldUpdateOperationsInput | string
   ad?: Prisma.AdSnapshotUncheckedUpdateOneWithoutCarNestedInput
@@ -392,7 +392,7 @@ export type CarSnapshotCreateManyInput = {
   year: number
   driveType: string
   transmissionType: string
-  volume: number
+  engineVolume: number
   fuelType: string
   bodyType: string
 }
@@ -405,7 +405,7 @@ export type CarSnapshotUpdateManyMutationInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   driveType?: Prisma.StringFieldUpdateOperationsInput | string
   transmissionType?: Prisma.StringFieldUpdateOperationsInput | string
-  volume?: Prisma.FloatFieldUpdateOperationsInput | number
+  engineVolume?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelType?: Prisma.StringFieldUpdateOperationsInput | string
   bodyType?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -418,7 +418,7 @@ export type CarSnapshotUncheckedUpdateManyInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   driveType?: Prisma.StringFieldUpdateOperationsInput | string
   transmissionType?: Prisma.StringFieldUpdateOperationsInput | string
-  volume?: Prisma.FloatFieldUpdateOperationsInput | number
+  engineVolume?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelType?: Prisma.StringFieldUpdateOperationsInput | string
   bodyType?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -436,14 +436,14 @@ export type CarSnapshotCountOrderByAggregateInput = {
   year?: Prisma.SortOrder
   driveType?: Prisma.SortOrder
   transmissionType?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
   fuelType?: Prisma.SortOrder
   bodyType?: Prisma.SortOrder
 }
 
 export type CarSnapshotAvgOrderByAggregateInput = {
   year?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
 }
 
 export type CarSnapshotMaxOrderByAggregateInput = {
@@ -454,7 +454,7 @@ export type CarSnapshotMaxOrderByAggregateInput = {
   year?: Prisma.SortOrder
   driveType?: Prisma.SortOrder
   transmissionType?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
   fuelType?: Prisma.SortOrder
   bodyType?: Prisma.SortOrder
 }
@@ -467,14 +467,14 @@ export type CarSnapshotMinOrderByAggregateInput = {
   year?: Prisma.SortOrder
   driveType?: Prisma.SortOrder
   transmissionType?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
   fuelType?: Prisma.SortOrder
   bodyType?: Prisma.SortOrder
 }
 
 export type CarSnapshotSumOrderByAggregateInput = {
   year?: Prisma.SortOrder
-  volume?: Prisma.SortOrder
+  engineVolume?: Prisma.SortOrder
 }
 
 export type CarSnapshotCreateNestedOneWithoutAdInput = {
@@ -507,7 +507,7 @@ export type CarSnapshotCreateWithoutAdInput = {
   year: number
   driveType: string
   transmissionType: string
-  volume: number
+  engineVolume: number
   fuelType: string
   bodyType: string
 }
@@ -520,7 +520,7 @@ export type CarSnapshotUncheckedCreateWithoutAdInput = {
   year: number
   driveType: string
   transmissionType: string
-  volume: number
+  engineVolume: number
   fuelType: string
   bodyType: string
 }
@@ -549,7 +549,7 @@ export type CarSnapshotUpdateWithoutAdInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   driveType?: Prisma.StringFieldUpdateOperationsInput | string
   transmissionType?: Prisma.StringFieldUpdateOperationsInput | string
-  volume?: Prisma.FloatFieldUpdateOperationsInput | number
+  engineVolume?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelType?: Prisma.StringFieldUpdateOperationsInput | string
   bodyType?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -562,7 +562,7 @@ export type CarSnapshotUncheckedUpdateWithoutAdInput = {
   year?: Prisma.IntFieldUpdateOperationsInput | number
   driveType?: Prisma.StringFieldUpdateOperationsInput | string
   transmissionType?: Prisma.StringFieldUpdateOperationsInput | string
-  volume?: Prisma.FloatFieldUpdateOperationsInput | number
+  engineVolume?: Prisma.FloatFieldUpdateOperationsInput | number
   fuelType?: Prisma.StringFieldUpdateOperationsInput | string
   bodyType?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -577,7 +577,7 @@ export type CarSnapshotSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   year?: boolean
   driveType?: boolean
   transmissionType?: boolean
-  volume?: boolean
+  engineVolume?: boolean
   fuelType?: boolean
   bodyType?: boolean
   ad?: boolean | Prisma.CarSnapshot$adArgs<ExtArgs>
@@ -591,7 +591,7 @@ export type CarSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   year?: boolean
   driveType?: boolean
   transmissionType?: boolean
-  volume?: boolean
+  engineVolume?: boolean
   fuelType?: boolean
   bodyType?: boolean
 }, ExtArgs["result"]["carSnapshot"]>
@@ -604,7 +604,7 @@ export type CarSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   year?: boolean
   driveType?: boolean
   transmissionType?: boolean
-  volume?: boolean
+  engineVolume?: boolean
   fuelType?: boolean
   bodyType?: boolean
 }, ExtArgs["result"]["carSnapshot"]>
@@ -617,12 +617,12 @@ export type CarSnapshotSelectScalar = {
   year?: boolean
   driveType?: boolean
   transmissionType?: boolean
-  volume?: boolean
+  engineVolume?: boolean
   fuelType?: boolean
   bodyType?: boolean
 }
 
-export type CarSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "brand" | "model" | "generation" | "year" | "driveType" | "transmissionType" | "volume" | "fuelType" | "bodyType", ExtArgs["result"]["carSnapshot"]>
+export type CarSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "brand" | "model" | "generation" | "year" | "driveType" | "transmissionType" | "engineVolume" | "fuelType" | "bodyType", ExtArgs["result"]["carSnapshot"]>
 export type CarSnapshotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   ad?: boolean | Prisma.CarSnapshot$adArgs<ExtArgs>
 }
@@ -642,7 +642,7 @@ export type $CarSnapshotPayload<ExtArgs extends runtime.Types.Extensions.Interna
     year: number
     driveType: string
     transmissionType: string
-    volume: number
+    engineVolume: number
     fuelType: string
     bodyType: string
   }, ExtArgs["result"]["carSnapshot"]>
@@ -1076,7 +1076,7 @@ export interface CarSnapshotFieldRefs {
   readonly year: Prisma.FieldRef<"CarSnapshot", 'Int'>
   readonly driveType: Prisma.FieldRef<"CarSnapshot", 'String'>
   readonly transmissionType: Prisma.FieldRef<"CarSnapshot", 'String'>
-  readonly volume: Prisma.FieldRef<"CarSnapshot", 'Float'>
+  readonly engineVolume: Prisma.FieldRef<"CarSnapshot", 'Float'>
   readonly fuelType: Prisma.FieldRef<"CarSnapshot", 'String'>
   readonly bodyType: Prisma.FieldRef<"CarSnapshot", 'String'>
 }

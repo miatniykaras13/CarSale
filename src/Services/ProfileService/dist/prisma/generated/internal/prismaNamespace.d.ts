@@ -467,7 +467,7 @@ export declare const AdSnapshotScalarFieldEnum: {
     readonly description: "description";
     readonly carId: "carId";
     readonly city: "city";
-    readonly country: "country";
+    readonly region: "region";
     readonly costAmount: "costAmount";
     readonly currencyCode: "currencyCode";
 };
@@ -480,7 +480,7 @@ export declare const CarSnapshotScalarFieldEnum: {
     readonly year: "year";
     readonly driveType: "driveType";
     readonly transmissionType: "transmissionType";
-    readonly volume: "volume";
+    readonly engineVolume: "engineVolume";
     readonly fuelType: "fuelType";
     readonly bodyType: "bodyType";
 };

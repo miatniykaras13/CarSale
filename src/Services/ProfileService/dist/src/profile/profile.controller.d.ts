@@ -11,5 +11,5 @@ export declare class ProfileController {
         email: string;
         name: string;
     }>;
-    updateProfile(dto: UpdateProfileDto, req: Request): Promise<boolean>;
+    updateProfile(dto: UpdateProfileDto, tokenPayload: any): Promise<boolean>;
 }

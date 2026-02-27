@@ -35,13 +35,8 @@ export class ProfileController {
 	@Put('/me')
 	public async updateProfile(
 		@Body() dto: UpdateProfileDto,
-		@Req() req: Request
+		@CurrentUser() tokenPayload: any
 	) {
-		  if(!req.user)
-			  throw new BadRequestException('Not logged in');
-		  
-		  const userId = req.user['sub']
-		
-		  return this.profileService.update(userId, dto)
+		return this.profileService.update(tokenPayload.sub, dto)
 	}
 }

@@ -28,11 +28,8 @@ let ProfileController = class ProfileController {
     async getProfileById(id, req) {
         return await this.profileService.findById(id);
     }
-    async updateProfile(dto, req) {
-        if (!req.user)
-            throw new common_1.BadRequestException('Not logged in');
-        const userId = req.user['sub'];
-        return this.profileService.update(userId, dto);
+    async updateProfile(dto, tokenPayload) {
+        return this.profileService.update(tokenPayload.sub, dto);
     }
 };
 exports.ProfileController = ProfileController;
@@ -54,7 +51,7 @@ __decorate([
 __decorate([
     (0, common_1.Put)('/me'),
     __param(0, (0, common_1.Body)()),
-    __param(1, (0, common_1.Req)()),
+    __param(1, (0, current_user_decorator_1.CurrentUser)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [update_profile_dto_1.UpdateProfileDto, Object]),
     __metadata("design:returntype", Promise)

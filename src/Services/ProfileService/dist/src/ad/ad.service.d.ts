@@ -9,7 +9,7 @@ export declare class AdService {
         description: string | null;
         carId: string;
         city: string;
-        country: string;
+        region: string;
         costAmount: number;
         currencyCode: string;
     }[]>;

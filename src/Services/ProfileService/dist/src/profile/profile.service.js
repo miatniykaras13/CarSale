@@ -84,10 +84,9 @@ let ProfileService = class ProfileService {
         return true;
     }
     async update(userId, dto) {
-        const user = await this.findById(userId);
         await this.prismaService.user.update({
             where: {
-                id: user.id
+                keycloakId: userId
             },
             data: {
                 email: dto.email,

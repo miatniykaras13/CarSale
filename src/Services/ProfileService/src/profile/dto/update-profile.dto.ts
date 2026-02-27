@@ -9,7 +9,7 @@ export class UpdateProfileDto {
 	email: string
 
 	@IsString({ message: 'Имя должно быть строкой.' })
-	@IsNotEmpty({ message: 'Имя обязательно для заполнения.' })
+	@IsNotEmpty({ message: 'Имя пользователя обязательно для заполнения.' })
 	username: string
 
 	@IsString({ message: 'Имя должно быть строкой.' })
@@ -17,6 +17,6 @@ export class UpdateProfileDto {
 	name: string
 
 	@IsString({ message: 'Имя должно быть строкой.' })
-	@IsNotEmpty({ message: 'Имя обязательно для заполнения.' })
+	@IsNotEmpty({ message: 'Фамилия обязательна для заполнения.' })
 	surname: string
 }

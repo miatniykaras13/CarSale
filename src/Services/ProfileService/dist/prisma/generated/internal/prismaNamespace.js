@@ -88,7 +88,7 @@ exports.AdSnapshotScalarFieldEnum = {
     description: 'description',
     carId: 'carId',
     city: 'city',
-    country: 'country',
+    region: 'region',
     costAmount: 'costAmount',
     currencyCode: 'currencyCode'
 };
@@ -100,7 +100,7 @@ exports.CarSnapshotScalarFieldEnum = {
     year: 'year',
     driveType: 'driveType',
     transmissionType: 'transmissionType',
-    volume: 'volume',
+    engineVolume: 'engineVolume',
     fuelType: 'fuelType',
     bodyType: 'bodyType'
 };
