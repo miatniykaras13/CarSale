@@ -94,7 +94,7 @@ public class GetAdByIdQueryHandler(
             .Where(adDto =>
                 !(Enum.Parse<AdStatus>(adDto.Status) is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED
                       or AdStatus.SOLD) &&
-                  (!userAuthorized || (userAuthorized && adDto.Seller.Id != query.UserId!.Value))))
+                  (!userAuthorized || adDto.Seller.SellerId != query.UserId!.Value)))
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();

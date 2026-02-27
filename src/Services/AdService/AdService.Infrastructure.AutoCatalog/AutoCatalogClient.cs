@@ -120,7 +120,7 @@ public class AutoCatalogClient(
     {
         var cacheKey = CacheKeyBuilder.Build(nameof(CarDto), modelId.ToString());
         var carDtos = await GetCachedValueAsync<List<CarDto>>(cacheKey, ct);
-        if (carDtos is not null)
+        if (carDtos is not null && carDtos.Count != 0)
             return carDtos[0].Id;
 
         var query = $"cars?" +

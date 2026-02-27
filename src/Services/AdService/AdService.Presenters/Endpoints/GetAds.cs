@@ -19,8 +19,8 @@ public class GetAds : ICarterModule
                 ClaimsPrincipal user,
                 [AsParameters] AdFilter filter,
                 [AsParameters] PageParameters pageParameters,
-                [AsParameters] bool includeImageUrl,
                 ISender sender,
+                [FromQuery] bool includeImageUrl = true,
                 CancellationToken ct = default) =>
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);

@@ -13,7 +13,7 @@ public record AdDto(
     LocationDto? Location,
     int Views,
     string AdStatus,
-    SellerSnapshotDto? Seller,
+    SellerSnapshotDto Seller,
     CarSnapshotDto? Car,
     IEnumerable<string> ImageUrls,
     CommentDto? Comment,

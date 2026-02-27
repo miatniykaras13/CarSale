@@ -26,21 +26,27 @@ public class GetAdByIdQueryHandler(
             options: new HybridCacheEntryOptions() { Flags = HybridCacheEntryFlags.DisableUnderlyingData },
             cancellationToken: ct);
 
-        if (adDto is not null) return adDto;
+        if (adDto is not null)
+        {
+            if (!(Enum.Parse<AdStatus>(adDto.AdStatus) is not
+                      (AdStatus.PUBLISHED or AdStatus.ARCHIVED or AdStatus.SOLD) &&
+                  (!userAuthorized || adDto.Seller.SellerId != query.UserId!.Value)))
+                return adDto;
+
+            return Result.Failure<AdDto, List<Error>>(Error.NotFound(
+                "ad",
+                $"Ad with id {query.AdId} not found"));
+        }
 
         var ad = await dbContext.Ads
             .AsNoTracking()
             .Include(a => a.CarOptions)
             .Include(a => a.Comment)
             .FirstOrDefaultAsync(a => a.Id == query.AdId, ct);
-
-        if (ad is null ||
-            (ad.Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED or AdStatus.SOLD) &&
-             (!userAuthorized || (userAuthorized && ad.Seller.SellerId != query.UserId!.Value))))
+        if (ad is null)
             return Result.Failure<AdDto, List<Error>>(Error.NotFound("ad", $"Ad with id {query.AdId} not found"));
 
         List<MoneyDto> moneyDtos = [];
-
         if (ad.Price is not null)
         {
             var moneyResult = GetPriceDtos(ad.Price);
@@ -50,14 +56,13 @@ public class GetAdByIdQueryHandler(
         }
 
         var imageResult = await GetImageUrls(ad.Images, ct);
-
         if (imageResult.IsFailure)
             return Result.Failure<AdDto, List<Error>>(imageResult.Error);
 
         var carOptionDtos = ad.CarOptions.Select(carOption =>
                 new CarOptionDto(
                     carOption.Id,
-                    carOption.OptionType,
+                    carOption.OptionType.ToString(),
                     carOption.Name,
                     carOption.TechnicalName))
             .ToList();
@@ -75,7 +80,6 @@ public class GetAdByIdQueryHandler(
         var adsCar = ad.Car;
 
         CarSnapshotDto? carSnapshotDto = null;
-
         if (adsCar is not null)
         {
             carSnapshotDto = new CarSnapshotDto(
@@ -104,7 +108,6 @@ public class GetAdByIdQueryHandler(
                 adsCar.Color);
         }
 
-
         CommentDto? commentDto = null;
         if (ad.Comment is not null)
             commentDto = new CommentDto(ad.Comment.Message, ad.Comment.CreatedAt);
@@ -124,6 +127,14 @@ public class GetAdByIdQueryHandler(
             carOptionDtos);
 
         await cache.SetAsync(query.CacheKey, adDto, cancellationToken: ct);
+
+        if (Enum.Parse<AdStatus>(adDto.AdStatus) is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED or AdStatus.SOLD) &&
+            (!userAuthorized || adDto.Seller.SellerId != query.UserId!.Value))
+        {
+            return Result.Failure<AdDto, List<Error>>(Error.NotFound(
+                "ad",
+                $"Ad with id {query.AdId} not found"));
+        }
 
         // ad.IncreaseViews(); // todo сделать отдельный эндпоинт post ads/{id}/views
         return adDto;

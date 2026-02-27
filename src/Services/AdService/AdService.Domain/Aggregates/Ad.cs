@@ -642,6 +642,27 @@ public sealed class Ad : Aggregate<Guid>
         return UnitResult.Success<Error>();
     }
 
+    public UnitResult<Error> AddCarOption(CarOption carOption)
+    {
+        if (IsExpired)
+        {
+            return UnitResult.Failure(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
+        if (_carOptions.Contains(carOption))
+        {
+            return UnitResult.Failure(Error.Domain(
+                "ad.car_option.already_exist",
+                "Such car option already exist in this ad"));
+        }
+
+        _carOptions.Add(carOption);
+        AddDomainEvent(new AdUpdatedEvent(this));
+        return UnitResult.Success<Error>();
+    }
+
     public UnitResult<Error> RemoveCarOption(CarOption carOption)
     {
         if (IsExpired)
@@ -655,7 +676,7 @@ public sealed class Ad : Aggregate<Guid>
         {
             return UnitResult.Failure(Error.Domain(
                 "ad.car_option.does_not_exist",
-                "Such car option does not exist"));
+                "Such car option does not exist in this ad"));
         }
 
         _carOptions.Remove(carOption);
