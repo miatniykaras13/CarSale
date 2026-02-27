@@ -1,6 +1,7 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
 using AdService.Application.Builders;
+using AdService.Application.Options;
 using AdService.Contracts.Ads.Default;
 using AdService.Contracts.Ads.Default.Snapshots;
 using AdService.Contracts.Ads.ListItems;
@@ -8,6 +9,7 @@ using AdService.Domain.Aggregates;
 using AdService.Domain.Enums;
 using AdService.Domain.ValueObjects;
 using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.Options;
 using CurrencyDto = AdService.Contracts.Ads.Default.CurrencyDto;
 using LocationDto = AdService.Contracts.Ads.Default.LocationDto;
 using MoneyDto = AdService.Contracts.Ads.Default.MoneyDto;
@@ -17,9 +19,12 @@ namespace AdService.Application.Queries.GetAds;
 public class GetAdByIdQueryHandler(
     IAppDbContext dbContext,
     IFileStorage fileStorage,
-    HybridCache cache)
+    HybridCache cache,
+    IOptions<CacheOptions> options)
     : IQueryHandler<GetAdsQuery, Result<List<AdListItemDto>, List<Error>>>
 {
+    private readonly CacheOptions cacheOptions = options.Value;
+    
     public async Task<Result<List<AdListItemDto>, List<Error>>> Handle(GetAdsQuery query, CancellationToken ct)
     {
         // хранение ids по фильтрам
@@ -88,6 +93,7 @@ public class GetAdByIdQueryHandler(
         await cache.SetAsync(
             CacheKeyBuilder.BuildIndex(nameof(Ad), query.Filter.GetHashCode().ToString()),
             adIds,
+            options: new HybridCacheEntryOptions() { Expiration = cacheOptions.AdIndexAbsoluteExpiration },
             cancellationToken: ct);
 
         adDtos = adDtos
@@ -203,6 +209,7 @@ public class GetAdByIdQueryHandler(
         await cache.SetAsync(
             adCacheKey,
             adDto,
+            options: new HybridCacheEntryOptions() { Expiration = cacheOptions.AdListItemAbsoluteExpiration },
             cancellationToken: ct);
 
         adDto.ImageUrl = imageUrl;

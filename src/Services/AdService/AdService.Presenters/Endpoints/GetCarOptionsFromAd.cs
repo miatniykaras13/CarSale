@@ -31,7 +31,6 @@ public class GetCarOptionsFromAd : ICarterModule
 
                 return Results.Ok(result.Value);
             })
-            .RequireAuthorization()
             .WithName("GetCarOptionsFromAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces<IEnumerable<CarOptionDto>>(StatusCodes.Status200OK);

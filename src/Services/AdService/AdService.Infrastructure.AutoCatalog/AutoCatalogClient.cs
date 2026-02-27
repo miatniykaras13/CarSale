@@ -2,6 +2,7 @@
 using System.Text.Json;
 using AdService.Application.Abstractions.AutoCatalog;
 using AdService.Application.Builders;
+using AdService.Application.Options;
 using AdService.Contracts.AutoCatalog.Cars;
 using AdService.Contracts.AutoCatalog.FuelTypes;
 using BuildingBlocks.Errors;
@@ -9,6 +10,7 @@ using BuildingBlocks.Extensions;
 using CSharpFunctionalExtensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Hybrid;
+using Microsoft.Extensions.Options;
 using AutoDriveTypeDto = AdService.Contracts.AutoCatalog.AutoDriveTypes.AutoDriveTypeDto;
 using BodyTypeDto = AdService.Contracts.AutoCatalog.BodyTypes.BodyTypeDto;
 using BrandDto = AdService.Contracts.AutoCatalog.Brands.BrandDto;
@@ -21,8 +23,10 @@ namespace AdService.Infrastructure.AutoCatalog;
 
 public class AutoCatalogClient(
     HttpClient httpClient,
-    HybridCache cache) : IAutoCatalogClient
+    HybridCache cache,
+    IOptions<CacheOptions> options) : IAutoCatalogClient
 {
+    private readonly CacheOptions cacheOptions = options.Value;
     private readonly JsonSerializerOptions _jsonSerializerOptions = JsonSerializerOptions.Web;
 
     public async Task<Result<BrandDto, Error>> GetBrandByIdAsync(int brandId, CancellationToken ct = default)
@@ -180,7 +184,11 @@ public class AutoCatalogClient(
                 $"Failed to deserialize response to type {typeof(T)}"));
         }
 
-        await cache.SetAsync(cacheKey, value, cancellationToken: ct);
+        await cache.SetAsync(
+            cacheKey,
+            value,
+            options: new HybridCacheEntryOptions() { Expiration = cacheOptions.AutoCatalogEntityAbsoluteExpiration },
+            cancellationToken: ct);
 
         return value;
     }

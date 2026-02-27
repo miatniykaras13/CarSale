@@ -1,19 +1,24 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Builders;
+using AdService.Application.Options;
 using AdService.Contracts.Ads.Default;
 using AdService.Domain.Entities;
 using AdService.Domain.Enums;
 using Microsoft.Extensions.Caching.Hybrid;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 namespace AdService.Application.Queries.GetCarOptionsFromAd;
 
 public class GetCarOptionsFromAdQueryHandler(
     IAppDbContext dbContext,
     HybridCache cache,
-    ILogger<GetCarOptionsFromAdQueryHandler> logger)
+    ILogger<GetCarOptionsFromAdQueryHandler> logger,
+    IOptions<CacheOptions> options)
     : IQueryHandler<GetCarOptionsFromAdQuery, Result<IEnumerable<CarOptionDto>, List<Error>>>
 {
+    private readonly CacheOptions cacheOptions = options.Value;
+
     public async Task<Result<IEnumerable<CarOptionDto>, List<Error>>> Handle(
         GetCarOptionsFromAdQuery query,
         CancellationToken ct)
@@ -52,7 +57,14 @@ public class GetCarOptionsFromAdQueryHandler(
                         carOptionFromDb.OptionType.ToString(),
                         carOptionFromDb.Name,
                         carOptionFromDb.TechnicalName);
-                    await cache.SetAsync(carOptionCacheKey, carOption, cancellationToken: ct);
+                    await cache.SetAsync(
+                        carOptionCacheKey,
+                        carOption,
+                        options: new HybridCacheEntryOptions()
+                        {
+                            Expiration = cacheOptions.CarOptionAbsoluteExpiration,
+                        },
+                        cancellationToken: ct);
                 }
 
                 carOptionDtos.Add(carOption);
@@ -84,12 +96,22 @@ public class GetCarOptionsFromAdQueryHandler(
                 var carOptionCacheKey = CacheKeyBuilder.Build(
                     nameof(CarOption),
                     dto.Id.ToString());
-                return cache.SetAsync(carOptionCacheKey, dto, cancellationToken: ct).AsTask();
+                return cache.SetAsync(
+                    carOptionCacheKey,
+                    dto,
+                    options: new HybridCacheEntryOptions() { Expiration = cacheOptions.CarOptionAbsoluteExpiration },
+                    cancellationToken: ct).AsTask();
             });
 
             await Task.WhenAll(cacheTasks);
 
-            await cache.SetAsync(query.CacheKey, ad.CarOptions.Select(o => o.Id), cancellationToken: ct);
+            var idsToCache = ad.CarOptions.Select(o => o.Id).ToList();
+
+            await cache.SetAsync(
+                query.CacheKey,
+                idsToCache,
+                options: new HybridCacheEntryOptions() { Expiration = cacheOptions.CarOptionIndexAbsoluteExpiration },
+                cancellationToken: ct);
         }
 
         return Result.Success<IEnumerable<CarOptionDto>, List<Error>>(carOptionDtos);

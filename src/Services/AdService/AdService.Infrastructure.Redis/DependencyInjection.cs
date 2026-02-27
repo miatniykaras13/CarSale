@@ -20,11 +20,6 @@ public static class DependencyInjection
 
         services
             .AddFusionCache()
-            .WithDefaultEntryOptions(o =>
-            {
-                o.DistributedCacheDuration = configuration.GetValue<TimeSpan>("Cache:DistributedAbsoluteExpiration");
-                o.MemoryCacheDuration = configuration.GetValue<TimeSpan>("Cache:MemoryAbsoluteExpiration");
-            })
             .WithSerializer(
                 new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions { IncludeFields = true, WriteIndented = true }))
             .WithBackplane(new RedisBackplane(new RedisBackplaneOptions { Configuration = redisConnectionString }))
