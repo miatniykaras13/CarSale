@@ -1,7 +1,7 @@
 ﻿using AdService.Domain.Entities;
 using BuildingBlocks.Application.Paging;
 
-namespace AdService.Application.Queries.GetAllCarOptions;
+namespace AdService.Application.Queries;
 
 public static class CarOptionExtensions
 {

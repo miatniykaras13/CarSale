@@ -106,6 +106,9 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             .IsRequired()
             .HasConversion<string>();
 
+        builder.Property(x => x.StatusBeforeDeletion)
+            .HasConversion<string>();
+
         builder.OwnsOne(x => x.Location, locationBuilder =>
         {
             locationBuilder.ToTable("AdLocations");

@@ -6,6 +6,10 @@ public static class AdExtensions
 {
     public static IQueryable<Ad> Filter(this IQueryable<Ad> ads, AdFilter filter)
     {
+        // seller
+        if (filter.SellerId != null)
+            ads = ads.Where(a => a.Seller.SellerId == filter.SellerId);
+
         // brand
         if (filter.BrandId != null)
             ads = ads.Where(a => a.Car != null && a.Car.Brand != null && a.Car.Brand.Id == filter.BrandId);

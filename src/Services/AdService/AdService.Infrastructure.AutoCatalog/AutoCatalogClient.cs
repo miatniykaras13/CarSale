@@ -26,7 +26,7 @@ public class AutoCatalogClient(
     HybridCache cache,
     IOptions<CacheOptions> options) : IAutoCatalogClient
 {
-    private readonly CacheOptions cacheOptions = options.Value;
+    private readonly CacheOptions _cacheOptions = options.Value;
     private readonly JsonSerializerOptions _jsonSerializerOptions = JsonSerializerOptions.Web;
 
     public async Task<Result<BrandDto, Error>> GetBrandByIdAsync(int brandId, CancellationToken ct = default)
@@ -187,7 +187,7 @@ public class AutoCatalogClient(
         await cache.SetAsync(
             cacheKey,
             value,
-            options: new HybridCacheEntryOptions() { Expiration = cacheOptions.AutoCatalogEntityAbsoluteExpiration },
+            options: new HybridCacheEntryOptions() { Expiration = _cacheOptions.AutoCatalogEntityAbsoluteExpiration },
             cancellationToken: ct);
 
         return value;

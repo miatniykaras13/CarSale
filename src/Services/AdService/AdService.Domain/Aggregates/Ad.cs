@@ -64,6 +64,8 @@ public sealed class Ad : Aggregate<Guid>
 
     public DateTime? ExpiresAt { get; private set; }
 
+    public AdStatus? StatusBeforeDeletion { get; private set; }
+
     public bool IsExpired => ExpiresAt.HasValue && ExpiresAt <= DateTime.UtcNow;
 
     public bool CanBeModified => Status is AdStatus.PUBLISHED or AdStatus.DENIED or AdStatus.PAUSED or AdStatus.DRAFT;
@@ -149,7 +151,6 @@ public sealed class Ad : Aggregate<Guid>
         if (price is not null) Price = price;
         if (location is not null) Location = location;
         if (seller is not null) Seller = seller;
-
 
         AddDomainEvent(new AdUpdatedEvent(this));
         return Result.Success<Ad, Error>(this);
@@ -420,16 +421,39 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad is expired and it cannot be modified."));
         }
 
-        if (Status is not (AdStatus.PUBLISHED or AdStatus.ARCHIVED or AdStatus.PAUSED))
-        {
-            return UnitResult.Failure(Error.Domain(
-                "ad.status.is_conflict",
-                $"Ad's status must be published, archived or paused to delete."));
-        }
-
+        StatusBeforeDeletion = Status;
         Status = AdStatus.DELETED;
 
         AddDomainEvent(new AdDeletedEvent(this));
+        AddDomainEvent(new AdUpdatedEvent(this));
+        return UnitResult.Success<Error>();
+    }
+
+    // restores a deleted ad
+    public UnitResult<Error> Restore()
+    {
+        if (IsExpired)
+        {
+            return UnitResult.Failure(Error.Domain(
+                "ad.is_expired",
+                "Ad is expired and it cannot be modified."));
+        }
+
+        if (Status is not AdStatus.DELETED)
+        {
+            return UnitResult.Failure(Error.Domain(
+                "ad.status.is_conflict",
+                "Ad's status must be deleted to restore."));
+        }
+
+        if (StatusBeforeDeletion is AdStatus.PUBLISHED or AdStatus.DRAFT or AdStatus.PENDING)
+            Status = AdStatus.DRAFT;
+        else
+            Status = StatusBeforeDeletion!.Value;
+
+        StatusBeforeDeletion = null;
+
+        AddDomainEvent(new AdRestoredEvent(this));
         AddDomainEvent(new AdUpdatedEvent(this));
         return UnitResult.Success<Error>();
     }
@@ -576,23 +600,17 @@ public sealed class Ad : Aggregate<Guid>
 
         _images.Remove(imageId);
         AddDomainEvent(new AdUpdatedEvent(this));
+        AddDomainEvent(new ImageRemovedEvent(imageId));
         return UnitResult.Success<Error>();
     }
 
-    public UnitResult<Error> AddComment(Comment comment)
+    public UnitResult<Error> UpdateComment(Comment comment)
     {
         if (IsExpired)
         {
             return UnitResult.Failure(Error.Domain(
                 "ad.is_expired",
                 "Ad is expired and it cannot be modified."));
-        }
-
-        if (Comment is not null)
-        {
-            return UnitResult.Failure(Error.Domain(
-                "ad.comment.already_added",
-                "Only one comment can be added to ad."));
         }
 
         Comment = comment;

@@ -91,7 +91,7 @@ public class GetAdByIdQueryHandler(
         var adIds = adDtos.Select(ad => ad.AdId).ToList();
 
         await cache.SetAsync(
-            CacheKeyBuilder.BuildIndex(nameof(Ad), query.Filter.GetHashCode().ToString()),
+            query.CacheKey,
             adIds,
             options: new HybridCacheEntryOptions() { Expiration = cacheOptions.AdIndexAbsoluteExpiration },
             cancellationToken: ct);

@@ -168,7 +168,7 @@ public static class DbContextExtensions
 
         ads[4].Publish(TimeSpan.FromDays(5), ModerationResult.Of(Guid.CreateVersion7(), DateTime.UtcNow).Value);
 
-        ads[4].AddComment(Comment.Create("Comment 1", ads[4].Id).Value);
+        ads[4].UpdateComment(Comment.Create("Comment 1", ads[4].Id).Value);
         comments.Add(ads[4].Comment!);
 
         ads[5].UpdateCar(carSnapshots[3]);

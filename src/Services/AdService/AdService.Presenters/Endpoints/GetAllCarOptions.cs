@@ -1,4 +1,5 @@
-﻿using AdService.Application.Queries.GetAllCarOptions;
+﻿using AdService.Application.Queries;
+using AdService.Application.Queries.GetAllCarOptions;
 using AdService.Contracts.Ads.Default;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Extensions;

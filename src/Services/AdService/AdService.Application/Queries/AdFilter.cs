@@ -1,6 +1,7 @@
 ﻿namespace AdService.Application.Queries;
 
 public record AdFilter(
+    Guid? SellerId,
     int? BrandId,
     string? BrandName,
     int? ModelId,
