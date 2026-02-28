@@ -12,7 +12,7 @@ public record CarSnapshotDto(
     TransmissionTypeSnapshotDto? TransmissionType,
     BodyTypeSnapshotDto? BodyType,
     int? Year,
-    decimal? Consumption,
+    float? Consumption,
     string? Vin,
     int? Mileage,
     string? Color);

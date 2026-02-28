@@ -19,6 +19,10 @@ public class EngineConfiguration : IEntityTypeConfiguration<Engine>
             .WithOne(c => c.Engine)
             .HasForeignKey(c => c.EngineId);
         
+        builder
+            .Property(x => x.Volume)
+            .HasPrecision(18, 1);
+
         builder.HasIndex(t => t.Name).IsUnique();
     }
 }

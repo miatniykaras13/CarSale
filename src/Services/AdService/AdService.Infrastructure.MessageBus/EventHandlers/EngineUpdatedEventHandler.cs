@@ -38,6 +38,7 @@ public class EngineUpdatedEventHandler(
                 message.EngineId,
                 message.EngineName,
                 message.HorsePower,
+                message.Volume,
                 fuelTypeSnapshotResult.Value,
                 message.GenerationId);
 

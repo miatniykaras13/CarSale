@@ -11,6 +11,7 @@ public static class DependencyInjection
         this IServiceCollection services)
     {
         services.AddHostedService<AdExpirationCheckerService>();
+        services.AddHostedService<AdDeletionBackgroundService>();
         services.AddSingleton<IMergePatchHelper, MergePatchHelper>();
         return services;
     }

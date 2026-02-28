@@ -22,7 +22,7 @@ public record CarSnapshotDto
 
     public int? Mileage { get; set; }
 
-    public decimal? Consumption { get; set; }
+    public float? Consumption { get; set; }
 
     public string? Color { get; set; }
 }

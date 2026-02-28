@@ -27,7 +27,7 @@ public record CarSnapshot
 
     public int? Year { get; private set; }
 
-    public decimal? Consumption { get; private set; }
+    public float? Consumption { get; private set; }
 
     public string? Vin { get; private set; }
 
@@ -52,7 +52,7 @@ public record CarSnapshot
         int? year,
         string? vin,
         int? mileage,
-        decimal? consumption,
+        float? consumption,
         string? color)
     {
         CarId = carId;
@@ -82,7 +82,7 @@ public record CarSnapshot
         int? year,
         string? vin,
         int? mileage,
-        decimal? consumption,
+        float? consumption,
         string? color)
     {
         if (year <= 1900)

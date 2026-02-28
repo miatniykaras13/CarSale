@@ -9,8 +9,16 @@ public class AdUpdatedEventHandler(HybridCache cache) : INotificationHandler<AdU
 {
     public async Task Handle(AdUpdatedEvent notification, CancellationToken cancellationToken)
     {
-        var cacheKey = CacheKeyBuilder.Build(nameof(Ad), notification.Ad.Id.ToString());
+        var adExtendedCacheKey = CacheKeyBuilder.Build(
+            nameof(Ad),
+            notification.Ad.Id.ToString());
 
-        await cache.RemoveAsync(cacheKey, cancellationToken);
+        var adListItemCacheKey = CacheKeyBuilder.BuildListItem(
+            nameof(Ad),
+            notification.Ad.Id.ToString());
+
+        await cache.RemoveAsync(adExtendedCacheKey, cancellationToken);
+
+        await cache.RemoveAsync(adListItemCacheKey, cancellationToken);
     }
 }
