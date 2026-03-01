@@ -33,11 +33,6 @@ services:
       context: .
       dockerfile: src/Services/FileManagement/FileManagement.Grpc/Dockerfile
       
-  profileservice.web:
-    image: profileservice.web
-    build:
-      context: .
-      dockerfile: src/Services/ProfileService/ProfileService.Web/Dockerfile
       
       
 volumes:
