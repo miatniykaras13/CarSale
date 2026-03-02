@@ -1,5 +1,6 @@
 ﻿using AdService.Domain.Aggregates;
 using AdService.Domain.ValueObjects;
+using Bogus.DataSets;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -94,6 +95,23 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             sellerBuilder.OwnsOne(x => x.PhoneNumber);
         });
 
+        builder.OwnsMany(x => x.Images, imageBuilder =>
+        {
+            imageBuilder.Property<Guid>("AdId")
+                .HasColumnName("AdId")
+                .ValueGeneratedNever();
+
+            imageBuilder.HasKey("Id", "AdId");
+
+            imageBuilder.OwnsMany(x => x.Thumbnails, thumbnailBuilder =>
+            {
+                thumbnailBuilder.ToTable("AdImageThumbnails");
+            });
+        });
+
+        builder.Navigation(x => x.Images)
+            .UsePropertyAccessMode(PropertyAccessMode.Field);
+
         builder
             .HasMany(a => a.CarOptions)
             .WithMany();
@@ -139,10 +157,5 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
             m.Property(x => x.ModeratorId)
                 .HasColumnName("ModeratorId");
         });
-
-        builder
-            .Property<List<Guid>>("_images")
-            .UsePropertyAccessMode(PropertyAccessMode.Field)
-            .HasColumnName("Images");
     }
 }

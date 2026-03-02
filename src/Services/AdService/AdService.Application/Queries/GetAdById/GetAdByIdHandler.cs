@@ -55,18 +55,6 @@ public class GetAdByIdQueryHandler(
             moneyDtos = moneyResult.Value;
         }
 
-        var imageResult = await GetImageUrls(ad.Images, ct);
-        if (imageResult.IsFailure)
-            return Result.Failure<AdDto, List<Error>>(imageResult.Error);
-
-        var carOptionDtos = ad.CarOptions.Select(carOption =>
-                new CarOptionDto(
-                    carOption.Id,
-                    carOption.OptionType.ToString(),
-                    carOption.Name,
-                    carOption.TechnicalName))
-            .ToList();
-
         PhoneNumberDto? phoneNumberDto = null;
         if (ad.Seller.PhoneNumber is not null)
             phoneNumberDto = new PhoneNumberDto(ad.Seller.PhoneNumber!.E164);
@@ -122,9 +110,7 @@ public class GetAdByIdQueryHandler(
             ad.Status.ToString(),
             sellerDto,
             carSnapshotDto,
-            imageResult.Value,
-            commentDto,
-            carOptionDtos);
+            commentDto);
 
         await cache.SetAsync(query.CacheKey, adDto, cancellationToken: ct);
 
@@ -164,18 +150,5 @@ public class GetAdByIdQueryHandler(
         }
 
         return Result.Success<List<MoneyDto>, Error>(priceInAllCurrenciesDtos);
-    }
-
-    private async Task<Result<List<string>, Error>> GetImageUrls(IReadOnlyList<Guid> imageIds, CancellationToken ct)
-    {
-        List<string> imageUrls = [];
-
-        foreach (var imageId in imageIds)
-        {
-            var imageUrl = await fileStorage.GetDownloadLinkAsync(imageId, 600, ct);
-            imageUrls.Add(imageUrl);
-        }
-
-        return Result.Success<List<string>, Error>(imageUrls);
     }
 }

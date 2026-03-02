@@ -1,23 +1,23 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.DenyAd;
-using AdService.Contracts.Ads.Default;
-using AdService.Domain.ValueObjects;
+using AdService.Application.Commands.AddCarOptionToAd;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Post;
 
-public class DenyAd : ICarterModule
+public record AddCarOptionToAdRequest(int CarOptionId);
+
+public class AddCarOptionToAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads/{adId:guid}/deny", async (
+        app.MapPost("/ads/{adId:guid}/car-options", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
-                [FromBody] ModerationResultDto moderationResultDto,
                 ClaimsPrincipal user,
+                [FromBody] AddCarOptionToAdRequest request,
                 ISender sender,
                 CancellationToken ct) =>
             {
@@ -26,7 +26,7 @@ public class DenyAd : ICarterModule
                 if (userId is null)
                     return Results.Unauthorized();
 
-                var command = new DenyAdCommand(adId, Guid.Parse(userId), moderationResultDto);
+                var command = new AddCarOptionToAdCommand(Guid.Parse(userId), adId, request.CarOptionId);
 
                 var result = await sender.Send(command, ct);
 
@@ -35,9 +35,8 @@ public class DenyAd : ICarterModule
 
                 return Results.Ok();
             })
-            .RequireAuthorization("ModeratorPolicy")
-            .WithName("DenyAd")
+            .RequireAuthorization()
+            .WithName("AddCarOptionToAd")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status200OK);
 }

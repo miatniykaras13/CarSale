@@ -15,6 +15,4 @@ public record AdDto(
     string AdStatus,
     SellerSnapshotDto Seller,
     CarSnapshotDto? Car,
-    IEnumerable<string> ImageUrls,
-    CommentDto? Comment,
-    IEnumerable<CarOptionDto> CarOptions);
+    CommentDto? Comment);

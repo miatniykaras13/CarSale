@@ -14,7 +14,7 @@ public sealed class Ad : Aggregate<Guid>
     public const int MIN_TITLE_LENGTH = 10;
     public const int MAX_DESCRIPTION_LENGTH = 400;
 
-    private readonly List<Guid> _images = [];
+    private readonly List<AdImage> _images = [];
     private readonly List<CarOption> _carOptions = [];
 
     [JsonConstructor]
@@ -70,7 +70,7 @@ public sealed class Ad : Aggregate<Guid>
 
     public bool CanBeModified => Status is AdStatus.PUBLISHED or AdStatus.DENIED or AdStatus.PAUSED or AdStatus.DRAFT;
 
-    public IReadOnlyList<Guid> Images => _images.AsReadOnly();
+    public IReadOnlyList<AdImage> Images => _images.AsReadOnly();
 
     public Comment? Comment { get; private set; }
 
@@ -554,7 +554,7 @@ public sealed class Ad : Aggregate<Guid>
     }
 
     // cannot add existing images
-    public UnitResult<Error> AddImages(IList<Guid> images)
+    public UnitResult<Error> AddImages(IList<AdImage> images)
     {
         if (IsExpired)
         {
@@ -591,16 +591,18 @@ public sealed class Ad : Aggregate<Guid>
                 "Ad is expired and it cannot be modified."));
         }
 
-        if (!_images.Contains(imageId))
+        var image = _images.SingleOrDefault(i => i.Id == imageId);
+
+        if (image is null)
         {
             return UnitResult.Failure(Error.NotFound(
                 "ad.image.not_found",
                 $"Ad does not contain image with id {imageId}"));
         }
 
-        _images.Remove(imageId);
+        _images.Remove(image);
         AddDomainEvent(new AdUpdatedEvent(this));
-        AddDomainEvent(new ImageRemovedEvent(imageId));
+        AddDomainEvent(new ImageRemovedEvent(image));
         return UnitResult.Success<Error>();
     }
 

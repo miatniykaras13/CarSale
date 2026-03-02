@@ -8,19 +8,19 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
 {
     private const string SourceService = "AutoCatalog";
 
-    public async Task<Guid> UploadLargeFileAsync(
+    public async Task<Guid> UploadFileAsync(
         Stream stream,
         string fileName,
         string contentType,
         CancellationToken ct)
     {
-        using var call = client.UploadLargeFile(cancellationToken: ct);
+        using var call = client.UploadFile(cancellationToken: ct);
 
         byte[] buffer = new byte[64 * 1024];
 
         int bytesRead;
 
-        var metadata = new UploadLargeFileRequest
+        var metadata = new UploadFileRequest
         {
             FileName = fileName,
             ContentType = contentType,
@@ -33,32 +33,13 @@ public class MinioFileStorage(FileManager.FileManagerClient client) : IFileStora
 
         while ((bytesRead = await stream.ReadAsync(buffer, ct)) > 0)
         {
-            var req = new UploadLargeFileRequest { Chunk = Google.Protobuf.ByteString.CopyFrom(buffer, 0, bytesRead), };
+            var req = new UploadFileRequest { Chunk = Google.Protobuf.ByteString.CopyFrom(buffer, 0, bytesRead), };
 
             await call.RequestStream.WriteAsync(req, ct);
         }
 
         await call.RequestStream.CompleteAsync();
         var response = await call.ResponseAsync;
-        return Guid.Parse(response.FileId);
-    }
-
-    public async Task<Guid> UploadSmallFileAsync(
-        Stream stream,
-        string fileName,
-        string contentType,
-        CancellationToken ct)
-    {
-        var request = new UploadSmallFileRequest()
-        {
-            FileName = fileName,
-            ContentType = contentType,
-            File = await Google.Protobuf.ByteString.FromStreamAsync(stream, ct),
-            SourceService = SourceService,
-            FileSize = stream.Length,
-        };
-
-        var response = await client.UploadSmallFileAsync(request, cancellationToken: ct);
         return Guid.Parse(response.FileId);
     }
 

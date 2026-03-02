@@ -10,9 +10,9 @@ public class ImageRemovedEventHandler(
 {
     public async Task Handle(ImageRemovedEvent notification, CancellationToken cancellationToken)
     {
-        var isDeleteSucceeded = await fileStorage.DeleteFileAsync(notification.ImageId, cancellationToken);
+        var isDeleteSucceeded = await fileStorage.DeleteFileAsync(notification.Image.Id, cancellationToken);
 
         if (!isDeleteSucceeded)
-            logger.LogError("Failed to delete image with id {ImageId}", notification.ImageId);
+            logger.LogError("Failed to delete image with id {ImageId}", notification.Image.Id);
     }
 }

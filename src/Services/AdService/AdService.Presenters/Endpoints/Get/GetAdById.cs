@@ -1,39 +1,34 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.PublishAd;
+using AdService.Application.Queries.GetAdById;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Get;
 
-public class PublishAd : ICarterModule
+public class GetAdById : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads/{adId:guid}/publish", async (
+        app.MapGet("/ads/{adId:guid}", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
                 ClaimsPrincipal user,
                 ISender sender,
-                CancellationToken ct) =>
+                CancellationToken ct = default) =>
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (userId is null)
-                    return Results.Unauthorized();
-
-                var command = new PublishAdCommand(adId, Guid.Parse(userId));
-
+                var command = new GetAdByIdQuery(adId, userId is null ? null : Guid.Parse(userId));
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
 
-                return Results.Ok();
+                return Results.Ok(result.Value);
             })
-            .RequireAuthorization("ModeratorPolicy")
-            .WithName("PublishAd")
+            .WithName("GetAdById")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status200OK);

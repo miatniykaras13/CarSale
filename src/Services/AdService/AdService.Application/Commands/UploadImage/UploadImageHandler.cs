@@ -1,6 +1,7 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
 using AdService.Application.Options;
+using AdService.Domain.ValueObjects;
 using Microsoft.Extensions.Options;
 
 namespace AdService.Application.Commands.UploadImage;
@@ -12,7 +13,9 @@ public class UploadImageHandler(
 {
     public async Task<Result<Guid, List<Error>>> Handle(UploadImageCommand command, CancellationToken ct)
     {
-        var ad = await dbContext.Ads.FindAsync([command.AdId], ct);
+        var ad = await dbContext.Ads
+            .Include(a => a.Images)
+            .FirstOrDefaultAsync(a => a.Id == command.AdId, ct);
 
         if (ad is null)
             return Result.Failure<Guid, List<Error>>(Error.NotFound("ad", $"Ad with id {command.AdId} not found"));
@@ -40,9 +43,13 @@ public class UploadImageHandler(
                 $"File's size must be less than {maxFileSize}"));
         }
 
-        var imageId = await fileStorage.UploadLargeFileAsync(command.Stream, command.FileName, command.ContentType, ct);
+        var imageId = await fileStorage.UploadFileAsync(command.Stream, command.FileName, command.ContentType, ct);
 
-        var adImageResult = ad.AddImages([imageId]);
+        var imageResult = AdImage.Of(imageId);
+        if (imageResult.IsFailure)
+            return Result.Failure<Guid, List<Error>>(imageResult.Error);
+
+        var adImageResult = ad.AddImages([imageResult.Value]);
 
         if (adImageResult.IsFailure) return Result.Failure<Guid, List<Error>>(adImageResult.Error);
 

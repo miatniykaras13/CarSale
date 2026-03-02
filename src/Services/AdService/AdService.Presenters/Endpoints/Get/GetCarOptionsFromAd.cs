@@ -1,17 +1,18 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.ArchiveAd;
+using AdService.Application.Queries.GetCarOptionsFromAd;
+using AdService.Contracts.Ads.Default;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Get;
 
-public class ArchiveAd : ICarterModule
+public class GetCarOptionsFromAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads/{adId:guid}/archive", async (
+        app.MapGet("/ads/{adId:guid}/car-options", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
                 ClaimsPrincipal user,
@@ -20,21 +21,16 @@ public class ArchiveAd : ICarterModule
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                if (userId is null)
-                    return Results.Unauthorized();
-
-                var command = new ArchiveAdCommand(adId, Guid.Parse(userId));
+                var command = new GetCarOptionsFromAdQuery(Guid.Parse(userId ?? Guid.Empty.ToString()), adId);
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
 
-                return Results.Ok();
+                return Results.Ok(result.Value);
             })
-            .RequireAuthorization()
-            .WithName("ArchiveAd")
+            .WithName("GetCarOptionsFromAd")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces<IEnumerable<CarOptionDto>>(StatusCodes.Status200OK);
 }

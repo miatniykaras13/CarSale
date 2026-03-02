@@ -1,17 +1,17 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.DeleteAd;
+using AdService.Application.Commands.RemoveComment;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Delete;
 
-public class DeleteAd : ICarterModule
+public class RemoveComment : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapDelete("/ads/{adId:guid}", async (
+        app.MapDelete("/ads/{adId:guid}/comment", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
                 ClaimsPrincipal user,
@@ -23,19 +23,18 @@ public class DeleteAd : ICarterModule
                 if (userId is null)
                     return Results.Unauthorized();
 
-                var command = new DeleteAdCommand(adId, Guid.Parse(userId));
+                var command = new RemoveCommentCommand(Guid.Parse(userId), adId);
 
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
 
-                return Results.NoContent();
+                return Results.Ok();
             })
             .RequireAuthorization()
-            .WithName("DeleteAd")
-            .Produces(StatusCodes.Status204NoContent)
-            .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status404NotFound);
+            .WithName("RemoveComment")
+            .Produces(StatusCodes.Status200OK)
+            .Produces(StatusCodes.Status401Unauthorized);
 }
 

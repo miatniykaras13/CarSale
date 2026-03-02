@@ -18,6 +18,7 @@ RUN dotnet restore "./src/Services/FileManagement/FileManagement.Grpc/FileManage
 COPY . .
 WORKDIR "src/Services/FileManagement/FileManagement.Grpc"
 RUN dotnet build "./FileManagement.Grpc.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN apt-get update && apt-get install -y sqlite3 && rm -rf /var/lib/apt/lists/*
 
 # This stage is used to publish the service project to be copied to the final stage
 FROM build AS publish

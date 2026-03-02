@@ -24,7 +24,7 @@ public class GetAdByIdQueryHandler(
     : IQueryHandler<GetAdsQuery, Result<List<AdListItemDto>, List<Error>>>
 {
     private readonly CacheOptions cacheOptions = options.Value;
-    
+
     public async Task<Result<List<AdListItemDto>, List<Error>>> Handle(GetAdsQuery query, CancellationToken ct)
     {
         // хранение ids по фильтрам
@@ -192,7 +192,7 @@ public class GetAdByIdQueryHandler(
         Guid? imageId = null;
         string? imageUrl = null;
         if (ad.Images.Any())
-            imageId = ad.Images[0];
+            imageId = ad.Images[0].Id;
 
         var adDto = new AdListItemDto(
             ad.Id,

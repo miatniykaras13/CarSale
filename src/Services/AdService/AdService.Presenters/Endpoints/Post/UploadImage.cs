@@ -1,27 +1,31 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Queries.GetAdById;
+using AdService.Application.Commands.UploadImage;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Post;
 
-public class GetAdById : ICarterModule
+public class UploadImage : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapGet("/ads/{adId:guid}", async (
+        app.MapPost("/ads/{adId:guid}/images", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
+                IFormFile file,
                 ClaimsPrincipal user,
                 ISender sender,
-                CancellationToken ct = default) =>
+                CancellationToken ct) =>
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var command = new GetAdByIdQuery(adId, userId is null ? null : Guid.Parse(userId));
+                if (userId is null)
+                    return Results.Unauthorized();
+
+                var command = new UploadImageCommand(adId, file.OpenReadStream(), file.FileName, file.ContentType, Guid.Parse(userId));
+
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
@@ -29,8 +33,10 @@ public class GetAdById : ICarterModule
 
                 return Results.Ok(result.Value);
             })
-            .WithName("GetAdById")
+            .RequireAuthorization()
+            .DisableAntiforgery()
+            .Accepts<IFormFile>("multipart/form-data")
+            .WithName("UploadImage")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status200OK);
 }

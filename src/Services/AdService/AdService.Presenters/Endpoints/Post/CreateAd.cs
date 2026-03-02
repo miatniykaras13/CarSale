@@ -1,23 +1,18 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.AddCarOptionToAd;
+using AdService.Application.Commands.CreateAd;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Post;
 
-public record AddCarOptionToAdRequest(int CarOptionId);
-
-public class AddCarOptionToAd : ICarterModule
+public class CreateAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads/{adId:guid}/car-options", async (
+        app.MapPost("/ads", async (
                 HttpContext context,
-                [FromRoute] Guid adId,
                 ClaimsPrincipal user,
-                [FromBody] AddCarOptionToAdRequest request,
                 ISender sender,
                 CancellationToken ct) =>
             {
@@ -26,17 +21,22 @@ public class AddCarOptionToAd : ICarterModule
                 if (userId is null)
                     return Results.Unauthorized();
 
-                var command = new AddCarOptionToAdCommand(Guid.Parse(userId), adId, request.CarOptionId);
-
-                var result = await sender.Send(command, ct);
+                var result = await sender.Send(new CreateAdCommand(Guid.Parse(userId)), ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
 
-                return Results.Ok();
+                var response = result.Value;
+
+                if (response.AdExisted)
+                    return Results.Ok(response.AdId);
+
+
+                return Results.Created($"/ads/{response.AdId}", response);
             })
             .RequireAuthorization()
-            .WithName("AddCarOptionToAd")
+            .WithName("CreateAd")
+            .Produces<CreateAdResponse>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status200OK);
+            .Produces<CreateAdResponse>(StatusCodes.Status200OK);
 }

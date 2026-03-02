@@ -38,6 +38,9 @@ namespace FileManagement.Grpc.Data.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("Height")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -46,6 +49,9 @@ namespace FileManagement.Grpc.Data.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<long>("Size")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int>("Width")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
