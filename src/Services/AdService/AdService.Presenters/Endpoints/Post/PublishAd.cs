@@ -1,43 +1,39 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Queries;
-using AdService.Application.Queries.GetAds;
-using BuildingBlocks.Application.Paging;
+using AdService.Application.Commands.PublishAd;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Post;
 
-public class GetAds : ICarterModule
+public class PublishAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapGet("/ads", async (
+        app.MapPost("/ads/{adId:guid}/publish", async (
                 HttpContext context,
+                [FromRoute] Guid adId,
                 ClaimsPrincipal user,
-                [AsParameters] AdFilter filter,
-                [AsParameters] PageParameters pageParameters,
                 ISender sender,
-                [FromQuery] bool includeImageUrl = true,
-                CancellationToken ct = default) =>
+                CancellationToken ct) =>
             {
                 var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                var command = new GetAdsQuery(
-                    Guid.Parse(userId ?? Guid.Empty.ToString()),
-                    filter,
-                    pageParameters,
-                    includeImageUrl);
+                if (userId is null)
+                    return Results.Unauthorized();
+
+                var command = new PublishAdCommand(adId, Guid.Parse(userId));
+
                 var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
 
-                return Results.Ok(result.Value);
+                return Results.Ok();
             })
-            .WithName("GetAds")
+            .RequireAuthorization("ModeratorPolicy")
+            .WithName("PublishAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
             .Produces(StatusCodes.Status200OK);

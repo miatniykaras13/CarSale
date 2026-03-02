@@ -1,17 +1,20 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.CreateAd;
+using AdService.Application.Commands.DeleteImage;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Delete;
 
-public class CreateAd : ICarterModule
+public class DeleteImage : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads", async (
+        app.MapDelete("/ads/{adId:guid}/images/{imageId:guid}", async (
                 HttpContext context,
+                [FromRoute] Guid adId,
+                [FromRoute] Guid imageId,
                 ClaimsPrincipal user,
                 ISender sender,
                 CancellationToken ct) =>
@@ -21,22 +24,17 @@ public class CreateAd : ICarterModule
                 if (userId is null)
                     return Results.Unauthorized();
 
-                var result = await sender.Send(new CreateAdCommand(Guid.Parse(userId)), ct);
+                var command = new DeleteImageCommand(adId, imageId, Guid.Parse(userId));
+
+                var result = await sender.Send(command, ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
 
-                var response = result.Value;
-
-                if (response.AdExisted)
-                    return Results.Ok(response.AdId);
-
-
-                return Results.Created($"/ads/{response.AdId}", response);
+                return Results.Ok();
             })
             .RequireAuthorization()
-            .WithName("CreateAd")
-            .Produces<CreateAdResponse>(StatusCodes.Status201Created)
+            .WithName("DeleteImage")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces<CreateAdResponse>(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK);
 }

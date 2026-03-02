@@ -1,17 +1,17 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.PauseAd;
+using AdService.Application.Commands.RestoreAd;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Post;
 
-public class PauseAd : ICarterModule
+public class RestoreAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPost("/ads/{adId:guid}/pause", async (
+        app.MapPost("/ads/{adId:guid}/restore", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
                 ClaimsPrincipal user,
@@ -23,7 +23,7 @@ public class PauseAd : ICarterModule
                 if (userId is null)
                     return Results.Unauthorized();
 
-                var command = new PauseAdCommand(adId, Guid.Parse(userId));
+                var command = new RestoreAdCommand(adId, Guid.Parse(userId));
 
                 var result = await sender.Send(command, ct);
 
@@ -33,8 +33,9 @@ public class PauseAd : ICarterModule
                 return Results.Ok();
             })
             .RequireAuthorization()
-            .WithName("PauseAd")
+            .WithName("RestoreAd")
+            .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status404NotFound);
 }
+

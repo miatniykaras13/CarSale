@@ -114,6 +114,23 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+      
+  createbuckets:
+    image: minio/mc
+    depends_on:
+      minio:
+        condition: service_healthy  
+    entrypoint: >
+      /bin/sh -c "
+      /usr/bin/mc alias set myminio http://minio:9000 admin password;
+      /usr/bin/mc mb myminio/ad-service;
+      /usr/bin/mc mb myminio/auto-catalog;
+      /usr/bin/mc mb myminio/profile-service;
+      /usr/bin/mc policy set public myminio/ad-service;
+      /usr/bin/mc policy set public myminio/auto-catalog;
+      /usr/bin/mc policy set public myminio/profile-service;
+      exit 0;
+      "
   
   
   filemanagement.grpc:

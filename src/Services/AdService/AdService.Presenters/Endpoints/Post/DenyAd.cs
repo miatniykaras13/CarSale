@@ -1,22 +1,21 @@
 ﻿using System.Security.Claims;
-using AdService.Application.Commands.UpdateComment;
+using AdService.Application.Commands.DenyAd;
+using AdService.Contracts.Ads.Default;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Post;
 
-public record UpdateCommentRequest(string Message);
-
-public class UpdateComment : ICarterModule
+public class DenyAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapPut("/ads/{adId:guid}/comment", async (
+        app.MapPost("/ads/{adId:guid}/deny", async (
                 HttpContext context,
                 [FromRoute] Guid adId,
-                [FromBody] UpdateCommentRequest request,
+                [FromBody] ModerationResultDto moderationResultDto,
                 ClaimsPrincipal user,
                 ISender sender,
                 CancellationToken ct) =>
@@ -26,7 +25,7 @@ public class UpdateComment : ICarterModule
                 if (userId is null)
                     return Results.Unauthorized();
 
-                var command = new UpdateCommentCommand(Guid.Parse(userId), adId, request.Message);
+                var command = new DenyAdCommand(adId, Guid.Parse(userId), moderationResultDto);
 
                 var result = await sender.Send(command, ct);
 
@@ -35,9 +34,9 @@ public class UpdateComment : ICarterModule
 
                 return Results.Ok();
             })
-            .RequireAuthorization()
-            .WithName("UpdateComment")
-            .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized);
+            .RequireAuthorization("ModeratorPolicy")
+            .WithName("DenyAd")
+            .Produces(StatusCodes.Status401Unauthorized)
+            .Produces(StatusCodes.Status403Forbidden)
+            .Produces(StatusCodes.Status200OK);
 }
-

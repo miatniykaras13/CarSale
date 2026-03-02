@@ -84,7 +84,7 @@ public class AdTests
             price: GetMoney(),
             location: GetLocation());
 
-        ad.AddImages(new List<Guid>([Guid.NewGuid()]));
+        ad.AddImages(new List<AdImage>([AdImage.Of(Guid.NewGuid()).Value]));
         var result = ad.Submit();
 
         result.IsSuccess.Should().Be(true);
@@ -253,5 +253,5 @@ public class AdTests
     private ModerationResult GetSuccessfulModerationResult() =>
         ModerationResult.Of(Guid.NewGuid(), DateTime.UtcNow).Value;
 
-    private IList<Guid> GetImages() => new List<Guid>([Guid.NewGuid()]);
+    private IList<AdImage> GetImages() => new List<AdImage>([AdImage.Of(Guid.NewGuid()).Value]);
 }

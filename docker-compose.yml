@@ -27,6 +27,9 @@ services:
   minio:
     image: minio/minio:latest
     
+  createbuckets:
+    image: minio/mc
+    
   filemanagement.grpc:
     image: filemanagement.grpc
     build:

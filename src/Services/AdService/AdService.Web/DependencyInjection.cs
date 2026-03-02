@@ -57,11 +57,11 @@ public static class DependencyInjection
         services.AddAuthorizationBuilder()
             .AddPolicy("AdminPolicy", policy =>
             {
-                policy.RequireRole("adservice-admin");
+                policy.RequireRole("ad-service-admin");
             })
             .AddPolicy("ModeratorPolicy", policy =>
             {
-                policy.RequireRole("adservice-admin", "adservice-moderator");
+                policy.RequireRole("ad-service-admin", "ad-service-moderator");
             });
         return services;
     }

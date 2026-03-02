@@ -1,9 +1,7 @@
 ﻿using System.Buffers;
-using System.Diagnostics.Tracing;
 using System.IO.Pipelines;
 using FileManagement.Grpc.Data;
 using FileManagement.Grpc.Infra;
-using FileManagement.Grpc.Models;
 using Grpc.Core;
 using Minio;
 using Minio.DataModel.Args;
@@ -17,75 +15,12 @@ public class FileService(
     ILogger<FileService> logger,
     IImageProcessor imageProcessor) : FileManager.FileManagerBase
 {
-    /// <summary>
-    /// Suitable for uploading small files (0-10 MB). E.g., icons, logos, images.
-    /// </summary>
-    public override async Task<UploadSmallFileResponse> UploadSmallFile(
-        UploadSmallFileRequest request,
-        ServerCallContext context)
-    {
-        var ct = context.CancellationToken;
-
-        var ms = new MemoryStream(request.File.ToByteArray());
-
-        string bucketName = DefineBucketName(request.SourceService);
-
-        string contentType = request.ContentType!;
-
-        string fileName = request.FileName!;
-
-        long fileSize = request.FileSize;
-
-        var fileId = Guid.CreateVersion7();
-
-        string objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
-
-        var fileInfo = FileInfo.Create(
-            fileId,
-            Path.GetFileNameWithoutExtension(fileName)!,
-            fileSize,
-            Path.GetExtension(fileName),
-            DateTime.UtcNow,
-            contentType,
-            bucketName);
-
-        var putObjArgs = new PutObjectArgs()
-            .WithBucket(bucketName)
-            .WithObject(objectName)
-            .WithStreamData(ms)
-            .WithObjectSize(fileSize)
-            .WithContentType(contentType);
-
-        await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
-        try
-        {
-            await managementDbContext.Files.AddAsync(fileInfo, ct);
-
-            await minioClient.PutObjectAsync(putObjArgs, ct);
-
-            await managementDbContext.SaveChangesAsync(ct);
-
-            await transaction.CommitAsync(ct);
-
-            return new UploadSmallFileResponse { FileId = fileId.ToString() };
-        }
-        catch (Exception e)
-        {
-            await transaction.RollbackAsync(ct);
-            logger.LogError(e.Message);
-            throw;
-        }
-    }
-
-    /// <summary>
-    /// Suitable for uploading large files (10 MB - 1.5 GB). E.g., short videos, archives, big PDFs.
-    /// </summary>
-    public override async Task<UploadLargeFileResponse> UploadLargeFile(
-        IAsyncStreamReader<UploadLargeFileRequest> request,
+    public override async Task<UploadFileResponse> UploadFile(
+        IAsyncStreamReader<UploadFileRequest> request,
         ServerCallContext context)
     {
         string? sourceService = null;
-        string? contentType = "application/octet-stream";
+        string contentType = "application/octet-stream";
         string? fileName = null;
         string? bucketName = null;
         long fileSize = 0;
@@ -100,60 +35,84 @@ public class FileService(
             minimumSegmentSize: 64 * 1024, // 64 KB сегменты
             useSynchronizationContext: false));
 
+        // Буфер только для заголовка изображения
+        const int headerBufferSize = 64 * 1024;
+        var headerBytes = new byte[headerBufferSize];
+        int headerLength = 0;
+
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
         {
-            var writer = Task.Run(async () =>
-            {
-                await foreach (var chunk in request.ReadAllAsync(ct))
+            var writer = Task.Run(
+                async () =>
                 {
-                    fileName ??= chunk.FileName;
-                    sourceService ??= chunk.SourceService;
-
-                    if (!string.IsNullOrEmpty(chunk.ContentType))
-                        contentType = chunk.ContentType;
-
-                    if (fileSize == 0 && chunk.FileSize > 0)
-                        fileSize = chunk.FileSize;
-
-                    bucketName ??= DefineBucketName(sourceService);
-
-                    var data = chunk.Chunk;
-                    if (data is not null && data.Length > 0)
+                    await foreach (var chunk in request.ReadAllAsync(ct))
                     {
-                        var span = data.Span;
-                        pipe.Writer.Write(span);
-                        await pipe.Writer.FlushAsync(ct);
+                        fileName ??= chunk.FileName;
+                        sourceService ??= chunk.SourceService;
+
+                        if (!string.IsNullOrEmpty(chunk.ContentType))
+                            contentType = chunk.ContentType;
+
+                        if (fileSize == 0 && chunk.FileSize > 0)
+                            fileSize = chunk.FileSize;
+
+                        bucketName ??= DefineBucketName(sourceService);
+
+                        var data = chunk.Chunk;
+                        if (data is not null && data.Length > 0)
+                        {
+                            var bytes = data.ToByteArray();
+                            pipe.Writer.Write(bytes);
+                            await pipe.Writer.FlushAsync(ct);
+
+                            // Буферизируем только заголовок для определения размеров
+                            if (headerLength < headerBufferSize)
+                            {
+                                var toWrite = Math.Min(headerBufferSize - headerLength, bytes.Length);
+                                Buffer.BlockCopy(bytes, 0, headerBytes, headerLength, toWrite);
+                                headerLength += toWrite;
+                            }
+                        }
+
+                        if (fileName != null && contentType != null && sourceService != null && fileSize > 0)
+                            writerReady.TrySetResult();
                     }
 
-                    if (fileName != null && contentType != null && sourceService != null && fileSize > 0)
-                        writerReady.TrySetResult();
-                }
+                    await pipe.Writer.CompleteAsync();
+                },
+                ct);
 
-                await pipe.Writer.CompleteAsync();
-            });
+            var reader = Task.Run(
+                async () =>
+                {
+                    await writerReady.Task;
 
-            var reader = Task.Run(async () =>
-            {
-                await writerReady.Task;
+                    await using var stream = pipe.Reader.AsStream(leaveOpen: false);
 
-                await using var stream = pipe.Reader.AsStream(leaveOpen: false);
+                    var objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
 
+                    var putObjArgs = new PutObjectArgs()
+                        .WithBucket(bucketName)
+                        .WithObject(objectName)
+                        .WithStreamData(stream)
+                        .WithObjectSize(fileSize)
+                        .WithContentType(contentType);
 
-                var objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
-
-                var putObjArgs = new PutObjectArgs()
-                    .WithBucket(bucketName)
-                    .WithObject(objectName)
-                    .WithStreamData(stream)
-                    .WithObjectSize(fileSize)
-                    .WithContentType(contentType);
-
-                await minioClient.PutObjectAsync(putObjArgs, ct);
-            });
-
+                    await minioClient.PutObjectAsync(putObjArgs, ct);
+                },
+                ct);
 
             await Task.WhenAll(reader, writer);
+
+            int width = 0;
+            int height = 0;
+
+            if (contentType.StartsWith("image") && headerLength > 0)
+            {
+                using var headerStream = new MemoryStream(headerBytes, 0, headerLength, writable: false);
+                (width, height) = imageProcessor.GetImageSize(headerStream);
+            }
 
             var fileInfo = FileInfo.Create(
                 fileId,
@@ -162,7 +121,9 @@ public class FileService(
                 Path.GetExtension(fileName)!,
                 DateTime.UtcNow,
                 contentType,
-                bucketName!);
+                bucketName!,
+                width,
+                height);
 
             await managementDbContext.Files.AddAsync(fileInfo, ct);
 
@@ -170,7 +131,7 @@ public class FileService(
 
             await transaction.CommitAsync(ct);
 
-            return new UploadLargeFileResponse { FileId = fileId.ToString() };
+            return new UploadFileResponse { FileId = fileId.ToString() };
         }
         catch (Exception e)
         {
@@ -237,7 +198,6 @@ public class FileService(
             fileInfo.Size,
             isThumbnail: fileInfo.IsThumbnail);
 
-
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
         {
@@ -245,7 +205,7 @@ public class FileService(
             {
                 var thumbnails = managementDbContext.Files.Where(f => f.ParentId == fileId).ToList();
 
-                foreach (var thumbnail in thumbnails)
+                var thumbnailTasks = thumbnails.Select(async thumbnail =>
                 {
                     var thumbnailObjectName = GenerateObjectName(
                         $"{thumbnail.Name}{thumbnail.Extension}",
@@ -259,7 +219,9 @@ public class FileService(
                         .WithObject(thumbnailObjectName);
 
                     await minioClient.RemoveObjectAsync(removeThumbnailObjArgs, ct);
-                }
+                });
+
+                await Task.WhenAll(thumbnailTasks);
             }
 
             managementDbContext.Remove(fileInfo);
@@ -297,7 +259,7 @@ public class FileService(
         {
             throw new RpcException(new Status(
                 StatusCode.InvalidArgument,
-                $"Cannot generate thumbnails for thumbnail."));
+                $"Cannot generate thumbnail for thumbnail."));
         }
 
         if (!fileInfo.ContentType.StartsWith("image"))
@@ -307,11 +269,21 @@ public class FileService(
                 $"File should be an image to generate thumbnail"));
         }
 
+        var thumbnails = managementDbContext.Files.Where(f => f.ParentId == fileId).ToList();
+
+        foreach (var thumbnail in thumbnails)
+        {
+            if (thumbnail.Width == request.ThumbnailWidth && thumbnail.Height == request.ThumbnailHeight)
+                return new GenerateThumbnailResponse { ThumbnailId = thumbnail.Id.ToString() };
+        }
+
         string bucketName = DefineBucketName(request.SourceService);
 
-        string objectName = GenerateObjectName($"{fileInfo.Name}{fileInfo.Extension}", fileInfo.ContentType, fileId,
+        string objectName = GenerateObjectName(
+            $"{fileInfo.Name}{fileInfo.Extension}",
+            fileInfo.ContentType,
+            fileId,
             fileInfo.Size);
-
 
         var ms = new MemoryStream();
 
@@ -330,7 +302,6 @@ public class FileService(
             request.ThumbnailHeight,
             ct);
 
-
         var thumbnailSize = thumbnailStream.Length;
 
         var thumbnailId = Guid.CreateVersion7();
@@ -343,6 +314,8 @@ public class FileService(
             DateTime.UtcNow,
             fileInfo.ContentType,
             bucketName,
+            request.ThumbnailWidth,
+            request.ThumbnailHeight,
             parentId: fileInfo.Id);
 
         var thumbnailObjectName = GenerateObjectName(
@@ -358,7 +331,6 @@ public class FileService(
             .WithObjectSize(thumbnailSize)
             .WithStreamData(thumbnailStream)
             .WithContentType(fileInfo.ContentType);
-
 
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try
@@ -378,7 +350,6 @@ public class FileService(
             throw;
         }
     }
-
 
     private string DefineBucketName(string? sourceService) =>
         sourceService switch
@@ -420,8 +391,11 @@ public class FileService(
             _ => "misc"
         };
 
-
-    private string GenerateObjectName(string? fileName, string contentType, Guid fileId, long fileSize,
+    private string GenerateObjectName(
+        string? fileName,
+        string contentType,
+        Guid fileId,
+        long fileSize,
         bool isThumbnail = false)
     {
         string objectName =
@@ -431,16 +405,15 @@ public class FileService(
         return objectName;
     }
 
-
     private string GenerateThumbnailObjectName(string originalObjectName)
     {
         var words = originalObjectName.Split('/').ToList();
-        if (!words[1].Equals("thumbs"))
+        if (words.Contains("thumbs"))
         {
-            words.Insert(1, $"thumbs");
-            return string.Join('/', words);
+            return originalObjectName;
         }
 
-        return originalObjectName;
+        words.Insert(1, $"thumbs");
+        return string.Join('/', words);
     }
 }

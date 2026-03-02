@@ -1,22 +1,29 @@
-﻿using AdService.Application.Commands.DeleteCarOption;
+﻿using System.Security.Claims;
+using AdService.Application.Commands.DeleteAd;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 
-namespace AdService.Presenters.Endpoints;
+namespace AdService.Presenters.Endpoints.Delete;
 
-public class DeleteCarOption : ICarterModule
+public class DeleteAd : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app) =>
-        app.MapDelete("/car-options/{carOptionId:int}", async (
+        app.MapDelete("/ads/{adId:guid}", async (
                 HttpContext context,
-                [FromRoute] int carOptionId,
+                [FromRoute] Guid adId,
+                ClaimsPrincipal user,
                 ISender sender,
                 CancellationToken ct) =>
             {
-                var command = new DeleteCarOptionCommand(carOptionId);
+                var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                if (userId is null)
+                    return Results.Unauthorized();
+
+                var command = new DeleteAdCommand(adId, Guid.Parse(userId));
 
                 var result = await sender.Send(command, ct);
 
@@ -26,10 +33,9 @@ public class DeleteCarOption : ICarterModule
                 return Results.NoContent();
             })
             .RequireAuthorization()
-            .WithName("DeleteCarOption")
+            .WithName("DeleteAd")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status409Conflict);
+            .Produces(StatusCodes.Status404NotFound);
 }
 
