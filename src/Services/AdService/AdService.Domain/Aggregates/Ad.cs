@@ -579,6 +579,7 @@ public sealed class Ad : Aggregate<Guid>
 
         _images.AddRange(images);
         AddDomainEvent(new AdUpdatedEvent(this));
+        AddDomainEvent(new ImagesAddedEvent(images));
         return UnitResult.Success<Error>();
     }
 

@@ -36,9 +36,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 
-
-
-app.UseExceptionHandler(options => { });
+app.UseExceptionHandler();
 
 await app.UseAsyncSeeding();
 

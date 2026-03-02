@@ -103,6 +103,7 @@ public static class DependencyInjection
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
+        services.AddProblemDetails();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddEndpointsApiExplorer();
         return services;

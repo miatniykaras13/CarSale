@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Diagnostics;
+﻿using Grpc.Core;
+using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -13,10 +14,17 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
         CancellationToken cancellationToken)
     {
         logger.LogError(
-            "[ERROR] Unexpected error occured: {ExceptionMessage}. At the time {Time}", exception.Message, DateTime.UtcNow);
+            "[ERROR] Unexpected error occured: {ExceptionMessage}. At the time {Time}",
+            exception.Message,
+            DateTime.UtcNow);
 
         (string Details, string Title, int StatusCode) details = exception switch
         {
+            RpcException rpcException => (
+                rpcException.Status.Detail,
+                rpcException.GetType().Name,
+                context.Response.StatusCode = GetHttpStatusCode(rpcException.StatusCode)
+            ),
             _ => (
                 exception.Message,
                 exception.GetType().Name,
@@ -38,4 +46,15 @@ public class CustomExceptionHandler(ILogger<CustomExceptionHandler> logger) : IE
         await context.Response.WriteAsJsonAsync(problemDetails, cancellationToken);
         return true;
     }
+
+    private static int GetHttpStatusCode(StatusCode rpcStatusCode) => rpcStatusCode switch
+    {
+        StatusCode.Cancelled => StatusCodes.Status499ClientClosedRequest,
+        StatusCode.InvalidArgument => StatusCodes.Status400BadRequest,
+        StatusCode.NotFound => StatusCodes.Status404NotFound,
+        StatusCode.AlreadyExists => StatusCodes.Status409Conflict,
+        StatusCode.PermissionDenied => StatusCodes.Status403Forbidden,
+        StatusCode.Unauthenticated => StatusCodes.Status401Unauthorized,
+        _ => StatusCodes.Status500InternalServerError
+    };
 }

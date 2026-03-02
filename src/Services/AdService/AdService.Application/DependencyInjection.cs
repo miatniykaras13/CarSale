@@ -29,6 +29,7 @@ public static class DependencyInjection
         services.Configure<FileStorageOptions>(configuration.GetSection("FileStorage"));
         services.Configure<AdExpirationOptions>(configuration.GetSection("AdExpiration"));
         services.Configure<AdDeletionOptions>(configuration.GetSection("AdDeletion"));
+        services.Configure<ImageDefaultOptions>(configuration.GetSection("ImageDefaults"));
         return services;
     }
 }

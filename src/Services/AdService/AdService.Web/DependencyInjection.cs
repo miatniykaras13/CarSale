@@ -7,6 +7,7 @@ using AdService.Infrastructure.Postgres;
 using AdService.Infrastructure.ProfileService;
 using AdService.Infrastructure.Redis;
 using AdService.Presenters;
+using BuildingBlocks.Exceptions.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http.Json;
@@ -69,6 +70,8 @@ public static class DependencyInjection
     private static IServiceCollection AddWeb(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
+        services.AddProblemDetails();
+        services.AddExceptionHandler<CustomExceptionHandler>();
         return services;
     }
 
