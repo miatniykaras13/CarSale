@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Get;
 
@@ -31,7 +32,15 @@ public class GetAdImages : ICarterModule
                 return Results.Ok(result.Value);
             })
             .WithName("GetAdImages")
-            .Produces<IEnumerable<AdImageDto>>(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces<IEnumerable<AdImageDto>>()
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags("AdImages")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Get ad images",
+                Description = "Returns all images associated with the specified advertisement, " +
+                              "including thumbnails for each image. " +
+                              "Returns 404 if the ad does not exist or not allowed to be seen.",
+            });
 }
 

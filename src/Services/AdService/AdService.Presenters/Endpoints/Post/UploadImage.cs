@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -38,5 +39,14 @@ public class UploadImage : ICarterModule
             .Accepts<IFormFile>("multipart/form-data")
             .WithName("UploadImage")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdImages")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Upload image to ad",
+                Description = "Uploads an image file and attaches it to the specified advertisement. " +
+                              "The request must use 'multipart/form-data' content type with the image in the 'file' field. " +
+                              "Only the ad owner can upload images. " +
+                              "Returns the uploaded image details on success.",
+            });
 }

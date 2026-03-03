@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -38,5 +39,14 @@ public class DenyAd : ICarterModule
             .WithName("DenyAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdLifecycle")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Deny ad",
+                Description = "Rejects the advertisement during moderation. " +
+                              "The request body must contain the deny reason and an optional message explaining the rejection. " +
+                              "The ad transitions to the 'Denied' state and the owner is notified. " +
+                              "Requires moderator privileges.",
+            });
 }

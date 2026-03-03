@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Delete;
 
@@ -30,6 +31,14 @@ public class DeleteCarOption : ICarterModule
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status404NotFound)
-            .Produces(StatusCodes.Status409Conflict);
+            .Produces(StatusCodes.Status409Conflict)
+            .WithTags("CarOptions")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Delete car option",
+                Description = "Deletes a car option by its identifier. " +
+                              "Returns 409 Conflict if the option is still in use by any advertisement. " +
+                              "Requires authorization.",
+            });
 }
 

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Put;
 
@@ -38,6 +39,13 @@ public class UpdateComment : ICarterModule
             .RequireAuthorization()
             .WithName("UpdateComment")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized);
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithTags("Comments")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Update comment on ad",
+                Description = "Creates or updates a comment on the specified advertisement. " +
+                              "The request body must contain the comment message. " +
+                              "Only authorized users can add or update comments.",
+            });
 }
-

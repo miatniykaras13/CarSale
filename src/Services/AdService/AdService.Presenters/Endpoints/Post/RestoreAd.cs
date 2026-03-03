@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -36,6 +37,14 @@ public class RestoreAd : ICarterModule
             .WithName("RestoreAd")
             .Produces(StatusCodes.Status200OK)
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags("AdLifecycle")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Restore ad",
+                Description = "Restores a previously deleted advertisement back to the draft state if ad was published or submitted. " +
+                              "Only ads in the 'Deleted' state can be restored. " +
+                              "Only the ad owner can restore their ad. " +
+                              "Returns 404 if the ad does not exist.",
+            });
 }
-

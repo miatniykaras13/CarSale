@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Delete;
 
@@ -35,6 +36,14 @@ public class RemoveComment : ICarterModule
             .RequireAuthorization()
             .WithName("RemoveComment")
             .Produces(StatusCodes.Status200OK)
-            .Produces(StatusCodes.Status401Unauthorized);
+            .Produces(StatusCodes.Status401Unauthorized)
+            .WithTags("Comments")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Remove comment from ad",
+                Description = "Removes the user's comment from the specified advertisement. " +
+                              "Only the comment author can remove their comment. " +
+                              "Returns 200 OK on success.",
+            });
 }
 

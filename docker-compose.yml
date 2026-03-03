@@ -18,6 +18,12 @@ services:
       context: .
       dockerfile: src/Services/AutoCatalog/AutoCatalog.Web/Dockerfile
       
+  adservice.web:
+    image: adservice.web
+    build:
+      context: .
+      dockerfile: src/Services/AdService/AdService.Web/Dockerfile
+      
   keycloak:
     image: quay.io/keycloak/keycloak
     

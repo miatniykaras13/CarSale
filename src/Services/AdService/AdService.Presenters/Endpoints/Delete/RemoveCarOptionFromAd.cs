@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Delete;
 
@@ -36,5 +37,13 @@ public class RemoveCarOptionFromAd : ICarterModule
             .RequireAuthorization()
             .WithName("RemoveCarOptionFromAd")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdCarOptions")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Remove car option from ad",
+                Description = "Removes the association between a car option and an advertisement. " +
+                              "The car option itself is not deleted, only unlinked from the ad. " +
+                              "Only the ad owner can perform this action.",
+            });
 }

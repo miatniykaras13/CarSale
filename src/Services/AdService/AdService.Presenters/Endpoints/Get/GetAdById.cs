@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Get;
 
@@ -31,5 +32,14 @@ public class GetAdById : ICarterModule
             .WithName("GetAdById")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("Ads")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Get ad by id",
+                Description = "Returns a single advertisement by its unique identifier. " +
+                              "Visibility depends on the ad's status and the caller's role: " +
+                              "published ads are visible to everyone, draft/paused/archived ads are only visible to the owner, " +
+                              "and ads pending moderation are visible to moderators.",
+            });
 }

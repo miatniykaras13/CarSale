@@ -61,11 +61,33 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__AppDbContext=Server=autocatalogdb;Port=5432;Database=${AUTOCATALOG_POSTGRES_DB};Username=${AUTOCATALOG_POSTGRES_USER};Password=${AUTOCATALOG_POSTGRES_PASSWORD}
       - FileStorage__Endpoint=https://filemanagement.grpc:8081
+      - RabbitMQ__Host=amqp://rabbitmq:5672
     depends_on:
       - autocatalogdb
     ports:
       - "6000:8080"
       - "6060:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
+      - ${USERPROFILE}/.aspnet/https/:/https/
+        
+  adservice.web:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__AppDbContext=Server=adservicedb;Port=5432;Database=${ADSERVICE_POSTGRES_DB};Username=${ADSERVICE_POSTGRES_USER};Password=${ADSERVICE_POSTGRES_PASSWORD}
+      - ConnectionStrings__Redis=Server=redis;Port=6379;Password=${REDIS_PASSWORD};Username=${REDIS_USER};UserPassword=${REDIS_USER_PASSWORD}
+      - FileStorage__Endpoint=https://filemanagement.grpc:8081
+      - RabbitMQ__Host=amqp://rabbitmq:5672
+      - Authentication__MetadataAddress=http://keycloak:8080/realms/carsale/.well-known/openid-configuration
+      - AutoCatalog__Endpoint=https://autocatalog.web:8081
+    depends_on:
+      - adservicedb
+    ports:
+      - "6002:8080"
+      - "6062:8081"
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/

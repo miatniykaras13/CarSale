@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -36,5 +37,13 @@ public class PauseAd : ICarterModule
             .WithName("PauseAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdLifecycle")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Pause ad",
+                Description = "Temporarily pauses a published advertisement. " +
+                              "Paused ads are hidden from search results but can be resumed by the owner. " +
+                              "Only the ad owner can pause their ad.",
+            });
 }

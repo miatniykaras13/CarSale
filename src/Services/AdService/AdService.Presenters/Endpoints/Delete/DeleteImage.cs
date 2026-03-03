@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Delete;
 
@@ -36,5 +37,13 @@ public class DeleteImage : ICarterModule
             .RequireAuthorization()
             .WithName("DeleteImage")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdImages")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Delete ad image",
+                Description = "Removes an image from the specified advertisement. " +
+                              "Only the ad owner can delete images. " +
+                              "Requires both the ad identifier and the image identifier.",
+            });
 }

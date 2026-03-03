@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -36,5 +37,13 @@ public class PublishAd : ICarterModule
             .WithName("PublishAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdLifecycle")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Publish ad",
+                Description = "Approves and publishes the advertisement after moderation. " +
+                              "The ad transitions to the 'Published' state and becomes visible to all users. " +
+                              "Requires moderator privileges.",
+            });
 }

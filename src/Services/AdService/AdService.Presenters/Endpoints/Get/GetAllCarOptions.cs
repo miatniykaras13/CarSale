@@ -6,6 +6,7 @@ using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Get;
 
@@ -29,5 +30,13 @@ public class GetAllCarOptions : ICarterModule
                 return Results.Ok(result.Value);
             })
             .WithName("GetAllCarOptions")
-            .Produces<IEnumerable<CarOptionDto>>(StatusCodes.Status200OK);
+            .Produces<IEnumerable<CarOptionDto>>(StatusCodes.Status200OK)
+            .WithTags("CarOptions")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Get all car options",
+                Description = "Returns a paginated list of all available car options. " +
+                              "Supports filtering by option type (e.g. safety, comfort, multimedia). " +
+                              "Does not require authorization.",
+            });
 }

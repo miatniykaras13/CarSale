@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Delete;
 
@@ -36,6 +37,15 @@ public class DeleteAd : ICarterModule
             .WithName("DeleteAd")
             .Produces(StatusCodes.Status204NoContent)
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status404NotFound);
+            .Produces(StatusCodes.Status404NotFound)
+            .WithTags("Ads")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Delete ad",
+                Description = "Deletes an advertisement by its identifier. " +
+                              "Only the owner of the ad can perform this action. " +
+                              "Ad can be restored after this operation. " +
+                              "Returns 204 No Content on success.",
+            });
 }
 

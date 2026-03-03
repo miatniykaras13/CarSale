@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -36,5 +37,14 @@ public class SubmitAd : ICarterModule
             .WithName("SubmitAd")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdLifecycle")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Submit ad for moderation",
+                Description = "Submits a draft advertisement for moderator review. " +
+                              "The ad must be in the 'Draft' state and all required fields must be filled. " +
+                              "After submission, the ad enters the 'Pending' state. " +
+                              "Only the ad owner can submit their ad.",
+            });
 }

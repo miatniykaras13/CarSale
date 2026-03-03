@@ -7,17 +7,17 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["src/Services/AdService/AdService/AdService.csproj", "src/Services/AdService/AdService/"]
-RUN dotnet restore "src/Services/AdService/AdService/AdService.csproj"
+COPY ["src/Services/AdService/AdService.Web/AdService.Web.csproj", "src/Services/AdService/AdService.Web/"]
+RUN dotnet restore "src/Services/AdService/AdService.Web/AdService.Web.csproj"
 COPY . .
-WORKDIR "/src/src/Services/AdService/AdService"
-RUN dotnet build "./AdService.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/Services/AdService/AdService.Web"
+RUN dotnet build "./AdService.Web.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./AdService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./AdService.Web.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "AdService.dll"]
+ENTRYPOINT ["dotnet", "AdService.Web.dll"]

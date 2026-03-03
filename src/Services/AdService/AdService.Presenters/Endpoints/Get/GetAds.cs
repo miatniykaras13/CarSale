@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Get;
 
@@ -39,5 +40,15 @@ public class GetAds : ICarterModule
             .WithName("GetAds")
             .Produces(StatusCodes.Status401Unauthorized)
             .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("Ads")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Get ads",
+                Description = "Returns a paginated list of advertisements with optional filtering. " +
+                              "Supports filtering by seller, brand, model, generation, drive type, body type, " +
+                              "fuel type, transmission type, and price range. " +
+                              "The 'includeImageUrl' query parameter controls whether image URLs are included in the response." +
+                              "Ads that are not visible to the current user are not included in the results.",
+            });
 }

@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -42,5 +43,13 @@ public class CreateCarOption : ICarterModule
             .WithName("CreateCarOption")
             .Produces<CreateCarOptionResponse>(StatusCodes.Status201Created)
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status409Conflict);
+            .Produces(StatusCodes.Status409Conflict)
+            .WithTags("CarOptions")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Create car option",
+                Description = "Creates a new car option with the specified type, display name, and technical name. " +
+                              "Returns 409 Conflict if a car option with the same technical name already exists. " +
+                              "Requires admin privileges.",
+            });
 }

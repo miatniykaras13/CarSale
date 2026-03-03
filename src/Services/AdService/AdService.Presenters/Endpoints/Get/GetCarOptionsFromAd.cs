@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Get;
 
@@ -32,5 +33,12 @@ public class GetCarOptionsFromAd : ICarterModule
             })
             .WithName("GetCarOptionsFromAd")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces<IEnumerable<CarOptionDto>>(StatusCodes.Status200OK);
+            .Produces<IEnumerable<CarOptionDto>>(StatusCodes.Status200OK)
+            .WithTags("AdCarOptions")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Get car options from ad",
+                Description = "Returns the list of car options associated with the specified advertisement. " +
+                              "The ad must be visible to the requesting user (owner or published ad).",
+            });
 }

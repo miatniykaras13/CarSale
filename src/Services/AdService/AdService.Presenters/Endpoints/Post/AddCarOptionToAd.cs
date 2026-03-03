@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.OpenApi.Models;
 
 namespace AdService.Presenters.Endpoints.Post;
 
@@ -38,5 +39,13 @@ public class AddCarOptionToAd : ICarterModule
             .RequireAuthorization()
             .WithName("AddCarOptionToAd")
             .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status200OK);
+            .Produces(StatusCodes.Status200OK)
+            .WithTags("AdCarOptions")
+            .WithOpenApi(op => new OpenApiOperation(op)
+            {
+                Summary = "Add car option to ad",
+                Description = "Associates an existing car option with the specified advertisement. " +
+                              "The request body must contain the car option identifier. " +
+                              "Only the ad owner can add options to their ad.",
+            });
 }
