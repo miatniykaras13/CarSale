@@ -40,6 +40,11 @@ public static class DependencyInjection
                 {
                     RoleClaimType = "role", ValidIssuer = configuration["Authentication:ValidIssuer"],
                 };
+                o.BackchannelHttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                };
             });
 
         services.AddAuthorizationBuilder()

@@ -24,6 +24,7 @@ public class FileService(
         string? fileName = null;
         string? bucketName = null;
         long fileSize = 0;
+        string? objectName = null;
         var ct = context.CancellationToken;
         var fileId = Guid.CreateVersion7();
 
@@ -90,14 +91,21 @@ public class FileService(
 
                     await using var stream = pipe.Reader.AsStream(leaveOpen: false);
 
-                    var objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
+                    if (string.IsNullOrEmpty(objectName))
+                        objectName = GenerateObjectName(fileName, contentType, fileId, fileSize);
 
                     var putObjArgs = new PutObjectArgs()
                         .WithBucket(bucketName)
                         .WithObject(objectName)
                         .WithStreamData(stream)
                         .WithObjectSize(fileSize)
-                        .WithContentType(contentType);
+                        .WithContentType(contentType)
+                        .WithHeaders(new Dictionary<string, string>()
+                        {
+                            { "x-file-id", fileId.ToString() },
+                            { "x-file-name", fileName! },
+                            { "x-meta-parent-id", Guid.Empty.ToString() },
+                        });
 
                     await minioClient.PutObjectAsync(putObjArgs, ct);
                 },
@@ -124,6 +132,7 @@ public class FileService(
                 bucketName!,
                 width,
                 height);
+
 
             await managementDbContext.Files.AddAsync(fileInfo, ct);
 
@@ -330,7 +339,15 @@ public class FileService(
             .WithObject(thumbnailObjectName)
             .WithObjectSize(thumbnailSize)
             .WithStreamData(thumbnailStream)
-            .WithContentType(fileInfo.ContentType);
+            .WithContentType(fileInfo.ContentType)
+            .WithHeaders(new Dictionary<string, string>()
+            {
+                { "x-file-id", thumbnailInfo.Id.ToString() },
+                { "x-file-name", thumbnailInfo.Name },
+                { "x-file-width", thumbnailInfo.Width.ToString() },
+                { "x-file-height", thumbnailInfo.Height.ToString() },
+                { "x-parent-id", thumbnailInfo.ParentId.ToString()! },
+            });
 
         await using var transaction = await managementDbContext.Database.BeginTransactionAsync(ct);
         try

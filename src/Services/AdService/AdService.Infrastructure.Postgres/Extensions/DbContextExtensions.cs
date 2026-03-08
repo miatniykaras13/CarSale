@@ -140,7 +140,7 @@ public static class DbContextExtensions
             price: money[0],
             location: locations[0]);
 
-        ads[2].AddImages(new List<AdImage> { AdImage.Of(Guid.CreateVersion7()).Value, AdImage.Of(Guid.CreateVersion7()).Value });
+        ads[2].AddImages(new List<AdImage> { AdImage.Of(new Guid("1c5cd26e-64ae-4557-86ce-6bc4a393e5a0")).Value });
 
         ads[2].Submit();
 
@@ -150,7 +150,7 @@ public static class DbContextExtensions
             price: money[1],
             location: locations[1]);
 
-        ads[3].AddImages(new List<AdImage> { AdImage.Of(Guid.CreateVersion7()).Value, AdImage.Of(Guid.CreateVersion7()).Value });
+        ads[3].AddImages(new List<AdImage> { AdImage.Of(new Guid("3288e3d6-fee5-4548-bebd-04417729909d")).Value });
         ads[3].Submit();
 
         ads[3].Deny(ModerationResult.Of(Guid.NewGuid(), DateTime.UtcNow, DenyReason.COPYRIGHT_VIOLATION, "gsdfg")
@@ -163,7 +163,7 @@ public static class DbContextExtensions
             price: money[2],
             location: locations[2]);
 
-        ads[4].AddImages(new List<AdImage> { AdImage.Of(Guid.NewGuid()).Value, AdImage.Of(Guid.NewGuid()).Value });
+        ads[4].AddImages(new List<AdImage> { AdImage.Of(new Guid("3288e3d6-fee5-4548-bebd-04417729909d")).Value });
         ads[4].Submit();
 
         ads[4].Publish(TimeSpan.FromDays(5), ModerationResult.Of(Guid.CreateVersion7(), DateTime.UtcNow).Value);
@@ -177,7 +177,7 @@ public static class DbContextExtensions
             price: money[3],
             location: locations[3]);
 
-        ads[5].AddImages(new List<AdImage> { AdImage.Of(Guid.CreateVersion7()).Value, AdImage.Of(Guid.CreateVersion7()).Value });
+        ads[5].AddImages(new List<AdImage> { AdImage.Of(new Guid("7dea9638-2d79-44d8-8bb1-5edb606b207d")).Value });
         ads[5].AddCarOptions(new List<CarOption> { carOptions[0], carOptions[1], carOptions[2], carOptions[3] });
 
         ads[5].Submit();

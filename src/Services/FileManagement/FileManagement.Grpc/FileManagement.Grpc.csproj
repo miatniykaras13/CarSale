@@ -34,6 +34,9 @@
   <ItemGroup>
     <Protobuf Include="Protos\file_manager.proto" GrpcServices="Server" />
   </ItemGroup>
-  
+
+  <ItemGroup>
+    <Content Include="Data\Initial\Images\**" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+  </ItemGroup>
 
 </Project>

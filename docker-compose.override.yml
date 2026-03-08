@@ -59,11 +59,11 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__AppDbContext=Server=autocatalogdb;Port=5432;Database=${AUTOCATALOG_POSTGRES_DB};Username=${AUTOCATALOG_POSTGRES_USER};Password=${AUTOCATALOG_POSTGRES_PASSWORD}
+      - ConnectionStrings__AppDbContext=Server=${AUTOCATALOG_POSTGRES_SERVER};Port=5432;Database=${AUTOCATALOG_POSTGRES_DB};Username=${AUTOCATALOG_POSTGRES_USER};Password=${AUTOCATALOG_POSTGRES_PASSWORD}
+      - Authentication__MetadataAddress=http://keycloak:8080/realms/carsale/.well-known/openid-configuration
+      - Authentication__ValidIssuer=http://localhost:8080/realms/carsale
       - FileStorage__Endpoint=https://filemanagement.grpc:8081
       - RabbitMQ__Host=amqp://rabbitmq:5672
-    depends_on:
-      - autocatalogdb
     ports:
       - "6000:8080"
       - "6060:8081"
@@ -77,14 +77,13 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__AppDbContext=Server=adservicedb;Port=5432;Database=${ADSERVICE_POSTGRES_DB};Username=${ADSERVICE_POSTGRES_USER};Password=${ADSERVICE_POSTGRES_PASSWORD}
-      - ConnectionStrings__Redis=Server=redis;Port=6379;Password=${REDIS_PASSWORD};Username=${REDIS_USER};UserPassword=${REDIS_USER_PASSWORD}
+      - ConnectionStrings__AppDbContext=Server=${ADSERVICE_POSTGRES_SERVER};Port=5432;Database=${ADSERVICE_POSTGRES_DB};Username=${ADSERVICE_POSTGRES_USER};Password=${ADSERVICE_POSTGRES_PASSWORD}
+      - ConnectionStrings__Redis=redis:6379
       - FileStorage__Endpoint=https://filemanagement.grpc:8081
       - RabbitMQ__Host=amqp://rabbitmq:5672
       - Authentication__MetadataAddress=http://keycloak:8080/realms/carsale/.well-known/openid-configuration
+      - Authentication__ValidIssuer=http://localhost:8080/realms/carsale
       - AutoCatalog__Endpoint=https://autocatalog.web:8081
-    depends_on:
-      - adservicedb
     ports:
       - "6002:8080"
       - "6062:8081"
@@ -106,18 +105,35 @@ services:
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0
-    command: start-dev
+    command: >
+      start
+      --import-realm
+      --https-port=8443
+      --http-port=8080
+      --http-enabled=true
+      --hostname-strict=false
+      --https-key-store-file=/opt/keycloak/conf/server.keystore
+      --https-key-store-password=password
+    entrypoint: >
+      /bin/bash -c "
+      if ! keytool -list -alias server -keystore /opt/keycloak/conf/server.keystore -storepass password > /dev/null 2>&1; then
+        keytool -genkeypair -storepass password -storetype PKCS12 -keyalg RSA -keysize 2048 -dname 'CN=keycloak' -alias server -ext 'SAN:c=DNS:keycloak,DNS:localhost,IP:127.0.0.1' -keystore /opt/keycloak/conf/server.keystore;
+      fi &&
+      /opt/keycloak/bin/kc.sh $$@
+      " --
     environment:
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KC_BOOTSTRAP_ADMIN_USERNAME: kc-admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: 1111
       KC_DB: postgres
-      KC_DB_URL: jdbc:postgresql://keycloakdb:5432/KeycloakDb
-      KC_DB_USERNAME: ${KEYCLOAK_DB_USERNAME}
-      KC_DB_PASSWORD: ${KEYCLOAK_DB_PASSWORD}
+      KC_DB_URL: jdbc:postgresql://${KEYCLOAK_POSTGRES_SERVER}:5432/${KEYCLOAK_POSTGRES_DB}
+      KC_DB_USERNAME: ${KEYCLOAK_POSTGRES_USERNAME}
+      KC_DB_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     ports:
       - "8080:8080"
-    depends_on:
-      - keycloakdb
+      - "8443:8443"
+    volumes:
+      - ./keycloak/realm/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
+      - keycloak-keystore:/opt/keycloak/conf
   
   minio:
     container_name: minio
@@ -156,12 +172,15 @@ services:
   
   
   filemanagement.grpc:
+    depends_on:
+      minio:
+        condition: service_healthy
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       - ASPNETCORE_HTTP_PORTS=8080
       - ASPNETCORE_HTTPS_PORTS=8081
-      - ConnectionStrings__FileManagementDbContext=Data Source=/app/filedb
+      - ConnectionStrings__FileManagementDbContext=Data Source=/app/data/filedb
       - Minio__Endpoint=minio:9000
     ports:
       - "6001:8080"
@@ -169,6 +188,7 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/
+      - file-management-data:/app/data/
 
 
 configs:

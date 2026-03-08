@@ -1,6 +1,7 @@
 ﻿using AdService.Application.Abstractions.Data;
 using AdService.Application.Abstractions.FileStorage;
 using AdService.Application.Options;
+using AdService.Contracts.Files;
 using AdService.Domain.ValueObjects;
 using Microsoft.Extensions.Options;
 
@@ -9,8 +10,11 @@ namespace AdService.Application.Commands.UploadImage;
 public class UploadImageHandler(
     IFileStorage fileStorage,
     IAppDbContext dbContext,
-    IOptions<FileStorageOptions> fileStorageOptions) : ICommandHandler<UploadImageCommand, Result<Guid, List<Error>>>
+    IOptions<FileStorageOptions> fileStorageOptions,
+    IOptions<ImageDefaultOptions> options) : ICommandHandler<UploadImageCommand, Result<Guid, List<Error>>>
 {
+    private readonly ImageDefaultOptions _imageDefaultOptions = options.Value;
+
     public async Task<Result<Guid, List<Error>>> Handle(UploadImageCommand command, CancellationToken ct)
     {
         var ad = await dbContext.Ads
@@ -53,8 +57,58 @@ public class UploadImageHandler(
 
         if (adImageResult.IsFailure) return Result.Failure<Guid, List<Error>>(adImageResult.Error);
 
+        await GenerateThumbnails(imageResult.Value, ct);
+
         await dbContext.SaveChangesAsync(ct);
 
         return Result.Success<Guid, List<Error>>(imageId);
+    }
+
+    private async Task<UnitResult<Error>> GenerateThumbnails(AdImage image, CancellationToken ct)
+    {
+        var smallThumbnailDto = new ThumbnailDto(
+            _imageDefaultOptions.SmallThumbnailWidth,
+            _imageDefaultOptions.SmallThumbnailHeight);
+
+        var mediumThumbnailDto = new ThumbnailDto(
+            _imageDefaultOptions.MediumThumbnailWidth,
+            _imageDefaultOptions.MediumThumbnailHeight);
+
+        var largeThumbnailDto = new ThumbnailDto(
+            _imageDefaultOptions.LargeThumbnailWidth,
+            _imageDefaultOptions.LargeThumbnailHeight);
+
+        var smallThumbnailId =
+            await fileStorage.GenerateThumbnailAsync(image.Id, smallThumbnailDto, ct);
+
+        var mediumThumbnailId =
+            await fileStorage.GenerateThumbnailAsync(image.Id, mediumThumbnailDto, ct);
+
+        var largeThumbnailId =
+            await fileStorage.GenerateThumbnailAsync(image.Id, largeThumbnailDto, ct);
+
+        var smallThumbnailResult = Thumbnail.Of(
+            smallThumbnailId,
+            image.Id,
+            smallThumbnailDto.Width,
+            smallThumbnailDto.Height);
+
+        var mediumThumbnailResult = Thumbnail.Of(
+            mediumThumbnailId,
+            image.Id,
+            mediumThumbnailDto.Width,
+            mediumThumbnailDto.Height);
+
+        var largeThumbnailResult = Thumbnail.Of(
+            largeThumbnailId,
+            image.Id,
+            largeThumbnailDto.Width,
+            largeThumbnailDto.Height);
+
+        image.AddThumbnail(smallThumbnailResult.Value);
+        image.AddThumbnail(mediumThumbnailResult.Value);
+        image.AddThumbnail(largeThumbnailResult.Value);
+
+        return UnitResult.Success<Error>();
     }
 }

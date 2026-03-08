@@ -1,6 +1,6 @@
-﻿using AdService.Domain.ValueObjects;
+﻿using AdService.Domain.Aggregates;
 using BuildingBlocks.DDD;
 
 namespace AdService.Domain.Events;
 
-public record ImagesAddedEvent(IList<AdImage> Images) : IDomainEvent;
+public record ImagesAddedEvent(Ad Ad) : IDomainEvent;

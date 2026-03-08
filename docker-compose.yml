@@ -48,6 +48,8 @@ volumes:
   auto-catalog-postgres:
   ad-service-postgres:
   keycloak-data:
+  keycloak-keystore:
+  file-management-data:
   minio-data:
     driver: local
   redis-data:

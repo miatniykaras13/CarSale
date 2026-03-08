@@ -37,7 +37,6 @@ public static class DependencyInjection
         return services;
     }
 
-
     public static IServiceCollection AddApiAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)
@@ -52,6 +51,11 @@ public static class DependencyInjection
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidIssuer = configuration["Authentication:ValidIssuer"],
+                };
+                o.BackchannelHttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
                 };
             });
 

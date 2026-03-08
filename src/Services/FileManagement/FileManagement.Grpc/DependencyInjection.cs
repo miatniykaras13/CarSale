@@ -1,5 +1,7 @@
-﻿using FileManagement.Grpc.Data;
+﻿using FileManagement.Grpc.BackgroundServices;
+using FileManagement.Grpc.Data;
 using FileManagement.Grpc.Infra;
+using FileManagement.Grpc.Options;
 using Microsoft.EntityFrameworkCore;
 using Minio;
 
@@ -18,7 +20,10 @@ public static class DependencyInjection
         services.AddDbContext<FileManagementDbContext>(options =>
             options.UseSqlite(configuration.GetConnectionString("FileManagementDbContext")));
 
+        services.Configure<MinioSyncOptions>(configuration.GetSection("Minio"));
         services.AddScoped<IImageProcessor, ImageProcessor>();
+
+        services.AddHostedService<MinioSyncService>();
 
         services.AddFileStorage(configuration);
     }
