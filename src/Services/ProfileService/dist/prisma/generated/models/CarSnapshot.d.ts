@@ -311,9 +311,9 @@ export type CarSnapshotUncheckedUpdateManyInput = {
     fuelType?: Prisma.StringFieldUpdateOperationsInput | string;
     bodyType?: Prisma.StringFieldUpdateOperationsInput | string;
 };
-export type CarSnapshotScalarRelationFilter = {
-    is?: Prisma.CarSnapshotWhereInput;
-    isNot?: Prisma.CarSnapshotWhereInput;
+export type CarSnapshotNullableScalarRelationFilter = {
+    is?: Prisma.CarSnapshotWhereInput | null;
+    isNot?: Prisma.CarSnapshotWhereInput | null;
 };
 export type CarSnapshotCountOrderByAggregateInput = {
     id?: Prisma.SortOrder;
@@ -364,12 +364,21 @@ export type CarSnapshotCreateNestedOneWithoutAdInput = {
     connectOrCreate?: Prisma.CarSnapshotCreateOrConnectWithoutAdInput;
     connect?: Prisma.CarSnapshotWhereUniqueInput;
 };
-export type CarSnapshotUpdateOneRequiredWithoutAdNestedInput = {
+export type CarSnapshotUpdateOneWithoutAdNestedInput = {
     create?: Prisma.XOR<Prisma.CarSnapshotCreateWithoutAdInput, Prisma.CarSnapshotUncheckedCreateWithoutAdInput>;
     connectOrCreate?: Prisma.CarSnapshotCreateOrConnectWithoutAdInput;
     upsert?: Prisma.CarSnapshotUpsertWithoutAdInput;
+    disconnect?: Prisma.CarSnapshotWhereInput | boolean;
+    delete?: Prisma.CarSnapshotWhereInput | boolean;
     connect?: Prisma.CarSnapshotWhereUniqueInput;
     update?: Prisma.XOR<Prisma.XOR<Prisma.CarSnapshotUpdateToOneWithWhereWithoutAdInput, Prisma.CarSnapshotUpdateWithoutAdInput>, Prisma.CarSnapshotUncheckedUpdateWithoutAdInput>;
+};
+export type IntFieldUpdateOperationsInput = {
+    set?: number;
+    increment?: number;
+    decrement?: number;
+    multiply?: number;
+    divide?: number;
 };
 export type FloatFieldUpdateOperationsInput = {
     set?: number;

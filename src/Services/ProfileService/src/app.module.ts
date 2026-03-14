@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProfileModule } from './profile/profile.module';
-import { AdModule } from './ad/ad.module';
 import { ConfigModule } from '@nestjs/config'
 import { 
 	KeycloakConnectModule,
@@ -13,13 +12,17 @@ import { APP_GUARD } from '@nestjs/core'
 import { ConfigModules } from './config/config.module';
 import { KeycloakConfigService } from '@/config/keycloak-config.service'
 import { HttpModule } from '@nestjs/axios'
+import { join } from 'path'
 
 @Module({
   imports: [ 
 	  ProfileModule,
-	  AdModule,
 	  ConfigModule.forRoot({
-		  isGlobal: true
+		  isGlobal: true,
+		  envFilePath: [
+			  join(__dirname, '..', '..', '..', '.env'),
+			  join(process.cwd(), '..', '..', '..', '.env')
+		  ]
 	  }),
 	  KeycloakConnectModule.registerAsync({
 		  useClass: KeycloakConfigService,

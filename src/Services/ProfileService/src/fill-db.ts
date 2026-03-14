@@ -2,11 +2,7 @@
 import { BadRequestException } from '@nestjs/common'
 
 export async function fillDb(prismaService: PrismaService) {
-	const user = await prismaService.user.findFirst({
-		where: {
-			id: "123e4567-e89b-12d3-a456-426655440000123e4567-e89b-12d3-a456-426655440000"
-		}
-	})
+	const user = await prismaService.user.findFirst()
 
 	if (!user)
 		throw new BadRequestException("User not created to fill database")

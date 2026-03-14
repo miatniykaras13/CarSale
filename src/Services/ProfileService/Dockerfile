@@ -1,10 +1,26 @@
-FROM node:lts-alpine
-ENV NODE_ENV=production
-WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
-RUN npm install --production --silent && mv node_modules ../
+FROM node:20
+
+WORKDIR /app
+
+COPY package.json pnpm-lock.yaml* ./
+
+RUN apt-get update && apt-get install -y npm
+
+RUN npm install -g pnpm@latest
+
 COPY . .
-EXPOSE 4000
-RUN chown -R node /usr/src/app
-USER node
-CMD ["npm", "start"]
+
+RUN pnpm install --frozen-lockfile
+
+ARG PROFILESERVICE_POSTGRES_URL
+ENV PROFILESERVICE_POSTGRES_URL=$PROFILESERVICE_POSTGRES_URL
+
+RUN npx prisma generate
+
+RUN pnpm build
+
+RUN pnpm prune --prod
+
+EXPOSE 6003
+
+CMD ["node", "dist/src/main.js"]

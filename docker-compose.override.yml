@@ -126,4 +126,28 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/
+        
+  profileservice.api:
+    environment:
+      - KEYCLOAK_URL=http://keycloak:8080
+      - KEYCLOAK_REALM=carsale
+      - KEYCLOAK_CLIENT_ID=profile-service
+      - KEYCLOAK_CLIENT_SECRET=secret
+      - KEYCLOAK_BASE_URL=http://keycloak:8080
+      - KEYCLOAK_AUTH_REALM=carsale
 
+      - KEYCLOAK_ADMIN_CLIENT=profile-service
+      - KEYCLOAK_ADMIN_USERNAME=kc-admin
+      - KEYCLOAK_ADMIN_PASSWORD=1111
+      - KEYCLOAK_ADMIN_SECRET=cOtGUlHQS2KjbhMakmTOpAZNxBIczfSP
+      
+      - PROFILESERVICE_POSTGRES_PORT=5432
+      - PROFILESERVICE_POSTGRES_USER=postgres
+      - PROFILESERVICE_POSTGRES_PASSWORD=1111
+      - PROFILESERVICE_POSTGRES_HOST=profileservicedb
+      - PROFILESERVICE_POSTGRES_DB=ProfileServiceDb
+      - PROFILESERVICE_POSTGRES_URL=postgresql://postgres:1111@profileservicedb:5432/ProfileServiceDb
+    ports:
+      - "4000:6003"
+    depends_on:
+      - profileservicedb

@@ -31,19 +31,19 @@ model AdSnapshot {
     id String @id @default(uuid())
 
     userId String
-    user   User   @relation(fields: [userId], references: [id])
+    user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-    title       String
+    title       String?
     description String?
 
-    carId String      @unique
-    car   CarSnapshot @relation(fields: [carId], references: [id])
+    carId String?      @unique
+    car   CarSnapshot? @relation(fields: [carId], references: [id])
 
-    city   String
-    region String
+    city   String?
+    region String?
 
-    costAmount   Int
-    currencyCode String
+    costAmount   Int?
+    currencyCode String?
 }
 
 model CarSnapshot {

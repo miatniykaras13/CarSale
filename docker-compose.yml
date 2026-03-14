@@ -31,7 +31,15 @@ services:
       
   profileservicedb:
     image: postgres:17
-
+    
+  profileservice.api:
+    image: profileservice.api
+    build:
+      context: ./src/Services/ProfileService
+      dockerfile: Dockerfile
+      args:
+        PROFILESERVICE_POSTGRES_URL: postgresql://postgres:1111@profileservicedb:5432/ProfileServiceDb
+  
       
       
 volumes:

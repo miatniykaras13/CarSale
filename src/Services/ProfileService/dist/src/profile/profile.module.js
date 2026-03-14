@@ -11,13 +11,14 @@ const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
 const profile_controller_1 = require("./profile.controller");
 const prisma_module_1 = require("../prisma/prisma.module");
+const keycloak_admin_service_1 = require("../keycloak/keycloak-admin.service");
 let ProfileModule = class ProfileModule {
 };
 exports.ProfileModule = ProfileModule;
 exports.ProfileModule = ProfileModule = __decorate([
     (0, common_1.Module)({
         controllers: [profile_controller_1.ProfileController],
-        providers: [profile_service_1.ProfileService],
+        providers: [profile_service_1.ProfileService, keycloak_admin_service_1.KeycloakAdminService],
         imports: [prisma_module_1.PrismaModule],
     })
 ], ProfileModule);

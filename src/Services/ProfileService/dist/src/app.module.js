@@ -11,13 +11,13 @@ const common_1 = require("@nestjs/common");
 const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const profile_module_1 = require("./profile/profile.module");
-const ad_module_1 = require("./ad/ad.module");
 const config_1 = require("@nestjs/config");
 const nest_keycloak_connect_1 = require("nest-keycloak-connect");
 const core_1 = require("@nestjs/core");
 const config_module_1 = require("./config/config.module");
 const keycloak_config_service_1 = require("./config/keycloak-config.service");
 const axios_1 = require("@nestjs/axios");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -25,9 +25,12 @@ exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
             profile_module_1.ProfileModule,
-            ad_module_1.AdModule,
             config_1.ConfigModule.forRoot({
-                isGlobal: true
+                isGlobal: true,
+                envFilePath: [
+                    (0, path_1.join)(__dirname, '..', '..', '..', '.env'),
+                    (0, path_1.join)(process.cwd(), '..', '..', '..', '.env')
+                ]
             }),
             nest_keycloak_connect_1.KeycloakConnectModule.registerAsync({
                 useClass: keycloak_config_service_1.KeycloakConfigService,

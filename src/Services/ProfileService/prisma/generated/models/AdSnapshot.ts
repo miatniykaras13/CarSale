@@ -206,13 +206,13 @@ export type AdSnapshotGroupByArgs<ExtArgs extends runtime.Types.Extensions.Inter
 export type AdSnapshotGroupByOutputType = {
   id: string
   userId: string
-  title: string
+  title: string | null
   description: string | null
-  carId: string
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  carId: string | null
+  city: string | null
+  region: string | null
+  costAmount: number | null
+  currencyCode: string | null
   _count: AdSnapshotCountAggregateOutputType | null
   _avg: AdSnapshotAvgAggregateOutputType | null
   _sum: AdSnapshotSumAggregateOutputType | null
@@ -241,27 +241,27 @@ export type AdSnapshotWhereInput = {
   NOT?: Prisma.AdSnapshotWhereInput | Prisma.AdSnapshotWhereInput[]
   id?: Prisma.StringFilter<"AdSnapshot"> | string
   userId?: Prisma.StringFilter<"AdSnapshot"> | string
-  title?: Prisma.StringFilter<"AdSnapshot"> | string
+  title?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
   description?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
-  carId?: Prisma.StringFilter<"AdSnapshot"> | string
-  city?: Prisma.StringFilter<"AdSnapshot"> | string
-  region?: Prisma.StringFilter<"AdSnapshot"> | string
-  costAmount?: Prisma.IntFilter<"AdSnapshot"> | number
-  currencyCode?: Prisma.StringFilter<"AdSnapshot"> | string
+  carId?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  city?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  region?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  costAmount?: Prisma.IntNullableFilter<"AdSnapshot"> | number | null
+  currencyCode?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  car?: Prisma.XOR<Prisma.CarSnapshotScalarRelationFilter, Prisma.CarSnapshotWhereInput>
+  car?: Prisma.XOR<Prisma.CarSnapshotNullableScalarRelationFilter, Prisma.CarSnapshotWhereInput> | null
 }
 
 export type AdSnapshotOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  carId?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  region?: Prisma.SortOrder
-  costAmount?: Prisma.SortOrder
-  currencyCode?: Prisma.SortOrder
+  carId?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  costAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  currencyCode?: Prisma.SortOrderInput | Prisma.SortOrder
   user?: Prisma.UserOrderByWithRelationInput
   car?: Prisma.CarSnapshotOrderByWithRelationInput
 }
@@ -273,26 +273,26 @@ export type AdSnapshotWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.AdSnapshotWhereInput[]
   NOT?: Prisma.AdSnapshotWhereInput | Prisma.AdSnapshotWhereInput[]
   userId?: Prisma.StringFilter<"AdSnapshot"> | string
-  title?: Prisma.StringFilter<"AdSnapshot"> | string
+  title?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
   description?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
-  city?: Prisma.StringFilter<"AdSnapshot"> | string
-  region?: Prisma.StringFilter<"AdSnapshot"> | string
-  costAmount?: Prisma.IntFilter<"AdSnapshot"> | number
-  currencyCode?: Prisma.StringFilter<"AdSnapshot"> | string
+  city?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  region?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  costAmount?: Prisma.IntNullableFilter<"AdSnapshot"> | number | null
+  currencyCode?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
-  car?: Prisma.XOR<Prisma.CarSnapshotScalarRelationFilter, Prisma.CarSnapshotWhereInput>
+  car?: Prisma.XOR<Prisma.CarSnapshotNullableScalarRelationFilter, Prisma.CarSnapshotWhereInput> | null
 }, "id" | "carId">
 
 export type AdSnapshotOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   userId?: Prisma.SortOrder
-  title?: Prisma.SortOrder
+  title?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
-  carId?: Prisma.SortOrder
-  city?: Prisma.SortOrder
-  region?: Prisma.SortOrder
-  costAmount?: Prisma.SortOrder
-  currencyCode?: Prisma.SortOrder
+  carId?: Prisma.SortOrderInput | Prisma.SortOrder
+  city?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  costAmount?: Prisma.SortOrderInput | Prisma.SortOrder
+  currencyCode?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AdSnapshotCountOrderByAggregateInput
   _avg?: Prisma.AdSnapshotAvgOrderByAggregateInput
   _max?: Prisma.AdSnapshotMaxOrderByAggregateInput
@@ -306,95 +306,95 @@ export type AdSnapshotScalarWhereWithAggregatesInput = {
   NOT?: Prisma.AdSnapshotScalarWhereWithAggregatesInput | Prisma.AdSnapshotScalarWhereWithAggregatesInput[]
   id?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
   userId?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
-  title?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
+  title?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null
-  carId?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
-  city?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
-  region?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
-  costAmount?: Prisma.IntWithAggregatesFilter<"AdSnapshot"> | number
-  currencyCode?: Prisma.StringWithAggregatesFilter<"AdSnapshot"> | string
+  carId?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null
+  city?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null
+  region?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null
+  costAmount?: Prisma.IntNullableWithAggregatesFilter<"AdSnapshot"> | number | null
+  currencyCode?: Prisma.StringNullableWithAggregatesFilter<"AdSnapshot"> | string | null
 }
 
 export type AdSnapshotCreateInput = {
   id?: string
-  title: string
+  title?: string | null
   description?: string | null
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
   user: Prisma.UserCreateNestedOneWithoutAdsInput
-  car: Prisma.CarSnapshotCreateNestedOneWithoutAdInput
+  car?: Prisma.CarSnapshotCreateNestedOneWithoutAdInput
 }
 
 export type AdSnapshotUncheckedCreateInput = {
   id?: string
   userId: string
-  title: string
+  title?: string | null
   description?: string | null
-  carId: string
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  carId?: string | null
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
 }
 
 export type AdSnapshotUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutAdsNestedInput
-  car?: Prisma.CarSnapshotUpdateOneRequiredWithoutAdNestedInput
+  car?: Prisma.CarSnapshotUpdateOneWithoutAdNestedInput
 }
 
 export type AdSnapshotUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carId?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  carId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AdSnapshotCreateManyInput = {
   id?: string
   userId: string
-  title: string
+  title?: string | null
   description?: string | null
-  carId: string
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  carId?: string | null
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
 }
 
 export type AdSnapshotUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AdSnapshotUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carId?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  carId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AdSnapshotListRelationFilter = {
@@ -498,8 +498,8 @@ export type AdSnapshotUncheckedUpdateManyWithoutUserNestedInput = {
   deleteMany?: Prisma.AdSnapshotScalarWhereInput | Prisma.AdSnapshotScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
+export type NullableIntFieldUpdateOperationsInput = {
+  set?: number | null
   increment?: number
   decrement?: number
   multiply?: number
@@ -540,24 +540,24 @@ export type AdSnapshotUncheckedUpdateOneWithoutCarNestedInput = {
 
 export type AdSnapshotCreateWithoutUserInput = {
   id?: string
-  title: string
+  title?: string | null
   description?: string | null
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
-  car: Prisma.CarSnapshotCreateNestedOneWithoutAdInput
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
+  car?: Prisma.CarSnapshotCreateNestedOneWithoutAdInput
 }
 
 export type AdSnapshotUncheckedCreateWithoutUserInput = {
   id?: string
-  title: string
+  title?: string | null
   description?: string | null
-  carId: string
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  carId?: string | null
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
 }
 
 export type AdSnapshotCreateOrConnectWithoutUserInput = {
@@ -592,35 +592,35 @@ export type AdSnapshotScalarWhereInput = {
   NOT?: Prisma.AdSnapshotScalarWhereInput | Prisma.AdSnapshotScalarWhereInput[]
   id?: Prisma.StringFilter<"AdSnapshot"> | string
   userId?: Prisma.StringFilter<"AdSnapshot"> | string
-  title?: Prisma.StringFilter<"AdSnapshot"> | string
+  title?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
   description?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
-  carId?: Prisma.StringFilter<"AdSnapshot"> | string
-  city?: Prisma.StringFilter<"AdSnapshot"> | string
-  region?: Prisma.StringFilter<"AdSnapshot"> | string
-  costAmount?: Prisma.IntFilter<"AdSnapshot"> | number
-  currencyCode?: Prisma.StringFilter<"AdSnapshot"> | string
+  carId?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  city?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  region?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
+  costAmount?: Prisma.IntNullableFilter<"AdSnapshot"> | number | null
+  currencyCode?: Prisma.StringNullableFilter<"AdSnapshot"> | string | null
 }
 
 export type AdSnapshotCreateWithoutCarInput = {
   id?: string
-  title: string
+  title?: string | null
   description?: string | null
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
   user: Prisma.UserCreateNestedOneWithoutAdsInput
 }
 
 export type AdSnapshotUncheckedCreateWithoutCarInput = {
   id?: string
   userId: string
-  title: string
+  title?: string | null
   description?: string | null
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
 }
 
 export type AdSnapshotCreateOrConnectWithoutCarInput = {
@@ -641,68 +641,68 @@ export type AdSnapshotUpdateToOneWithWhereWithoutCarInput = {
 
 export type AdSnapshotUpdateWithoutCarInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   user?: Prisma.UserUpdateOneRequiredWithoutAdsNestedInput
 }
 
 export type AdSnapshotUncheckedUpdateWithoutCarInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   userId?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AdSnapshotCreateManyUserInput = {
   id?: string
-  title: string
+  title?: string | null
   description?: string | null
-  carId: string
-  city: string
-  region: string
-  costAmount: number
-  currencyCode: string
+  carId?: string | null
+  city?: string | null
+  region?: string | null
+  costAmount?: number | null
+  currencyCode?: string | null
 }
 
 export type AdSnapshotUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
-  car?: Prisma.CarSnapshotUpdateOneRequiredWithoutAdNestedInput
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  car?: Prisma.CarSnapshotUpdateOneWithoutAdNestedInput
 }
 
 export type AdSnapshotUncheckedUpdateWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carId?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  carId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AdSnapshotUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
-  title?: Prisma.StringFieldUpdateOperationsInput | string
+  title?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
-  carId?: Prisma.StringFieldUpdateOperationsInput | string
-  city?: Prisma.StringFieldUpdateOperationsInput | string
-  region?: Prisma.StringFieldUpdateOperationsInput | string
-  costAmount?: Prisma.IntFieldUpdateOperationsInput | number
-  currencyCode?: Prisma.StringFieldUpdateOperationsInput | string
+  carId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  costAmount?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  currencyCode?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -718,7 +718,7 @@ export type AdSnapshotSelect<ExtArgs extends runtime.Types.Extensions.InternalAr
   costAmount?: boolean
   currencyCode?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>
+  car?: boolean | Prisma.AdSnapshot$carArgs<ExtArgs>
 }, ExtArgs["result"]["adSnapshot"]>
 
 export type AdSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -732,7 +732,7 @@ export type AdSnapshotSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ex
   costAmount?: boolean
   currencyCode?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>
+  car?: boolean | Prisma.AdSnapshot$carArgs<ExtArgs>
 }, ExtArgs["result"]["adSnapshot"]>
 
 export type AdSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -746,7 +746,7 @@ export type AdSnapshotSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ex
   costAmount?: boolean
   currencyCode?: boolean
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>
+  car?: boolean | Prisma.AdSnapshot$carArgs<ExtArgs>
 }, ExtArgs["result"]["adSnapshot"]>
 
 export type AdSnapshotSelectScalar = {
@@ -764,33 +764,33 @@ export type AdSnapshotSelectScalar = {
 export type AdSnapshotOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "userId" | "title" | "description" | "carId" | "city" | "region" | "costAmount" | "currencyCode", ExtArgs["result"]["adSnapshot"]>
 export type AdSnapshotInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>
+  car?: boolean | Prisma.AdSnapshot$carArgs<ExtArgs>
 }
 export type AdSnapshotIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>
+  car?: boolean | Prisma.AdSnapshot$carArgs<ExtArgs>
 }
 export type AdSnapshotIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
-  car?: boolean | Prisma.CarSnapshotDefaultArgs<ExtArgs>
+  car?: boolean | Prisma.AdSnapshot$carArgs<ExtArgs>
 }
 
 export type $AdSnapshotPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "AdSnapshot"
   objects: {
     user: Prisma.$UserPayload<ExtArgs>
-    car: Prisma.$CarSnapshotPayload<ExtArgs>
+    car: Prisma.$CarSnapshotPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     userId: string
-    title: string
+    title: string | null
     description: string | null
-    carId: string
-    city: string
-    region: string
-    costAmount: number
-    currencyCode: string
+    carId: string | null
+    city: string | null
+    region: string | null
+    costAmount: number | null
+    currencyCode: string | null
   }, ExtArgs["result"]["adSnapshot"]>
   composites: {}
 }
@@ -1186,7 +1186,7 @@ readonly fields: AdSnapshotFieldRefs;
 export interface Prisma__AdSnapshotClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
-  car<T extends Prisma.CarSnapshotDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.CarSnapshotDefaultArgs<ExtArgs>>): Prisma.Prisma__CarSnapshotClient<runtime.Types.Result.GetResult<Prisma.$CarSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  car<T extends Prisma.AdSnapshot$carArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AdSnapshot$carArgs<ExtArgs>>): Prisma.Prisma__CarSnapshotClient<runtime.Types.Result.GetResult<Prisma.$CarSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1618,6 +1618,25 @@ export type AdSnapshotDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.In
    * Limit how many AdSnapshots to delete.
    */
   limit?: number
+}
+
+/**
+ * AdSnapshot.car
+ */
+export type AdSnapshot$carArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CarSnapshot
+   */
+  select?: Prisma.CarSnapshotSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CarSnapshot
+   */
+  omit?: Prisma.CarSnapshotOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CarSnapshotInclude<ExtArgs> | null
+  where?: Prisma.CarSnapshotWhereInput
 }
 
 /**
