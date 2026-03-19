@@ -4,10 +4,10 @@ services:
     image: rabbitmq:latest
     
   autocatalogdb:
-    image: postgres
+    image: postgres:17
     
   adservicedb:
-    image: postgres
+    image: postgres:17
     
   redis:
     image: redis:latest
@@ -28,7 +28,7 @@ services:
     image: quay.io/keycloak/keycloak
     
   keycloakdb:
-    image: postgres
+    image: postgres:17
     
   minio:
     image: minio/minio:latest
@@ -42,11 +42,23 @@ services:
       context: .
       dockerfile: src/Services/FileManagement/FileManagement.Grpc/Dockerfile
       
+  profileservicedb:
+    image: postgres:17
+    
+  profileservice.api:
+    image: profileservice.api
+    build:
+      context: ./src/Services/ProfileService
+      dockerfile: Dockerfile
+      args:
+        PROFILESERVICE_POSTGRES_URL: postgresql://postgres:1111@profileservicedb:5432/ProfileServiceDb
+  
       
       
 volumes:
   auto-catalog-postgres:
   ad-service-postgres:
+  profile-service-postgres-data:
   keycloak-data:
   keycloak-keystore:
   file-management-data:
