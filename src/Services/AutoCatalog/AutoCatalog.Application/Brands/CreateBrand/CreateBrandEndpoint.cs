@@ -32,6 +32,7 @@ public class CreateBrandEndpoint : ICarterModule
                 CreateBrandResponse response = new(result.Value);
                 return Results.Created($"/brands/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateBrand")
             .Produces<CreateBrandResponse>(StatusCodes.Status201Created)
             .ProducesPostProblems()

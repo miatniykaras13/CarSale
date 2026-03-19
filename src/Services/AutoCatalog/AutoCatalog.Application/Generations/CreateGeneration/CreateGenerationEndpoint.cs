@@ -31,6 +31,7 @@ public class CreateGenerationEndpoint : ICarterModule
                 CreateGenerationResponse response = new(result.Value);
                 return Results.Created($"/generations/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateGeneration")
             .Produces<CreateGenerationResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)

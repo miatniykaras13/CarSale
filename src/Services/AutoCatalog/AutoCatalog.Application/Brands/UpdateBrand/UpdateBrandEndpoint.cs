@@ -32,6 +32,7 @@ public class UpdateBrandEndpoint : ICarterModule
 
                 return Results.Ok(new UpdateBrandResponse(result.Value));
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateBrand")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

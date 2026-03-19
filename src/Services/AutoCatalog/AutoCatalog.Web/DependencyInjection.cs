@@ -2,7 +2,6 @@
 using AutoCatalog.Application;
 using AutoCatalog.Infrastructure;
 using BuildingBlocks.Exceptions.Handlers;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Json;
 using Microsoft.IdentityModel.Tokens;
@@ -16,11 +15,12 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddInfrastructure(configuration);
-        services.AddWeb();
-        services.AddApplication(configuration);
-        services.AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString(nameof(AppDbContext))!);
+        services
+            .AddInfrastructure(configuration)
+            .AddWeb()
+            .AddApplication(configuration)
+            .AddHealthChecks()
+            .AddNpgSql(configuration.GetConnectionString("AppDbContext")!);
         return services;
     }
 
@@ -35,19 +35,23 @@ public static class DependencyInjection
                 o.RequireHttpsMetadata = false;
                 o.Audience = configuration["Authentication:Audience"];
                 o.MetadataAddress = configuration["Authentication:MetadataAddress"]!;
+                o.MapInboundClaims = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidIssuer = configuration["Authentication:ValidIssuer"],
+                    RoleClaimType = "role", ValidIssuer = configuration["Authentication:ValidIssuer"],
+                };
+                o.BackchannelHttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
                 };
             });
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminPolicy", policy =>
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminPolicy", policy =>
             {
-                policy.RequireClaim("roles", "autocatalog_admin");
+                policy.RequireRole("auto-catalog-admin");
             });
-        });
         return services;
     }
 
@@ -72,7 +76,9 @@ public static class DependencyInjection
                             TokenUrl = new Uri(configuration["Keycloak:TokenUrl"]!),
                             Scopes = new Dictionary<string, string>
                             {
-                                { "openid", "openid" }, { "profile", "profile" },
+                                { "openid", "openid" },
+                                { "profile", "profile" },
+                                { "autocatalog.FullAccess", "autocatalog.FullAccess" },
                             },
                         },
                     },
@@ -85,7 +91,7 @@ public static class DependencyInjection
                     {
                         Reference = new OpenApiReference { Id = "Keycloak", Type = ReferenceType.SecurityScheme },
                     },
-                    ["openid", "profile"]
+                    ["openid", "profile", "autocatalog.FullAccess"]
                 },
             };
 
@@ -102,6 +108,7 @@ public static class DependencyInjection
         {
             options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
         });
+        services.AddProblemDetails();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddEndpointsApiExplorer();
         return services;

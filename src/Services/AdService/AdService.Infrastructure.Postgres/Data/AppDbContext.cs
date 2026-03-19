@@ -2,6 +2,8 @@
 using AdService.Application.Abstractions.Data;
 using AdService.Domain.Aggregates;
 using AdService.Domain.Entities;
+using AdService.Domain.ValueObjects;
+using MassTransit.EntityFrameworkCoreIntegration;
 using Microsoft.EntityFrameworkCore;
 
 namespace AdService.Infrastructure.Postgres.Data;

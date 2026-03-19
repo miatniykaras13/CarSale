@@ -19,7 +19,7 @@ public static class DependencyInjection
         services.AddDbContext<AppDbContext>((sp, options) =>
         {
             options
-                .UseNpgsql(configuration.GetConnectionString("AppDbContext"))
+                .UseNpgsql(configuration.GetConnectionString(nameof(AppDbContext)))
                 .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>())
                 .SeedDatabase();
         });

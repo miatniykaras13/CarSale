@@ -2,6 +2,9 @@
 using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.Cars.Dtos;
 using AutoCatalog.Application.Dtos;
+using AutoCatalog.Domain.Specs;
+using BuildingBlocks.Messaging.Events.AutoCatalog;
+using MassTransit;
 
 namespace AutoCatalog.Application.Cars.UpdateCar;
 
@@ -27,7 +30,8 @@ internal class UpdateCarCommandHandler(
     IGenerationsRepository generationsRepository,
     IBodyTypesRepository bodyTypesRepository,
     ITransmissionTypesRepository transmissionTypesRepository,
-    IAutoDriveTypesRepository driveTypesRepository) : ICommandHandler<UpdateCarCommand, Result<Guid, List<Error>>>
+    IAutoDriveTypesRepository driveTypesRepository,
+    IPublishEndpoint publishEndpoint) : ICommandHandler<UpdateCarCommand, Result<Guid, List<Error>>>
 {
     public async Task<Result<Guid, List<Error>>> Handle(UpdateCarCommand command, CancellationToken cancellationToken)
     {
@@ -116,6 +120,32 @@ internal class UpdateCarCommandHandler(
         if (carResult.IsFailure)
             return Result.Failure<Guid, List<Error>>([carResult.Error]);
         var car = carResult.Value;
+
+        if (!(car.Consumption.Equals(command.Consumption) ||
+              car.FuelTankCapacity.Equals(command.FuelTankCapacity) ||
+              car.Dimensions.Width.Equals(command.DimensionsDto.Width) ||
+              car.Dimensions.Height.Equals(command.DimensionsDto.Height) ||
+              car.Dimensions.Length.Equals(command.DimensionsDto.Length)))
+        {
+            var bodyTypeUpdatedEvent = new CarUpdatedEvent
+            {
+                CarId = command.Id,
+                Consumption = command.Consumption,
+                FuelTankCapacity = command.FuelTankCapacity,
+                Length = command.DimensionsDto.Length,
+                Width = command.DimensionsDto.Width,
+                Height = command.DimensionsDto.Height,
+                BrandId = command.BrandId,
+                ModelId = command.ModelId,
+                GenerationId = command.GenerationId,
+                TransmissionTypeId = command.TransmissionTypeId,
+                BodyTypeId = command.BodyTypeId,
+                DriveTypeId = command.DriveTypeId,
+                EngineId = command.EngineId,
+                Acceleration = command.Acceleration,
+            };
+            await publishEndpoint.Publish(bodyTypeUpdatedEvent, cancellationToken);
+        }
 
         command.Adapt(car);
 

@@ -1,7 +1,4 @@
-﻿using System.Collections.Immutable;
-using System.Linq.Expressions;
-using AutoCatalog.Application.Abstractions;
-using AutoCatalog.Application.Abstractions.Repositories;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.Models;
 using AutoCatalog.Application.Models.Extensions;
 using AutoCatalog.Domain.Specs;

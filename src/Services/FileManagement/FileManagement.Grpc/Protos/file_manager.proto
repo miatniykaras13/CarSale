@@ -7,26 +7,13 @@ package file_manager;
 
 service FileManager {
     // File CRUD Operations
-    rpc UploadSmallFile (UploadSmallFileRequest) returns (UploadSmallFileResponse);
-    rpc UploadLargeFile (stream UploadLargeFileRequest) returns (UploadLargeFileResponse);
+    rpc UploadFile (stream UploadFileRequest) returns (UploadFileResponse);
     rpc GetDownloadLink (GetDownloadLinkRequest) returns (GetDownloadLinkResponse);
     rpc DeleteFile (DeleteFileRequest) returns (DeleteFileResponse);
     rpc GenerateThumbnail (GenerateThumbnailRequest) returns (GenerateThumbnailResponse);
 }
 
-message UploadSmallFileRequest {
-    bytes file = 1;
-    string sourceService = 2;
-    string contentType = 3;
-    string fileName = 4;
-    int64 fileSize = 5;
-}
-
-message UploadSmallFileResponse {
-    string fileId = 1;
-}
-
-message UploadLargeFileRequest {
+message UploadFileRequest {
     bytes chunk = 1;
     string sourceService = 2;
     string contentType = 3;
@@ -34,7 +21,7 @@ message UploadLargeFileRequest {
     int64 fileSize = 5;
 }
 
-message UploadLargeFileResponse {
+message UploadFileResponse {
     string fileId = 1;
 }
 

@@ -32,6 +32,7 @@ public class UpdateFuelTypeEndpoint : ICarterModule
 
                 return Results.Ok(new UpdateFuelTypeResponse(result.Value));
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateFuelType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

@@ -6,7 +6,7 @@ namespace BuildingBlocks.Extensions;
 
 public static class LoggerExtensions
 {
-    public static ILogger LogError(this ILogger logger, List<Error> error)
+    public static ILogger LogCustomErrors(this ILogger logger, List<Error> error)
     {
         logger.LogError(
             "[ERROR] {ErrorType} errors occured with messages: {Errors} at the time {Time}",

@@ -16,6 +16,10 @@ public sealed class FileInfo
 
     public string BucketName { get; private set; }
 
+    public int Width { get; private set; }
+
+    public int Height { get; private set; }
+
     public bool IsThumbnail => ParentId is not null;
 
     public DateTime CreatedAt { get; private set; }
@@ -36,6 +40,8 @@ public sealed class FileInfo
         DateTime createdAt,
         string contentType,
         string bucketName,
+        int width,
+        int height,
         Guid? parentId)
     {
         Id = id;
@@ -44,6 +50,8 @@ public sealed class FileInfo
         Extension = extension;
         CreatedAt = createdAt;
         ContentType = contentType;
+        Width = width;
+        Height = height;
         ParentId = parentId;
         BucketName = bucketName;
     }
@@ -56,9 +64,11 @@ public sealed class FileInfo
         DateTime createdAt,
         string contentType,
         string bucketName,
+        int width,
+        int height,
         Guid? parentId = null)
     {
-        FileInfo info = new(id, name, size, extension, createdAt, contentType, bucketName, parentId );
+        FileInfo info = new(id, name, size, extension, createdAt, contentType, bucketName, width, height, parentId);
         return info;
     }
 }

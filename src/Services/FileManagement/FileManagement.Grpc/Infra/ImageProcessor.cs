@@ -14,7 +14,7 @@ public class ImageProcessor : IImageProcessor
     {
         stream.Position = 0;
         using var image = await Image.LoadAsync<Rgba64>(stream, ct);
-        
+
         image.Mutate(x => x.AutoOrient());
 
         int srcWidth = image.Width;
@@ -44,5 +44,13 @@ public class ImageProcessor : IImageProcessor
         await image.SaveAsync(ms, image.Metadata.DecodedImageFormat!, ct);
         ms.Position = 0;
         return ms;
+    }
+
+    public (int Width, int Height) GetImageSize(Stream stream)
+    {
+        stream.Position = 0;
+        var imageInfo = Image.Identify(stream);
+        stream.Position = 0;
+        return (imageInfo.Width, imageInfo.Height);
     }
 }

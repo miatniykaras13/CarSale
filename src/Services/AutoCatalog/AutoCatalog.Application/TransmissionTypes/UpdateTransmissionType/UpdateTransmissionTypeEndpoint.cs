@@ -32,6 +32,7 @@ public class UpdateTransmissionTypeEndpoint : ICarterModule
 
                 return Results.Ok(new UpdateTransmissionTypeResponse(result.Value));
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateTransmissionType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

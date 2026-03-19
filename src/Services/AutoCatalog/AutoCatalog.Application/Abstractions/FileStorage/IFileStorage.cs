@@ -4,9 +4,7 @@ namespace AutoCatalog.Application.Abstractions.FileStorage;
 
 public interface IFileStorage
 {
-    Task<Guid> UploadLargeFileAsync(Stream stream, string fileName, string contentType, CancellationToken ct = default);
-
-    Task<Guid> UploadSmallFileAsync(Stream stream, string fileName, string contentType, CancellationToken ct = default);
+    Task<Guid> UploadFileAsync(Stream stream, string fileName, string contentType, CancellationToken ct = default);
 
     Task<string> GetDownloadLinkAsync(Guid fileId, int expirySeconds, CancellationToken ct = default);
 

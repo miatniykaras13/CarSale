@@ -25,6 +25,7 @@ public class DeleteBrandsEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteBrand")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

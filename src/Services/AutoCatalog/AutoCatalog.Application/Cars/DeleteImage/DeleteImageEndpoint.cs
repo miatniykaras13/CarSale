@@ -26,6 +26,7 @@ public class DeleteImageEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteImage")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

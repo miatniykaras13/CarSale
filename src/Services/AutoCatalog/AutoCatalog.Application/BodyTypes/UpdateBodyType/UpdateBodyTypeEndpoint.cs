@@ -32,6 +32,7 @@ public class UpdateBodyTypeEndpoint : ICarterModule
 
                 return Results.Ok(new UpdateBodyTypeResponse(result.Value));
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("UpdateBodyType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesUpdateProblems()

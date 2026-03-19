@@ -16,4 +16,10 @@ public static class CacheKeyBuilder
 
         return key.ToString();
     }
+
+    public static string BuildListItem(string type, params string?[] properties) =>
+        Build($"{type}:li", properties);
+
+    public static string BuildIndex(string type, params string?[] properties) =>
+        Build($"{type}:idx", properties);
 }

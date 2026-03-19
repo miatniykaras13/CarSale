@@ -3,4 +3,6 @@
 public interface IImageProcessor
 {
     Task<Stream> ResizeAsync(Stream stream, int width, int height, CancellationToken ct);
+
+    (int Width, int Height) GetImageSize(Stream stream);
 }

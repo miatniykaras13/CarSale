@@ -84,7 +84,7 @@ public class AdTests
             price: GetMoney(),
             location: GetLocation());
 
-        ad.AddImages(new List<Guid>([Guid.NewGuid()]));
+        ad.AddImages(new List<AdImage>([AdImage.Of(Guid.NewGuid()).Value]));
         var result = ad.Submit();
 
         result.IsSuccess.Should().Be(true);
@@ -213,7 +213,7 @@ public class AdTests
             2015,
             null,
             20000,
-            3.5m,
+            3.5f,
             "black").Value;
 
     private TransmissionTypeSnapshot GetTransmissionTypeSnapshot() => TransmissionTypeSnapshot.Of(1, "Manual").Value;
@@ -229,9 +229,11 @@ public class AdTests
 
     private ModelSnapshot GetModelSnapshot() => ModelSnapshot.Of(2, "Prius", 1).Value;
 
-    private GenerationSnapshot GetGenerationSnapshot() => GenerationSnapshot.Of(3, "III - Restyling", 2, 1999, 2004).Value;
+    private GenerationSnapshot GetGenerationSnapshot() =>
+        GenerationSnapshot.Of(3, "III - Restyling", 2, 1999, 2004).Value;
 
-    private EngineSnapshot GetEngineSnapshot() => EngineSnapshot.Of(4, "2.0 HEV", 300, GetFuelTypeSnapshot(), 3).Value;
+    private EngineSnapshot GetEngineSnapshot() =>
+        EngineSnapshot.Of(4, "2.0 HEV", 300, 2.5f, GetFuelTypeSnapshot(), 3).Value;
 
 
     private Money GetMoney() => Money.Of(Currency.Of("BYN").Value, 1200).Value;
@@ -251,5 +253,5 @@ public class AdTests
     private ModerationResult GetSuccessfulModerationResult() =>
         ModerationResult.Of(Guid.NewGuid(), DateTime.UtcNow).Value;
 
-    private IList<Guid> GetImages() => new List<Guid>([Guid.NewGuid()]);
+    private IList<AdImage> GetImages() => new List<AdImage>([AdImage.Of(Guid.NewGuid()).Value]);
 }

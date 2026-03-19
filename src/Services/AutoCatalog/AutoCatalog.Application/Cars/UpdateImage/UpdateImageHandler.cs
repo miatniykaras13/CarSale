@@ -31,7 +31,7 @@ public class UpdateImageHandler(
 
         var car = carResult.Value;
 
-        var imageId = await fileStorage.UploadLargeFileAsync(command.Stream, command.FileName, command.ContentType, ct);
+        var imageId = await fileStorage.UploadFileAsync(command.Stream, command.FileName, command.ContentType, ct);
 
         car.PhotoId = imageId;
 

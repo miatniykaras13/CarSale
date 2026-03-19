@@ -25,6 +25,7 @@ public class DeleteFuelTypesEndpoint : ICarterModule
 
                 return Results.NoContent();
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("DeleteFuelType")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesDeleteProblems()

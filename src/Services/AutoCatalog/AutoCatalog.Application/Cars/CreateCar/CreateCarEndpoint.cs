@@ -42,6 +42,7 @@ public class CreateCarEndpoint : ICarterModule
                 CreateCarResponse response = new(result.Value);
                 return Results.Created($"/cars/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateCar")
             .Produces<CreateCarResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)

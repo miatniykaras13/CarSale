@@ -6,9 +6,9 @@ namespace AdService.Application.Commands.ExpireAds;
 
 public class ExpireAdsHandler(
     IAppDbContext dbContext,
-    ILogger<ExpireAdsHandler> logger) : ICommandHandler<ExpireAdsCommand, Result<Unit>>
+    ILogger<ExpireAdsHandler> logger) : ICommandHandler<ExpireAdsCommand, Result>
 {
-    public async Task<Result<Unit>> Handle(ExpireAdsCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(ExpireAdsCommand request, CancellationToken cancellationToken)
     {
         var now = DateTime.UtcNow;
         var expiredAds =
@@ -33,10 +33,10 @@ public class ExpireAdsHandler(
 
         if (errors == 0)
         {
-            return Result.Success(Unit.Value);
+            return Result.Success();
         }
 
         logger.LogWarning("Couldn't expire {ErrorsCount} ads.", errors);
-        return Result.Failure<Unit>(string.Empty);
+        return Result.Failure(string.Empty);
     }
 }

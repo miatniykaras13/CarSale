@@ -31,6 +31,7 @@ public class CreateFuelTypeEndpoint : ICarterModule
                 CreateFuelTypeResponse response = new(result.Value);
                 return Results.Created($"/fuel-types/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateFuelType")
             .Produces<CreateFuelTypeResponse>(StatusCodes.Status201Created)
             .ProducesPostProblems()

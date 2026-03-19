@@ -36,6 +36,7 @@ public class CreateEngineEndpoint : ICarterModule
                 CreateEngineResponse response = new(result.Value);
                 return Results.Created($"/engines/{response.Id}", response);
             })
+            .RequireAuthorization("AdminPolicy")
             .WithName("CreateEngine")
             .Produces<CreateEngineResponse>(StatusCodes.Status201Created)
             .ProducesProblem(StatusCodes.Status400BadRequest)

@@ -1,5 +1,6 @@
 ﻿using AdService.Domain.Aggregates;
 using AdService.Domain.Entities;
+using AdService.Domain.ValueObjects;
 
 namespace AdService.Application.Abstractions.Data;
 

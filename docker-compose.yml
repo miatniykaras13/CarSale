@@ -1,4 +1,8 @@
 services:
+  
+  rabbitmq:
+    image: rabbitmq:latest
+    
   autocatalogdb:
     image: postgres:17
     
@@ -14,6 +18,12 @@ services:
       context: .
       dockerfile: src/Services/AutoCatalog/AutoCatalog.Web/Dockerfile
       
+  adservice.web:
+    image: adservice.web
+    build:
+      context: .
+      dockerfile: src/Services/AdService/AdService.Web/Dockerfile
+      
   keycloak:
     image: quay.io/keycloak/keycloak
     
@@ -22,6 +32,9 @@ services:
     
   minio:
     image: minio/minio:latest
+    
+  createbuckets:
+    image: minio/mc
     
   filemanagement.grpc:
     image: filemanagement.grpc
@@ -47,9 +60,15 @@ volumes:
   ad-service-postgres:
   profile-service-postgres-data:
   keycloak-data:
+  keycloak-keystore:
+  file-management-data:
   minio-data:
     driver: local
   redis-data:
+    driver: local
+  rabbitmq-lib:
+    driver: local
+  rabbitmq-log:
     driver: local
   
   

@@ -12,9 +12,7 @@ public record AdDto(
     IEnumerable<MoneyDto> Prices,
     LocationDto? Location,
     int Views,
-    AdStatus AdStatus,
-    SellerSnapshotDto? Seller,
+    string AdStatus,
+    SellerSnapshotDto Seller,
     CarSnapshotDto? Car,
-    IEnumerable<string> ImageUrls,
-    CommentDto? Comment,
-    IEnumerable<CarOptionDto> CarOptions);
+    CommentDto? Comment);

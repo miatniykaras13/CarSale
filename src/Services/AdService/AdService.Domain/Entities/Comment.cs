@@ -26,11 +26,24 @@ public class Comment : BuildingBlocks.DDD.Entity<Guid>
         if (message.Length > MAX_MESSAGE_LENGTH)
         {
             return Result.Failure<Comment, Error>(Error.Domain(
-                "comment.message.is.conflict",
+                "comment.message.is_conflict",
                 $"Comment's name must be less or equal to {MAX_MESSAGE_LENGTH} characters."));
         }
 
         Comment com = new(message, adId);
         return Result.Success<Comment, Error>(com);
+    }
+
+    public UnitResult<Error> Update(string message)
+    {
+        if (message.Length > MAX_MESSAGE_LENGTH)
+        {
+            return UnitResult.Failure(Error.Domain(
+                "comment.message.is_conflict",
+                $"Comment's message must be less or equal to {MAX_MESSAGE_LENGTH} characters."));
+        }
+
+        Message = message;
+        return UnitResult.Success<Error>();
     }
 }

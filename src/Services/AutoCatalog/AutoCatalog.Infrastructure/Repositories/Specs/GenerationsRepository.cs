@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-using AutoCatalog.Application.Abstractions;
-using AutoCatalog.Application.Abstractions.Repositories;
+﻿using AutoCatalog.Application.Abstractions.Repositories;
 using AutoCatalog.Application.Generations;
 using AutoCatalog.Application.Generations.Extensions;
 using AutoCatalog.Domain.Specs;

@@ -19,7 +19,7 @@ public static partial class InitialData
             BodyTypeId = 1,
             Acceleration = 14.7f,
             FuelTankCapacity = 55,
-            PhotoId = null, // todo сделать в file management сидирование чтобы был такой же id
+            PhotoId = new Guid("3b44e9ce-a0ca-4330-b4ee-260ebf5cd07c"),
             Consumption = 6.3f,
             Dimensions = new Dimensions() { Length = 4376, Height = 1446, Width = 1735 },
         },
@@ -35,7 +35,7 @@ public static partial class InitialData
             BodyTypeId = 1,
             Acceleration = 10.4f,
             FuelTankCapacity = 62,
-            PhotoId = null, // todo сделать в file management сидирование чтобы был такой же id
+            PhotoId = new Guid("fc2e73e0-46ab-4384-a093-ba5f00d20fdf"),
             Consumption = 6.3f,
             Dimensions = new Dimensions() { Length = 4703, Height = 1462, Width = 1746 },
         },
@@ -51,7 +51,7 @@ public static partial class InitialData
             BodyTypeId = 5,
             Acceleration = 8.4f,
             FuelTankCapacity = 100,
-            PhotoId = null, // todo сделать в file management сидирование чтобы был такой же id
+            PhotoId = new Guid("a61302ad-1968-4892-a820-3aebae57ebbd"),
             Consumption = 16.8f,
             Dimensions = new Dimensions() { Length = 5180, Height = 1880, Width = 1980 },
         },

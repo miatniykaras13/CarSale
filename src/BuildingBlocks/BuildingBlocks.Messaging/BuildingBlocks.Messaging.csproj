@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Extensions\" />
+      <Folder Include="Schemas\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="MassTransit" Version="8.5.8" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.5.8" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.11" />
+      <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.11" />
+      <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="9.0.11" />
+    </ItemGroup>
+
+</Project>

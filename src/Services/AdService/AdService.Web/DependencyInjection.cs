@@ -2,10 +2,12 @@
 using AdService.Infrastructure.AutoCatalog;
 using AdService.Infrastructure.Core;
 using AdService.Infrastructure.FileStorage;
+using AdService.Infrastructure.MessageBus;
 using AdService.Infrastructure.Postgres;
 using AdService.Infrastructure.ProfileService;
 using AdService.Infrastructure.Redis;
 using AdService.Presenters;
+using BuildingBlocks.Exceptions.Handlers;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Http.Json;
@@ -22,6 +24,7 @@ public static class DependencyInjection
     {
         services
             .AddPostgresInfrastructure(configuration)
+            .AddMessageBus(configuration)
             .AddApplication(configuration)
             .AddBackgroundServices()
             .AddFileStorage(configuration)
@@ -33,7 +36,6 @@ public static class DependencyInjection
             .ConfigureOptions();
         return services;
     }
-
 
     public static IServiceCollection AddApiAuthentication(
         this IServiceCollection services,
@@ -50,21 +52,30 @@ public static class DependencyInjection
                 {
                     ValidIssuer = configuration["Authentication:ValidIssuer"],
                 };
+                o.BackchannelHttpHandler = new HttpClientHandler
+                {
+                    ServerCertificateCustomValidationCallback =
+                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+                };
             });
 
-        services.AddAuthorization(options =>
-        {
-            options.AddPolicy("AdminPolicy", policy =>
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminPolicy", policy =>
             {
-                policy.RequireClaim("roles", "autocatalog_admin");
+                policy.RequireRole("ad-service-admin");
+            })
+            .AddPolicy("ModeratorPolicy", policy =>
+            {
+                policy.RequireRole("ad-service-admin", "ad-service-moderator");
             });
-        });
         return services;
     }
 
     private static IServiceCollection AddWeb(this IServiceCollection services)
     {
         services.AddEndpointsApiExplorer();
+        services.AddProblemDetails();
+        services.AddExceptionHandler<CustomExceptionHandler>();
         return services;
     }
 
