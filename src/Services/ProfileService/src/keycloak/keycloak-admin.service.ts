@@ -1,22 +1,25 @@
 ﻿import { Injectable, OnModuleInit } from '@nestjs/common';
 import type KcAdminClient from '@keycloak/keycloak-admin-client';
+import { ConfigService } from '@nestjs/config'
 
 @Injectable()
 export class KeycloakAdminService implements OnModuleInit {
 	private kcAdminClient: KcAdminClient;
 
+	constructor(private readonly configService: ConfigService) {}
+
 	async onModuleInit() {
 		const { default: KcAdminClientClass } = await (eval(`import('@keycloak/keycloak-admin-client')`) as Promise<any>);
 
 		this.kcAdminClient = new KcAdminClientClass({
-			baseUrl: 'http://keycloak:8080',
-			realmName: 'carsale',
+			baseUrl: this.configService.getOrThrow<string>('KEYCLOAK_URL'),
+			realmName: this.configService.getOrThrow<string>('KEYCLOAK_REALM'),
 		});
 
 		await this.kcAdminClient.auth({
 			grantType: 'client_credentials',
-			clientId: 'profile-service',
-			clientSecret: 'cOtGUlHQS2KjbhMakmTOpAZNxBIczfSP',
+			clientId: this.configService.getOrThrow<string>('KEYCLOAK_ADMIN_CLIENT'),
+			clientSecret: this.configService.getOrThrow<string>('KEYCLOAK_ADMIN_SECRET'),
 		});
 	}
 
