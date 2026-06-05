@@ -48,10 +48,10 @@ services:
   profileservice.api:
     image: profileservice.api
     build:
-      context: ./src/Services/ProfileService
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: src/Services/ProfileService/Dockerfile
       args:
-        PROFILESERVICE_POSTGRES_URL: postgresql://postgres:1111@profileservicedb:5432/ProfileServiceDb
+        PROFILESERVICE_POSTGRES_URL: postgresql://${PROFILESERVICE_POSTGRES_USER}:${PROFILESERVICE_POSTGRES_PASSWORD}@${PROFILESERVICE_POSTGRES_SERVER}:5432/${PROFILESERVICE_POSTGRES_DB}
   
       
       
