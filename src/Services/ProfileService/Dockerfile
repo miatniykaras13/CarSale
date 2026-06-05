@@ -4,9 +4,8 @@ WORKDIR /app
 
 COPY package.json pnpm-lock.yaml* ./
 
-RUN apt-get update && apt-get install -y npm
-
-RUN npm install -g pnpm@latest
+RUN corepack enable
+RUN corepack prepare pnpm@9.12.3 --activate
 
 COPY . .
 
