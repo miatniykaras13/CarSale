@@ -1,10 +1,10 @@
 services:
   rabbitmq:
     container_name: rabbitmq
+    restart: always
     environment:
       - RABBITMQ_DEFAULT_USER=${RABBITMQ_DEFAULT_USER}
       - RABBITMQ_DEFAULT_PASS=${RABBITMQ_DEFAULT_PASS}
-    restart: always
     ports:
       - "5672:5672"
       - "15672:15672"
@@ -14,33 +14,43 @@ services:
     volumes:
       - rabbitmq-lib:/var/lib/rabbitmq/
       - rabbitmq-log:/var/log/rabbitmq
-    
-    
+  
+  
   autocatalogdb:
     container_name: autocatalogdb
+    restart: always
     environment:
       - POSTGRES_USER=${AUTOCATALOG_POSTGRES_USER}
       - POSTGRES_PASSWORD=${AUTOCATALOG_POSTGRES_PASSWORD}
       - POSTGRES_DB=${AUTOCATALOG_POSTGRES_DB}
-    restart: always
     ports:
       - "5432:5432"
     volumes:
       - auto-catalog-postgres:/var/lib/postgresql
-    
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${AUTOCATALOG_POSTGRES_USER} -d ${AUTOCATALOG_POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
   
   adservicedb:
     container_name: adservicedb
+    restart: always
     environment:
       - POSTGRES_USER=${ADSERVICE_POSTGRES_USER}
       - POSTGRES_PASSWORD=${ADSERVICE_POSTGRES_PASSWORD}
       - POSTGRES_DB=${ADSERVICE_POSTGRES_DB}
-    restart: always
     ports:
       - "5434:5432"
     volumes:
       - ad-service-postgres:/var/lib/postgresql
-
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${ADSERVICE_POSTGRES_USER} -d ${ADSERVICE_POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
   profileservicedb:
     container_name: profileservicedb
@@ -53,21 +63,34 @@ services:
       - "5435:5432"
     volumes:
       - profile-service-postgres-data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${PROFILESERVICE_POSTGRES_USER} -d ${PROFILESERVICE_POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
   
   redis:
     container_name: redis
+    restart: always
     ports:
       - "6379:6379"
     environment:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
       - REDIS_USER=${REDIS_USER}
       - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
-    restart: always
     volumes:
       - redis-data:/data
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
   
   
   autocatalog.web:
+    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
@@ -84,8 +107,14 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/
-        
+    depends_on:
+      autocatalogdb:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+  
   adservice.web:
+    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
@@ -104,21 +133,33 @@ services:
     volumes:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/
+    depends_on:
+      adservicedb:
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
   
   keycloakdb:
-    image: postgres:17
     container_name: keycloakdb
+    restart: always
     environment:
-      POSTGRES_DB: KeycloakDb
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 1111
+      POSTGRES_DB: ${KEYCLOAK_POSTGRES_DB}
+      POSTGRES_USER: ${KEYCLOAK_POSTGRES_USER}
+      POSTGRES_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     ports:
       - "5433:5432"
     volumes:
       - keycloak-data:/var/lib/postgresql
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${KEYCLOAK_POSTGRES_USER} -d ${KEYCLOAK_POSTGRES_DB}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
 
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0.0
     command: >
       start
       --import-realm
@@ -140,16 +181,23 @@ services:
       KC_BOOTSTRAP_ADMIN_PASSWORD: 1111
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://${KEYCLOAK_POSTGRES_SERVER}:5432/${KEYCLOAK_POSTGRES_DB}
-      KC_DB_USERNAME: ${KEYCLOAK_POSTGRES_USERNAME}
+      KC_DB_USERNAME: ${KEYCLOAK_POSTGRES_USER}
       KC_DB_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
     ports:
       - "8080:8080"
       - "8443:8443"
     depends_on:
-      - keycloakdb
+      keycloakdb:
+        condition: service_healthy
     volumes:
       - ./keycloak/realm/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
       - keycloak-keystore:/opt/keycloak/conf
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 180s
   
   minio:
     container_name: minio
@@ -168,12 +216,9 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      
+  
   createbuckets:
     image: minio/mc
-    depends_on:
-      minio:
-        condition: service_healthy  
     entrypoint: >
       /bin/sh -c "
       /usr/bin/mc alias set myminio http://minio:9000 admin password;
@@ -185,12 +230,13 @@ services:
       /usr/bin/mc policy set public myminio/profile-service;
       exit 0;
       "
-  
-  
-  filemanagement.grpc:
     depends_on:
       minio:
         condition: service_healthy
+  
+  
+  filemanagement.grpc:
+    restart: on-failure
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
@@ -205,8 +251,12 @@ services:
       - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
       - ${USERPROFILE}/.aspnet/https/:/https/
       - file-management-data:/app/data/
-        
+    depends_on:
+      minio:
+        condition: service_healthy
+  
   profileservice.api:
+    restart: on-failure
     environment:
       - KEYCLOAK_URL=http://keycloak:8080
       - KEYCLOAK_REALM=carsale
@@ -219,7 +269,7 @@ services:
       - KEYCLOAK_ADMIN_USERNAME=${KEYCLOAK_ADMIN_USERNAME}
       - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
       - KEYCLOAK_ADMIN_SECRET=${KEYCLOAK_ADMIN_SECRET}
-      
+
       - PROFILESERVICE_POSTGRES_PORT=5432
       - PROFILESERVICE_POSTGRES_USER=${PROFILESERVICE_POSTGRES_USER}
       - PROFILESERVICE_POSTGRES_PASSWORD=${PROFILESERVICE_POSTGRES_PASSWORD}
@@ -230,8 +280,10 @@ services:
       - "4000:4000"
     depends_on:
       profileservicedb:
-        condition: service_started
-    
+        condition: service_healthy
+      keycloak:
+        condition: service_healthy
+
 
 configs:
   rabbitmq-plugins:
