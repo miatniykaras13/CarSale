@@ -25,7 +25,9 @@ services:
       dockerfile: src/Services/AdService/AdService.Web/Dockerfile
       
   keycloak:
-    image: quay.io/keycloak/keycloak
+    build:
+      context: .
+      dockerfile: keycloak/Dockerfile
     
   keycloakdb:
     image: postgres:17
