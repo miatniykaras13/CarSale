@@ -26,7 +26,8 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - "auto-catalog-postgres:/var/lib/postgresql"
+      - auto-catalog-postgres:/var/lib/postgresql
+    
   
   adservicedb:
     container_name: adservicedb
@@ -38,7 +39,7 @@ services:
     ports:
       - "5434:5432"
     volumes:
-      - "ad-service-postgres:/var/lib/postgresql"
+      - ad-service-postgres:/var/lib/postgresql
 
 
   profileservicedb:
@@ -51,7 +52,7 @@ services:
     ports:
       - "5435:5432"
     volumes:
-      - "profile-service-postgres-data:/var/lib/postgresql"
+      - profile-service-postgres-data:/var/lib/postgresql
   
   redis:
     container_name: redis
@@ -63,7 +64,7 @@ services:
       - REDIS_USER_PASSWORD=${REDIS_USER_PASSWORD}
     restart: always
     volumes:
-      - "redis-data:/data"
+      - redis-data:/data
   
   
   autocatalog.web:
@@ -114,7 +115,7 @@ services:
     ports:
       - "5433:5432"
     volumes:
-      - "keycloak-data:/var/lib/postgresql"
+      - keycloak-data:/var/lib/postgresql
 
   keycloak:
     image: quay.io/keycloak/keycloak:26.0.0
