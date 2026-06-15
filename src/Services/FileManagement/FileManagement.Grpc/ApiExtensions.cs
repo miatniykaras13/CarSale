@@ -1,5 +1,7 @@
 ﻿using FileManagement.Grpc.Data;
 using FileManagement.Grpc.Infra;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Minio;
 using Minio.DataModel.Args;
@@ -221,4 +223,11 @@ public static class ApiExtensions
 
     private static string GenerateSeedObjectName(string? fileName, string contentType, Guid fileId, long fileSize) =>
         $"{DefineFolderByContentType(contentType)}/{fileId}_{fileSize}{Path.GetExtension(fileName)}";
+
+    public static void UseServiceHealthChecks(this WebApplication app)
+    {
+        app.UseHealthChecks(
+            "/health",
+            new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse, });
+    }
 }

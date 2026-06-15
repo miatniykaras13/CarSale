@@ -37,4 +37,6 @@ public static class DependencyInjection
         services.AddScoped<IFileStorage, MinioFileStorage>();
         return services;
     }
+    
+    
 }

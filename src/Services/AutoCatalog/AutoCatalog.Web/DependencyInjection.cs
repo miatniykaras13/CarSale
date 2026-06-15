@@ -19,8 +19,7 @@ public static class DependencyInjection
             .AddInfrastructure(configuration)
             .AddWeb()
             .AddApplication(configuration)
-            .AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString("AppDbContext")!);
+            .AddServiceHealthChecks(configuration);
         return services;
     }
 
@@ -111,6 +110,16 @@ public static class DependencyInjection
         services.AddProblemDetails();
         services.AddExceptionHandler<CustomExceptionHandler>();
         services.AddEndpointsApiExplorer();
+        return services;
+    }
+
+    private static IServiceCollection AddServiceHealthChecks(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services
+            .AddHealthChecks()
+            .AddPostgresHealthCheck(configuration);
         return services;
     }
 }

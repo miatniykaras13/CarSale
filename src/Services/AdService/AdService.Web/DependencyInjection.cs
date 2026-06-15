@@ -33,6 +33,7 @@ public static class DependencyInjection
             .AddHybridCachingWithFusionAndRedis(configuration)
             .AddPresenters()
             .AddWeb()
+            .AddServiceHealthChecks(configuration)
             .ConfigureOptions();
         return services;
     }
@@ -134,6 +135,16 @@ public static class DependencyInjection
 
             o.AddSecurityRequirement(securityRequirement);
         });
+        return services;
+    }
+
+    private static IServiceCollection AddServiceHealthChecks(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services.AddHealthChecks()
+            .AddPostgresHealthCheck(configuration)
+            .AddRedisHealthCheck(configuration);
         return services;
     }
 }

@@ -25,7 +25,9 @@ services:
       dockerfile: src/Services/AdService/AdService.Web/Dockerfile
       
   keycloak:
-    image: quay.io/keycloak/keycloak
+    build:
+      context: .
+      dockerfile: keycloak/Dockerfile
     
   keycloakdb:
     image: postgres:17
@@ -48,8 +50,8 @@ services:
   profileservice.api:
     image: profileservice.api
     build:
-      context: .
-      dockerfile: src/Services/ProfileService/Dockerfile
+      context: src/Services/ProfileService/.
+      dockerfile: Dockerfile
       args:
         PROFILESERVICE_POSTGRES_URL: postgresql://${PROFILESERVICE_POSTGRES_USER}:${PROFILESERVICE_POSTGRES_PASSWORD}@${PROFILESERVICE_POSTGRES_SERVER}:5432/${PROFILESERVICE_POSTGRES_DB}
   

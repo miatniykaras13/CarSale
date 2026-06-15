@@ -11,7 +11,9 @@ namespace AdService.Infrastructure.Postgres;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddPostgresInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddPostgresInfrastructure(
+        this IServiceCollection services,
+        IConfiguration configuration)
     {
         services.AddScoped<ISaveChangesInterceptor, AuditableEntityInterceptor>();
         services.AddScoped<ISaveChangesInterceptor, DispatchDomainEventsInterceptor>();
@@ -26,5 +28,18 @@ public static class DependencyInjection
 
         services.AddScoped<IAppDbContext, AppDbContext>();
         return services;
+    }
+
+    public static IHealthChecksBuilder AddPostgresHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration)
+    {
+        builder
+            .AddNpgSql(
+                connectionString: configuration.GetConnectionString(nameof(AppDbContext)) ??
+                                  throw new InvalidOperationException($"Connection string for '{nameof(AppDbContext)}' is not configured."),
+                name: "postgres",
+                tags: ["ready", "db"]);
+        return builder;
     }
 }

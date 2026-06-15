@@ -41,6 +41,20 @@ public static class DependencyInjection
         return services;
     }
 
+    public static IHealthChecksBuilder AddPostgresHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration)
+    {
+        builder
+            .AddNpgSql(
+                connectionString: configuration.GetConnectionString(nameof(AppDbContext)) ??
+                                  throw new InvalidOperationException(
+                                      $"Connection string for '{nameof(AppDbContext)}' is not configured."),
+                name: "postgres",
+                tags: ["ready", "db"]);
+        return builder;
+    }
+
     private static IServiceCollection AddFileStorage(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddGrpcClient<FileManager.FileManagerClient>(o =>
