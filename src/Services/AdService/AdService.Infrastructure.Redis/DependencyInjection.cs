@@ -21,7 +21,11 @@ public static class DependencyInjection
         services
             .AddFusionCache()
             .WithSerializer(
-                new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions { IncludeFields = true, WriteIndented = true }))
+                new FusionCacheSystemTextJsonSerializer(new JsonSerializerOptions
+                {
+                    IncludeFields = true,
+                    WriteIndented = true,
+                }))
             .WithBackplane(new RedisBackplane(new RedisBackplaneOptions { Configuration = redisConnectionString }))
             .WithDistributedCache(new RedisCache(new RedisCacheOptions() { Configuration = redisConnectionString }))
             .AsHybridCache();
@@ -31,5 +35,18 @@ public static class DependencyInjection
 
         services.Configure<CacheOptions>(configuration.GetSection("Cache"));
         return services;
+    }
+
+    public static IHealthChecksBuilder AddRedisHealthCheck(
+        this IHealthChecksBuilder builder,
+        IConfiguration configuration)
+    {
+        builder
+            .AddRedis(
+                redisConnectionString: configuration.GetConnectionString("Redis") ??
+                                       throw new InvalidOperationException("Connection string for Redis is not configured."),
+                name: "redis",
+                tags: ["ready", "cache"]);
+        return builder;
     }
 }

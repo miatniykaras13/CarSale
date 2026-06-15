@@ -7,8 +7,7 @@ namespace AdService.Infrastructure.Core;
 
 public static class DependencyInjection
 {
-    public static IServiceCollection AddBackgroundServices(
-        this IServiceCollection services)
+    public static IServiceCollection AddBackgroundServices(this IServiceCollection services)
     {
         services.AddHostedService<AdExpirationCheckerService>();
         services.AddHostedService<AdDeletionBackgroundService>();

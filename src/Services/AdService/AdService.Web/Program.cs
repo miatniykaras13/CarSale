@@ -50,4 +50,6 @@ app.UseHttpsRedirection();
 
 await app.UseAsyncSeeding();
 
+app.UseServiceHealthChecks();
+
 app.Run();

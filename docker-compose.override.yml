@@ -32,7 +32,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 40s
+      start_period: 60s
   
   adservicedb:
     container_name: adservicedb
@@ -50,7 +50,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 40s
+      start_period: 60s
 
   profileservicedb:
     container_name: profileservicedb
@@ -68,7 +68,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 40s
+      start_period: 60s
   
   redis:
     container_name: redis
@@ -86,7 +86,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 40s
+      start_period: 60s
   
   
   autocatalog.web:
@@ -140,6 +140,12 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
   
   keycloakdb:
     container_name: keycloakdb
@@ -157,7 +163,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-      start_period: 40s
+      start_period: 60s
 
   keycloak:
     command: >
