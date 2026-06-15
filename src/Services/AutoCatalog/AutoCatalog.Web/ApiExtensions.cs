@@ -1,4 +1,6 @@
 ﻿using AutoCatalog.Infrastructure;
+using HealthChecks.UI.Client;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Scalar.AspNetCore;
 
 namespace AutoCatalog.Web;
@@ -10,5 +12,12 @@ public static class ApiExtensions
         await using var serviceScope = app.Services.CreateAsyncScope();
         await using var context = serviceScope.ServiceProvider.GetRequiredService<AppDbContext>();
         await context.Database.EnsureCreatedAsync();
+    }
+
+    public static void UseServiceHealthChecks(this WebApplication app)
+    {
+        app.UseHealthChecks(
+            "/health",
+            new HealthCheckOptions { ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse, });
     }
 }

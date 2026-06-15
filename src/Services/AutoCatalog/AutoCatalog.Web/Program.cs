@@ -40,11 +40,6 @@ app.UseExceptionHandler();
 
 await app.UseAsyncSeeding();
 
-app.UseHealthChecks(
-    "/health",
-    new HealthCheckOptions
-    {
-        ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
-    });
+app.UseServiceHealthChecks();
 
 app.Run();
