@@ -7,21 +7,20 @@ var services = builder.Services;
 
 var configuration = builder.Configuration;
 
-
 builder.WebHost.ConfigureKestrel(o =>
 {
     o.Limits.MaxRequestBodySize = null;
 });
 
-
 services.AddProgramDependencies(configuration);
 
 var app = builder.Build();
-
 
 app.MapGrpcService<FileService>();
 
 await app.UseMigrating();
 await app.UseSeedingAsync();
+
+app.UseServiceHealthChecks();
 
 app.Run();

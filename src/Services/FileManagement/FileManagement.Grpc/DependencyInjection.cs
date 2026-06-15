@@ -26,6 +26,8 @@ public static class DependencyInjection
         services.AddHostedService<MinioSyncService>();
 
         services.AddFileStorage(configuration);
+
+        services.AddServiceHealthChecks(configuration);
     }
 
     private static void AddFileStorage(this IServiceCollection services, IConfiguration configuration)
@@ -43,5 +45,20 @@ public static class DependencyInjection
                 .WithCredentials(accessKey, secretKey)
                 .WithSSL(useSSL)
                 .Build());
+    }
+
+    private static IServiceCollection AddServiceHealthChecks(
+        this IServiceCollection services,
+        IConfiguration configuration)
+    {
+        services
+            .AddHealthChecks()
+            .AddSqlite(
+                connectionString: configuration.GetConnectionString(nameof(FileManagementDbContext)) ??
+                                  throw new InvalidOperationException(
+                                      $"Connection string for '{nameof(FileManagementDbContext)}' is not configured."),
+                name: "sqlite",
+                tags: ["ready", "db"]);
+        return services;
     }
 }

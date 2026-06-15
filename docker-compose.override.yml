@@ -266,6 +266,12 @@ services:
     depends_on:
       minio:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
   
   profileservice.api:
     restart: on-failure
