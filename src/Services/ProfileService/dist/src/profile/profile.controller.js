@@ -15,7 +15,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ProfileController = void 0;
 const common_1 = require("@nestjs/common");
 const profile_service_1 = require("./profile.service");
-const nest_keycloak_connect_1 = require("nest-keycloak-connect");
+const public_decorator_1 = require("../auth/decorators/public.decorator");
 const current_user_decorator_1 = require("./decorators/current-user.decorator");
 const update_profile_dto_1 = require("./dto/update-profile.dto");
 const keycloak_admin_service_1 = require("../keycloak/keycloak-admin.service");
@@ -108,7 +108,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], ProfileController.prototype, "search", null);
 __decorate([
-    (0, nest_keycloak_connect_1.Public)(),
+    (0, public_decorator_1.Public)(),
     (0, common_1.Get)('/:id/short'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),

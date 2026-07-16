@@ -8,7 +8,7 @@ import {
 
 import type { Request } from 'express';
 import { ProfileService } from './profile.service';
-import { AuthenticatedUser, Public } from 'nest-keycloak-connect'
+import { Public } from '@/auth/decorators/public.decorator'
 import { CurrentUser } from '@/profile/decorators/current-user.decorator'
 import { MeDto } from '@/profile/dto/me.dto'
 import { User } from '@prisma/generated/client'

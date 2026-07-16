@@ -10,23 +10,23 @@ export declare class ProfileController {
     getMe(tokenPayload: any): Promise<MeDto>;
     updateProfile(dto: UpdateProfileDto, tokenPayload: any): Promise<boolean>;
     batchProfiles(ids: string[]): Promise<{
+        id: string;
+        keycloakId: string;
         email: string;
         username: string;
         name: string;
         surname: string;
-        id: string;
-        keycloakId: string;
         picture: string | null;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
     findByUsername(username: string): Promise<{
+        id: string;
+        keycloakId: string;
         email: string;
         username: string;
         name: string;
         surname: string;
-        id: string;
-        keycloakId: string;
         picture: string | null;
         createdAt: Date;
         updatedAt: Date;
@@ -34,18 +34,18 @@ export declare class ProfileController {
     deleteMe(tokenPayload: any): Promise<void>;
     exists(id: string): Promise<boolean>;
     search(tokenPayload: any, username: string): Promise<{
-        username: string;
         id: string;
+        username: string;
         picture: string | null;
     }[]>;
     short(id: string): Promise<{
-        username: string;
         id: string;
+        username: string;
         picture: string | null;
     }>;
     getProfileById(id: string, req: Request): Promise<{
+        id: string;
         email: string;
         name: string;
-        id: string;
     }>;
 }

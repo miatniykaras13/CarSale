@@ -21,6 +21,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json",
     "dev": "npx prisma generate && nest start --watch",
     "db:push": "npx prisma db push",
+    "db:migrate:deploy": "npx prisma migrate deploy",
     "studio": "npx prisma studio"
   },
   "dependencies": {
@@ -36,6 +37,7 @@
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.0.1",
     "@prisma/client": "^6.19.2",
+    "prisma": "^6.19.0",
     "axios": "^1.13.5",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",
@@ -43,6 +45,7 @@
     "dotenv": "^17.3.1",
     "eslint-import-resolver-typescript": "^4.4.4",
     "eslint-plugin-unused-imports": "^4.4.1",
+    "jwks-rsa": "^4.0.1",
     "keycloak-connect": "^26.1.1",
     "nest-keycloak-connect": "^1.10.1",
     "passport": "^0.7.0",
@@ -72,7 +75,6 @@
     "globals": "^16.0.0",
     "jest": "^30.0.0",
     "prettier": "^3.4.2",
-    "prisma": "^6.19.0",
     "source-map-support": "^0.5.21",
     "supertest": "^7.0.0",
     "ts-jest": "^29.2.5",

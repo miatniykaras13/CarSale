@@ -11,8 +11,12 @@ export class KeycloakAdminService implements OnModuleInit {
 	async onModuleInit() {
 		const { default: KcAdminClientClass } = await (eval(`import('@keycloak/keycloak-admin-client')`) as Promise<any>);
 
+		const baseUrl =
+			this.configService.get<string>('KEYCLOAK_INTERNAL_URL') ??
+			this.configService.getOrThrow<string>('KEYCLOAK_URL');
+
 		this.kcAdminClient = new KcAdminClientClass({
-			baseUrl: this.configService.getOrThrow<string>('KEYCLOAK_URL'),
+			baseUrl,
 			realmName: this.configService.getOrThrow<string>('KEYCLOAK_REALM'),
 		});
 

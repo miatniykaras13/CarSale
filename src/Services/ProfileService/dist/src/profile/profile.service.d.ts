@@ -8,59 +8,59 @@ export declare class ProfileService {
     constructor(prismaService: PrismaService, keycloakAdminService: KeycloakAdminService);
     getMe(tokenPayload: any): Promise<MeDto>;
     findById(id: string): Promise<{
+        id: string;
         email: string;
         name: string;
-        id: string;
     }>;
     findByEmail(email: string): Promise<{
+        id: string;
         email: string;
         name: string;
-        id: string;
     } | null>;
     create(keycloakId: string, email: string, username: string, name: string, surname: string, picture?: string): Promise<boolean>;
     update(userId: string, dto: UpdateProfileDto): Promise<boolean>;
     batchProfiles(ids: string[]): Promise<{
+        id: string;
+        keycloakId: string;
         email: string;
         username: string;
         name: string;
         surname: string;
-        id: string;
-        keycloakId: string;
         picture: string | null;
         createdAt: Date;
         updatedAt: Date;
     }[]>;
     findByUsername(username: string): Promise<{
+        id: string;
+        keycloakId: string;
         email: string;
         username: string;
         name: string;
         surname: string;
-        id: string;
-        keycloakId: string;
         picture: string | null;
         createdAt: Date;
         updatedAt: Date;
     } | null>;
     deleteUser(id: string): Promise<{
+        id: string;
+        keycloakId: string;
         email: string;
         username: string;
         name: string;
         surname: string;
-        id: string;
-        keycloakId: string;
         picture: string | null;
         createdAt: Date;
         updatedAt: Date;
     }>;
     exists(id: string): Promise<boolean>;
     searchByUsername(username: string, userId: any): Promise<{
-        username: string;
         id: string;
+        username: string;
         picture: string | null;
     }[]>;
     getShortById(id: string): Promise<{
-        username: string;
         id: string;
+        username: string;
         picture: string | null;
     }>;
 }
