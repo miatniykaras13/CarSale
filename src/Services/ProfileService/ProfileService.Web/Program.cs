@@ -1,0 +1,19 @@
+using ProfileService.Web;
+
+var builder = WebApplication.CreateBuilder(args);
+
+var services = builder.Services;
+var configuration = builder.Configuration;
+
+services.AddProgramDependencies(configuration);
+
+var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapOpenApi();
+}
+
+app.UseHttpsRedirection();
+
+app.Run();
