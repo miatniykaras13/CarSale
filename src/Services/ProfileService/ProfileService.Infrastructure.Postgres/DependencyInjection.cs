@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using ProfileService.Application.Abstractions.Data;
 using ProfileService.Infrastructure.Postgres.Data;
 
 namespace ProfileService.Infrastructure.Postgres;
@@ -18,6 +19,8 @@ public static class DependencyInjection
                 .UseNpgsql(configuration.GetConnectionString(nameof(AppDbContext)))
                 .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
         });
+
+        services.AddScoped<IAppDbContext, AppDbContext>();
 
         return services;
     }

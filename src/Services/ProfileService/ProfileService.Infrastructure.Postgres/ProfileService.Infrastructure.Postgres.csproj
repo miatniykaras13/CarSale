@@ -22,6 +22,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.Messaging\BuildingBlocks.Messaging.csproj" />
     <ProjectReference Include="..\ProfileService.Domain\ProfileService.Domain.csproj" />
+    <ProjectReference Include="..\ProfileService.Application\ProfileService.Application.csproj" />
   </ItemGroup>
 
 </Project>
