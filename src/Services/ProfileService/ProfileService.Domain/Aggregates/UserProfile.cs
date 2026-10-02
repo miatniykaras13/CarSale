@@ -27,6 +27,8 @@ public sealed class UserProfile : Aggregate<Guid>
 
     public string? Picture { get; private set; }
 
+    public IReadOnlyList<AdSnapshot> Ads => _ads.AsReadOnly();
+
     [JsonConstructor]
     private UserProfile()
     {
@@ -49,8 +51,6 @@ public sealed class UserProfile : Aggregate<Guid>
         PhoneNumber = phoneNumber;
         Picture = picture;
     }
-
-    public IReadOnlyList<AdSnapshot> Ads => _ads.AsReadOnly();
 
     public static Result<UserProfile, Error> Create(
         string keycloakId,

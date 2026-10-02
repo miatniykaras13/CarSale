@@ -1,4 +1,5 @@
 ﻿using AspNetCore.Swagger.Themes;
+using Carter;
 using ProfileService.Web;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -28,5 +29,7 @@ app.UseHttpsRedirection();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapCarter();
 
 app.Run();

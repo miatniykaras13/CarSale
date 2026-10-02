@@ -27,6 +27,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\ProfileService.Application\ProfileService.Application.csproj" />
+      <ProjectReference Include="..\ProfileService.Presenters\ProfileService.Presenters.csproj" />
       <ProjectReference Include="..\ProfileService.Infrastructure.Postgres\ProfileService.Infrastructure.Postgres.csproj" />
     </ItemGroup>
 

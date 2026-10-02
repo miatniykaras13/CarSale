@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using ProfileService.Application;
 using ProfileService.Infrastructure.Postgres;
+using ProfileService.Presenters;
 
 namespace ProfileService.Web;
 
@@ -12,7 +14,9 @@ public static class DependencyInjection
         IConfiguration configuration)
     {
         services
-            .AddPostgresInfrastructure(configuration);
+            .AddPostgresInfrastructure(configuration)
+            .AddApplication()
+            .AddPresenters();
 
         services.AddEndpointsApiExplorer();
         return services;
