@@ -47,7 +47,11 @@ public static class DependencyInjection
                 };
             });
 
-        services.AddAuthorizationBuilder();
+        services.AddAuthorizationBuilder()
+            .AddPolicy("AdminPolicy", policy =>
+            {
+                policy.RequireRole("profile-service-admin");
+            });
         return services;
     }
 
