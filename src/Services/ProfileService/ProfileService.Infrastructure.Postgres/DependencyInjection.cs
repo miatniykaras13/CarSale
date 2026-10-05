@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProfileService.Application.Abstractions.Data;
 using ProfileService.Infrastructure.Postgres.Data;
+using ProfileService.Infrastructure.Postgres.Extensions;
 
 namespace ProfileService.Infrastructure.Postgres;
 
@@ -17,7 +18,8 @@ public static class DependencyInjection
         {
             options
                 .UseNpgsql(configuration.GetConnectionString(nameof(AppDbContext)))
-                .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>());
+                .AddInterceptors(sp.GetServices<ISaveChangesInterceptor>())
+                .SeedDatabase();
         });
 
         services.AddScoped<IAppDbContext, AppDbContext>();

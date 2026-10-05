@@ -506,6 +506,7 @@
   "webAuthnPolicyPasswordlessExtraOrigins": [],
   "users": [
     {
+      "id": "b715afc6-a42e-4e90-91f8-8e735d735ef9",
       "username": "vlad",
       "enabled": true,
       "createdTimestamp": 1772611200000,

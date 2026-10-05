@@ -12,6 +12,8 @@ services.AddApiAuthentication(configuration);
 
 var app = builder.Build();
 
+app.UseExceptionHandler();
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -31,5 +33,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapCarter();
+
+await app.UseAsyncMigrations();
 
 app.Run();

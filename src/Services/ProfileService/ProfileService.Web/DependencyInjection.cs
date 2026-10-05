@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using BuildingBlocks.Exceptions.Handlers;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProfileService.Application;
@@ -21,6 +22,8 @@ public static class DependencyInjection
             .AddPresenters();
 
         services.AddEndpointsApiExplorer();
+        services.AddProblemDetails();
+        services.AddExceptionHandler<CustomExceptionHandler>();
         return services;
     }
 
