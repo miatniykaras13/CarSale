@@ -13,7 +13,7 @@ public sealed class UserProfile : Aggregate<Guid>
 
     private readonly List<AdSnapshot> _ads = [];
 
-    public string KeycloakId { get; private set; } = null!;
+    public Guid KeycloakId { get; private set; }
 
     public Email Email { get; private set; } = null!;
 
@@ -35,7 +35,7 @@ public sealed class UserProfile : Aggregate<Guid>
     }
 
     private UserProfile(
-        string keycloakId,
+        Guid keycloakId,
         Email email,
         string username,
         string name,
@@ -53,7 +53,7 @@ public sealed class UserProfile : Aggregate<Guid>
     }
 
     public static Result<UserProfile, Error> Create(
-        string keycloakId,
+        Guid keycloakId,
         Email email,
         string username,
         string name,
@@ -61,9 +61,6 @@ public sealed class UserProfile : Aggregate<Guid>
         PhoneNumber phoneNumber,
         string? picture = null)
     {
-        if (string.IsNullOrWhiteSpace(keycloakId))
-            return Result.Failure<UserProfile, Error>(Error.Validation("KeycloakId cannot be empty"));
-
         if (string.IsNullOrWhiteSpace(username))
             return Result.Failure<UserProfile, Error>(Error.Validation("Username cannot be empty"));
 

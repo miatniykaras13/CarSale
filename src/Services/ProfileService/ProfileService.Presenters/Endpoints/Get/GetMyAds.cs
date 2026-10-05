@@ -24,7 +24,7 @@ public class GetMyAds : ICarterModule
                 if (string.IsNullOrWhiteSpace(keycloakId))
                     return Results.Unauthorized();
 
-                var result = await sender.Send(new GetMyAdsQuery(keycloakId), cancellationToken);
+                var result = await sender.Send(new GetMyAdsQuery(Guid.Parse(keycloakId)), cancellationToken);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);

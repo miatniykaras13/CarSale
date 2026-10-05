@@ -5,4 +5,4 @@ using ProfileService.Application.Dtos;
 
 namespace ProfileService.Application.Queries.GetMyProfile;
 
-public record GetMyProfileQuery(string KeycloakId) : IQuery<Result<MyProfileDto, List<Error>>>;
+public record GetMyProfileQuery(Guid KeycloakId) : IQuery<Result<MyProfileDto, List<Error>>>;

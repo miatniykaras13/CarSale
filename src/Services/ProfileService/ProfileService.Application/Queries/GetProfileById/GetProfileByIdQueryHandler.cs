@@ -16,19 +16,20 @@ public class GetProfileByIdQueryHandler(IAppDbContext dbContext)
     {
         var profile = await dbContext.UserProfiles
             .AsNoTracking()
-            .Where(x => x.Id == query.ProfileId)
-            .Select(x => new ProfileByIdDto(
-                x.Id,
-                x.Username,
-                x.Email.Value,
-                x.Name,
-                x.Surname,
-                x.PhoneNumber.E164))
-            .SingleOrDefaultAsync(cancellationToken);
+            .AsNoTracking()
+            .FirstOrDefaultAsync(x => x.Id == query.ProfileId, cancellationToken);
 
         if (profile is null)
             return Result.Failure<ProfileByIdDto, List<Error>>([Error.NotFound("profile", "User profile not found.")]);
 
-        return Result.Success<ProfileByIdDto, List<Error>>(profile);
+        var profileDto = new ProfileByIdDto(
+            profile.Id,
+            profile.Username,
+            profile.Email.Value,
+            profile.Name,
+            profile.Surname,
+            profile.PhoneNumber.E164);
+
+        return Result.Success<ProfileByIdDto, List<Error>>(profileDto);
     }
 }

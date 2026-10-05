@@ -24,7 +24,7 @@ public class GetMyProfile : ICarterModule
                 if (string.IsNullOrWhiteSpace(keycloakId))
                     return Results.Unauthorized();
 
-                var result = await sender.Send(new GetMyProfileQuery(keycloakId), cancellationToken);
+                var result = await sender.Send(new GetMyProfileQuery(Guid.Parse(keycloakId)), cancellationToken);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);

@@ -16,19 +16,19 @@ public class GetMyProfileQueryHandler(IAppDbContext dbContext)
     {
         var profile = await dbContext.UserProfiles
             .AsNoTracking()
-            .Where(x => x.KeycloakId == query.KeycloakId)
-            .Select(x => new MyProfileDto(
-                x.Id,
-                x.Username,
-                x.Email.Value,
-                x.Name,
-                x.Surname,
-                x.PhoneNumber.E164))
-            .SingleOrDefaultAsync(cancellationToken);
+            .FirstOrDefaultAsync(x => x.KeycloakId == query.KeycloakId, cancellationToken);
 
         if (profile is null)
             return Result.Failure<MyProfileDto, List<Error>>([Error.NotFound("profile", "User profile not found.")]);
 
-        return Result.Success<MyProfileDto, List<Error>>(profile);
+        var profileDto = new MyProfileDto(
+            profile.Id,
+            profile.Username,
+            profile.Email.Value,
+            profile.Name,
+            profile.Surname,
+            profile.PhoneNumber.E164);
+
+        return Result.Success<MyProfileDto, List<Error>>(profileDto);
     }
 }
