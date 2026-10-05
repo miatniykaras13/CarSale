@@ -19,7 +19,7 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
 
         builder.Property(x => x.Username)
             .IsRequired()
-            .HasMaxLength(255);
+            .HasMaxLength(UserProfile.MAX_USERNAME_LENGTH);
 
         builder.HasIndex(x => x.Username)
             .IsUnique();
@@ -33,7 +33,7 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
             .HasMaxLength(UserProfile.MAX_SURNAME_LENGTH);
 
         builder.Property(x => x.Picture)
-            .HasMaxLength(500);
+            .HasMaxLength(UserProfile.MAX_PICTURE_LENGTH);
 
         builder.OwnsMany(x => x.Ads, adBuilder =>
         {

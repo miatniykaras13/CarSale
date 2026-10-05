@@ -11,6 +11,10 @@ public sealed class UserProfile : Aggregate<Guid>
     public const int MAX_NAME_LENGTH = 100;
     public const int MAX_SURNAME_LENGTH = 100;
 
+    public const int MAX_USERNAME_LENGTH = 255;
+
+    public const int MAX_PICTURE_LENGTH = 500;
+
     private readonly List<AdSnapshot> _ads = [];
 
     public Guid KeycloakId { get; private set; }
@@ -128,6 +132,43 @@ public sealed class UserProfile : Aggregate<Guid>
 
         UpdatedAt = DateTime.UtcNow;
         AddDomainEvent(new UserProfileUpdatedEvent(this));
+        return Result.Success<UserProfile, Error>(this);
+    }
+
+    public Result<UserProfile, Error> ReplaceProfile(
+        string username,
+        Email email,
+        string name,
+        string surname,
+        PhoneNumber phoneNumber,
+        string? picture)
+    {
+        if (string.IsNullOrWhiteSpace(username) || username.Length > MAX_USERNAME_LENGTH)
+            return Result.Failure<UserProfile, Error>(Error.Validation("username", $"Username must be between 1 and {MAX_USERNAME_LENGTH} characters."));
+
+        if (string.IsNullOrWhiteSpace(name) || name.Length > MAX_NAME_LENGTH)
+            return Result.Failure<UserProfile, Error>(Error.Validation("name", $"Name must be between 1 and {MAX_NAME_LENGTH} characters."));
+
+        if (string.IsNullOrWhiteSpace(surname) || surname.Length > MAX_SURNAME_LENGTH)
+            return Result.Failure<UserProfile, Error>(Error.Validation("surname", $"Surname must be between 1 and {MAX_SURNAME_LENGTH} characters."));
+
+        if (picture?.Length > MAX_PICTURE_LENGTH)
+            return Result.Failure<UserProfile, Error>(Error.Validation("picture", $"Picture must not exceed {MAX_PICTURE_LENGTH} characters."));
+
+        if (Username == username && Email == email && Name == name && Surname == surname &&
+            PhoneNumber == phoneNumber && Picture == picture)
+            return Result.Success<UserProfile, Error>(this);
+
+        Username = username;
+        Email = email;
+        Name = name;
+        Surname = surname;
+        PhoneNumber = phoneNumber;
+        Picture = picture;
+        UpdatedAt = DateTime.UtcNow;
+        UpdatedBy = username;
+        AddDomainEvent(new UserProfileUpdatedEvent(this));
+
         return Result.Success<UserProfile, Error>(this);
     }
 

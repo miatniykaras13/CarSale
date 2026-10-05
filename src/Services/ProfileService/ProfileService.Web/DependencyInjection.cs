@@ -2,6 +2,7 @@
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using ProfileService.Application;
+using ProfileService.Infrastructure.Keycloak;
 using ProfileService.Infrastructure.Postgres;
 using ProfileService.Presenters;
 
@@ -15,6 +16,7 @@ public static class DependencyInjection
     {
         services
             .AddPostgresInfrastructure(configuration)
+            .AddKeycloakInfrastructure(configuration)
             .AddApplication()
             .AddPresenters();
 

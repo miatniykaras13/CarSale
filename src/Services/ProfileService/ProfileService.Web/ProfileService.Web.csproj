@@ -29,6 +29,7 @@
       <ProjectReference Include="..\ProfileService.Application\ProfileService.Application.csproj" />
       <ProjectReference Include="..\ProfileService.Presenters\ProfileService.Presenters.csproj" />
       <ProjectReference Include="..\ProfileService.Infrastructure.Postgres\ProfileService.Infrastructure.Postgres.csproj" />
+      <ProjectReference Include="..\ProfileService.Infrastructure.Keycloak\ProfileService.Infrastructure.Keycloak.csproj" />
     </ItemGroup>
 
 </Project>
