@@ -944,7 +944,7 @@
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
-      "secret": "**********",
+      "secret": "${KC_ADMIN_SECRET}",
       "redirectUris": [
         "/*"
       ],
@@ -1300,10 +1300,12 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://localhost:5053/*"
+        "https://localhost:5053/*",
+        "https://localhost:6063/*"
       ],
       "webOrigins": [
-        "https://localhost:5053"
+        "https://localhost:5053",
+        "https://localhost:6063"
       ],
       "notBefore": 0,
       "bearerOnly": false,

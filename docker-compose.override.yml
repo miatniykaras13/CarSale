@@ -68,7 +68,7 @@ services:
     ports:
       - "5435:5432"
     volumes:
-      - profile-service-postgres-data:/var/lib/postgresql
+      - profile-service-postgres:/var/lib/postgresql
     healthcheck:
       test: [ "CMD-SHELL", "pg_isready -U ${PROFILESERVICE_POSTGRES_USER} -d ${PROFILESERVICE_POSTGRES_DB}" ]
       interval: 10s
@@ -210,6 +210,7 @@ services:
       KC_DB_URL: jdbc:postgresql://${KEYCLOAK_POSTGRES_SERVER}:5432/${KEYCLOAK_POSTGRES_DB}
       KC_DB_USERNAME: ${KEYCLOAK_POSTGRES_USER}
       KC_DB_PASSWORD: ${KEYCLOAK_POSTGRES_PASSWORD}
+      KC_ADMIN_SECRET: ${KEYCLOAK_ADMIN_SECRET?Set KC_ADMIN_SECRET in .env}
     ports:
       - "8080:8080"
       - "8443:8443"
@@ -217,7 +218,7 @@ services:
       keycloakdb:
         condition: service_healthy
     volumes:
-      - ./keycloak/realm/realm-export.json:/opt/keycloak/data/import/realm-export.json:ro
+      - ./keycloak/realm/realm-export.json:/opt/keycloak/data/import/carsale-realm.json:ro
       - keycloak-keystore:/opt/keycloak/conf
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/realms/master" ]
@@ -290,29 +291,30 @@ services:
       retries: 5
       start_period: 20s
   
-  profileservice.api:
+  profileservice.web:
     restart: always
     environment:
-      - KEYCLOAK_URL=http://keycloak:8080
-      - KEYCLOAK_REALM=carsale
-      - KEYCLOAK_CLIENT_ID=profile-service
-      - KEYCLOAK_CLIENT_SECRET=${KEYCLOAK_ADMIN_SECRET}
-      - KEYCLOAK_BASE_URL=http://keycloak:8080
-      - KEYCLOAK_AUTH_REALM=carsale
-
-      - KEYCLOAK_ADMIN_CLIENT=profile-service
-      - KEYCLOAK_ADMIN_USERNAME=${KEYCLOAK_ADMIN_USERNAME}
-      - KEYCLOAK_ADMIN_PASSWORD=${KEYCLOAK_ADMIN_PASSWORD}
-      - KEYCLOAK_ADMIN_SECRET=${KEYCLOAK_ADMIN_SECRET}
-
-      - PROFILESERVICE_POSTGRES_PORT=5432
-      - PROFILESERVICE_POSTGRES_USER=${PROFILESERVICE_POSTGRES_USER}
-      - PROFILESERVICE_POSTGRES_PASSWORD=${PROFILESERVICE_POSTGRES_PASSWORD}
-      - PROFILESERVICE_POSTGRES_HOST=${PROFILESERVICE_POSTGRES_SERVER}
-      - PROFILESERVICE_POSTGRES_DB=${PROFILESERVICE_POSTGRES_DB}
-      - PROFILESERVICE_POSTGRES_URL=postgresql://${PROFILESERVICE_POSTGRES_USER}:${PROFILESERVICE_POSTGRES_PASSWORD}@${PROFILESERVICE_POSTGRES_SERVER}:5432/${PROFILESERVICE_POSTGRES_DB}
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_HTTP_PORTS=8080
+      - ASPNETCORE_HTTPS_PORTS=8081
+      - ConnectionStrings__AppDbContext=Server=${PROFILESERVICE_POSTGRES_SERVER};Port=5432;Database=${PROFILESERVICE_POSTGRES_DB};Username=${PROFILESERVICE_POSTGRES_USER};Password=${PROFILESERVICE_POSTGRES_PASSWORD}
+      - Authentication__MetadataAddress=http://keycloak:8080/realms/carsale/.well-known/openid-configuration
+      - Authentication__ValidIssuer=http://localhost:8080/realms/carsale
+      - Authentication__Audience=profile-service
+      - Keycloak__Endpoint=http://keycloak:8080
+      - Keycloak__Realm=carsale
+      - Keycloak__AdminClientId=profile-service
+      - Keycloak__AdminClientSecret=${KEYCLOAK_ADMIN_SECRET}
+      - Keycloak__SwaggerClientId=swagger-profile-service
+      - Keycloak__AuthorizationUrl=http://localhost:8080/realms/carsale/protocol/openid-connect/auth
+      - Keycloak__TokenUrl=http://localhost:8080/realms/carsale/protocol/openid-connect/token
     ports:
-      - "4000:4000"
+      - "6003:8080"
+      - "6063:8081"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets/:/home/app/.microsoft/usersecrets
+      - ${USERPROFILE}/.aspnet/https/:/https/
     depends_on:
       profileservicedb:
         condition: service_healthy
@@ -320,6 +322,12 @@ services:
         condition: service_healthy
       filemanagement.grpc:
         condition: service_healthy
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://0.0.0.0:8080/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
 
 configs:
