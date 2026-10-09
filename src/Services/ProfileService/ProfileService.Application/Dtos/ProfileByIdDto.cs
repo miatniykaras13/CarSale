@@ -1,4 +1,4 @@
-namespace ProfileService.Application.Dtos;
+﻿namespace ProfileService.Application.Dtos;
 
 public record ProfileByIdDto(
     Guid Id,
@@ -6,4 +6,5 @@ public record ProfileByIdDto(
     string Email,
     string Name,
     string Surname,
-    string PhoneNumber);
+    string PhoneNumber,
+    string? Picture);

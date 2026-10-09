@@ -1,4 +1,4 @@
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using ProfileService.Domain.Aggregates;
 
@@ -33,7 +33,7 @@ public class UserProfileConfiguration : IEntityTypeConfiguration<UserProfile>
             .HasMaxLength(UserProfile.MAX_SURNAME_LENGTH);
 
         builder.Property(x => x.Picture)
-            .HasMaxLength(UserProfile.MAX_PICTURE_LENGTH);
+            .HasColumnType("uuid");
 
         builder.OwnsMany(x => x.Ads, adBuilder =>
         {

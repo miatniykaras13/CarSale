@@ -1,9 +1,7 @@
-﻿using System.Net;
-using BuildingBlocks.CQRS;
+﻿using BuildingBlocks.CQRS;
 using BuildingBlocks.Errors;
 using CSharpFunctionalExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using ProfileService.Application.Abstractions.Data;
 using ProfileService.Application.Abstractions.IdentityProvider;
 using ProfileService.Application.Dtos;
@@ -13,8 +11,7 @@ namespace ProfileService.Application.Commands.UpdateMyProfile;
 
 public class UpdateMyProfileCommandHandler(
     IAppDbContext dbContext,
-    IAdminKeycloakService keycloakService,
-    ILogger<UpdateMyProfileCommandHandler> logger)
+    IAdminKeycloakService keycloakService)
     : ICommandHandler<UpdateMyProfileCommand, UnitResult<List<Error>>>
 {
     public async Task<UnitResult<List<Error>>> Handle(
@@ -43,11 +40,10 @@ public class UpdateMyProfileCommandHandler(
             return UnitResult.Failure<List<Error>>(Error.Conflict("username", "Username is already in use."));
 
         var updateResult = profile.ReplaceProfile(
-            data.Username, emailResult.Value, data.Name, data.Surname, phoneNumberResult.Value, data.Picture);
+            data.Username, emailResult.Value, data.Name, data.Surname, phoneNumberResult.Value);
 
         if (updateResult.IsFailure)
             return UnitResult.Failure<List<Error>>(updateResult.Error);
-
 
         await keycloakService.UpdateUserAsync(
             command.KeycloakId,

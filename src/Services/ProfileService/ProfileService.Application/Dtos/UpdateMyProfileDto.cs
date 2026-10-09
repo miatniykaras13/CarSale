@@ -5,5 +5,4 @@ public record UpdateMyProfileDto(
     string Email,
     string Name,
     string Surname,
-    string PhoneNumber,
-    string? Picture = null);
+    string PhoneNumber);

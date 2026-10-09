@@ -1,4 +1,4 @@
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 using BuildingBlocks.Errors;
 using CSharpFunctionalExtensions;
 using ProfileService.Domain.Events;
@@ -12,8 +12,6 @@ public sealed class UserProfile : Aggregate<Guid>
     public const int MAX_SURNAME_LENGTH = 100;
 
     public const int MAX_USERNAME_LENGTH = 255;
-
-    public const int MAX_PICTURE_LENGTH = 500;
 
     private readonly List<AdSnapshot> _ads = [];
 
@@ -29,7 +27,7 @@ public sealed class UserProfile : Aggregate<Guid>
 
     public PhoneNumber PhoneNumber { get; private set; }
 
-    public string? Picture { get; private set; }
+    public Guid? Picture { get; private set; }
 
     public IReadOnlyList<AdSnapshot> Ads => _ads.AsReadOnly();
 
@@ -45,7 +43,7 @@ public sealed class UserProfile : Aggregate<Guid>
         string name,
         string surname,
         PhoneNumber phoneNumber,
-        string picture)
+        Guid? picture)
     {
         KeycloakId = keycloakId;
         Email = email;
@@ -63,7 +61,7 @@ public sealed class UserProfile : Aggregate<Guid>
         string name,
         string surname,
         PhoneNumber phoneNumber,
-        string? picture = null)
+        Guid? pictureId = null)
     {
         if (string.IsNullOrWhiteSpace(username))
             return Result.Failure<UserProfile, Error>(Error.Validation("Username cannot be empty"));
@@ -80,6 +78,9 @@ public sealed class UserProfile : Aggregate<Guid>
                 Error.Validation($"Surname must be between 1 and {MAX_SURNAME_LENGTH} characters"));
         }
 
+        if (pictureId == Guid.Empty)
+            return Result.Failure<UserProfile, Error>(Error.Validation("picture", "Picture ID must be a non-empty GUID."));
+
         var profile = new UserProfile
         {
             Id = Guid.CreateVersion7(),
@@ -89,7 +90,7 @@ public sealed class UserProfile : Aggregate<Guid>
             Name = name,
             Surname = surname,
             PhoneNumber = phoneNumber,
-            Picture = picture,
+            Picture = pictureId,
             CreatedAt = DateTime.UtcNow,
             CreatedBy = username,
         };
@@ -100,8 +101,7 @@ public sealed class UserProfile : Aggregate<Guid>
 
     public Result<UserProfile, Error> UpdateProfile(
         string? name = null,
-        string? surname = null,
-        string? picture = null)
+        string? surname = null)
     {
         if (name is not null)
         {
@@ -125,11 +125,6 @@ public sealed class UserProfile : Aggregate<Guid>
             Surname = surname;
         }
 
-        if (picture is not null)
-        {
-            Picture = picture;
-        }
-
         UpdatedAt = DateTime.UtcNow;
         AddDomainEvent(new UserProfileUpdatedEvent(this));
         return Result.Success<UserProfile, Error>(this);
@@ -140,8 +135,7 @@ public sealed class UserProfile : Aggregate<Guid>
         Email email,
         string name,
         string surname,
-        PhoneNumber phoneNumber,
-        string? picture)
+        PhoneNumber phoneNumber)
     {
         if (string.IsNullOrWhiteSpace(username) || username.Length > MAX_USERNAME_LENGTH)
             return Result.Failure<UserProfile, Error>(Error.Validation("username", $"Username must be between 1 and {MAX_USERNAME_LENGTH} characters."));
@@ -152,11 +146,8 @@ public sealed class UserProfile : Aggregate<Guid>
         if (string.IsNullOrWhiteSpace(surname) || surname.Length > MAX_SURNAME_LENGTH)
             return Result.Failure<UserProfile, Error>(Error.Validation("surname", $"Surname must be between 1 and {MAX_SURNAME_LENGTH} characters."));
 
-        if (picture?.Length > MAX_PICTURE_LENGTH)
-            return Result.Failure<UserProfile, Error>(Error.Validation("picture", $"Picture must not exceed {MAX_PICTURE_LENGTH} characters."));
-
         if (Username == username && Email == email && Name == name && Surname == surname &&
-            PhoneNumber == phoneNumber && Picture == picture)
+            PhoneNumber == phoneNumber)
             return Result.Success<UserProfile, Error>(this);
 
         Username = username;
@@ -164,11 +155,24 @@ public sealed class UserProfile : Aggregate<Guid>
         Name = name;
         Surname = surname;
         PhoneNumber = phoneNumber;
-        Picture = picture;
         UpdatedAt = DateTime.UtcNow;
         UpdatedBy = username;
         AddDomainEvent(new UserProfileUpdatedEvent(this));
 
+        return Result.Success<UserProfile, Error>(this);
+    }
+
+    public Result<UserProfile, Error> UpdatePicture(Guid picture)
+    {
+        if (picture == Guid.Empty)
+            return Result.Failure<UserProfile, Error>(Error.Validation("picture", "Picture ID must be a non-empty GUID."));
+
+        if (Picture == picture)
+            return Result.Success<UserProfile, Error>(this);
+
+        Picture = picture;
+        UpdatedAt = DateTime.UtcNow;
+        AddDomainEvent(new UserProfileUpdatedEvent(this));
         return Result.Success<UserProfile, Error>(this);
     }
 

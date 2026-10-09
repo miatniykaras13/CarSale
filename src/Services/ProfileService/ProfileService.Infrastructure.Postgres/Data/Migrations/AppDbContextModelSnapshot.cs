@@ -44,9 +44,8 @@ namespace ProfileService.Infrastructure.Postgres.Data.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<string>("Picture")
-                        .HasMaxLength(500)
-                        .HasColumnType("character varying(500)");
+                    b.Property<Guid?>("Picture")
+                        .HasColumnType("uuid");
 
                     b.Property<string>("Surname")
                         .IsRequired()

@@ -37,8 +37,7 @@ public class UpdateMyProfile : ICarterModule
             .WithName("UpdateMyProfile")
             .WithTags("Profiles")
             .WithSummary("Replace the current user's editable profile fields")
-            .WithDescription("Username, email, name, surname and phoneNumber are required. " +
-                             "Picture is cleared when omitted or null.")
+            .WithDescription("Username, email, name, surname and phoneNumber are required. ")
             .Produces(StatusCodes.Status204NoContent)
             .ProducesProblem(StatusCodes.Status400BadRequest)
             .Produces(StatusCodes.Status401Unauthorized)
