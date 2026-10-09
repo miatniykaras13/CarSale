@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
@@ -30,6 +30,7 @@
       <ProjectReference Include="..\ProfileService.Presenters\ProfileService.Presenters.csproj" />
       <ProjectReference Include="..\ProfileService.Infrastructure.Postgres\ProfileService.Infrastructure.Postgres.csproj" />
       <ProjectReference Include="..\ProfileService.Infrastructure.Keycloak\ProfileService.Infrastructure.Keycloak.csproj" />
+      <ProjectReference Include="..\ProfileService.Infrastructure.FileStorage\ProfileService.Infrastructure.FileStorage.csproj" />
     </ItemGroup>
 
 </Project>

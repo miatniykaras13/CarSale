@@ -306,6 +306,7 @@ services:
       - Keycloak__Realm=carsale
       - Keycloak__AdminClientId=profile-service
       - Keycloak__AdminClientSecret=${KEYCLOAK_ADMIN_SECRET}
+      - FileStorage__Endpoint=https://filemanagement.grpc:8081
       - Keycloak__SwaggerClientId=swagger-profile-service
       - Keycloak__AuthorizationUrl=http://localhost:8080/realms/carsale/protocol/openid-connect/auth
       - Keycloak__TokenUrl=http://localhost:8080/realms/carsale/protocol/openid-connect/token
