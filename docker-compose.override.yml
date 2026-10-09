@@ -272,6 +272,8 @@ services:
       - ASPNETCORE_HTTPS_PORTS=8081
       - ConnectionStrings__FileManagementDbContext=Data Source=/app/data/filedb
       - Minio__Endpoint=minio:9000
+      - Minio__PublicEndpoint=localhost:9000
+      - Minio__PublicUseSSL=false
     ports:
       - "6001:8080"
       - "6061:8081"

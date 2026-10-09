@@ -13,7 +13,8 @@ public class FileService(
     FileManagementDbContext managementDbContext,
     IMinioClient minioClient,
     ILogger<FileService> logger,
-    IImageProcessor imageProcessor) : FileManager.FileManagerBase
+    IImageProcessor imageProcessor,
+    [FromKeyedServices("public")] IMinioClient publicMinioClient) : FileManager.FileManagerBase
 {
     public override async Task<UploadFileResponse> UploadFile(
         IAsyncStreamReader<UploadFileRequest> request,
@@ -182,7 +183,7 @@ public class FileService(
             .WithObject(objectName)
             .WithExpiry(expirySeconds);
 
-        string? response = await minioClient.PresignedGetObjectAsync(presignedGetObjArgs);
+        string? response = await publicMinioClient.PresignedGetObjectAsync(presignedGetObjArgs);
         return new GetDownloadLinkResponse { Link = response };
     }
 
@@ -373,6 +374,7 @@ public class FileService(
         {
             "AdService" => "ad-service",
             "AutoCatalog" => "auto-catalog",
+            "ProfileService" => "profile-service",
             _ => "other"
         };
 

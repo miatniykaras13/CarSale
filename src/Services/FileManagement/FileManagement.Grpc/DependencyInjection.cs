@@ -38,12 +38,21 @@ public static class DependencyInjection
         var accessKey = minioConfig["AccessKey"]!;
         var secretKey = minioConfig["SecretKey"]!;
         var useSSL = bool.Parse(minioConfig["UseSSL"]!);
+        var publicEndpoint = minioConfig["PublicEndpoint"] ?? endpoint;
+        var publicUseSSL = minioConfig.GetValue<bool?>("PublicUseSSL") ?? useSSL;
 
         services.AddMinio(configureClient =>
             configureClient
                 .WithEndpoint(endpoint)
                 .WithCredentials(accessKey, secretKey)
                 .WithSSL(useSSL)
+                .Build());
+
+        services.AddKeyedSingleton<IMinioClient>("public", (_, _) =>
+            new MinioClient()
+                .WithEndpoint(publicEndpoint)
+                .WithCredentials(accessKey, secretKey)
+                .WithSSL(publicUseSSL)
                 .Build());
     }
 
