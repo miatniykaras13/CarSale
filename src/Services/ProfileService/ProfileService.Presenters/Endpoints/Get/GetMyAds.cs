@@ -19,12 +19,12 @@ public class GetMyAds : ICarterModule
                 ISender sender,
                 CancellationToken cancellationToken) =>
             {
-                var keycloakId = user.FindFirstValue(ClaimTypes.NameIdentifier) ?? user.FindFirstValue("sub");
+                var subject = user.FindFirstValue(ClaimTypes.NameIdentifier) ?? user.FindFirstValue("sub");
 
-                if (string.IsNullOrWhiteSpace(keycloakId))
+                if (!Guid.TryParse(subject, out var keycloakId) || keycloakId == Guid.Empty)
                     return Results.Unauthorized();
 
-                var result = await sender.Send(new GetMyAdsQuery(Guid.Parse(keycloakId)), cancellationToken);
+                var result = await sender.Send(new GetMyAdsQuery(keycloakId), cancellationToken);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
