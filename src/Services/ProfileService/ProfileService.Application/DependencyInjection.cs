@@ -1,4 +1,4 @@
-using BuildingBlocks.Behaviors;
+﻿using BuildingBlocks.Behaviors;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,7 +17,6 @@ public static class DependencyInjection
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly);
-
         return services;
     }
 }
