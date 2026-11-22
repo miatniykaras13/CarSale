@@ -23,6 +23,9 @@ public static class DependencyInjection
             .AddApplication()
             .AddPresenters();
 
+        services.AddHealthChecks()
+            .AddPostgresHealthCheck(configuration);
+
         services.AddEndpointsApiExplorer();
         services.AddProblemDetails();
         services.AddExceptionHandler<CustomExceptionHandler>();

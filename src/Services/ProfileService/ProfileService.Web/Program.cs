@@ -27,6 +27,8 @@ if (app.Environment.IsDevelopment())
     });
 }
 
+app.UseServiceHealthChecks();
+
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
