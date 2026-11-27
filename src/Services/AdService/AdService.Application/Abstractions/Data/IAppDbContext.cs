@@ -12,5 +12,7 @@ public interface IAppDbContext
 
     DbSet<CarOption> CarOptions { get; }
 
+    Task<T> ReadSnapshotAsync<T>(Func<CancellationToken, Task<T>> read, CancellationToken cancellationToken);
+
     Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

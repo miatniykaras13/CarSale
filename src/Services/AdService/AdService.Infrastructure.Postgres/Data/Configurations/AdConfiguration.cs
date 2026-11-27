@@ -1,4 +1,4 @@
-﻿using AdService.Domain.Aggregates;
+using AdService.Domain.Aggregates;
 using AdService.Domain.ValueObjects;
 using Bogus.DataSets;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +11,7 @@ public class AdConfiguration : IEntityTypeConfiguration<Ad>
     public void Configure(EntityTypeBuilder<Ad> builder)
     {
         builder.HasKey(x => x.Id);
+        builder.HasIndex(x => new { x.CreatedAt, x.Id });
 
         builder.OwnsOne(x => x.Car, carBuilder =>
         {

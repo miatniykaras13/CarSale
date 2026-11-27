@@ -78,6 +78,8 @@ namespace AdService.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatedAt", "Id");
+
                     b.ToTable("Ads");
                 });
 

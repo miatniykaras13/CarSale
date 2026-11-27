@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net9.0</TargetFramework>
@@ -8,6 +8,8 @@
 
     <ItemGroup>
       <ProjectReference Include="..\AdService.Domain\AdService.Domain.csproj" />
+      <ProjectReference Include="..\AdService.Infrastructure.Postgres\AdService.Infrastructure.Postgres.csproj" />
+      <ProjectReference Include="..\AdService.Presenters\AdService.Presenters.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -14,6 +14,20 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ads_tests
+          POSTGRES_DB: ads_tests
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d ads_tests"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
     steps:
     - uses: actions/checkout@v4
     - name: Setup .NET
@@ -32,4 +46,6 @@ jobs:
     - name: Build AdService
       run: dotnet build ./src/Services/AdService/AdService.Web/AdService.Web.csproj --no-restore
     - name: Test AdService
+      env:
+        AD_SERVICE_TEST_POSTGRES: Host=localhost;Port=5432;Database=ads_tests;Username=postgres;Password=ads_tests
       run: dotnet test ./src/Services/AdService/AdService.Tests/AdService.Tests.csproj --verbosity normal
