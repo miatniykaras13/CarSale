@@ -13,6 +13,7 @@ using AdService.Domain.Enums;
 using AdService.Domain.ValueObjects;
 using AdService.Infrastructure.Postgres.Data;
 using AdService.Presenters.Endpoints.Get;
+using FluentAssertions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -40,14 +41,13 @@ public class AdsPaginationTests(AdsApi fixture) : IClassFixture<AdsApi>
         };
 
         var page = await fixture.GetPageAsync("pageSize=2", seller);
-        Assert.Equal(visibleCount, page.TotalCount);
-        Assert.Equal(2, page.Items.Count);
+        page.TotalCount.Should().Be(visibleCount);
+        page.Items.Should().HaveCount(2);
 
         var filtered = await fixture.GetPageAsync($"sellerId={fixture.Owner}&pageSize=2", seller);
-        var statuses = filtered.Items.Select(item => item.Status).ToArray();
-        Assert.Equal(caller == "owner" ? 9 : 3, filtered.TotalCount);
-        Assert.Equal(caller == "owner" ? ["SOLD", "EXPIRED"] : new[] { "SOLD", "ARCHIVED" }, statuses);
-        Assert.All(filtered.Items, item => Assert.Equal(fixture.Owner, item.Seller.SellerId));
+        filtered.TotalCount.Should().Be(caller == "owner" ? 9 : 3);
+        filtered.Items.Select(item => item.Status).Should().Equal("SOLD", caller == "owner" ? "EXPIRED" : "ARCHIVED");
+        filtered.Items.Should().OnlyContain(item => item.Seller.SellerId == fixture.Owner);
     }
 
     [PostgresTheory]
@@ -63,14 +63,14 @@ public class AdsPaginationTests(AdsApi fixture) : IClassFixture<AdsApi>
         var last = await fixture.GetPageAsync($"sort={sort}&pageSize=3&pageNumber=2");
         var empty = await fixture.GetPageAsync($"sort={sort}&pageSize=3&pageNumber=3");
 
-        Assert.Equal(orderedIds[..2], first.Items.Select(ad => ad.AdId));
-        Assert.Equal(orderedIds[2..], second.Items.Select(ad => ad.AdId));
-        Assert.Equal(orderedIds[3..], last.Items.Select(ad => ad.AdId));
-        Assert.Empty(empty.Items);
-        Assert.Equal(4, last.TotalCount);
-        Assert.Equal(4, empty.TotalCount);
-        Assert.Equal(3, empty.PageNumber);
-        Assert.Equal(3, empty.PageSize);
+        first.Items.Select(ad => ad.AdId).Should().Equal(orderedIds[..2]);
+        second.Items.Select(ad => ad.AdId).Should().Equal(orderedIds[2..]);
+        last.Items.Select(ad => ad.AdId).Should().Equal(orderedIds[3..]);
+        empty.Items.Should().BeEmpty();
+        last.TotalCount.Should().Be(4);
+        empty.TotalCount.Should().Be(4);
+        empty.PageNumber.Should().Be(3);
+        empty.PageSize.Should().Be(3);
     }
 
     [PostgresTheory]
@@ -84,8 +84,8 @@ public class AdsPaginationTests(AdsApi fixture) : IClassFixture<AdsApi>
         fixture.Commands.Queries.Clear();
         using var response = await fixture.Client.GetAsync($"/ads?{query}");
 
-        Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
-        Assert.Empty(fixture.Commands.Queries);
+        response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        fixture.Commands.Queries.Should().BeEmpty();
     }
 
     [PostgresTheory]
@@ -98,21 +98,27 @@ public class AdsPaginationTests(AdsApi fixture) : IClassFixture<AdsApi>
         var page = await fixture.GetPageAsync($"pageNumber=2&pageSize=2&includeImageUrl={includeImageUrl}");
 
         var queries = fixture.Commands.Queries.ToArray();
-        Assert.Equal(2, queries.Length);
-        Assert.Contains("count(*)", queries[0].Sql, StringComparison.OrdinalIgnoreCase);
-        Assert.DoesNotContain("LIMIT", queries[0].Sql, StringComparison.OrdinalIgnoreCase);
-        Assert.Contains("ORDER BY", queries[1].Sql);
-        Assert.Contains("\"CreatedAt\" DESC", queries[1].Sql);
-        Assert.Contains("\"Id\" DESC", queries[1].Sql);
-        Assert.Contains("LIMIT", queries[1].Sql);
-        Assert.Contains("OFFSET", queries[1].Sql);
-        Assert.All(queries, query => Assert.Equal(System.Data.IsolationLevel.RepeatableRead, query.Isolation));
-        Assert.Equal(2, page.Items.Count);
-        Assert.All(page.Items, ad => Assert.NotNull(ad.ImageId));
-        Assert.All(page.Items, ad => Assert.Equal(includeImageUrl ? $"https://images.test/{ad.ImageId}" : null, ad.ImageUrl));
-        Assert.Equal(
-            includeImageUrl ? page.Items.Select(ad => ad.ImageId!.Value).Order().ToArray() : Array.Empty<Guid>(),
-            fixture.ImageRequests.Order().ToArray());
+        queries.Should().HaveCount(2);
+        queries[0].Sql.Should()
+            .ContainEquivalentOf("count(*)")
+            .And.NotContainEquivalentOf("LIMIT");
+        queries[1].Sql.Should()
+            .Contain("ORDER BY")
+            .And.Contain("\"CreatedAt\" DESC")
+            .And.Contain("\"Id\" DESC")
+            .And.Contain("LIMIT")
+            .And.Contain("OFFSET");
+        queries.Should().OnlyContain(query => query.Isolation == System.Data.IsolationLevel.RepeatableRead);
+        page.Items.Should()
+            .HaveCount(2)
+            .And.OnlyContain(ad => ad.ImageId.HasValue);
+        var expectedImageUrls = page.Items.Select(ad => includeImageUrl ? $"https://images.test/{ad.ImageId}" : null);
+        page.Items.Select(ad => ad.ImageUrl).Should().Equal(expectedImageUrls);
+
+        var expectedImageRequests = includeImageUrl
+            ? page.Items.Select(ad => ad.ImageId!.Value).Order().ToArray()
+            : Array.Empty<Guid>();
+        fixture.ImageRequests.Order().Should().Equal(expectedImageRequests);
     }
 
     [PostgresTheory]
@@ -121,12 +127,12 @@ public class AdsPaginationTests(AdsApi fixture) : IClassFixture<AdsApi>
     public async Task DefaultAndMaximumPageSizesAreAccepted(string query)
     {
         var page = await fixture.GetPageAsync(query);
-        Assert.Equal(1, page.PageNumber);
-        Assert.Equal(string.IsNullOrEmpty(query) ? 5 : 100, page.PageSize);
-        Assert.Equal(4, page.TotalCount);
-        Assert.Equal(
-            fixture.PublicAds.OrderByDescending(ad => ad.CreatedAt).ThenByDescending(ad => ad.Id)
-            .Select(ad => ad.Id), page.Items.Select(ad => ad.AdId));
+        page.PageNumber.Should().Be(1);
+        page.PageSize.Should().Be(string.IsNullOrEmpty(query) ? 5 : 100);
+        page.TotalCount.Should().Be(4);
+        var expectedIds = fixture.PublicAds.OrderByDescending(ad => ad.CreatedAt).ThenByDescending(ad => ad.Id)
+            .Select(ad => ad.Id);
+        page.Items.Select(ad => ad.AdId).Should().Equal(expectedIds);
     }
 }
 
@@ -206,7 +212,7 @@ public sealed class AdsApi : IAsyncLifetime
 
         using var response = await Client.SendAsync(request);
         var body = await response.Content.ReadAsStringAsync();
-        Assert.True(response.IsSuccessStatusCode, body);
+        response.IsSuccessStatusCode.Should().BeTrue("the response body was {0}", body);
         return (await response.Content.ReadFromJsonAsync<AdsPageDto>())!;
     }
 
@@ -240,7 +246,7 @@ public sealed class AdsApi : IAsyncLifetime
         ad.CreatedAt = date;
         ad.UpdatedAt = date;
         ad.UpdatedBy = "Test seller";
-        Assert.True(ad.AddImages([AdImage.Of(Guid.NewGuid()).Value]).IsSuccess);
+        ad.AddImages([AdImage.Of(Guid.NewGuid()).Value]).IsSuccess.Should().BeTrue();
         db.Ads.Add(ad);
         db.Entry(ad).Property(a => a.Status).CurrentValue = status;
         if (status is AdStatus.PUBLISHED or AdStatus.ARCHIVED or AdStatus.SOLD)
@@ -252,7 +258,7 @@ public sealed class AdsApi : IAsyncLifetime
         public Task<string> GetDownloadLinkAsync(Guid fileId, int expirySeconds, CancellationToken ct)
         {
             requests.Enqueue(fileId);
-            Assert.Equal(600, expirySeconds);
+            expirySeconds.Should().Be(600);
             return Task.FromResult($"https://images.test/{fileId}");
         }
 
@@ -276,13 +282,11 @@ public sealed class SqlRecorder : DbCommandInterceptor
         InterceptionResult<DbDataReader> result,
         CancellationToken cancellationToken = default)
     {
-        var parameters = command.Parameters.Cast<NpgsqlParameter>().Select(parameter => parameter.Clone()).ToArray();
-        Queries.Enqueue(new RecordedQuery(command.CommandText, command.Transaction?.IsolationLevel, parameters));
+        Queries.Enqueue(new RecordedQuery(command.CommandText, command.Transaction?.IsolationLevel));
         return base.ReaderExecutingAsync(command, eventData, result, cancellationToken);
     }
 
-    public sealed record RecordedQuery(
-        string Sql, System.Data.IsolationLevel? Isolation, NpgsqlParameter[] Parameters);
+    public sealed record RecordedQuery(string Sql, System.Data.IsolationLevel? Isolation);
 }
 
 public sealed class PostgresTheoryAttribute : TheoryAttribute
