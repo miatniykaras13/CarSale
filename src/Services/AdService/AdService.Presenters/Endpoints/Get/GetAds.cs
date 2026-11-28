@@ -1,6 +1,7 @@
-﻿using System.Security.Claims;
+using System.Security.Claims;
 using AdService.Application.Queries;
 using AdService.Application.Queries.GetAds;
+using AdService.Contracts.Ads.ListItems;
 using BuildingBlocks.Application.Paging;
 using BuildingBlocks.Extensions;
 using Microsoft.AspNetCore.Builder;
@@ -21,16 +22,13 @@ public class GetAds : ICarterModule
                 [AsParameters] PageParameters pageParameters,
                 ISender sender,
                 [FromQuery] bool includeImageUrl = true,
+                [FromQuery] string sort = GetAdsQuery.Newest,
                 CancellationToken ct = default) =>
             {
-                var userId = user.FindFirstValue(ClaimTypes.NameIdentifier);
-
-                var command = new GetAdsQuery(
-                    Guid.Parse(userId ?? Guid.Empty.ToString()),
-                    filter,
-                    pageParameters,
-                    includeImageUrl);
-                var result = await sender.Send(command, ct);
+                Guid? userId = Guid.TryParse(user.FindFirstValue(ClaimTypes.NameIdentifier), out var id) &&
+                               id != Guid.Empty ? id : null;
+                var query = new GetAdsQuery(userId, filter, pageParameters, includeImageUrl, sort);
+                var result = await sender.Send(query, ct);
 
                 if (result.IsFailure)
                     return result.Error.ToProblemDetails(context);
@@ -38,9 +36,8 @@ public class GetAds : ICarterModule
                 return Results.Ok(result.Value);
             })
             .WithName("GetAds")
-            .Produces(StatusCodes.Status401Unauthorized)
-            .Produces(StatusCodes.Status403Forbidden)
-            .Produces(StatusCodes.Status200OK)
+            .Produces<AdsPageDto>()
+            .ProducesProblem(StatusCodes.Status400BadRequest)
             .WithTags("Ads")
             .WithOpenApi(op => new OpenApiOperation(op)
             {
@@ -48,7 +45,9 @@ public class GetAds : ICarterModule
                 Description = "Returns a paginated list of advertisements with optional filtering. " +
                               "Supports filtering by seller, brand, model, generation, drive type, body type, " +
                               "fuel type, transmission type, and price range. " +
-                              "The 'includeImageUrl' query parameter controls whether image URLs are included in the response." +
-                              "Ads that are not visible to the current user are not included in the results.",
+                              "Sort by creation date with 'newest' (default) or 'oldest'. Page sizes range from 1 to 100. " +
+                              "The 'includeImageUrl' query parameter controls whether image URLs are included in the response. " +
+                              "Total count includes all ads matching the filters and visibility rules. " +
+                              "Pages beyond the end return an empty items array and the same total count.",
             });
 }

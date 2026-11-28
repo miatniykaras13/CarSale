@@ -1,13 +1,15 @@
-﻿using AdService.Application.Builders;
-using AdService.Contracts.Ads.ListItems;
-using AdService.Domain.Aggregates;
+﻿using AdService.Contracts.Ads.ListItems;
 using BuildingBlocks.Application.Paging;
-using BuildingBlocks.Caching;
 
 namespace AdService.Application.Queries.GetAds;
 
-public record GetAdsQuery(Guid? UserId, AdFilter Filter, PageParameters PageParameters, bool IncludeImageUrls)
-    : ICachableQuery<Result<List<AdListItemDto>, List<Error>>>
+public record GetAdsQuery(
+    Guid? UserId,
+    AdFilter Filter,
+    PageParameters PageParameters,
+    bool IncludeImageUrls,
+    string Sort) : IQuery<Result<AdsPageDto, List<Error>>>
 {
-    public string CacheKey => CacheKeyBuilder.BuildIndex(nameof(Ad), HashCodeBuilder.Build(Filter));
+    public const string Newest = "newest";
+    public const string Oldest = "oldest";
 }

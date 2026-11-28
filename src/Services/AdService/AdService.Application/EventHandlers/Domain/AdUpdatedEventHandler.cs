@@ -13,12 +13,6 @@ public class AdUpdatedEventHandler(HybridCache cache) : INotificationHandler<AdU
             nameof(Ad),
             notification.Ad.Id.ToString());
 
-        var adListItemCacheKey = CacheKeyBuilder.BuildListItem(
-            nameof(Ad),
-            notification.Ad.Id.ToString());
-
         await cache.RemoveAsync(adExtendedCacheKey, cancellationToken);
-
-        await cache.RemoveAsync(adListItemCacheKey, cancellationToken);
     }
 }
